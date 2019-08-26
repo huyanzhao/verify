@@ -51,3 +51,13 @@ void meterAddress::on_pushBtnCancel_clicked()
 {
     this->close();
 }
+
+void meterAddress::on_pushBtnOk_clicked()
+{
+    qDebug() << tr("确定");
+    host = ui->lineEditIP->text();
+    port = ui->lineEditPort->text().toInt();
+    // 发射信号
+    emit dlgReturn(host, port);
+
+}

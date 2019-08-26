@@ -364,7 +364,7 @@
         </font>
        </property>
        <property name="statusTip">
-        <string>电压， 可选项：CH1、CH2</string>
+        <string>电压，可选项：CH1、CH2</string>
        </property>
        <property name="text">
         <string>电压</string>

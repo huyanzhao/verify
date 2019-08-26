@@ -32,7 +32,7 @@ private slots:
     void on_actionExit_triggered();
     // 设置万用表
     void on_actionMeter_triggered();
-    // 设置四个通道
+    // 设置通道
     void on_actionSlot_triggered();
     // 配置电压数据
     void on_actionVoltageData_triggered();
@@ -52,6 +52,9 @@ private slots:
     void on_actionDataConfig_triggered();
     // 关于
     void on_actionAbout_triggered();
+
+    // 接收用户设定的万用表IP端口
+    void recviceMeter(QString host, int port);
 
 private:
     Ui::MainWindow *ui;

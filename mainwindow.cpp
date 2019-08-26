@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QDebug>
+#include <utility>
 #include "meteraddress.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -80,13 +81,25 @@ void MainWindow::on_actionMeter_triggered()
     int port = 80;
     meterAddress *meterdialog;
     meterdialog = new meterAddress(host, port);
+    connect(meterdialog, SIGNAL(dlgReturn(QString, int)), this, SLOT(recviceMeter(QString,int)));
     meterdialog->show();
 }
 
-// 配置四个通道的地址端口
+// 配置通道的地址端口
 void MainWindow::on_actionSlot_triggered()
 {
-    qDebug() << tr("配置四个通道的地址端口");
+    qDebug() << tr("配置通道的地址端口");
+    QMap<QString, QPair<QString, int> > hosts;
+    hosts.insert(QString("slot1"), qMakePair(QString("169.254.1.21"), 7801));
+    hosts.insert(QString("slot2"), qMakePair(QString("169.254.1.21"), 7802));
+    hosts.insert(QString("slot3"), qMakePair(QString("169.254.1.23"), 7801));
+    hosts.insert(QString("slot4"), qMakePair(QString("169.254.1.23"), 7802));
+    hosts.insert(QString("slot5"), qMakePair(QString("169.254.1.25"), 7801));
+    hosts.insert(QString("slot6"), qMakePair(QString("169.254.1.25"), 7802));
+
+    for(QMap<QString, QPair<QString, int> >::Iterator it = hosts.begin(); it != hosts.end(); it++)
+        qDebug() << it.key() << ": " << it.value().first << ":" << it.value().second;
+
 }
 
 // 电压校准数据
@@ -143,4 +156,10 @@ void MainWindow::on_actionDataConfig_triggered()
 void MainWindow::on_actionAbout_triggered()
 {
     qDebug() << tr("关于");
+}
+
+// 接收用户选定的万用表地址和端口
+void MainWindow::recviceMeter(QString host, int port)
+{
+    qDebug() << host << port;
 }
