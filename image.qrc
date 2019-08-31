@@ -1,14 +1,16 @@
 <RCC>
     <qresource prefix="/new/prefix">
         <file>img/霹雳.jpg</file>
-        <file>img/inode_chardevice_128px_542210_easyicon.net.ico</file>
         <file>img/device_mm_router_wired_128px_42870_easyicon.net.ico</file>
         <file>img/man_mechanic_249px_1214364_easyicon.net.png</file>
         <file>img/Multimeter_723px_1233211_easyicon.net.png</file>
-        <file>img/lamp_active_32px_555392_easyicon.net.ico</file>
-        <file>img/lamp_inactive_32px_555393_easyicon.net.ico</file>
         <file>img/start.bmp</file>
         <file>img/pass.bmp</file>
         <file>img/fail.bmp</file>
+        <file>img/List_128px_1154190_easyicon.net.ico</file>
+        <file>img/down.bmp</file>
+        <file>img/up.bmp</file>
+        <file>img/voltage_64px_1233221_easyicon.net.ico</file>
+        <file>img/battery_current_64px_1067674_easyicon.net.ico</file>
     </qresource>
 </RCC>

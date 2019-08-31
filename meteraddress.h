@@ -18,7 +18,7 @@ public:
     ~meterAddress();
 
 signals:
-    void dlgReturn(QString, int); //自定义的信号
+    void meterConfigDone(QString, int); //自定义的信号
     
 private slots:
     void on_pushBtnTest_clicked();

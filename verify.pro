@@ -15,17 +15,21 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    meteraddress.cpp
+    meteraddress.cpp \
+    slotsconfig.cpp \
+    voldataconfig.cpp \
+    command.cpp
 
 HEADERS  += mainwindow.h \
-    meteraddress.h
+    meteraddress.h \
+    slotsconfig.h \
+    voldataconfig.h \
+    command.h
 
 FORMS    += mainwindow.ui \
-    meteraddress.ui
+    meteraddress.ui \
+    slotsconfig.ui \
+    voldataconfig.ui
 
 RESOURCES += \
     image.qrc
-
-OTHER_FILES +=
-
-

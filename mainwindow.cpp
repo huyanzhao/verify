@@ -4,6 +4,11 @@
 #include <QDebug>
 #include <utility>
 #include "meteraddress.h"
+#include "slotsconfig.h"
+#include "voldataconfig.h"
+
+// 通道列表
+QMap<QString, QPair<QString, int> > slotsMap;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -81,7 +86,7 @@ void MainWindow::on_actionMeter_triggered()
     int port = 80;
     meterAddress *meterdialog;
     meterdialog = new meterAddress(host, port);
-    connect(meterdialog, SIGNAL(dlgReturn(QString, int)), this, SLOT(recviceMeter(QString,int)));
+    connect(meterdialog, SIGNAL(meterConfigDone(QString, int)), this, SLOT(recviceMeter(QString,int)));
     meterdialog->show();
 }
 
@@ -100,12 +105,20 @@ void MainWindow::on_actionSlot_triggered()
     for(QMap<QString, QPair<QString, int> >::Iterator it = hosts.begin(); it != hosts.end(); it++)
         qDebug() << it.key() << ": " << it.value().first << ":" << it.value().second;
 
+    slotsconfig * slotsdialog;
+    slotsdialog = new slotsconfig(&hosts);
+    connect(slotsdialog, SIGNAL(slotsConfigDone(QMap<QString,QPair<QString,int> >*)), this, SLOT(recviveSlots(QMap<QString,QPair<QString,int> >*)));
+    slotsdialog->show();
+
 }
 
 // 电压校准数据
 void MainWindow::on_actionVoltageData_triggered()
 {
     qDebug() << tr("电压校准数据");
+    volDataConfig * voldatadialog;
+    voldatadialog = new volDataConfig();
+    voldatadialog->show();
 }
 
 // 电流校准数据
@@ -162,4 +175,31 @@ void MainWindow::on_actionAbout_triggered()
 void MainWindow::recviceMeter(QString host, int port)
 {
     qDebug() << host << port;
+}
+
+// 接收用户设置的通道数据
+void MainWindow::recviveSlots(QMap<QString, QPair<QString, int> > *hosts)
+{
+    qDebug() << "mainWindow";
+    for(QMap<QString, QPair<QString, int> >::Iterator it = hosts->begin(); it != hosts->end(); it++)
+        qDebug() << it.key() << ": " << it.value().first << ":" << it.value().second;
+    qDeleteAll(ui->frameSlot->children());
+    slotsMap = *hosts;
+    hosts = &slotsMap;
+    int headheight, slotheight;
+    headheight = ui->frameSlot->height() % hosts->count() / 2;
+    slotheight = ui->frameSlot->height() / hosts->count();
+    for(int i=0; i != hosts->count(); ++i){
+        QString ip;
+        ip = hosts->value(QString("slot%1").arg(i+1)).first;
+        int port;
+        port = hosts->value(QString("slot%1").arg(i+1)).second;
+        QRadioButton * slot = new QRadioButton(ui->frameSlot);
+        slot->setGeometry(QRect(10, headheight+slotheight*i, 190, slotheight));
+        slot->setText(QString("Slot %1    %2:%3").arg(i+1).arg(ip).arg(QString::number(port)));
+        slot->setObjectName(QString("slotRadioBtn%1").arg(i+1));
+        slot->setStatusTip(QString("slot %1").arg(i+1));
+        slot->show();
+    }
+
 }

@@ -55,6 +55,8 @@ private slots:
 
     // 接收用户设定的万用表IP端口
     void recviceMeter(QString host, int port);
+    // 接收用记设定的通道数据
+    void recviveSlots(QMap<QString, QPair<QString, int> >*);
 
 private:
     Ui::MainWindow *ui;
