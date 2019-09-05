@@ -43,9 +43,22 @@ private slots:
     void on_pushBtnCh1PreUndo_clicked();
 
     // ch1数据页
-
-
+    // 添加按钮
     void on_pushBtnCh1DataAdd_clicked();
+    // 判断全选状态
+    bool checkBoxAllSelect();
+    // 全选按钮
+    void on_pushBtnCh1DataAll_clicked();
+    // 删除按钮
+    void on_pushBtnCh1DataDel_clicked();
+    // 全部删除按钮
+    void on_pushBtnCh1DataBatchDel_clicked();
+    // 清空数据按钮
+    void on_pushBtnCh1DataClear_clicked();
+    // 批量添加按钮
+    void on_pushBtnCh1DataBatchAdd_clicked();
+    // 处理接收到的批量添加参数
+    void handleBatchParams(int, int, int, QString, QString);
 
 private:
     Ui::volDataConfig *ui;

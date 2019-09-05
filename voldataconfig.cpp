@@ -3,6 +3,7 @@
 #include "command.h"
 #include <QDebug>
 #include <QScrollBar>
+#include "batchadd.h"
 
 volDataConfig::volDataConfig(QWidget *parent) :
     QDialog(parent),
@@ -14,7 +15,7 @@ volDataConfig::volDataConfig(QWidget *parent) :
 
     nowIndexCh1Data = 0;  // 当前数据项索引
 }
-
+// 析构
 volDataConfig::~volDataConfig()
 {
     delete ui;
@@ -125,7 +126,6 @@ void volDataConfig::on_pushBtnCh1DataAdd_clicked()
     int x, y;
     x = nowIndexCh1Data / 10;
     y = nowIndexCh1Data % 10;
-    qDebug() << x << y;
     ui->scrollAreaWidgetContentsCh1->setFixedWidth((x+1)*180);  // 重置滚动区域大小
     QScrollBar *pScrollBar = ui->scrollAreaCh1Data->horizontalScrollBar();
     if (pScrollBar != NULL)
@@ -163,12 +163,93 @@ void volDataConfig::on_pushBtnCh1DataAdd_clicked()
     addrlineedit->setObjectName(QString("lineEditCh1Data_%1").arg(nowIndexCh1Data+1));
     addrLineEditListCh1Data.append(addrlineedit);
     addrlineedit->show();
-    qDebug() << "框个数:" << frameListCh1Data.size()
-             << "复选框个数:" << checkBoxListCh1Data.size()
-             << "数据框个数:" << dataLineEditListCh1Data.size()
-             << "地址框个数:" << addrLineEditListCh1Data.size();
-
-
-
+    qDebug() << "frame number:" << frameListCh1Data.size()
+             << "checkBox number:" << checkBoxListCh1Data.size()
+             << "data frame number:" << dataLineEditListCh1Data.size()
+             << "address frame number:" << addrLineEditListCh1Data.size();
     nowIndexCh1Data++;
 }
+// 判断全选状态
+bool volDataConfig::checkBoxAllSelect()
+{
+    for(int i=0; i != checkBoxListCh1Data.size(); ++i){
+        if(!checkBoxListCh1Data.at(i)->isChecked())
+            return false;
+    }
+    return true;
+}
+// 全选按钮
+void volDataConfig::on_pushBtnCh1DataAll_clicked()
+{
+    if(checkBoxAllSelect()){  // 已经全选, 设置为全不选
+        for(int i=0; i != checkBoxListCh1Data.size(); ++i){
+            checkBoxListCh1Data.at(i)->setChecked(false);
+        }
+    }else { // 未全选,设置为全选
+        for(int i=0; i != checkBoxListCh1Data.size(); ++i){
+            checkBoxListCh1Data.at(i)->setChecked(true);
+        }
+    }
+}
+// 删除按钮
+void volDataConfig::on_pushBtnCh1DataDel_clicked()
+{
+    for(int i=0; i != checkBoxListCh1Data.size();){
+        if(checkBoxListCh1Data.at(i)->isChecked()){  // 如果被选中,则删除该数据项
+            checkBoxListCh1Data.removeAt(i);
+            dataLineEditListCh1Data.removeAt(i);
+            addrLineEditListCh1Data.removeAt(i);
+            QFrame *tempFrame = frameListCh1Data.at(i);
+            frameListCh1Data.removeAt(i);
+            delete tempFrame;
+        }else{
+            ++i;
+        }
+    }
+    // 重新排列框
+    int x, y;
+    for(int i=0; i != frameListCh1Data.size(); ++i){
+        x = i / 10;
+        y = i % 10;
+        frameListCh1Data.at(i)->setGeometry(QRect(x*180, y*30+2, 170, 21));
+        checkBoxListCh1Data.at(i)->setText(QString("%1").arg(i+1));
+    }
+    nowIndexCh1Data = checkBoxListCh1Data.size();
+    int column = nowIndexCh1Data/10 + (nowIndexCh1Data % 10 ? 1 : 0);
+    ui->scrollAreaWidgetContentsCh1->setFixedWidth(column*180);  // 重置滚动区域大小
+    QScrollBar *pScrollBar = ui->scrollAreaCh1Data->horizontalScrollBar();
+    if (pScrollBar != NULL)
+    {
+        int nMax = pScrollBar->maximum();
+        pScrollBar->setValue(nMax);  // 自动滚动到最右边
+    }
+}
+// 全部删除按钮
+void volDataConfig::on_pushBtnCh1DataBatchDel_clicked()
+{
+    if(!checkBoxAllSelect())  // 没有全选,则全选
+        on_pushBtnCh1DataAll_clicked();
+    on_pushBtnCh1DataDel_clicked(); // 删除
+}
+// 清空数据按钮
+void volDataConfig::on_pushBtnCh1DataClear_clicked()
+{
+    for(int i=0; i != nowIndexCh1Data; ++i){
+        dataLineEditListCh1Data.at(i)->clear();
+        addrLineEditListCh1Data.at(i)->clear();
+    }
+}
+// 批量添加按钮
+void volDataConfig::on_pushBtnCh1DataBatchAdd_clicked()
+{
+    BatchAdd * batchdialog = new BatchAdd();
+    connect(batchdialog, SIGNAL(returnParams(int, int, int, QString, QString)),
+            this, SLOT(handleBatchParams(int, int, int, QString, QString)));
+    batchdialog->show();
+}
+// 处理接收到的批量添加参数
+void volDataConfig::handleBatchParams(int num, int dataStart, int dataStep, QString addrStart, QString addrStep)
+{
+    qDebug() << num << dataStart << dataStep << addrStart << addrStep;
+}
+

@@ -201,5 +201,4 @@ void MainWindow::recviveSlots(QMap<QString, QPair<QString, int> > *hosts)
         slot->setStatusTip(QString("slot %1").arg(i+1));
         slot->show();
     }
-
 }

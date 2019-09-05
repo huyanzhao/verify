@@ -18,18 +18,21 @@ SOURCES += main.cpp\
     meteraddress.cpp \
     slotsconfig.cpp \
     voldataconfig.cpp \
-    command.cpp
+    command.cpp \
+    batchadd.cpp
 
 HEADERS  += mainwindow.h \
     meteraddress.h \
     slotsconfig.h \
     voldataconfig.h \
-    command.h
+    command.h \
+    batchadd.h
 
 FORMS    += mainwindow.ui \
     meteraddress.ui \
     slotsconfig.ui \
-    voldataconfig.ui
+    voldataconfig.ui \
+    batchadd.ui
 
 RESOURCES += \
     image.qrc

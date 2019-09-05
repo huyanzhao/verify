@@ -12,5 +12,6 @@
         <file>img/up.bmp</file>
         <file>img/voltage_64px_1233221_easyicon.net.ico</file>
         <file>img/battery_current_64px_1067674_easyicon.net.ico</file>
+        <file>img/Cart_add_128px_1198145_easyicon.net.ico</file>
     </qresource>
 </RCC>
