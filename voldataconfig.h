@@ -7,6 +7,7 @@
 #include <QFrame>
 #include <QCheckBox>
 #include <QLineEdit>
+#include <QPair>
 
 namespace Ui {
 class volDataConfig;
@@ -58,7 +59,9 @@ private slots:
     // 批量添加按钮
     void on_pushBtnCh1DataBatchAdd_clicked();
     // 处理接收到的批量添加参数
-    void handleBatchParams(int, int, int, QString, QString);
+    void handleBatchParams(int, double, double, QString, int);
+
+    void on_pushBtnCh1DataSave_clicked();
 
 private:
     Ui::volDataConfig *ui;
@@ -72,6 +75,7 @@ private:
     QList<QCheckBox *> checkBoxListCh1Data; // 复选框列表
     QList<QLineEdit *> dataLineEditListCh1Data; // 数据框列表
     QList<QLineEdit *> addrLineEditListCh1Data; // 地址框列表
+    QList<QPair<QString, QString> *> * dataAndAddrList; // 参数列表
 
 };
 

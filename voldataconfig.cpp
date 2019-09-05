@@ -3,7 +3,12 @@
 #include "command.h"
 #include <QDebug>
 #include <QScrollBar>
+#include <QMessageBox>
+#include <QLatin1Char>
+#include <QDoubleValidator>
+#include <QPair>
 #include "batchadd.h"
+#include "qstringinthex.h"
 
 volDataConfig::volDataConfig(QWidget *parent) :
     QDialog(parent),
@@ -62,9 +67,16 @@ void volDataConfig::on_pushBtnCh1PreDel_clicked()
         return ;
     }
     cmdListCh1Pre.removeAt(nowIndexCh1Pre);
-    nowIndexCh1Pre = 0;
-    nowCommand = cmdListCh1Pre.at(nowIndexCh1Pre);
+    nowIndexCh1Pre = cmdListCh1Pre.size()-1;
+    if(nowIndexCh1Pre != -1)
+        nowCommand = cmdListCh1Pre.at(nowIndexCh1Pre);
     showCh1PreCmdList();
+    // 清空当前命令详情
+    ui->lineEditCh1PreCmdName->clear();
+    ui->lineEditCh1PreParam->clear();
+    ui->lineEditCh1PreStart->clear();
+    ui->lineEditCh1PreEnd->clear();
+    ui->lineEditCh1PreJudge->clear();
 }
 // 向上按钮
 void volDataConfig::on_pushBtnCh1PreUp_clicked()
@@ -87,6 +99,12 @@ void volDataConfig::on_pushBtnCh1PreDown_clicked()
 // 保存按钮
 void volDataConfig::on_pushBtnCh1PreSave_clicked()
 {
+    if(ui->lineEditCh1PreCmdName->text().size() == 0 &&
+            ui->lineEditCh1PreParam->text().size() == 0 &&
+            ui->lineEditCh1PreStart->text().size() == 0 &&
+            ui->lineEditCh1PreEnd->text().size() == 0 &&
+            ui->lineEditCh1PreJudge->text().size() == 0)
+        return;
     nowCommand->setName(ui->lineEditCh1PreCmdName->text());
     nowCommand->setParam(ui->lineEditCh1PreParam->text());
     nowCommand->setStart(ui->lineEditCh1PreStart->text());
@@ -104,14 +122,12 @@ void volDataConfig::on_pushBtnCh1PreUndo_clicked()
     ui->lineEditCh1PreEnd->clear();
     ui->lineEditCh1PreJudge->clear();
     // 显示命令名称
+    ui->lineEditCh1PreCmdName->setPlaceholderText(tr("命令名称"));
     ui->lineEditCh1PreCmdName->setText(nowCommand->getName());
     // 显示命令参数
-    QString param = nowCommand->getParam();
-    if(param.size() == 0){
-        ui->lineEditCh1PreParam->setPlaceholderText(tr("该命令暂时无参数"));
-    }else{
-        ui->lineEditCh1PreParam->setText(param);
-    }
+    ui->lineEditCh1PreParam->setPlaceholderText(tr("参数"));
+    ui->lineEditCh1PreParam->setText(nowCommand->getParam());
+
     // 显示截取参数
     ui->lineEditCh1PreStart->setText(nowCommand->getStart());
     ui->lineEditCh1PreEnd->setText(nowCommand->getEnd());
@@ -153,6 +169,7 @@ void volDataConfig::on_pushBtnCh1DataAdd_clicked()
     QLineEdit * datalineedit = new QLineEdit(newframe);
     datalineedit->setGeometry(QRect(60, 2, 51, 17));
     datalineedit->setPlaceholderText(tr("数据"));
+    datalineedit->setValidator(new QDoubleValidator(0.0, 65535.0, 2, this));
     datalineedit->setObjectName(QString("lineEditCh1Data_%1").arg(nowIndexCh1Data+1));
     dataLineEditListCh1Data.append(datalineedit);
     datalineedit->show();
@@ -163,10 +180,10 @@ void volDataConfig::on_pushBtnCh1DataAdd_clicked()
     addrlineedit->setObjectName(QString("lineEditCh1Data_%1").arg(nowIndexCh1Data+1));
     addrLineEditListCh1Data.append(addrlineedit);
     addrlineedit->show();
-    qDebug() << "frame number:" << frameListCh1Data.size()
-             << "checkBox number:" << checkBoxListCh1Data.size()
-             << "data frame number:" << dataLineEditListCh1Data.size()
-             << "address frame number:" << addrLineEditListCh1Data.size();
+//    qDebug() << "frame number:" << frameListCh1Data.size()
+//             << "checkBox number:" << checkBoxListCh1Data.size()
+//             << "data frame number:" << dataLineEditListCh1Data.size()
+//             << "address frame number:" << addrLineEditListCh1Data.size();
     nowIndexCh1Data++;
 }
 // 判断全选状态
@@ -242,14 +259,75 @@ void volDataConfig::on_pushBtnCh1DataClear_clicked()
 // 批量添加按钮
 void volDataConfig::on_pushBtnCh1DataBatchAdd_clicked()
 {
+    if(nowIndexCh1Data)
+        if(QMessageBox::question(this, tr("询问"), tr("是否保留当前已填数据？"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
+            on_pushBtnCh1DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
-    connect(batchdialog, SIGNAL(returnParams(int, int, int, QString, QString)),
-            this, SLOT(handleBatchParams(int, int, int, QString, QString)));
+    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, int)),
+            this, SLOT(handleBatchParams(int, double, double, QString, int)));
     batchdialog->show();
 }
 // 处理接收到的批量添加参数
-void volDataConfig::handleBatchParams(int num, int dataStart, int dataStep, QString addrStart, QString addrStep)
+void volDataConfig::handleBatchParams(int num, double dataStart, double dataStep, QString strAddrStart, int addrStep)
 {
-    qDebug() << num << dataStart << dataStep << addrStart << addrStep;
+    qDebug() << num << dataStart << dataStep << strAddrStart << addrStep;
+    qDebug() << QString("0x%1").arg(0xff,4,16,QLatin1Char('0'));
+    qDebug() << "now index of ch1 data list: " << nowIndexCh1Data;
+    bool isHex;
+    int addrStart;
+    if(QStringIsBase16Int(strAddrStart)){
+        isHex = true;
+        bool ok;
+        addrStart = strAddrStart.toInt(&ok, 16);
+    }else{
+        isHex = false;
+        addrStart = strAddrStart.toInt();
+    }
+    for(int i=0; i != num; ++i){
+        on_pushBtnCh1DataAdd_clicked();
+        QString strData, strAddr;
+        strData = QString("%1").arg(dataStart+dataStep*i);
+        if(isHex){
+            strAddr = QString("0x%1").arg(addrStart+addrStep*i, 4, 16, QLatin1Char('0'));
+        }else{
+            strAddr = QString("%1").arg(addrStart+addrStep*i);
+        }        
+        dataLineEditListCh1Data.at(nowIndexCh1Data-1)->setText(strData);
+        addrLineEditListCh1Data.at(nowIndexCh1Data-1)->setText(strAddr);
+    }
 }
-
+// 保存按钮
+void volDataConfig::on_pushBtnCh1DataSave_clicked()
+{
+    QList<QPair<QString, QString>* >  *tempList = new QList<QPair<QString, QString>* >;
+    // 保存界面中的数据, 判断里面的参数是否合法
+    qDebug() << "owIndexCh1Data= " << nowIndexCh1Data;
+    for(int i=0; i != nowIndexCh1Data; ++i){
+        qDebug() << "i= " << i;
+        QString data, addr;
+        data = dataLineEditListCh1Data.at(i)->text();
+        bool ok;
+        data.toDouble(&ok);
+        if(!ok){
+            QMessageBox::information(this, tr("错误"), tr("第%1项数据不是有效的数据，保存失败！").arg(i+1), QMessageBox::Ok);
+            return;
+        }
+        addr = addrLineEditListCh1Data.at(i)->text();
+        if(!QStringIsInt(addr)){
+            QMessageBox::information(this, tr("错误"), tr("第%1项地址不是有效的地址，保存失败！").arg(i+1), QMessageBox::Ok);
+            return;
+        }
+        QPair<QString, QString> * tempPair = new (qMakePair(data, addr));
+        tempList->append(&tempPair);
+        qDebug() << i << *tempList;
+    }
+    // 请空当前参数列表
+    qDebug() << "size of dataAdnAddrList: " << dataAndAddrList->size();
+    for(int i=0; i != dataAndAddrList->size(); ++i){
+        QPair<QString, QString> * temp;
+        temp = dataAndAddrList->at(i);
+        dataAndAddrList->removeAt(i);
+        delete temp;
+    }
+    dataAndAddrList = tempList;
+}

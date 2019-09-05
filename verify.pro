@@ -19,14 +19,16 @@ SOURCES += main.cpp\
     slotsconfig.cpp \
     voldataconfig.cpp \
     command.cpp \
-    batchadd.cpp
+    batchadd.cpp \
+    qstringinthex.cpp
 
 HEADERS  += mainwindow.h \
     meteraddress.h \
     slotsconfig.h \
     voldataconfig.h \
     command.h \
-    batchadd.h
+    batchadd.h \
+    qstringinthex.h
 
 FORMS    += mainwindow.ui \
     meteraddress.ui \
