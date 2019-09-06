@@ -6,6 +6,7 @@
 #include "meteraddress.h"
 #include "slotsconfig.h"
 #include "voldataconfig.h"
+#include "curdataconfig.h"
 
 // 通道列表
 QMap<QString, QPair<QString, int> > slotsMap;
@@ -102,8 +103,8 @@ void MainWindow::on_actionSlot_triggered()
     hosts.insert(QString("slot5"), qMakePair(QString("169.254.1.25"), 7801));
     hosts.insert(QString("slot6"), qMakePair(QString("169.254.1.25"), 7802));
 
-    for(QMap<QString, QPair<QString, int> >::Iterator it = hosts.begin(); it != hosts.end(); it++)
-        qDebug() << it.key() << ": " << it.value().first << ":" << it.value().second;
+//    for(QMap<QString, QPair<QString, int> >::Iterator it = hosts.begin(); it != hosts.end(); it++)
+//        qDebug() << it.key() << ": " << it.value().first << ":" << it.value().second;
 
     slotsconfig * slotsdialog;
     slotsdialog = new slotsconfig(&hosts);
@@ -125,6 +126,9 @@ void MainWindow::on_actionVoltageData_triggered()
 void MainWindow::on_actionCurrentData_triggered()
 {
     qDebug() << tr("电流校准数据");
+    curdataconfig * curdatadialog;
+    curdatadialog = new curdataconfig();
+    curdatadialog->show();
 }
 
 // 查看菜单

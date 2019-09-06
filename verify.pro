@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     voldataconfig.cpp \
     command.cpp \
     batchadd.cpp \
-    qstringinthex.cpp
+    qstringinthex.cpp \
+    curdataconfig.cpp
 
 HEADERS  += mainwindow.h \
     meteraddress.h \
@@ -28,13 +29,15 @@ HEADERS  += mainwindow.h \
     voldataconfig.h \
     command.h \
     batchadd.h \
-    qstringinthex.h
+    qstringinthex.h \
+    curdataconfig.h
 
 FORMS    += mainwindow.ui \
     meteraddress.ui \
     slotsconfig.ui \
     voldataconfig.ui \
-    batchadd.ui
+    batchadd.ui \
+    curdataconfig.ui
 
 RESOURCES += \
     image.qrc

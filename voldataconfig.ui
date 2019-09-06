@@ -30,7 +30,7 @@
     <enum>QTabWidget::North</enum>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="channel1">
     <attribute name="title">
@@ -580,8 +580,8 @@
        <widget class="QPushButton" name="pushBtnCh1DataAll">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>10</y>
+          <x>250</x>
+          <y>50</y>
           <width>101</width>
           <height>31</height>
          </rect>
@@ -599,8 +599,8 @@
        <widget class="QPushButton" name="pushBtnCh1DataClear">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>50</y>
+          <x>250</x>
+          <y>10</y>
           <width>101</width>
           <height>31</height>
          </rect>
@@ -618,8 +618,8 @@
        <widget class="QPushButton" name="pushBtnCh1DataAdd">
         <property name="geometry">
          <rect>
-          <x>130</x>
-          <y>10</y>
+          <x>10</x>
+          <y>50</y>
           <width>101</width>
           <height>31</height>
          </rect>
@@ -637,8 +637,8 @@
        <widget class="QPushButton" name="pushBtnCh1DataDel">
         <property name="geometry">
          <rect>
-          <x>250</x>
-          <y>10</y>
+          <x>130</x>
+          <y>50</y>
           <width>101</width>
           <height>31</height>
          </rect>
@@ -656,8 +656,8 @@
        <widget class="QPushButton" name="pushBtnCh1DataBatchAdd">
         <property name="geometry">
          <rect>
-          <x>130</x>
-          <y>50</y>
+          <x>10</x>
+          <y>10</y>
           <width>101</width>
           <height>31</height>
          </rect>
@@ -675,8 +675,8 @@
        <widget class="QPushButton" name="pushBtnCh1DataBatchDel">
         <property name="geometry">
          <rect>
-          <x>250</x>
-          <y>50</y>
+          <x>130</x>
+          <y>10</y>
           <width>101</width>
           <height>31</height>
          </rect>
@@ -852,6 +852,9 @@
            <height>20</height>
           </rect>
          </property>
+         <property name="text">
+          <string>(</string>
+         </property>
         </widget>
         <widget class="QLabel" name="label_15">
          <property name="geometry">
@@ -874,6 +877,9 @@
            <width>71</width>
            <height>20</height>
           </rect>
+         </property>
+         <property name="text">
+          <string>;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_16">
@@ -952,6 +958,9 @@
           <width>81</width>
           <height>21</height>
          </rect>
+        </property>
+        <property name="text">
+         <string>1000</string>
         </property>
        </widget>
       </widget>
@@ -1094,6 +1103,9 @@
            <height>20</height>
           </rect>
          </property>
+         <property name="text">
+          <string>(</string>
+         </property>
         </widget>
         <widget class="QLabel" name="label_23">
          <property name="geometry">
@@ -1116,6 +1128,9 @@
            <width>71</width>
            <height>20</height>
           </rect>
+         </property>
+         <property name="text">
+          <string>;Done</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_24">
@@ -1210,6 +1225,9 @@
           <width>81</width>
           <height>21</height>
          </rect>
+        </property>
+        <property name="text">
+         <string>1000</string>
         </property>
        </widget>
       </widget>
@@ -1380,6 +1398,9 @@
           <width>101</width>
           <height>21</height>
          </rect>
+        </property>
+        <property name="text">
+         <string>100000</string>
         </property>
        </widget>
       </widget>
@@ -1565,6 +1586,9 @@
            <height>20</height>
           </rect>
          </property>
+         <property name="text">
+          <string>(</string>
+         </property>
         </widget>
         <widget class="QLabel" name="label_40">
          <property name="geometry">
@@ -1587,6 +1611,9 @@
            <width>71</width>
            <height>20</height>
           </rect>
+         </property>
+         <property name="text">
+          <string>;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_41">
@@ -1784,6 +1811,9 @@
            <height>20</height>
           </rect>
          </property>
+         <property name="text">
+          <string>(</string>
+         </property>
         </widget>
         <widget class="QLabel" name="label_48">
          <property name="geometry">
@@ -1806,6 +1836,9 @@
            <width>71</width>
            <height>20</height>
           </rect>
+         </property>
+         <property name="text">
+          <string>;Done</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_49">
@@ -2415,7 +2448,7 @@
           <string>起始位置</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="lineEditCh2Start">
+        <widget class="QLineEdit" name="lineEditCh2PreStart">
          <property name="geometry">
           <rect>
            <x>110</x>
@@ -2438,7 +2471,7 @@
           <string>结束位置</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="lineEditCh2End">
+        <widget class="QLineEdit" name="lineEditCh2PreEnd">
          <property name="geometry">
           <rect>
            <x>260</x>
@@ -2541,10 +2574,10 @@
         <enum>QFrame::NoFrame</enum>
        </property>
        <property name="verticalScrollBarPolicy">
-        <enum>Qt::ScrollBarAlwaysOff</enum>
+        <enum>Qt::ScrollBarAsNeeded</enum>
        </property>
        <property name="horizontalScrollBarPolicy">
-        <enum>Qt::ScrollBarAlwaysOn</enum>
+        <enum>Qt::ScrollBarAsNeeded</enum>
        </property>
        <property name="widgetResizable">
         <bool>true</bool>
@@ -2555,1839 +2588,9 @@
           <x>0</x>
           <y>0</y>
           <width>661</width>
-          <height>294</height>
+          <height>311</height>
          </rect>
         </property>
-        <widget class="QFrame" name="frameCh1DataOnceParam_41">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh2DataOnceParam_1">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>1</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_41">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_41">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_42">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>30</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_42">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>2</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_42">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_42">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_43">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>60</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_43">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>3</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_43">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_43">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_44">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>90</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_44">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>4</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_44">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_44">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_45">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>120</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_45">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>5</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_45">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_45">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_46">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>150</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_46">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>6</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_46">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_46">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_47">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>180</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_47">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>7</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_47">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_47">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_48">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>210</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_48">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>8</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_48">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_48">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_49">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>240</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_49">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>9</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_49">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_49">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_50">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>270</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_50">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>10</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_50">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_50">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_51">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>0</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_51">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>11</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_51">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_51">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_52">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>30</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_52">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>12</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_52">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_52">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_53">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>60</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_53">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>13</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_53">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_53">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_54">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>90</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_54">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>14</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_54">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_54">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_55">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>120</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_55">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>15</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_55">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_55">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_56">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>150</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_56">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>16</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_56">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_56">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_57">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>180</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_57">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>17</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_57">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_57">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_58">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>210</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_58">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>18</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_58">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_58">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_59">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>240</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_59">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>19</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_59">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_59">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_60">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>270</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_60">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>20</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_60">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_60">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_61">
-         <property name="geometry">
-          <rect>
-           <x>360</x>
-           <y>0</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_61">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>21</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_61">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_61">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_62">
-         <property name="geometry">
-          <rect>
-           <x>360</x>
-           <y>30</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_62">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>22</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_62">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_62">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_63">
-         <property name="geometry">
-          <rect>
-           <x>360</x>
-           <y>60</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_63">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>23</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_63">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_63">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_64">
-         <property name="geometry">
-          <rect>
-           <x>360</x>
-           <y>90</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_64">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>24</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_64">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_64">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_65">
-         <property name="geometry">
-          <rect>
-           <x>360</x>
-           <y>120</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_65">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>25</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_65">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_65">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_66">
-         <property name="geometry">
-          <rect>
-           <x>360</x>
-           <y>150</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_66">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>26</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_66">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_66">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_67">
-         <property name="geometry">
-          <rect>
-           <x>360</x>
-           <y>180</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_67">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>27</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_67">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_67">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_68">
-         <property name="geometry">
-          <rect>
-           <x>360</x>
-           <y>210</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_68">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>28</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_68">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_68">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_69">
-         <property name="geometry">
-          <rect>
-           <x>360</x>
-           <y>240</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_69">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>29</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_69">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_69">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frameCh1DataOnceParam_70">
-         <property name="geometry">
-          <rect>
-           <x>360</x>
-           <y>270</y>
-           <width>170</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QCheckBox" name="checkBoxCh1DataOnceParam_70">
-          <property name="geometry">
-           <rect>
-            <x>5</x>
-            <y>3</y>
-            <width>50</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>30</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceParam_70">
-          <property name="geometry">
-           <rect>
-            <x>60</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>整数或小数的电压参数</string>
-          </property>
-          <property name="placeholderText">
-           <string>参数</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="lineEditCh1DataOnceAddress_70">
-          <property name="geometry">
-           <rect>
-            <x>115</x>
-            <y>0</y>
-            <width>51</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="whatsThis">
-           <string>十进制或十六进制的整数</string>
-          </property>
-          <property name="placeholderText">
-           <string>地址</string>
-          </property>
-         </widget>
-        </widget>
        </widget>
       </widget>
       <widget class="QFrame" name="frameCh1DataBtn_2">
@@ -4446,8 +2649,8 @@
        <widget class="QPushButton" name="pushBtnCh2DataAll">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>10</y>
+          <x>250</x>
+          <y>50</y>
           <width>101</width>
           <height>31</height>
          </rect>
@@ -4465,8 +2668,8 @@
        <widget class="QPushButton" name="pushBtnCh2DataClear">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>50</y>
+          <x>250</x>
+          <y>10</y>
           <width>101</width>
           <height>31</height>
          </rect>
@@ -4484,8 +2687,8 @@
        <widget class="QPushButton" name="pushBtnCh2DataAdd">
         <property name="geometry">
          <rect>
-          <x>130</x>
-          <y>10</y>
+          <x>10</x>
+          <y>50</y>
           <width>101</width>
           <height>31</height>
          </rect>
@@ -4503,8 +2706,8 @@
        <widget class="QPushButton" name="pushBtnCh2DataDel">
         <property name="geometry">
          <rect>
-          <x>250</x>
-          <y>10</y>
+          <x>130</x>
+          <y>50</y>
           <width>101</width>
           <height>31</height>
          </rect>
@@ -4522,8 +2725,8 @@
        <widget class="QPushButton" name="pushBtnCh2DataBatchAdd">
         <property name="geometry">
          <rect>
-          <x>130</x>
-          <y>50</y>
+          <x>10</x>
+          <y>10</y>
           <width>101</width>
           <height>31</height>
          </rect>
@@ -4541,8 +2744,8 @@
        <widget class="QPushButton" name="pushBtnCh2DataBatchDel">
         <property name="geometry">
          <rect>
-          <x>250</x>
-          <y>50</y>
+          <x>130</x>
+          <y>10</y>
           <width>101</width>
           <height>31</height>
          </rect>
@@ -4718,6 +2921,9 @@
            <height>20</height>
           </rect>
          </property>
+         <property name="text">
+          <string>(</string>
+         </property>
         </widget>
         <widget class="QLabel" name="label_71">
          <property name="geometry">
@@ -4740,6 +2946,9 @@
            <width>71</width>
            <height>20</height>
           </rect>
+         </property>
+         <property name="text">
+          <string>;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_72">
@@ -4819,6 +3028,9 @@
           <height>21</height>
          </rect>
         </property>
+        <property name="text">
+         <string>1000</string>
+        </property>
        </widget>
       </widget>
       <widget class="QGroupBox" name="groupBox_15">
@@ -4872,7 +3084,7 @@
          <string>参数</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEditCh1VerifyDMMParam_3">
+       <widget class="QLineEdit" name="lineEditCh2VerifyDMMParam">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -4960,6 +3172,9 @@
            <height>20</height>
           </rect>
          </property>
+         <property name="text">
+          <string>(</string>
+         </property>
         </widget>
         <widget class="QLabel" name="label_80">
          <property name="geometry">
@@ -4982,6 +3197,9 @@
            <width>71</width>
            <height>20</height>
           </rect>
+         </property>
+         <property name="text">
+          <string>;Done</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_81">
@@ -5076,6 +3294,9 @@
           <width>81</width>
           <height>21</height>
          </rect>
+        </property>
+        <property name="text">
+         <string>1000</string>
         </property>
        </widget>
       </widget>
@@ -5246,6 +3467,9 @@
           <width>101</width>
           <height>21</height>
          </rect>
+        </property>
+        <property name="text">
+         <string>1000000</string>
         </property>
        </widget>
       </widget>
@@ -5431,6 +3655,9 @@
            <height>20</height>
           </rect>
          </property>
+         <property name="text">
+          <string>(</string>
+         </property>
         </widget>
         <widget class="QLabel" name="label_96">
          <property name="geometry">
@@ -5453,6 +3680,9 @@
            <width>71</width>
            <height>20</height>
           </rect>
+         </property>
+         <property name="text">
+          <string>;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_97">
@@ -5650,6 +3880,9 @@
            <height>20</height>
           </rect>
          </property>
+         <property name="text">
+          <string>(</string>
+         </property>
         </widget>
         <widget class="QLabel" name="label_104">
          <property name="geometry">
@@ -5672,6 +3905,9 @@
            <width>71</width>
            <height>20</height>
           </rect>
+         </property>
+         <property name="text">
+          <string>;Done</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_105">
