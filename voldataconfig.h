@@ -141,7 +141,7 @@ private:
     QList<QCheckBox *> checkBoxListCh1Data; // 复选框列表
     QList<QLineEdit *> dataLineEditListCh1Data; // 数据框列表
     QList<QLineEdit *> addrLineEditListCh1Data; // 地址框列表
-    QList<QPair<QString, QString> *> * dataAndAddrListCh1; // 参数列表
+    QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListCh1; // 参数列表
     // ch1校准页
     command * setCmdCh1Verify;  // 校准设置电压命令
     int setCh1Multi;  // 写到eeprom时，设置电压要放大的倍数
@@ -164,7 +164,7 @@ private:
     QList<QCheckBox *> checkBoxListCh2Data; // 复选框列表
     QList<QLineEdit *> dataLineEditListCh2Data; // 数据框列表
     QList<QLineEdit *> addrLineEditListCh2Data; // 地址框列表
-    QList<QPair<QString, QString> *> * dataAndAddrListCh2; // 参数列表
+    QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListCh2; // 参数列表
     // ch2校准页
     command * setCmdCh2Verify;  // 校准设置电压命令
     int setCh2Multi;  // 写到eeprom时，设置电压要放大的倍数

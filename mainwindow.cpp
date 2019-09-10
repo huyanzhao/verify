@@ -108,7 +108,8 @@ void MainWindow::on_actionSlot_triggered()
 
     slotsconfig * slotsdialog;
     slotsdialog = new slotsconfig(&hosts);
-    connect(slotsdialog, SIGNAL(slotsConfigDone(QMap<QString,QPair<QString,int> >*)), this, SLOT(recviveSlots(QMap<QString,QPair<QString,int> >*)));
+    connect(slotsdialog, SIGNAL(slotsConfigDone(QMap<QString,QPair<QString,int> >*)),
+            this, SLOT(recviveSlots(QMap<QString,QPair<QString,int> >*)));
     slotsdialog->show();
 
 }

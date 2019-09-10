@@ -19,7 +19,7 @@ volDataConfig::volDataConfig(QWidget *parent) :
     nowIndexCh1Pre = -1;  // 前置命令框当前选项索引
 
     nowIndexCh1Data = 0;  // 当前数据项索引
-    dataAndAddrListCh1 = new QList<QPair<QString, QString> * >;
+    dataAndAddrListCh1 = new QList<QPair<bool, QPair<QString, QString> * > * >;
 
     ui->lineEditCh1VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditCh1VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
@@ -40,7 +40,7 @@ volDataConfig::volDataConfig(QWidget *parent) :
     nowIndexCh2Pre = -1;  // 前置命令框当前选项索引
 
     nowIndexCh2Data = 0;  // 当前数据项索引
-    dataAndAddrListCh2 = new QList<QPair<QString, QString> * >;
+    dataAndAddrListCh2 = new QList<QPair<bool, QPair<QString, QString> *> * >;
 
     ui->lineEditCh2VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditCh2VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
@@ -339,7 +339,7 @@ void volDataConfig::handleBatchParamsCh1(int num, double dataStart,
 // 保存按钮
 void volDataConfig::on_pushBtnCh1DataSave_clicked()
 {
-    QList<QPair<QString, QString>* >  *tempList = new QList<QPair<QString, QString>* >;
+    QList<QPair<bool, QPair<QString, QString>* >* >  *tempList = new QList<QPair<bool, QPair<QString, QString>* >* >;
     // 保存界面中的数据, 判断里面的参数是否合法
     for(int i=0; i != nowIndexCh1Data; ++i){
         QString data, addr;
@@ -356,19 +356,24 @@ void volDataConfig::on_pushBtnCh1DataSave_clicked()
             return;
         }
         QPair<QString, QString> * tempPair = new QPair<QString, QString>(data, addr);
-        tempList->append(tempPair);
+        tempList->append(new QPair<bool, QPair<QString, QString> * >(checkBoxListCh1Data.at(i)->checkState(), tempPair));
     }
     // 请空当前参数列表
     for(int i=0; i != dataAndAddrListCh1->size(); ++i){
+        QPair<bool, QPair<QString, QString> *> * tempWithCheck;
+        tempWithCheck = dataAndAddrListCh1->at(i);
         QPair<QString, QString> * temp;
-        temp = dataAndAddrListCh1->at(i);
-        dataAndAddrListCh1->removeAt(i);
+        temp = tempWithCheck->second;
+        delete tempWithCheck;
         delete temp;
     }
+    dataAndAddrListCh1->clear();
     dataAndAddrListCh1 = tempList;
 //    for(int j=0; j != dataAndAddrListCh1->size(); ++j){
 //        qDebug() << j << dataAndAddrListCh1->at(j)->first << dataAndAddrListCh1->at(j)->second;
 //    }
+    if(!dataAndAddrListCh1->isEmpty())
+        QMessageBox::information(this, tr("保存成功"), tr("保存成功"), QMessageBox::Ok);
 }
 // 撤消按钮
 void volDataConfig::on_pushBtnCh1DataUndo_clicked()
@@ -376,8 +381,9 @@ void volDataConfig::on_pushBtnCh1DataUndo_clicked()
     on_pushBtnCh1DataBatchDel_clicked();  // 清空数据列表框
     for(int i=0; i != dataAndAddrListCh1->size(); ++i){
         on_pushBtnCh1DataAdd_clicked();
-        dataLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->first);
-        addrLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->second);
+        checkBoxListCh1Data.at(i)->setChecked(dataAndAddrListCh1->at(i)->first);
+        dataLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->second->first);
+        addrLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->second->second);
     }
 }
 
@@ -469,7 +475,7 @@ void volDataConfig::on_pushBtnCh1TestSave_clicked()
         return;
     }
     QString meterJudge;  // 读取并判断万用表的读取从参数
-    meterJudge = ui->lineEditCh1VerifyMeterJudge->text();
+    meterJudge = ui->lineEditCh1TestMeterJudge->text();
     if(meterJudge.size()==0){
         QMessageBox::information(this, tr("保存失败"), tr("读取读万用表命令的参数填写不完整，请重新填写"), QMessageBox::Ok);
         return;
@@ -771,7 +777,7 @@ void volDataConfig::handleBatchParamsCh2(int num, double dataStart,
 // 保存按钮
 void volDataConfig::on_pushBtnCh2DataSave_clicked()
 {
-    QList<QPair<QString, QString>* >  *tempList = new QList<QPair<QString, QString>* >;
+    QList<QPair<bool, QPair<QString, QString>* >* >  *tempList = new QList<QPair<bool, QPair<QString, QString>* >* >;
     // 保存界面中的数据, 判断里面的参数是否合法
     for(int i=0; i != nowIndexCh2Data; ++i){
         QString data, addr;
@@ -788,19 +794,24 @@ void volDataConfig::on_pushBtnCh2DataSave_clicked()
             return;
         }
         QPair<QString, QString> * tempPair = new QPair<QString, QString>(data, addr);
-        tempList->append(tempPair);
+        tempList->append(new QPair<bool, QPair<QString, QString> * >(checkBoxListCh2Data.at(i)->checkState(), tempPair));
     }
     // 请空当前参数列表
     for(int i=0; i != dataAndAddrListCh2->size(); ++i){
+        QPair<bool, QPair<QString, QString> *> * tempWithCheck;
+        tempWithCheck = dataAndAddrListCh2->at(i);
         QPair<QString, QString> * temp;
-        temp = dataAndAddrListCh2->at(i);
-        dataAndAddrListCh2->removeAt(i);
+        temp = tempWithCheck->second;
+        delete tempWithCheck;
         delete temp;
     }
+    dataAndAddrListCh2->clear();
     dataAndAddrListCh2 = tempList;
 //    for(int j=0; j != dataAndAddrListCh2->size(); ++j){
 //        qDebug() << j << dataAndAddrListCh2->at(j)->first << dataAndAddrListCh2->at(j)->second;
 //    }
+    if(!dataAndAddrListCh2->isEmpty())
+        QMessageBox::information(this, tr("保存成功"), tr("保存成功"), QMessageBox::Ok);
 }
 // 撤消按钮
 void volDataConfig::on_pushBtnCh2DataUndo_clicked()
@@ -808,8 +819,9 @@ void volDataConfig::on_pushBtnCh2DataUndo_clicked()
     on_pushBtnCh2DataBatchDel_clicked();  // 清空数据列表框
     for(int i=0; i != dataAndAddrListCh2->size(); ++i){
         on_pushBtnCh2DataAdd_clicked();
-        dataLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->first);
-        addrLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->second);
+        checkBoxListCh2Data.at(i)->setChecked(dataAndAddrListCh2->at(i)->first);
+        dataLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->second->first);
+        addrLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->second->second);
     }
 }
 
@@ -901,7 +913,7 @@ void volDataConfig::on_pushBtnCh2TestSave_clicked()
         return;
     }
     QString meterJudge;  // 读取并判断万用表的读取从参数
-    meterJudge = ui->lineEditCh2VerifyMeterJudge->text();
+    meterJudge = ui->lineEditCh2TestMeterJudge->text();
     if(meterJudge.size()==0){
         QMessageBox::information(this, tr("保存失败"), tr("读取读万用表命令的参数填写不完整，请重新填写"), QMessageBox::Ok);
         return;
