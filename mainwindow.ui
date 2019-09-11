@@ -115,7 +115,7 @@
       <property name="frameShadow">
        <enum>QFrame::Sunken</enum>
       </property>
-      <widget class="QCheckBox" name="checkBoxCh1">
+      <widget class="QCheckBox" name="checkBoxPart1">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -125,10 +125,10 @@
         </rect>
        </property>
        <property name="text">
-        <string>ch1 0.1R</string>
+        <string>Part 1</string>
        </property>
       </widget>
-      <widget class="QCheckBox" name="checkBoxCh2">
+      <widget class="QCheckBox" name="checkBoxPart2">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -138,10 +138,10 @@
         </rect>
        </property>
        <property name="text">
-        <string>ch2 2R</string>
+        <string>Part 2</string>
        </property>
       </widget>
-      <widget class="QCheckBox" name="checkBoxCh3">
+      <widget class="QCheckBox" name="checkBoxPart3">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -151,10 +151,10 @@
         </rect>
        </property>
        <property name="text">
-        <string>ch3 200R</string>
+        <string>Part 3</string>
        </property>
       </widget>
-      <widget class="QCheckBox" name="checkBoxCh4">
+      <widget class="QCheckBox" name="checkBoxPart4">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -164,7 +164,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>ch4 10000R</string>
+        <string>Part 4</string>
        </property>
       </widget>
       <widget class="QCheckBox" name="checkBoxAll">
@@ -180,7 +180,7 @@
         <string>全选</string>
        </property>
       </widget>
-      <widget class="QCheckBox" name="checkBoxCh5">
+      <widget class="QCheckBox" name="checkBoxPart5">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -190,7 +190,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>ch5</string>
+        <string>Part 5</string>
        </property>
       </widget>
      </widget>
