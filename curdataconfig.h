@@ -24,472 +24,258 @@ public:
 private slots:
     void on_pushBtnExit_clicked(); // 退出
     // PSU1  前置命令
-    // 添加按钮
-    void on_pushBtnPsu1PreAdd_clicked();
-    // 刷新命令列表框
-    void showPsu1PreCmdList();
-    // 命令框点击
-    void on_psu1PreCmdList_clicked(const QModelIndex &index);
-    // 删除按钮
-    void on_pushBtnPsu1PreDel_clicked();
-    // 向上按钮
-    void on_pushBtnPsu1PreUp_clicked();
-    // 向下按钮
-    void on_pushBtnPsu1PreDown_clicked();
-    // 保存按钮
-    void on_pushBtnPsu1PreSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1PreUndo_clicked();
+    void on_pushBtnPsu1PreAdd_clicked();             // 添加按钮
+    void showPsu1PreCmdList();                       // 刷新命令列表框
+    void on_psu1PreCmdList_clicked(const QModelIndex &index);  // 命令框点击
+    void on_pushBtnPsu1PreDel_clicked();             // 删除按钮
+    void on_pushBtnPsu1PreUp_clicked();              // 向上按钮
+    void on_pushBtnPsu1PreDown_clicked();            // 向下按钮
+    void on_pushBtnPsu1PreSave_clicked();            // 保存按钮
+    void on_pushBtnPsu1PreUndo_clicked();            // 撤消按钮
     // PSU1  Part1  换档命令
-    // 添加按钮
-    void on_pushBtnPsu1Part1PreAdd_clicked();
-    // 刷新命令列表框
-    void showPsu1Part1PreCmdList();
-    // 命令框点击
-    void on_psu1Part1PreCmdList_clicked(const QModelIndex &index);
-    // 删除按钮
-    void on_pushBtnPsu1Part1PreDel_clicked();
-    // 向上按钮
-    void on_pushBtnPsu1Part1PreUp_clicked();
-    // 向下按钮
-    void on_pushBtnPsu1Part1PreDown_clicked();
-    // 保存按钮
-    void on_pushBtnPsu1Part1PreSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part1PreUndo_clicked();
+    void on_pushBtnPsu1Part1PreAdd_clicked();        // 添加按钮
+    void showPsu1Part1PreCmdList();                  // 刷新命令列表框
+    void on_psu1Part1PreCmdList_clicked(const QModelIndex &index);  // 命令框点击
+    void on_pushBtnPsu1Part1PreDel_clicked();        // 删除按钮
+    void on_pushBtnPsu1Part1PreUp_clicked();         // 向上按钮
+    void on_pushBtnPsu1Part1PreDown_clicked();       // 向下按钮
+    void on_pushBtnPsu1Part1PreSave_clicked();       // 保存按钮
+    void on_pushBtnPsu1Part1PreUndo_clicked();       // 撤消按钮
     // PSU1 Part1 数据
-    // 添加按钮
-    void on_pushBtnPsu1Part1DataAdd_clicked();
-    // 判断全选状态
-    bool checkBoxAllSelectPsu1Part1();
-    // 全选按钮
-    void on_pushBtnPsu1Part1DataAll_clicked();
-    // 删除按钮
-    void on_pushBtnPsu1Part1DataDel_clicked();
-    // 全部删除按钮
-    void on_pushBtnPsu1Part1DataBatchDel_clicked();
-    // 清空数据按钮
-    void on_pushBtnPsu1Part1DataClear_clicked();
-    // 批量添加按钮
-    void on_pushBtnPsu1Part1DataBatchAdd_clicked();
-    // 处理接收到的批量添加参数
-    void handleBatchParamsPsu1Part1(int, double, double, QString, int, bool);
-    // 保存按钮
-    void on_pushBtnPsu1Part1DataSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part1DataUndo_clicked();
+    void on_pushBtnPsu1Part1DataAdd_clicked();       // 添加按钮
+    bool checkBoxAllSelectPsu1Part1();               // 判断全选状态
+    void on_pushBtnPsu1Part1DataAll_clicked();       // 全选按钮
+    void on_pushBtnPsu1Part1DataDel_clicked();       // 删除按钮
+    void on_pushBtnPsu1Part1DataBatchDel_clicked();  // 全部删除按钮
+    void on_pushBtnPsu1Part1DataClear_clicked();     // 清空数据按钮
+    void on_pushBtnPsu1Part1DataBatchAdd_clicked();  // 批量添加按钮
+    void handleBatchParamsPsu1Part1(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void on_pushBtnPsu1Part1DataSave_clicked();      // 保存按钮
+    void on_pushBtnPsu1Part1DataUndo_clicked();      // 撤消按钮
     // PSU1 Part1 校准
-    // 保存按钮
-    void on_pushBtnPsu1Part1VerifySave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part1VerifyUndo_clicked();
+    void on_pushBtnPsu1Part1VerifySave_clicked();    // 保存按钮
+    void on_pushBtnPsu1Part1VerifyUndo_clicked();    // 撤消按钮
     // PSU1  Part1  测试页
-    // 保存按钮
-    void on_pushBtnPsu1Part1TestSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part1TestUndo_clicked();
+    void on_pushBtnPsu1Part1TestSave_clicked();      // 保存按钮
+    void on_pushBtnPsu1Part1TestUndo_clicked();      // 撤消按钮
     // PSU1  Part2  换档命令
-    // 添加按钮
-    void on_pushBtnPsu1Part2PreAdd_clicked();
-    // 刷新命令列表框
-    void showPsu1Part2PreCmdList();
-    // 命令框点击
-    void on_psu1Part2PreCmdList_clicked(const QModelIndex &index);
-    // 删除按钮
-    void on_pushBtnPsu1Part2PreDel_clicked();
-    // 向上按钮
-    void on_pushBtnPsu1Part2PreUp_clicked();
-    // 向下按钮
-    void on_pushBtnPsu1Part2PreDown_clicked();
-    // 保存按钮
-    void on_pushBtnPsu1Part2PreSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part2PreUndo_clicked();
+    void on_pushBtnPsu1Part2PreAdd_clicked();        // 添加按钮
+    void showPsu1Part2PreCmdList();                  // 刷新命令列表框
+    void on_psu1Part2PreCmdList_clicked(const QModelIndex &index);  // 命令框点击
+    void on_pushBtnPsu1Part2PreDel_clicked();        // 删除按钮
+    void on_pushBtnPsu1Part2PreUp_clicked();         // 向上按钮
+    void on_pushBtnPsu1Part2PreDown_clicked();       // 向下按钮
+    void on_pushBtnPsu1Part2PreSave_clicked();       // 保存按钮
+    void on_pushBtnPsu1Part2PreUndo_clicked();       // 撤消按钮
     // PSU1 Part2 数据
-    // 添加按钮
-    void on_pushBtnPsu1Part2DataAdd_clicked();
-    // 判断全选状态
-    bool checkBoxAllSelectPsu1Part2();
-    // 全选按钮
-    void on_pushBtnPsu1Part2DataAll_clicked();
-    // 删除按钮
-    void on_pushBtnPsu1Part2DataDel_clicked();
-    // 全部删除按钮
-    void on_pushBtnPsu1Part2DataBatchDel_clicked();
-    // 清空数据按钮
-    void on_pushBtnPsu1Part2DataClear_clicked();
-    // 批量添加按钮
-    void on_pushBtnPsu1Part2DataBatchAdd_clicked();
-    // 处理接收到的批量添加参数
-    void handleBatchParamsPsu1Part2(int, double, double, QString, int, bool);
-    // 保存按钮
-    void on_pushBtnPsu1Part2DataSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part2DataUndo_clicked();
+    void on_pushBtnPsu1Part2DataAdd_clicked();       // 添加按钮
+    bool checkBoxAllSelectPsu1Part2();               // 判断全选状态
+    void on_pushBtnPsu1Part2DataAll_clicked();       // 全选按钮
+    void on_pushBtnPsu1Part2DataDel_clicked();       // 删除按钮
+    void on_pushBtnPsu1Part2DataBatchDel_clicked();  // 全部删除按钮
+    void on_pushBtnPsu1Part2DataClear_clicked();     // 清空数据按钮
+    void on_pushBtnPsu1Part2DataBatchAdd_clicked();  // 批量添加按钮
+    void handleBatchParamsPsu1Part2(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void on_pushBtnPsu1Part2DataSave_clicked();      // 保存按钮
+    void on_pushBtnPsu1Part2DataUndo_clicked();      // 撤消按钮
     // PSU1 Part2 校准
-    // 保存按钮
-    void on_pushBtnPsu1Part2VerifySave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part2VerifyUndo_clicked();
+    void on_pushBtnPsu1Part2VerifySave_clicked();    // 保存按钮
+    void on_pushBtnPsu1Part2VerifyUndo_clicked();    // 撤消按钮
     // PSU1  Part2  测试页
-    // 保存按钮
-    void on_pushBtnPsu1Part2TestSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part2TestUndo_clicked();
+    void on_pushBtnPsu1Part2TestSave_clicked();      // 保存按钮
+    void on_pushBtnPsu1Part2TestUndo_clicked();      // 撤消按钮
     // PSU1  Part3  换档命令
-    // 添加按钮
-    void on_pushBtnPsu1Part3PreAdd_clicked();
-    // 刷新命令列表框
-    void showPsu1Part3PreCmdList();
-    // 命令框点击
-    void on_psu1Part3PreCmdList_clicked(const QModelIndex &index);
-    // 删除按钮
-    void on_pushBtnPsu1Part3PreDel_clicked();
-    // 向上按钮
-    void on_pushBtnPsu1Part3PreUp_clicked();
-    // 向下按钮
-    void on_pushBtnPsu1Part3PreDown_clicked();
-    // 保存按钮
-    void on_pushBtnPsu1Part3PreSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part3PreUndo_clicked();
+    void on_pushBtnPsu1Part3PreAdd_clicked();        // 添加按钮
+    void showPsu1Part3PreCmdList();                  // 刷新命令列表框
+    void on_psu1Part3PreCmdList_clicked(const QModelIndex &index);  // 命令框点击
+    void on_pushBtnPsu1Part3PreDel_clicked();        // 删除按钮
+    void on_pushBtnPsu1Part3PreUp_clicked();         // 向上按钮
+    void on_pushBtnPsu1Part3PreDown_clicked();       // 向下按钮
+    void on_pushBtnPsu1Part3PreSave_clicked();       // 保存按钮
+    void on_pushBtnPsu1Part3PreUndo_clicked();       // 撤消按钮
     // PSU1 Part3 数据
-    // 添加按钮
-    void on_pushBtnPsu1Part3DataAdd_clicked();
-    // 判断全选状态
-    bool checkBoxAllSelectPsu1Part3();
-    // 全选按钮
-    void on_pushBtnPsu1Part3DataAll_clicked();
-    // 删除按钮
-    void on_pushBtnPsu1Part3DataDel_clicked();
-    // 全部删除按钮
-    void on_pushBtnPsu1Part3DataBatchDel_clicked();
-    // 清空数据按钮
-    void on_pushBtnPsu1Part3DataClear_clicked();
-    // 批量添加按钮
-    void on_pushBtnPsu1Part3DataBatchAdd_clicked();
-    // 处理接收到的批量添加参数
-    void handleBatchParamsPsu1Part3(int, double, double, QString, int, bool);
-    // 保存按钮
-    void on_pushBtnPsu1Part3DataSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part3DataUndo_clicked();
+    void on_pushBtnPsu1Part3DataAdd_clicked();       // 添加按钮
+    bool checkBoxAllSelectPsu1Part3();               // 判断全选状态
+    void on_pushBtnPsu1Part3DataAll_clicked();       // 全选按钮
+    void on_pushBtnPsu1Part3DataDel_clicked();       // 删除按钮
+    void on_pushBtnPsu1Part3DataBatchDel_clicked();  // 全部删除按钮
+    void on_pushBtnPsu1Part3DataClear_clicked();     // 清空数据按钮
+    void on_pushBtnPsu1Part3DataBatchAdd_clicked();  // 批量添加按钮
+    void handleBatchParamsPsu1Part3(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void on_pushBtnPsu1Part3DataSave_clicked();      // 保存按钮
+    void on_pushBtnPsu1Part3DataUndo_clicked();      // 撤消按钮
     // PSU1 Part3 校准
-    // 保存按钮
-    void on_pushBtnPsu1Part3VerifySave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part3VerifyUndo_clicked();
+    void on_pushBtnPsu1Part3VerifySave_clicked();    // 保存按钮
+    void on_pushBtnPsu1Part3VerifyUndo_clicked();    // 撤消按钮
     // PSU1  Part3  测试页
-    // 保存按钮
-    void on_pushBtnPsu1Part3TestSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part3TestUndo_clicked();
+    void on_pushBtnPsu1Part3TestSave_clicked();      // 保存按钮
+    void on_pushBtnPsu1Part3TestUndo_clicked();      // 撤消按钮
     // PSU1  Part4  换档命令
-    // 添加按钮
-    void on_pushBtnPsu1Part4PreAdd_clicked();
-    // 刷新命令列表框
-    void showPsu1Part4PreCmdList();
-    // 命令框点击
-    void on_psu1Part4PreCmdList_clicked(const QModelIndex &index);
-    // 删除按钮
-    void on_pushBtnPsu1Part4PreDel_clicked();
-    // 向上按钮
-    void on_pushBtnPsu1Part4PreUp_clicked();
-    // 向下按钮
-    void on_pushBtnPsu1Part4PreDown_clicked();
-    // 保存按钮
-    void on_pushBtnPsu1Part4PreSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part4PreUndo_clicked();
+    void on_pushBtnPsu1Part4PreAdd_clicked();        // 添加按钮
+    void showPsu1Part4PreCmdList();                  // 刷新命令列表框
+    void on_psu1Part4PreCmdList_clicked(const QModelIndex &index);  // 命令框点击
+    void on_pushBtnPsu1Part4PreDel_clicked();        // 删除按钮
+    void on_pushBtnPsu1Part4PreUp_clicked();         // 向上按钮
+    void on_pushBtnPsu1Part4PreDown_clicked();       // 向下按钮
+    void on_pushBtnPsu1Part4PreSave_clicked();       // 保存按钮
+    void on_pushBtnPsu1Part4PreUndo_clicked();       // 撤消按钮
     // PSU1 Part4 数据
-    // 添加按钮
-    void on_pushBtnPsu1Part4DataAdd_clicked();
-    // 判断全选状态
-    bool checkBoxAllSelectPsu1Part4();
-    // 全选按钮
-    void on_pushBtnPsu1Part4DataAll_clicked();
-    // 删除按钮
-    void on_pushBtnPsu1Part4DataDel_clicked();
-    // 全部删除按钮
-    void on_pushBtnPsu1Part4DataBatchDel_clicked();
-    // 清空数据按钮
-    void on_pushBtnPsu1Part4DataClear_clicked();
-    // 批量添加按钮
-    void on_pushBtnPsu1Part4DataBatchAdd_clicked();
-    // 处理接收到的批量添加参数
-    void handleBatchParamsPsu1Part4(int, double, double, QString, int, bool);
-    // 保存按钮
-    void on_pushBtnPsu1Part4DataSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part4DataUndo_clicked();
+    void on_pushBtnPsu1Part4DataAdd_clicked();       // 添加按钮
+    bool checkBoxAllSelectPsu1Part4();               // 判断全选状态
+    void on_pushBtnPsu1Part4DataAll_clicked();       // 全选按钮
+    void on_pushBtnPsu1Part4DataDel_clicked();       // 删除按钮
+    void on_pushBtnPsu1Part4DataBatchDel_clicked();  // 全部删除按钮
+    void on_pushBtnPsu1Part4DataClear_clicked();     // 清空数据按钮
+    void on_pushBtnPsu1Part4DataBatchAdd_clicked();  // 批量添加按钮
+    void handleBatchParamsPsu1Part4(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void on_pushBtnPsu1Part4DataSave_clicked();      // 保存按钮
+    void on_pushBtnPsu1Part4DataUndo_clicked();      // 撤消按钮
     // PSU1 Part4 校准
-    // 保存按钮
-    void on_pushBtnPsu1Part4VerifySave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part4VerifyUndo_clicked();
+    void on_pushBtnPsu1Part4VerifySave_clicked();    // 保存按钮
+    void on_pushBtnPsu1Part4VerifyUndo_clicked();    // 撤消按钮
     // PSU1  Part4  测试页
-    // 保存按钮
-    void on_pushBtnPsu1Part4TestSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part4TestUndo_clicked();
-    // PSU1  Part1  换档命令
-    // 添加按钮
-    void on_pushBtnPsu1Part5PreAdd_clicked();
-    // 刷新命令列表框
-    void showPsu1Part5PreCmdList();
-    // 命令框点击
-    void on_psu1Part5PreCmdList_clicked(const QModelIndex &index);
-    // 删除按钮
-    void on_pushBtnPsu1Part5PreDel_clicked();
-    // 向上按钮
-    void on_pushBtnPsu1Part5PreUp_clicked();
-    // 向下按钮
-    void on_pushBtnPsu1Part5PreDown_clicked();
-    // 保存按钮
-    void on_pushBtnPsu1Part5PreSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part5PreUndo_clicked();
+    void on_pushBtnPsu1Part4TestSave_clicked();      // 保存按钮
+    void on_pushBtnPsu1Part4TestUndo_clicked();      // 撤消按钮
+    // PSU1  Part5  换档命令
+    void on_pushBtnPsu1Part5PreAdd_clicked();        // 添加按钮
+    void showPsu1Part5PreCmdList();                  // 刷新命令列表框
+    void on_psu1Part5PreCmdList_clicked(const QModelIndex &index);  // 命令框点击
+    void on_pushBtnPsu1Part5PreDel_clicked();        // 删除按钮
+    void on_pushBtnPsu1Part5PreUp_clicked();         // 向上按钮
+    void on_pushBtnPsu1Part5PreDown_clicked();       // 向下按钮
+    void on_pushBtnPsu1Part5PreSave_clicked();       // 保存按钮
+    void on_pushBtnPsu1Part5PreUndo_clicked();       // 撤消按钮
     // PSU1 Part5 数据
-    // 添加按钮
-    void on_pushBtnPsu1Part5DataAdd_clicked();
-    // 判断全选状态
-    bool checkBoxAllSelectPsu1Part5();
-    // 全选按钮
-    void on_pushBtnPsu1Part5DataAll_clicked();
-    // 删除按钮
-    void on_pushBtnPsu1Part5DataDel_clicked();
-    // 全部删除按钮
-    void on_pushBtnPsu1Part5DataBatchDel_clicked();
-    // 清空数据按钮
-    void on_pushBtnPsu1Part5DataClear_clicked();
-    // 批量添加按钮
-    void on_pushBtnPsu1Part5DataBatchAdd_clicked();
-    // 处理接收到的批量添加参数
-    void handleBatchParamsPsu1Part5(int, double, double, QString, int, bool);
-    // 保存按钮
-    void on_pushBtnPsu1Part5DataSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part5DataUndo_clicked();
+    void on_pushBtnPsu1Part5DataAdd_clicked();       // 添加按钮
+    bool checkBoxAllSelectPsu1Part5();               // 判断全选状态
+    void on_pushBtnPsu1Part5DataAll_clicked();       // 全选按钮
+    void on_pushBtnPsu1Part5DataDel_clicked();       // 删除按钮
+    void on_pushBtnPsu1Part5DataBatchDel_clicked();  // 全部删除按钮
+    void on_pushBtnPsu1Part5DataClear_clicked();     // 清空数据按钮
+    void on_pushBtnPsu1Part5DataBatchAdd_clicked();  // 批量添加按钮
+    void handleBatchParamsPsu1Part5(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void on_pushBtnPsu1Part5DataSave_clicked();      // 保存按钮
+    void on_pushBtnPsu1Part5DataUndo_clicked();      // 撤消按钮
     // PSU1 Part5 校准
-    // 保存按钮
-    void on_pushBtnPsu1Part5VerifySave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part5VerifyUndo_clicked();
+    void on_pushBtnPsu1Part5VerifySave_clicked();    // 保存按钮
+    void on_pushBtnPsu1Part5VerifyUndo_clicked();    // 撤消按钮
     // PSU1  Part5  测试页
-    // 保存按钮
-    void on_pushBtnPsu1Part5TestSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu1Part5TestUndo_clicked();
+    void on_pushBtnPsu1Part5TestSave_clicked();      // 保存按钮
+    void on_pushBtnPsu1Part5TestUndo_clicked();      // 撤消按钮
     // PSU2  前置命令
-    // 添加按钮
-    void on_pushBtnPsu2PreAdd_clicked();
-    // 刷新命令列表框
-    void showPsu2PreCmdList();
-    // 命令框点击
-    void on_psu2PreCmdList_clicked(const QModelIndex &index);
-    // 删除按钮
-    void on_pushBtnPsu2PreDel_clicked();
-    // 向上按钮
-    void on_pushBtnPsu2PreUp_clicked();
-    // 向下按钮
-    void on_pushBtnPsu2PreDown_clicked();
-    // 保存按钮
-    void on_pushBtnPsu2PreSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu2PreUndo_clicked();
+    void on_pushBtnPsu2PreAdd_clicked();             // 添加按钮
+    void showPsu2PreCmdList();                       // 刷新命令列表框
+    void on_psu2PreCmdList_clicked(const QModelIndex &index);  // 命令框点击
+    void on_pushBtnPsu2PreDel_clicked();             // 删除按钮
+    void on_pushBtnPsu2PreUp_clicked();              // 向上按钮
+    void on_pushBtnPsu2PreDown_clicked();            // 向下按钮
+    void on_pushBtnPsu2PreSave_clicked();            // 保存按钮
+    void on_pushBtnPsu2PreUndo_clicked();            // 撤消按钮
     // PSU2  Part1  换档命令
-    // 添加按钮
-    void on_pushBtnPsu2Part1PreAdd_clicked();
-    // 刷新命令列表框
-    void showPsu2Part1PreCmdList();
-    // 命令框点击
-    void on_psu2Part1PreCmdList_clicked(const QModelIndex &index);
-    // 删除按钮
-    void on_pushBtnPsu2Part1PreDel_clicked();
-    // 向上按钮
-    void on_pushBtnPsu2Part1PreUp_clicked();
-    // 向下按钮
-    void on_pushBtnPsu2Part1PreDown_clicked();
-    // 保存按钮
-    void on_pushBtnPsu2Part1PreSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu2Part1PreUndo_clicked();
+    void on_pushBtnPsu2Part1PreAdd_clicked();        // 添加按钮
+    void showPsu2Part1PreCmdList();                  // 刷新命令列表框
+    void on_psu2Part1PreCmdList_clicked(const QModelIndex &index);  // 命令框点击
+    void on_pushBtnPsu2Part1PreDel_clicked();        // 删除按钮
+    void on_pushBtnPsu2Part1PreUp_clicked();         // 向上按钮
+    void on_pushBtnPsu2Part1PreDown_clicked();       // 向下按钮
+    void on_pushBtnPsu2Part1PreSave_clicked();       // 保存按钮
+    void on_pushBtnPsu2Part1PreUndo_clicked();       // 撤消按钮
     // PSU2 Part1 数据
-    // 添加按钮
-    void on_pushBtnPsu2Part1DataAdd_clicked();
-    // 判断全选状态
-    bool checkBoxAllSelectPsu2Part1();
-    // 全选按钮
-    void on_pushBtnPsu2Part1DataAll_clicked();
-    // 删除按钮
-    void on_pushBtnPsu2Part1DataDel_clicked();
-    // 全部删除按钮
-    void on_pushBtnPsu2Part1DataBatchDel_clicked();
-    // 清空数据按钮
-    void on_pushBtnPsu2Part1DataClear_clicked();
-    // 批量添加按钮
-    void on_pushBtnPsu2Part1DataBatchAdd_clicked();
-    // 处理接收到的批量添加参数
-    void handleBatchParamsPsu2Part1(int, double, double, QString, int, bool);
-    // 保存按钮
-    void on_pushBtnPsu2Part1DataSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu2Part1DataUndo_clicked();
+    void on_pushBtnPsu2Part1DataAdd_clicked();       // 添加按钮
+    bool checkBoxAllSelectPsu2Part1();               // 判断全选状态
+    void on_pushBtnPsu2Part1DataAll_clicked();       // 全选按钮
+    void on_pushBtnPsu2Part1DataDel_clicked();       // 删除按钮
+    void on_pushBtnPsu2Part1DataBatchDel_clicked();  // 全部删除按钮
+    void on_pushBtnPsu2Part1DataClear_clicked();     // 清空数据按钮
+    void on_pushBtnPsu2Part1DataBatchAdd_clicked();  // 批量添加按钮
+    void handleBatchParamsPsu2Part1(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void on_pushBtnPsu2Part1DataSave_clicked();      // 保存按钮
+    void on_pushBtnPsu2Part1DataUndo_clicked();      // 撤消按钮
     // PSU2 Part1 校准
-    // 保存按钮
-    void on_pushBtnPsu2Part1VerifySave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu2Part1VerifyUndo_clicked();
+    void on_pushBtnPsu2Part1VerifySave_clicked();    // 保存按钮
+    void on_pushBtnPsu2Part1VerifyUndo_clicked();    // 撤消按钮
     // PSU2  Part1  测试页
-    // 保存按钮
-    void on_pushBtnPsu2Part1TestSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu2Part1TestUndo_clicked();
+    void on_pushBtnPsu2Part1TestSave_clicked();      // 保存按钮
+    void on_pushBtnPsu2Part1TestUndo_clicked();      // 撤消按钮
     // PSU2  Part2  换档命令
-    // 添加按钮
-    void on_pushBtnPsu2Part2PreAdd_clicked();
-    // 刷新命令列表框
-    void showPsu2Part2PreCmdList();
-    // 命令框点击
-    void on_psu2Part2PreCmdList_clicked(const QModelIndex &index);
-    // 删除按钮
-    void on_pushBtnPsu2Part2PreDel_clicked();
-    // 向上按钮
-    void on_pushBtnPsu2Part2PreUp_clicked();
-    // 向下按钮
-    void on_pushBtnPsu2Part2PreDown_clicked();
-    // 保存按钮
-    void on_pushBtnPsu2Part2PreSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu2Part2PreUndo_clicked();
+    void on_pushBtnPsu2Part2PreAdd_clicked();        // 添加按钮
+    void showPsu2Part2PreCmdList();                  // 刷新命令列表框
+    void on_psu2Part2PreCmdList_clicked(const QModelIndex &index);  // 命令框点击
+    void on_pushBtnPsu2Part2PreDel_clicked();        // 删除按钮
+    void on_pushBtnPsu2Part2PreUp_clicked();         // 向上按钮
+    void on_pushBtnPsu2Part2PreDown_clicked();       // 向下按钮
+    void on_pushBtnPsu2Part2PreSave_clicked();       // 保存按钮
+    void on_pushBtnPsu2Part2PreUndo_clicked();       // 撤消按钮
     // PSU2 Part2 数据
-    // 添加按钮
-    void on_pushBtnPsu2Part2DataAdd_clicked();
-    // 判断全选状态
-    bool checkBoxAllSelectPsu2Part2();
-    // 全选按钮
-    void on_pushBtnPsu2Part2DataAll_clicked();
-    // 删除按钮
-    void on_pushBtnPsu2Part2DataDel_clicked();
-    // 全部删除按钮
-    void on_pushBtnPsu2Part2DataBatchDel_clicked();
-    // 清空数据按钮
-    void on_pushBtnPsu2Part2DataClear_clicked();
-    // 批量添加按钮
-    void on_pushBtnPsu2Part2DataBatchAdd_clicked();
-    // 处理接收到的批量添加参数
-    void handleBatchParamsPsu2Part2(int, double, double, QString, int, bool);
-    // 保存按钮
-    void on_pushBtnPsu2Part2DataSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu2Part2DataUndo_clicked();
+    void on_pushBtnPsu2Part2DataAdd_clicked();       // 添加按钮
+    bool checkBoxAllSelectPsu2Part2();               // 判断全选状态
+    void on_pushBtnPsu2Part2DataAll_clicked();       // 全选按钮
+    void on_pushBtnPsu2Part2DataDel_clicked();       // 删除按钮
+    void on_pushBtnPsu2Part2DataBatchDel_clicked();  // 全部删除按钮
+    void on_pushBtnPsu2Part2DataClear_clicked();     // 清空数据按钮
+    void on_pushBtnPsu2Part2DataBatchAdd_clicked();  // 批量添加按钮
+    void handleBatchParamsPsu2Part2(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void on_pushBtnPsu2Part2DataSave_clicked();      // 保存按钮
+    void on_pushBtnPsu2Part2DataUndo_clicked();      // 撤消按钮
     // PSU2 Part2 校准
-    // 保存按钮
-    void on_pushBtnPsu2Part2VerifySave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu2Part2VerifyUndo_clicked();
+    void on_pushBtnPsu2Part2VerifySave_clicked();    // 保存按钮
+    void on_pushBtnPsu2Part2VerifyUndo_clicked();    // 撤消按钮
     // PSU2  Part2  测试页
-    // 保存按钮
-    void on_pushBtnPsu2Part2TestSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu2Part2TestUndo_clicked();
+    void on_pushBtnPsu2Part2TestSave_clicked();      // 保存按钮
+    void on_pushBtnPsu2Part2TestUndo_clicked();      // 撤消按钮
     // PSU2  Part3  换档命令
-    // 添加按钮
-    void on_pushBtnPsu2Part3PreAdd_clicked();
-    // 刷新命令列表框
-    void showPsu2Part3PreCmdList();
-    // 命令框点击
-    void on_psu2Part3PreCmdList_clicked(const QModelIndex &index);
-    // 删除按钮
-    void on_pushBtnPsu2Part3PreDel_clicked();
-    // 向上按钮
-    void on_pushBtnPsu2Part3PreUp_clicked();
-    // 向下按钮
-    void on_pushBtnPsu2Part3PreDown_clicked();
-    // 保存按钮
-    void on_pushBtnPsu2Part3PreSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu2Part3PreUndo_clicked();
+    void on_pushBtnPsu2Part3PreAdd_clicked();        // 添加按钮
+    void showPsu2Part3PreCmdList();                  // 刷新命令列表框
+    void on_psu2Part3PreCmdList_clicked(const QModelIndex &index);  // 命令框点击
+    void on_pushBtnPsu2Part3PreDel_clicked();        // 删除按钮
+    void on_pushBtnPsu2Part3PreUp_clicked();         // 向上按钮
+    void on_pushBtnPsu2Part3PreDown_clicked();       // 向下按钮
+    void on_pushBtnPsu2Part3PreSave_clicked();       // 保存按钮
+    void on_pushBtnPsu2Part3PreUndo_clicked();       // 撤消按钮
     // PSU2 Part3 数据
-    // 添加按钮
-    void on_pushBtnPsu2Part3DataAdd_clicked();
-    // 判断全选状态
-    bool checkBoxAllSelectPsu2Part3();
-    // 全选按钮
-    void on_pushBtnPsu2Part3DataAll_clicked();
-    // 删除按钮
-    void on_pushBtnPsu2Part3DataDel_clicked();
-    // 全部删除按钮
-    void on_pushBtnPsu2Part3DataBatchDel_clicked();
-    // 清空数据按钮
-    void on_pushBtnPsu2Part3DataClear_clicked();
-    // 批量添加按钮
-    void on_pushBtnPsu2Part3DataBatchAdd_clicked();
-    // 处理接收到的批量添加参数
-    void handleBatchParamsPsu2Part3(int, double, double, QString, int, bool);
-    // 保存按钮
-    void on_pushBtnPsu2Part3DataSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu2Part3DataUndo_clicked();
+    void on_pushBtnPsu2Part3DataAdd_clicked();       // 添加按钮
+    bool checkBoxAllSelectPsu2Part3();               // 判断全选状态
+    void on_pushBtnPsu2Part3DataAll_clicked();       // 全选按钮
+    void on_pushBtnPsu2Part3DataDel_clicked();       // 删除按钮
+    void on_pushBtnPsu2Part3DataBatchDel_clicked();  // 全部删除按钮
+    void on_pushBtnPsu2Part3DataClear_clicked();     // 清空数据按钮
+    void on_pushBtnPsu2Part3DataBatchAdd_clicked();  // 批量添加按钮
+    void handleBatchParamsPsu2Part3(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void on_pushBtnPsu2Part3DataSave_clicked();      // 保存按钮
+    void on_pushBtnPsu2Part3DataUndo_clicked();      // 撤消按钮
     // PSU2 Part3 校准
-    // 保存按钮
-    void on_pushBtnPsu2Part3VerifySave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu2Part3VerifyUndo_clicked();
+    void on_pushBtnPsu2Part3VerifySave_clicked();    // 保存按钮
+    void on_pushBtnPsu2Part3VerifyUndo_clicked();    // 撤消按钮
     // PSU2  Part3  测试页
-    // 保存按钮
-    void on_pushBtnPsu2Part3TestSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu2Part3TestUndo_clicked();
+    void on_pushBtnPsu2Part3TestSave_clicked();      // 保存按钮
+    void on_pushBtnPsu2Part3TestUndo_clicked();      // 撤消按钮
     // PSU2  Part4  换档命令
-    // 添加按钮
-    void on_pushBtnPsu2Part4PreAdd_clicked();
-    // 刷新命令列表框
-    void showPsu2Part4PreCmdList();
-    // 命令框点击
-    void on_psu2Part4PreCmdList_clicked(const QModelIndex &index);
-    // 删除按钮
-    void on_pushBtnPsu2Part4PreDel_clicked();
-    // 向上按钮
-    void on_pushBtnPsu2Part4PreUp_clicked();
-    // 向下按钮
-    void on_pushBtnPsu2Part4PreDown_clicked();
-    // 保存按钮
-    void on_pushBtnPsu2Part4PreSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu2Part4PreUndo_clicked();
+    void on_pushBtnPsu2Part4PreAdd_clicked();        // 添加按钮
+    void showPsu2Part4PreCmdList();                  // 刷新命令列表框
+    void on_psu2Part4PreCmdList_clicked(const QModelIndex &index);  // 命令框点击
+    void on_pushBtnPsu2Part4PreDel_clicked();        // 删除按钮
+    void on_pushBtnPsu2Part4PreUp_clicked();         // 向上按钮
+    void on_pushBtnPsu2Part4PreDown_clicked();       // 向下按钮
+    void on_pushBtnPsu2Part4PreSave_clicked();       // 保存按钮
+    void on_pushBtnPsu2Part4PreUndo_clicked();       // 撤消按钮
     // PSU2 Part4 数据
-    // 添加按钮
-    void on_pushBtnPsu2Part4DataAdd_clicked();
-    // 判断全选状态
-    bool checkBoxAllSelectPsu2Part4();
-    // 全选按钮
-    void on_pushBtnPsu2Part4DataAll_clicked();
-    // 删除按钮
-    void on_pushBtnPsu2Part4DataDel_clicked();
-    // 全部删除按钮
-    void on_pushBtnPsu2Part4DataBatchDel_clicked();
-    // 清空数据按钮
-    void on_pushBtnPsu2Part4DataClear_clicked();
-    // 批量添加按钮
-    void on_pushBtnPsu2Part4DataBatchAdd_clicked();
-    // 处理接收到的批量添加参数
-    void handleBatchParamsPsu2Part4(int, double, double, QString, int, bool);
-    // 保存按钮
-    void on_pushBtnPsu2Part4DataSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu2Part4DataUndo_clicked();
+    void on_pushBtnPsu2Part4DataAdd_clicked();       // 添加按钮
+    bool checkBoxAllSelectPsu2Part4();               // 判断全选状态
+    void on_pushBtnPsu2Part4DataAll_clicked();       // 全选按钮
+    void on_pushBtnPsu2Part4DataDel_clicked();       // 删除按钮
+    void on_pushBtnPsu2Part4DataBatchDel_clicked();  // 全部删除按钮
+    void on_pushBtnPsu2Part4DataClear_clicked();     // 清空数据按钮
+    void on_pushBtnPsu2Part4DataBatchAdd_clicked();  // 批量添加按钮
+    void handleBatchParamsPsu2Part4(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void on_pushBtnPsu2Part4DataSave_clicked();      // 保存按钮
+    void on_pushBtnPsu2Part4DataUndo_clicked();      // 撤消按钮
     // PSU2 Part4 校准
-    // 保存按钮
-    void on_pushBtnPsu2Part4VerifySave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu2Part4VerifyUndo_clicked();
+    void on_pushBtnPsu2Part4VerifySave_clicked();    // 保存按钮
+    void on_pushBtnPsu2Part4VerifyUndo_clicked();    // 撤消按钮
     // PSU2  Part4  测试页
-    // 保存按钮
-    void on_pushBtnPsu2Part4TestSave_clicked();
-    // 撤消按钮
-    void on_pushBtnPsu2Part4TestUndo_clicked();
-    // PSU2  Part1  换档命令
+    void on_pushBtnPsu2Part4TestSave_clicked();      // 保存按钮
+    void on_pushBtnPsu2Part4TestUndo_clicked();      // 撤消按钮
+    // PSU2  Part5  换档命令
     // 添加按钮
     void on_pushBtnPsu2Part5PreAdd_clicked();
     // 刷新命令列表框

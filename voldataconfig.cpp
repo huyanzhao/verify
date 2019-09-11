@@ -72,7 +72,7 @@ void volDataConfig::on_pushBtnExit_clicked()
 // 添加按钮
 void volDataConfig::on_pushBtnCh1PreAdd_clicked()
 {
-    command *newCommand = new command(QString("default"));
+    command *newCommand = new command(QString("untitled"));
     qDebug() << "before append new command, size of cmdlist is " << cmdListCh1Pre.size();
     cmdListCh1Pre.append(newCommand);
     qDebug() << "after append new command, size of cmdlist is " << cmdListCh1Pre.size();
@@ -512,7 +512,7 @@ void volDataConfig::on_pushBtnCh1TestUndo_clicked()
 // 添加按钮
 void volDataConfig::on_pushBtnCh2PreAdd_clicked()
 {
-    command *newCommand = new command(QString("default"));
+    command *newCommand = new command(QString("untitled"));
     qDebug() << "before append new command, size of cmdlist is " << cmdListCh2Pre.size();
     cmdListCh2Pre.append(newCommand);
     qDebug() << "after append new command, size of cmdlist is " << cmdListCh2Pre.size();

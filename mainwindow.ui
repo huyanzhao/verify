@@ -510,6 +510,33 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
+      <widget class="QRadioButton" name="radioBtnCH0">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>10</y>
+         <width>16</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arvo</family>
+         <pointsize>16</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="statusTip">
+        <string>CH2_Voltage_Measure</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
      </widget>
      <widget class="QFrame" name="frameCur">
       <property name="enabled">
@@ -581,6 +608,33 @@
        </property>
        <property name="text">
         <string>PSU2</string>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="radioBtnPSU0">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>10</y>
+         <width>21</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>18</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="statusTip">
+        <string>ch1 -- ch4</string>
+       </property>
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </widget>

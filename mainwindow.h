@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QButtonGroup>
 
 namespace Ui {
 class MainWindow;
@@ -57,6 +58,22 @@ private slots:
     void recviceMeter(QString host, int port);
     // 接收用记设定的通道数据
     void recviveSlots(QMap<QString, QPair<QString, int> >*);
+
+    void on_radioBtnCur_clicked();
+
+    void on_radioBtnVol_clicked();
+
+    void on_checkBoxAll_clicked();
+
+    void on_checkBoxPart1_clicked();
+
+    void on_checkBoxPart2_clicked();
+
+    void on_checkBoxPart3_clicked();
+
+    void on_checkBoxPart4_clicked();
+
+    void on_checkBoxPart5_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     command.cpp \
     batchadd.cpp \
     qstringinthex.cpp \
-    curdataconfig.cpp
+    curdataconfig.cpp \
+    testitem.cpp
 
 HEADERS  += mainwindow.h \
     meteraddress.h \
@@ -30,7 +31,8 @@ HEADERS  += mainwindow.h \
     command.h \
     batchadd.h \
     qstringinthex.h \
-    curdataconfig.h
+    curdataconfig.h \
+    testitem.h
 
 FORMS    += mainwindow.ui \
     meteraddress.ui \

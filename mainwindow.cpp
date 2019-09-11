@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <utility>
+#include <QButtonGroup>
 #include "meteraddress.h"
 #include "slotsconfig.h"
 #include "voldataconfig.h"
@@ -27,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent) :
     meterStatus->setText(tr("万用表已连接"));
     ui->statusBar->addPermanentWidget(meterStatus);
 
+    ui->radioBtnCH0->setHidden(true);
+    ui->radioBtnPSU0->setHidden(true);
 }
 
 MainWindow::~MainWindow()
@@ -206,4 +209,102 @@ void MainWindow::recviveSlots(QMap<QString, QPair<QString, int> > *hosts)
         slot->setStatusTip(QString("slot %1").arg(i+1));
         slot->show();
     }
+}
+
+void MainWindow::on_radioBtnVol_clicked()
+{
+    ui->radioBtnPSU0->setChecked(true);
+    ui->checkBoxPart5->setEnabled(false);
+    ui->frameChannel->setEnabled(false);
+    ui->frameChannel->setFrameShape(QFrame::WinPanel);
+    ui->frameCur->setEnabled(false);
+    ui->frameVol->setEnabled(true);
+    ui->radioBtnCH1->setEnabled(true);
+    ui->radioBtnCH1->setChecked(true);
+    ui->radioBtnCH2->setEnabled(true);
+}
+
+void MainWindow::on_radioBtnCur_clicked()
+{
+    ui->radioBtnCH0->setChecked(true);
+    ui->frameVol->setEnabled(false);
+    ui->frameCur->setEnabled(true);
+    ui->radioBtnPSU1->setEnabled(true);
+    ui->radioBtnPSU1->setChecked(true);
+    ui->radioBtnPSU2->setEnabled(true);
+    ui->frameChannel->setEnabled(true);
+    ui->checkBoxPart5->setEnabled(false);
+    ui->frameChannel->setFrameShape(QFrame::NoFrame);
+}
+
+
+void MainWindow::on_checkBoxAll_clicked()
+{
+    if(ui->checkBoxAll->checkState()){
+        ui->checkBoxPart1->setChecked(true);
+        ui->checkBoxPart2->setChecked(true);
+        ui->checkBoxPart3->setChecked(true);
+        ui->checkBoxPart4->setChecked(true);
+    }else{
+        ui->checkBoxPart1->setChecked(false);
+        ui->checkBoxPart2->setChecked(false);
+        ui->checkBoxPart3->setChecked(false);
+        ui->checkBoxPart4->setChecked(false);
+    }
+}
+
+void MainWindow::on_checkBoxPart1_clicked()
+{
+    if(ui->checkBoxPart1->checkState() &&
+            ui->checkBoxPart2->checkState() &&
+            ui->checkBoxPart3->checkState() &&
+            ui->checkBoxPart4->checkState())
+        ui->checkBoxAll->setChecked(true);
+    else if(!ui->checkBoxPart1->checkState())
+        ui->checkBoxAll->setChecked(false);
+}
+
+void MainWindow::on_checkBoxPart2_clicked()
+{
+    if(ui->checkBoxPart1->checkState() &&
+            ui->checkBoxPart2->checkState() &&
+            ui->checkBoxPart3->checkState() &&
+            ui->checkBoxPart4->checkState())
+        ui->checkBoxAll->setChecked(true);
+    else if(!ui->checkBoxPart2->checkState())
+        ui->checkBoxAll->setChecked(false);
+}
+
+void MainWindow::on_checkBoxPart3_clicked()
+{
+    if(ui->checkBoxPart1->checkState() &&
+            ui->checkBoxPart2->checkState() &&
+            ui->checkBoxPart3->checkState() &&
+            ui->checkBoxPart4->checkState())
+        ui->checkBoxAll->setChecked(true);
+    else if(!ui->checkBoxPart3->checkState())
+        ui->checkBoxAll->setChecked(false);
+}
+
+void MainWindow::on_checkBoxPart4_clicked()
+{
+    if(ui->checkBoxPart1->checkState() &&
+            ui->checkBoxPart2->checkState() &&
+            ui->checkBoxPart3->checkState() &&
+            ui->checkBoxPart4->checkState())
+        ui->checkBoxAll->setChecked(true);
+    else if(!ui->checkBoxPart4->checkState())
+        ui->checkBoxAll->setChecked(false);
+}
+
+void MainWindow::on_checkBoxPart5_clicked()
+{
+    if(ui->checkBoxPart1->checkState() &&
+            ui->checkBoxPart2->checkState() &&
+            ui->checkBoxPart3->checkState() &&
+            ui->checkBoxPart4->checkState() &&
+        ui->checkBoxPart5->checkState())
+        ui->checkBoxAll->setChecked(true);
+    else if(!ui->checkBoxPart5->checkState())
+        ui->checkBoxAll->setChecked(false);
 }
