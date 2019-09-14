@@ -18,12 +18,12 @@ meterAddress::meterAddress(QString hostIP, int hostPort, QWidget *parent) :
     ui->lineEditIP->setText(host);
     ui->lineEditPort->setText(QString::number(port));
 }
-
+// 析构
 meterAddress::~meterAddress()
 {
     delete ui;
 }
-
+// 测试按钮
 void meterAddress::on_pushBtnTest_clicked()
 {
     qDebug() << tr("Test");
@@ -33,26 +33,26 @@ void meterAddress::on_pushBtnTest_clicked()
     tcpSocket->abort();
     tcpSocket->connectToHost(ui->lineEditIP->text(), ui->lineEditPort->text().toInt());
 }
-
+// 连接成功
 void meterAddress::onConnected()
 {
     qDebug() << tr("Success in succession！！");
     ui->labelStatusIcon->setPixmap(QPixmap(":/new/prefix/img/pass.bmp"));
     ui->labelStatusInfo->setText(tr("万用表连接成功"));
 }
-
+// 断开连接
 void meterAddress::disconnect()
 {
     qDebug() << tr("Disconnect！！！");
     ui->labelStatusInfo->setText(tr("万用表连接失败！！！"));
     ui->labelStatusIcon->setPixmap(QPixmap(":/new/prefix/img/fail.bmp"));
 }
-
+// 取消按钮
 void meterAddress::on_pushBtnCancel_clicked()
 {
     this->close();
 }
-
+// 确定按钮
 void meterAddress::on_pushBtnOk_clicked()
 {
     qDebug() << tr("Determine");

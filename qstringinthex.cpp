@@ -1,6 +1,6 @@
 #include "qstringinthex.h"
 #include <QDebug>
-
+// 判断字符串参数是否为十进制整数
 bool QStringIsBase10Int(QString addr)
 {
     bool ok;
@@ -8,7 +8,7 @@ bool QStringIsBase10Int(QString addr)
     intAddr = addr.toInt(&ok, 10);
     return ok;
 }
-
+// 判断字符串参数是否为十六进制整数
 bool QStringIsBase16Int(QString addr)
 {
     bool ok;
@@ -20,7 +20,7 @@ bool QStringIsBase16Int(QString addr)
         return false;
     }
 }
-
+// 判断字符串参数是否为整数
 bool QStringIsInt(QString addr)
 {
     if(QStringIsBase10Int(addr)){
@@ -31,7 +31,7 @@ bool QStringIsInt(QString addr)
         return false;
     }
 }
-
+// 将字符串参数转换成整数
 int QString2int(QString addr)
 {
     bool ok;

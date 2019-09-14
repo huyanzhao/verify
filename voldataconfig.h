@@ -3,11 +3,12 @@
 
 #include <QDialog>
 #include <QModelIndex>
-#include "command.h"
 #include <QFrame>
 #include <QCheckBox>
 #include <QLineEdit>
 #include <QPair>
+#include "command.h"
+#include "testitem.h"
 
 namespace Ui {
 class volDataConfig;
@@ -20,9 +21,12 @@ class volDataConfig : public QDialog
 public:
     explicit volDataConfig(QWidget *parent = 0);
     ~volDataConfig();
+
+signals:
+    void returnTestItem(testItem *, testItem *);  // 返回给主窗口的信号
     
 private slots:
-    void on_pushBtnExit_clicked();  // 退出按钮
+    void on_pushBtnExit_clicked();             // 退出按钮
     // ch1前置命令页
     void on_pushBtnCh1PreAdd_clicked();        // 添加按钮
     void on_ch1PreCmdList_clicked(const QModelIndex &index);  // 命令列表
@@ -77,10 +81,12 @@ private slots:
     void on_pushBtnCh2TestSave_clicked();      // 保存按钮
     void on_pushBtnCh2TestUndo_clicked();      // 撤消按钮
 
+    void closeEvent(QCloseEvent *);            // 关闭事件
+
 private:
     Ui::volDataConfig *ui;
     // ch1前置命令页
-    QList<command *>  cmdListCh1Pre;             // 命令列表
+    QList<command *> * cmdListCh1Pre;            // 命令列表
     int nowIndexCh1Pre;                          // 当前命令索引
     command * nowCommandCh1;                     // 当前命令指针
     // ch1数据页
@@ -103,7 +109,7 @@ private:
     command * meterCmdCh1Test;                   // 测试读万用表命令
 
     // ch2前置命令页
-    QList<command *>  cmdListCh2Pre;             // 命令列表
+    QList<command *> * cmdListCh2Pre;            // 命令列表
     int nowIndexCh2Pre;                          // 当前命令索引
     command * nowCommandCh2;                     // 当前命令指针
     // ch2数据页

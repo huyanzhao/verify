@@ -18,7 +18,6 @@ slotsconfig::slotsconfig(QMap<QString, QPair<QString, int> > * remoteHosts, QWid
     hosts = &hostMap;
     rePaint();
 }
-
 // 重画通道列表
 void slotsconfig::rePaint()
 {
@@ -78,19 +77,17 @@ void slotsconfig::rePaint()
         lineEditPort->show();
     }
 }
-
+// 析构
 slotsconfig::~slotsconfig()
 {
     delete ui;
 }
-
 // 取消
 void slotsconfig::on_pushBtnCancel_clicked()
 {
     qDebug() << "Cancel";
     this->close();
 }
-
 // 添加
 void slotsconfig::on_pushBtnAdd_clicked()
 {
@@ -102,7 +99,6 @@ void slotsconfig::on_pushBtnAdd_clicked()
         qDebug() << "The maximum number of channels has been reached, and up to 8 channels can be connected simultaneously.";
     }
 }
-
 // 删除
 void slotsconfig::on_pushBtnDel_clicked()
 {
@@ -112,7 +108,6 @@ void slotsconfig::on_pushBtnDel_clicked()
         qDebug() << it.key() << ": " << it.value().first << ":" << it.value().second;
     rePaint();
 }
-
 // 确定
 void slotsconfig::on_pushBtnOk_clicked()
 {
@@ -132,7 +127,6 @@ void slotsconfig::on_pushBtnOk_clicked()
     emit slotsConfigDone(hosts);
     this->close();
 }
-
 // 保存修改的端口
 void slotsconfig::port_lineedit_modify(QString port)
 {
@@ -141,7 +135,6 @@ void slotsconfig::port_lineedit_modify(QString port)
     index = plineEdit->objectName().right(1).toInt();
     hostMap[QString("slot%1").arg(index)] = qMakePair(IPList.at(index-1)->text(), port.toInt());
 }
-
 // 保存修改的ip
 void slotsconfig::ip_lineedit_modify(QString ip)
 {

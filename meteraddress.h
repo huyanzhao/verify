@@ -21,19 +21,17 @@ signals:
     void meterConfigDone(QString, int); //自定义的信号
     
 private slots:
-    void on_pushBtnTest_clicked();
-
-    void on_pushBtnCancel_clicked();
-    void onConnected();
-    void disconnect();
-
-    void on_pushBtnOk_clicked();
+    void on_pushBtnTest_clicked();    // 测试
+    void on_pushBtnCancel_clicked();  // 取消
+    void onConnected();               // 连接
+    void disconnect();                // 断开
+    void on_pushBtnOk_clicked();      // 确定
 
 private:
     Ui::meterAddress *ui;
-    QString host;
-    int port;
-    QTcpSocket *tcpSocket;
+    QString host;           // IP
+    int port;               // 端口
+    QTcpSocket *tcpSocket;  // socket
 };
 
 #endif // METERADDRESS_H

@@ -14,8 +14,12 @@ curdataconfig::curdataconfig(QWidget *parent) :
     ui->setupUi(this);
     // PSU1  前置命令
     nowIndexPsu1Pre = -1;  // 前置命令框当前选项索引
+    cmdListPsu1Pre = new QList<command *>;
+    nowCommandPsu1 = NULL;
     // PSU1  Part1  换档命令
     nowIndexPsu1Part1Pre = -1;  // 换档命令框当前选项索引
+    cmdListPsu1Part1Pre = new QList<command *>;
+    nowCommandPsu1Part1 = NULL;
     // PSU1  Part1  数据
     nowIndexPsu1Part1Data = 0;  // 当前数据项索引
     dataAndAddrListPsu1Part1 = new QList<QPair<bool, QPair<QString, QString> *> *>;
@@ -36,6 +40,8 @@ curdataconfig::curdataconfig(QWidget *parent) :
     meterCmdPsu1Part1Test = new command(QString("read?"));
     // PSU1  Part2  换档命令
     nowIndexPsu1Part2Pre = -1;  // 换档命令框当前选项索引
+    cmdListPsu1Part2Pre = new QList<command *>;
+    nowCommandPsu1Part2 = NULL;
     // PSU1  Part2  数据
     nowIndexPsu1Part2Data = 0;  // 当前数据项索引
     dataAndAddrListPsu1Part2 = new QList<QPair<bool, QPair<QString, QString> *> *>;
@@ -56,6 +62,8 @@ curdataconfig::curdataconfig(QWidget *parent) :
     meterCmdPsu1Part2Test = new command(QString("read?"));
     // PSU1  Part3  换档命令
     nowIndexPsu1Part3Pre = -1;  // 换档命令框当前选项索引
+    cmdListPsu1Part3Pre = new QList<command *>;
+    nowCommandPsu1Part3 = NULL;
     // PSU1  Part3  数据
     nowIndexPsu1Part3Data = 0;  // 当前数据项索引
     dataAndAddrListPsu1Part3 = new QList<QPair<bool, QPair<QString, QString> *> *>;
@@ -76,6 +84,8 @@ curdataconfig::curdataconfig(QWidget *parent) :
     meterCmdPsu1Part3Test = new command(QString("read?"));
     // PSU1  Part4  换档命令
     nowIndexPsu1Part4Pre = -1;  // 换档命令框当前选项索引
+    cmdListPsu1Part4Pre = new QList<command *>;
+    nowCommandPsu1Part4 = NULL;
     // PSU1  Part4  数据
     nowIndexPsu1Part4Data = 0;  // 当前数据项索引
     dataAndAddrListPsu1Part4 = new QList<QPair<bool, QPair<QString, QString> *> *>;
@@ -94,8 +104,10 @@ curdataconfig::curdataconfig(QWidget *parent) :
     setCmdPsu1Part4Test = new command(QString("PSU1_I"));
     dmmCmdPsu1Part4Test = new command(QString("PSU1_CH4_Current_MEASURE_AD"));
     meterCmdPsu1Part4Test = new command(QString("read?"));
-    // PSU1  Part1  换档命令
+    // PSU1  Part5  换档命令
     nowIndexPsu1Part5Pre = -1;  // 换档命令框当前选项索引
+    cmdListPsu1Part5Pre = new QList<command *>;
+    nowCommandPsu1Part5 = NULL;
     // PSU1  Part5  数据
     nowIndexPsu1Part5Data = 0;  // 当前数据项索引
     dataAndAddrListPsu1Part5 = new QList<QPair<bool, QPair<QString, QString> *> *>;
@@ -116,8 +128,12 @@ curdataconfig::curdataconfig(QWidget *parent) :
     meterCmdPsu1Part5Test = new command(QString("read?"));
     // PSU2  前置命令
     nowIndexPsu2Pre = -1;  // 前置命令框当前选项索引
+    cmdListPsu1Pre = new QList<command *>;
+    nowCommandPsu2 = NULL;
     // PSU2  Part1  换档命令
     nowIndexPsu2Part1Pre = -1;  // 换档命令框当前选项索引
+    cmdListPsu2Part1Pre = new QList<command *>;
+    nowCommandPsu2Part1 = NULL;
     // PSU2  Part1  数据
     nowIndexPsu2Part1Data = 0;  // 当前数据项索引
     dataAndAddrListPsu2Part1 = new QList<QPair<bool, QPair<QString, QString> *> *>;
@@ -138,6 +154,8 @@ curdataconfig::curdataconfig(QWidget *parent) :
     meterCmdPsu2Part1Test = new command(QString("read?"));
     // PSU2  Part2  换档命令
     nowIndexPsu2Part2Pre = -1;  // 换档命令框当前选项索引
+    cmdListPsu2Part2Pre = new QList<command *>;
+    nowCommandPsu2Part2 = NULL;
     // PSU2  Part2  数据
     nowIndexPsu2Part2Data = 0;  // 当前数据项索引
     dataAndAddrListPsu2Part2 = new QList<QPair<bool, QPair<QString, QString> *> *>;
@@ -158,6 +176,8 @@ curdataconfig::curdataconfig(QWidget *parent) :
     meterCmdPsu2Part2Test = new command(QString("read?"));
     // PSU2  Part3  换档命令
     nowIndexPsu2Part3Pre = -1;  // 换档命令框当前选项索引
+    cmdListPsu2Part3Pre = new QList<command *>;
+    nowCommandPsu2Part3 = NULL;
     // PSU2  Part3  数据
     nowIndexPsu2Part3Data = 0;  // 当前数据项索引
     dataAndAddrListPsu2Part3 = new QList<QPair<bool, QPair<QString, QString> *> *>;
@@ -178,6 +198,8 @@ curdataconfig::curdataconfig(QWidget *parent) :
     meterCmdPsu2Part3Test = new command(QString("read?"));
     // PSU2  Part4  换档命令
     nowIndexPsu2Part4Pre = -1;  // 换档命令框当前选项索引
+    cmdListPsu2Part4Pre = new QList<command *>;
+    nowCommandPsu2Part4 = NULL;
     // PSU2  Part4  数据
     nowIndexPsu2Part4Data = 0;  // 当前数据项索引
     dataAndAddrListPsu2Part4 = new QList<QPair<bool, QPair<QString, QString> *> *>;
@@ -196,8 +218,10 @@ curdataconfig::curdataconfig(QWidget *parent) :
     setCmdPsu2Part4Test = new command(QString("PSU2_I"));
     dmmCmdPsu2Part4Test = new command(QString("PSU2_CH4_Current_MEASURE_AD"));
     meterCmdPsu2Part4Test = new command(QString("read?"));
-    // PSU2  Part1  换档命令
+    // PSU2  Part5  换档命令
     nowIndexPsu2Part5Pre = -1;  // 换档命令框当前选项索引
+    cmdListPsu2Part5Pre = new QList<command *>;
+    nowCommandPsu2Part5 = NULL;
     // PSU2  Part5  数据
     nowIndexPsu2Part5Data = 0;  // 当前数据项索引
     dataAndAddrListPsu2Part5 = new QList<QPair<bool, QPair<QString, QString> *> *>;
@@ -233,17 +257,17 @@ void curdataconfig::on_pushBtnExit_clicked()
 void curdataconfig::on_pushBtnPsu1PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu1Pre.size();
-    cmdListPsu1Pre.append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu1Pre.size();
+    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu1Pre->size();
+    cmdListPsu1Pre->append(newCommand);
+    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu1Pre->size();
     showPsu1PreCmdList();
 }
 // 刷新命令框
 void curdataconfig::showPsu1PreCmdList()
 {
     ui->psu1PreCmdList->clear();
-    for(int i=0; i != cmdListPsu1Pre.size(); ++i){
-        command *curCommand = cmdListPsu1Pre.at(i);
+    for(int i=0; i != cmdListPsu1Pre->size(); ++i){
+        command *curCommand = cmdListPsu1Pre->at(i);
         ui->psu1PreCmdList->addItem(curCommand->getFullName());
     }
 }
@@ -252,7 +276,7 @@ void curdataconfig::on_psu1PreCmdList_clicked(const QModelIndex &index)
 {
     qDebug() << index.data().toString();
     nowIndexPsu1Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
-    nowCommandPsu1 = cmdListPsu1Pre.at(nowIndexPsu1Pre);  // 保存ch1前置命令页当前命令的指针
+    nowCommandPsu1 = cmdListPsu1Pre->at(nowIndexPsu1Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu1PreUndo_clicked();
 }
 // 删除按钮
@@ -261,10 +285,10 @@ void curdataconfig::on_pushBtnPsu1PreDel_clicked()
     if(nowIndexPsu1Pre == -1){
         return ;
     }
-    cmdListPsu1Pre.removeAt(nowIndexPsu1Pre);
-    nowIndexPsu1Pre = cmdListPsu1Pre.size()-1;
+    cmdListPsu1Pre->removeAt(nowIndexPsu1Pre);
+    nowIndexPsu1Pre = cmdListPsu1Pre->size()-1;
     if(nowIndexPsu1Pre != -1)
-        nowCommandPsu1 = cmdListPsu1Pre.at(nowIndexPsu1Pre);
+        nowCommandPsu1 = cmdListPsu1Pre->at(nowIndexPsu1Pre);
     showPsu1PreCmdList();
     // 清空当前命令详情
     ui->lineEditPsu1PreCmdName->clear();
@@ -278,16 +302,16 @@ void curdataconfig::on_pushBtnPsu1PreUp_clicked()
 {
     if(nowIndexPsu1Pre < 1)
         return;
-    cmdListPsu1Pre.swap(nowIndexPsu1Pre, nowIndexPsu1Pre-1);
+    cmdListPsu1Pre->swap(nowIndexPsu1Pre, nowIndexPsu1Pre-1);
     nowIndexPsu1Pre--;
     showPsu1PreCmdList();
 }
 // 向下按钮
 void curdataconfig::on_pushBtnPsu1PreDown_clicked()
 {
-    if((nowIndexPsu1Pre == -1)||(nowIndexPsu1Pre >= cmdListPsu1Pre.size()-1))
+    if((nowIndexPsu1Pre == -1)||(nowIndexPsu1Pre >= cmdListPsu1Pre->size()-1))
         return;
-    cmdListPsu1Pre.swap(nowIndexPsu1Pre, nowIndexPsu1Pre+1);
+    cmdListPsu1Pre->swap(nowIndexPsu1Pre, nowIndexPsu1Pre+1);
     nowIndexPsu1Pre++;
     showPsu1PreCmdList();
 }
@@ -300,12 +324,14 @@ void curdataconfig::on_pushBtnPsu1PreSave_clicked()
             ui->lineEditPsu1PreEnd->text().size() == 0 &&
             ui->lineEditPsu1PreJudge->text().size() == 0)
         return;
-    nowCommandPsu1->setName(ui->lineEditPsu1PreCmdName->text());
-    nowCommandPsu1->setParam(ui->lineEditPsu1PreParam->text());
-    nowCommandPsu1->setStart(ui->lineEditPsu1PreStart->text());
-    nowCommandPsu1->setEnd(ui->lineEditPsu1PreEnd->text());
-    nowCommandPsu1->setJudge(ui->lineEditPsu1PreJudge->text());
-    showPsu1PreCmdList();
+    if(nowCommandPsu1 != NULL){
+        nowCommandPsu1->setName(ui->lineEditPsu1PreCmdName->text());
+        nowCommandPsu1->setParam(ui->lineEditPsu1PreParam->text());
+        nowCommandPsu1->setStart(ui->lineEditPsu1PreStart->text());
+        nowCommandPsu1->setEnd(ui->lineEditPsu1PreEnd->text());
+        nowCommandPsu1->setJudge(ui->lineEditPsu1PreJudge->text());
+        showPsu1PreCmdList();
+    }
 }
 // 撤消按钮
 void curdataconfig::on_pushBtnPsu1PreUndo_clicked()
@@ -334,17 +360,17 @@ void curdataconfig::on_pushBtnPsu1PreUndo_clicked()
 void curdataconfig::on_pushBtnPsu1Part1PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu1Part1Pre.size();
-    cmdListPsu1Part1Pre.append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu1Part1Pre.size();
+    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu1Part1Pre->size();
+    cmdListPsu1Part1Pre->append(newCommand);
+    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu1Part1Pre->size();
     showPsu1Part1PreCmdList();
 }
 // 刷新命令框
 void curdataconfig::showPsu1Part1PreCmdList()
 {
     ui->psu1Part1PreCmdList->clear();
-    for(int i=0; i != cmdListPsu1Part1Pre.size(); ++i){
-        command *curCommand = cmdListPsu1Part1Pre.at(i);
+    for(int i=0; i != cmdListPsu1Part1Pre->size(); ++i){
+        command *curCommand = cmdListPsu1Part1Pre->at(i);
         ui->psu1Part1PreCmdList->addItem(curCommand->getFullName());
     }
 }
@@ -353,7 +379,7 @@ void curdataconfig::on_psu1Part1PreCmdList_clicked(const QModelIndex &index)
 {
     qDebug() << index.data().toString();
     nowIndexPsu1Part1Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
-    nowCommandPsu1Part1 = cmdListPsu1Part1Pre.at(nowIndexPsu1Part1Pre);  // 保存ch1前置命令页当前命令的指针
+    nowCommandPsu1Part1 = cmdListPsu1Part1Pre->at(nowIndexPsu1Part1Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu1Part1PreUndo_clicked();
 }
 // 删除按钮
@@ -362,10 +388,10 @@ void curdataconfig::on_pushBtnPsu1Part1PreDel_clicked()
     if(nowIndexPsu1Part1Pre == -1){
         return ;
     }
-    cmdListPsu1Part1Pre.removeAt(nowIndexPsu1Part1Pre);
-    nowIndexPsu1Part1Pre = cmdListPsu1Part1Pre.size()-1;
+    cmdListPsu1Part1Pre->removeAt(nowIndexPsu1Part1Pre);
+    nowIndexPsu1Part1Pre = cmdListPsu1Part1Pre->size()-1;
     if(nowIndexPsu1Part1Pre != -1)
-        nowCommandPsu1Part1 = cmdListPsu1Part1Pre.at(nowIndexPsu1Part1Pre);
+        nowCommandPsu1Part1 = cmdListPsu1Part1Pre->at(nowIndexPsu1Part1Pre);
     showPsu1Part1PreCmdList();
     // 清空当前命令详情
     ui->lineEditPsu1Part1PreName->clear();
@@ -379,16 +405,16 @@ void curdataconfig::on_pushBtnPsu1Part1PreUp_clicked()
 {
     if(nowIndexPsu1Part1Pre < 1)
         return;
-    cmdListPsu1Part1Pre.swap(nowIndexPsu1Part1Pre, nowIndexPsu1Part1Pre-1);
+    cmdListPsu1Part1Pre->swap(nowIndexPsu1Part1Pre, nowIndexPsu1Part1Pre-1);
     nowIndexPsu1Part1Pre--;
     showPsu1Part1PreCmdList();
 }
 // 向下按钮
 void curdataconfig::on_pushBtnPsu1Part1PreDown_clicked()
 {
-    if((nowIndexPsu1Part1Pre == -1)||(nowIndexPsu1Part1Pre >= cmdListPsu1Part1Pre.size()-1))
+    if((nowIndexPsu1Part1Pre == -1)||(nowIndexPsu1Part1Pre >= cmdListPsu1Part1Pre->size()-1))
         return;
-    cmdListPsu1Part1Pre.swap(nowIndexPsu1Part1Pre, nowIndexPsu1Part1Pre+1);
+    cmdListPsu1Part1Pre->swap(nowIndexPsu1Part1Pre, nowIndexPsu1Part1Pre+1);
     nowIndexPsu1Part1Pre++;
     showPsu1Part1PreCmdList();
 }
@@ -401,12 +427,14 @@ void curdataconfig::on_pushBtnPsu1Part1PreSave_clicked()
             ui->lineEditPsu1Part1PreEnd->text().size() == 0 &&
             ui->lineEditPsu1Part1PreJudge->text().size() == 0)
         return;
-    nowCommandPsu1Part1->setName(ui->lineEditPsu1Part1PreName->text());
-    nowCommandPsu1Part1->setParam(ui->lineEditPsu1Part1PreParam->text());
-    nowCommandPsu1Part1->setStart(ui->lineEditPsu1Part1PreStart->text());
-    nowCommandPsu1Part1->setEnd(ui->lineEditPsu1Part1PreEnd->text());
-    nowCommandPsu1Part1->setJudge(ui->lineEditPsu1Part1PreJudge->text());
-    showPsu1Part1PreCmdList();
+    if(nowCommandPsu1Part1 != NULL){
+        nowCommandPsu1Part1->setName(ui->lineEditPsu1Part1PreName->text());
+        nowCommandPsu1Part1->setParam(ui->lineEditPsu1Part1PreParam->text());
+        nowCommandPsu1Part1->setStart(ui->lineEditPsu1Part1PreStart->text());
+        nowCommandPsu1Part1->setEnd(ui->lineEditPsu1Part1PreEnd->text());
+        nowCommandPsu1Part1->setJudge(ui->lineEditPsu1Part1PreJudge->text());
+        showPsu1Part1PreCmdList();
+    }
 }
 // 撤消按钮
 void curdataconfig::on_pushBtnPsu1Part1PreUndo_clicked()
@@ -768,17 +796,17 @@ void curdataconfig::on_pushBtnPsu1Part1TestUndo_clicked()
 void curdataconfig::on_pushBtnPsu1Part2PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu1Part2Pre.size();
-    cmdListPsu1Part2Pre.append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu1Part2Pre.size();
+    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu1Part2Pre->size();
+    cmdListPsu1Part2Pre->append(newCommand);
+    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu1Part2Pre->size();
     showPsu1Part2PreCmdList();
 }
 // 刷新命令框
 void curdataconfig::showPsu1Part2PreCmdList()
 {
     ui->psu1Part2PreCmdList->clear();
-    for(int i=0; i != cmdListPsu1Part2Pre.size(); ++i){
-        command *curCommand = cmdListPsu1Part2Pre.at(i);
+    for(int i=0; i != cmdListPsu1Part2Pre->size(); ++i){
+        command *curCommand = cmdListPsu1Part2Pre->at(i);
         ui->psu1Part2PreCmdList->addItem(curCommand->getFullName());
     }
 }
@@ -787,7 +815,7 @@ void curdataconfig::on_psu1Part2PreCmdList_clicked(const QModelIndex &index)
 {
     qDebug() << index.data().toString();
     nowIndexPsu1Part2Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
-    nowCommandPsu1Part2 = cmdListPsu1Part2Pre.at(nowIndexPsu1Part2Pre);  // 保存ch1前置命令页当前命令的指针
+    nowCommandPsu1Part2 = cmdListPsu1Part2Pre->at(nowIndexPsu1Part2Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu1Part2PreUndo_clicked();
 }
 // 删除按钮
@@ -796,10 +824,10 @@ void curdataconfig::on_pushBtnPsu1Part2PreDel_clicked()
     if(nowIndexPsu1Part2Pre == -1){
         return ;
     }
-    cmdListPsu1Part2Pre.removeAt(nowIndexPsu1Part2Pre);
-    nowIndexPsu1Part2Pre = cmdListPsu1Part2Pre.size()-1;
+    cmdListPsu1Part2Pre->removeAt(nowIndexPsu1Part2Pre);
+    nowIndexPsu1Part2Pre = cmdListPsu1Part2Pre->size()-1;
     if(nowIndexPsu1Part2Pre != -1)
-        nowCommandPsu1Part2 = cmdListPsu1Part2Pre.at(nowIndexPsu1Part2Pre);
+        nowCommandPsu1Part2 = cmdListPsu1Part2Pre->at(nowIndexPsu1Part2Pre);
     showPsu1Part2PreCmdList();
     // 清空当前命令详情
     ui->lineEditPsu1Part2PreName->clear();
@@ -813,16 +841,16 @@ void curdataconfig::on_pushBtnPsu1Part2PreUp_clicked()
 {
     if(nowIndexPsu1Part2Pre < 1)
         return;
-    cmdListPsu1Part2Pre.swap(nowIndexPsu1Part2Pre, nowIndexPsu1Part2Pre-1);
+    cmdListPsu1Part2Pre->swap(nowIndexPsu1Part2Pre, nowIndexPsu1Part2Pre-1);
     nowIndexPsu1Part2Pre--;
     showPsu1Part2PreCmdList();
 }
 // 向下按钮
 void curdataconfig::on_pushBtnPsu1Part2PreDown_clicked()
 {
-    if((nowIndexPsu1Part2Pre == -1)||(nowIndexPsu1Part2Pre >= cmdListPsu1Part2Pre.size()-1))
+    if((nowIndexPsu1Part2Pre == -1)||(nowIndexPsu1Part2Pre >= cmdListPsu1Part2Pre->size()-1))
         return;
-    cmdListPsu1Part2Pre.swap(nowIndexPsu1Part2Pre, nowIndexPsu1Part2Pre+1);
+    cmdListPsu1Part2Pre->swap(nowIndexPsu1Part2Pre, nowIndexPsu1Part2Pre+1);
     nowIndexPsu1Part2Pre++;
     showPsu1Part2PreCmdList();
 }
@@ -835,12 +863,14 @@ void curdataconfig::on_pushBtnPsu1Part2PreSave_clicked()
             ui->lineEditPsu1Part2PreEnd->text().size() == 0 &&
             ui->lineEditPsu1Part2PreJudge->text().size() == 0)
         return;
-    nowCommandPsu1Part2->setName(ui->lineEditPsu1Part2PreName->text());
-    nowCommandPsu1Part2->setParam(ui->lineEditPsu1Part2PreParam->text());
-    nowCommandPsu1Part2->setStart(ui->lineEditPsu1Part2PreStart->text());
-    nowCommandPsu1Part2->setEnd(ui->lineEditPsu1Part2PreEnd->text());
-    nowCommandPsu1Part2->setJudge(ui->lineEditPsu1Part2PreJudge->text());
-    showPsu1Part2PreCmdList();
+    if(nowCommandPsu1Part2 != NULL){
+        nowCommandPsu1Part2->setName(ui->lineEditPsu1Part2PreName->text());
+        nowCommandPsu1Part2->setParam(ui->lineEditPsu1Part2PreParam->text());
+        nowCommandPsu1Part2->setStart(ui->lineEditPsu1Part2PreStart->text());
+        nowCommandPsu1Part2->setEnd(ui->lineEditPsu1Part2PreEnd->text());
+        nowCommandPsu1Part2->setJudge(ui->lineEditPsu1Part2PreJudge->text());
+        showPsu1Part2PreCmdList();
+    }
 }
 // 撤消按钮
 void curdataconfig::on_pushBtnPsu1Part2PreUndo_clicked()
@@ -1202,17 +1232,17 @@ void curdataconfig::on_pushBtnPsu1Part2TestUndo_clicked()
 void curdataconfig::on_pushBtnPsu1Part3PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu1Part3Pre.size();
-    cmdListPsu1Part3Pre.append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu1Part3Pre.size();
+    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu1Part3Pre->size();
+    cmdListPsu1Part3Pre->append(newCommand);
+    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu1Part3Pre->size();
     showPsu1Part3PreCmdList();
 }
 // 刷新命令框
 void curdataconfig::showPsu1Part3PreCmdList()
 {
     ui->psu1Part3PreCmdList->clear();
-    for(int i=0; i != cmdListPsu1Part3Pre.size(); ++i){
-        command *curCommand = cmdListPsu1Part3Pre.at(i);
+    for(int i=0; i != cmdListPsu1Part3Pre->size(); ++i){
+        command *curCommand = cmdListPsu1Part3Pre->at(i);
         ui->psu1Part3PreCmdList->addItem(curCommand->getFullName());
     }
 }
@@ -1221,7 +1251,7 @@ void curdataconfig::on_psu1Part3PreCmdList_clicked(const QModelIndex &index)
 {
     qDebug() << index.data().toString();
     nowIndexPsu1Part3Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
-    nowCommandPsu1Part3 = cmdListPsu1Part3Pre.at(nowIndexPsu1Part3Pre);  // 保存ch1前置命令页当前命令的指针
+    nowCommandPsu1Part3 = cmdListPsu1Part3Pre->at(nowIndexPsu1Part3Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu1Part3PreUndo_clicked();
 }
 // 删除按钮
@@ -1230,10 +1260,10 @@ void curdataconfig::on_pushBtnPsu1Part3PreDel_clicked()
     if(nowIndexPsu1Part3Pre == -1){
         return ;
     }
-    cmdListPsu1Part3Pre.removeAt(nowIndexPsu1Part3Pre);
-    nowIndexPsu1Part3Pre = cmdListPsu1Part3Pre.size()-1;
+    cmdListPsu1Part3Pre->removeAt(nowIndexPsu1Part3Pre);
+    nowIndexPsu1Part3Pre = cmdListPsu1Part3Pre->size()-1;
     if(nowIndexPsu1Part3Pre != -1)
-        nowCommandPsu1Part3 = cmdListPsu1Part3Pre.at(nowIndexPsu1Part3Pre);
+        nowCommandPsu1Part3 = cmdListPsu1Part3Pre->at(nowIndexPsu1Part3Pre);
     showPsu1Part3PreCmdList();
     // 清空当前命令详情
     ui->lineEditPsu1Part3PreName->clear();
@@ -1247,16 +1277,16 @@ void curdataconfig::on_pushBtnPsu1Part3PreUp_clicked()
 {
     if(nowIndexPsu1Part3Pre < 1)
         return;
-    cmdListPsu1Part3Pre.swap(nowIndexPsu1Part3Pre, nowIndexPsu1Part3Pre-1);
+    cmdListPsu1Part3Pre->swap(nowIndexPsu1Part3Pre, nowIndexPsu1Part3Pre-1);
     nowIndexPsu1Part3Pre--;
     showPsu1Part3PreCmdList();
 }
 // 向下按钮
 void curdataconfig::on_pushBtnPsu1Part3PreDown_clicked()
 {
-    if((nowIndexPsu1Part3Pre == -1)||(nowIndexPsu1Part3Pre >= cmdListPsu1Part3Pre.size()-1))
+    if((nowIndexPsu1Part3Pre == -1)||(nowIndexPsu1Part3Pre >= cmdListPsu1Part3Pre->size()-1))
         return;
-    cmdListPsu1Part3Pre.swap(nowIndexPsu1Part3Pre, nowIndexPsu1Part3Pre+1);
+    cmdListPsu1Part3Pre->swap(nowIndexPsu1Part3Pre, nowIndexPsu1Part3Pre+1);
     nowIndexPsu1Part3Pre++;
     showPsu1Part3PreCmdList();
 }
@@ -1269,12 +1299,14 @@ void curdataconfig::on_pushBtnPsu1Part3PreSave_clicked()
             ui->lineEditPsu1Part3PreEnd->text().size() == 0 &&
             ui->lineEditPsu1Part3PreJudge->text().size() == 0)
         return;
-    nowCommandPsu1Part3->setName(ui->lineEditPsu1Part3PreName->text());
-    nowCommandPsu1Part3->setParam(ui->lineEditPsu1Part3PreParam->text());
-    nowCommandPsu1Part3->setStart(ui->lineEditPsu1Part3PreStart->text());
-    nowCommandPsu1Part3->setEnd(ui->lineEditPsu1Part3PreEnd->text());
-    nowCommandPsu1Part3->setJudge(ui->lineEditPsu1Part3PreJudge->text());
-    showPsu1Part3PreCmdList();
+    if(nowCommandPsu1Part3 != NULL){
+        nowCommandPsu1Part3->setName(ui->lineEditPsu1Part3PreName->text());
+        nowCommandPsu1Part3->setParam(ui->lineEditPsu1Part3PreParam->text());
+        nowCommandPsu1Part3->setStart(ui->lineEditPsu1Part3PreStart->text());
+        nowCommandPsu1Part3->setEnd(ui->lineEditPsu1Part3PreEnd->text());
+        nowCommandPsu1Part3->setJudge(ui->lineEditPsu1Part3PreJudge->text());
+        showPsu1Part3PreCmdList();
+    }
 }
 // 撤消按钮
 void curdataconfig::on_pushBtnPsu1Part3PreUndo_clicked()
@@ -1636,17 +1668,17 @@ void curdataconfig::on_pushBtnPsu1Part3TestUndo_clicked()
 void curdataconfig::on_pushBtnPsu1Part4PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu1Part4Pre.size();
-    cmdListPsu1Part4Pre.append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu1Part4Pre.size();
+    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu1Part4Pre->size();
+    cmdListPsu1Part4Pre->append(newCommand);
+    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu1Part4Pre->size();
     showPsu1Part4PreCmdList();
 }
 // 刷新命令框
 void curdataconfig::showPsu1Part4PreCmdList()
 {
     ui->psu1Part4PreCmdList->clear();
-    for(int i=0; i != cmdListPsu1Part4Pre.size(); ++i){
-        command *curCommand = cmdListPsu1Part4Pre.at(i);
+    for(int i=0; i != cmdListPsu1Part4Pre->size(); ++i){
+        command *curCommand = cmdListPsu1Part4Pre->at(i);
         ui->psu1Part4PreCmdList->addItem(curCommand->getFullName());
     }
 }
@@ -1655,7 +1687,7 @@ void curdataconfig::on_psu1Part4PreCmdList_clicked(const QModelIndex &index)
 {
     qDebug() << index.data().toString();
     nowIndexPsu1Part4Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
-    nowCommandPsu1Part4 = cmdListPsu1Part4Pre.at(nowIndexPsu1Part4Pre);  // 保存ch1前置命令页当前命令的指针
+    nowCommandPsu1Part4 = cmdListPsu1Part4Pre->at(nowIndexPsu1Part4Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu1Part4PreUndo_clicked();
 }
 // 删除按钮
@@ -1664,10 +1696,10 @@ void curdataconfig::on_pushBtnPsu1Part4PreDel_clicked()
     if(nowIndexPsu1Part4Pre == -1){
         return ;
     }
-    cmdListPsu1Part4Pre.removeAt(nowIndexPsu1Part4Pre);
-    nowIndexPsu1Part4Pre = cmdListPsu1Part4Pre.size()-1;
+    cmdListPsu1Part4Pre->removeAt(nowIndexPsu1Part4Pre);
+    nowIndexPsu1Part4Pre = cmdListPsu1Part4Pre->size()-1;
     if(nowIndexPsu1Part4Pre != -1)
-        nowCommandPsu1Part4 = cmdListPsu1Part4Pre.at(nowIndexPsu1Part4Pre);
+        nowCommandPsu1Part4 = cmdListPsu1Part4Pre->at(nowIndexPsu1Part4Pre);
     showPsu1Part4PreCmdList();
     // 清空当前命令详情
     ui->lineEditPsu1Part4PreName->clear();
@@ -1681,16 +1713,16 @@ void curdataconfig::on_pushBtnPsu1Part4PreUp_clicked()
 {
     if(nowIndexPsu1Part4Pre < 1)
         return;
-    cmdListPsu1Part4Pre.swap(nowIndexPsu1Part4Pre, nowIndexPsu1Part4Pre-1);
+    cmdListPsu1Part4Pre->swap(nowIndexPsu1Part4Pre, nowIndexPsu1Part4Pre-1);
     nowIndexPsu1Part4Pre--;
     showPsu1Part4PreCmdList();
 }
 // 向下按钮
 void curdataconfig::on_pushBtnPsu1Part4PreDown_clicked()
 {
-    if((nowIndexPsu1Part4Pre == -1)||(nowIndexPsu1Part4Pre >= cmdListPsu1Part4Pre.size()-1))
+    if((nowIndexPsu1Part4Pre == -1)||(nowIndexPsu1Part4Pre >= cmdListPsu1Part4Pre->size()-1))
         return;
-    cmdListPsu1Part4Pre.swap(nowIndexPsu1Part4Pre, nowIndexPsu1Part4Pre+1);
+    cmdListPsu1Part4Pre->swap(nowIndexPsu1Part4Pre, nowIndexPsu1Part4Pre+1);
     nowIndexPsu1Part4Pre++;
     showPsu1Part4PreCmdList();
 }
@@ -1703,12 +1735,14 @@ void curdataconfig::on_pushBtnPsu1Part4PreSave_clicked()
             ui->lineEditPsu1Part4PreEnd->text().size() == 0 &&
             ui->lineEditPsu1Part4PreJudge->text().size() == 0)
         return;
-    nowCommandPsu1Part4->setName(ui->lineEditPsu1Part4PreName->text());
-    nowCommandPsu1Part4->setParam(ui->lineEditPsu1Part4PreParam->text());
-    nowCommandPsu1Part4->setStart(ui->lineEditPsu1Part4PreStart->text());
-    nowCommandPsu1Part4->setEnd(ui->lineEditPsu1Part4PreEnd->text());
-    nowCommandPsu1Part4->setJudge(ui->lineEditPsu1Part4PreJudge->text());
-    showPsu1Part4PreCmdList();
+    if(nowCommandPsu1Part4 != NULL){
+        nowCommandPsu1Part4->setName(ui->lineEditPsu1Part4PreName->text());
+        nowCommandPsu1Part4->setParam(ui->lineEditPsu1Part4PreParam->text());
+        nowCommandPsu1Part4->setStart(ui->lineEditPsu1Part4PreStart->text());
+        nowCommandPsu1Part4->setEnd(ui->lineEditPsu1Part4PreEnd->text());
+        nowCommandPsu1Part4->setJudge(ui->lineEditPsu1Part4PreJudge->text());
+        showPsu1Part4PreCmdList();
+    }
 }
 // 撤消按钮
 void curdataconfig::on_pushBtnPsu1Part4PreUndo_clicked()
@@ -2070,17 +2104,17 @@ void curdataconfig::on_pushBtnPsu1Part4TestUndo_clicked()
 void curdataconfig::on_pushBtnPsu1Part5PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu1Part5Pre.size();
-    cmdListPsu1Part5Pre.append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu1Part5Pre.size();
+    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu1Part5Pre->size();
+    cmdListPsu1Part5Pre->append(newCommand);
+    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu1Part5Pre->size();
     showPsu1Part5PreCmdList();
 }
 // 刷新命令框
 void curdataconfig::showPsu1Part5PreCmdList()
 {
     ui->psu1Part5PreCmdList->clear();
-    for(int i=0; i != cmdListPsu1Part5Pre.size(); ++i){
-        command *curCommand = cmdListPsu1Part5Pre.at(i);
+    for(int i=0; i != cmdListPsu1Part5Pre->size(); ++i){
+        command *curCommand = cmdListPsu1Part5Pre->at(i);
         ui->psu1Part5PreCmdList->addItem(curCommand->getFullName());
     }
 }
@@ -2089,7 +2123,7 @@ void curdataconfig::on_psu1Part5PreCmdList_clicked(const QModelIndex &index)
 {
     qDebug() << index.data().toString();
     nowIndexPsu1Part5Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
-    nowCommandPsu1Part5 = cmdListPsu1Part5Pre.at(nowIndexPsu1Part5Pre);  // 保存ch1前置命令页当前命令的指针
+    nowCommandPsu1Part5 = cmdListPsu1Part5Pre->at(nowIndexPsu1Part5Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu1Part5PreUndo_clicked();
 }
 // 删除按钮
@@ -2098,10 +2132,10 @@ void curdataconfig::on_pushBtnPsu1Part5PreDel_clicked()
     if(nowIndexPsu1Part5Pre == -1){
         return ;
     }
-    cmdListPsu1Part5Pre.removeAt(nowIndexPsu1Part5Pre);
-    nowIndexPsu1Part5Pre = cmdListPsu1Part5Pre.size()-1;
+    cmdListPsu1Part5Pre->removeAt(nowIndexPsu1Part5Pre);
+    nowIndexPsu1Part5Pre = cmdListPsu1Part5Pre->size()-1;
     if(nowIndexPsu1Part5Pre != -1)
-        nowCommandPsu1Part5 = cmdListPsu1Part5Pre.at(nowIndexPsu1Part5Pre);
+        nowCommandPsu1Part5 = cmdListPsu1Part5Pre->at(nowIndexPsu1Part5Pre);
     showPsu1Part5PreCmdList();
     // 清空当前命令详情
     ui->lineEditPsu1Part5PreName->clear();
@@ -2115,16 +2149,16 @@ void curdataconfig::on_pushBtnPsu1Part5PreUp_clicked()
 {
     if(nowIndexPsu1Part5Pre < 1)
         return;
-    cmdListPsu1Part5Pre.swap(nowIndexPsu1Part5Pre, nowIndexPsu1Part5Pre-1);
+    cmdListPsu1Part5Pre->swap(nowIndexPsu1Part5Pre, nowIndexPsu1Part5Pre-1);
     nowIndexPsu1Part5Pre--;
     showPsu1Part5PreCmdList();
 }
 // 向下按钮
 void curdataconfig::on_pushBtnPsu1Part5PreDown_clicked()
 {
-    if((nowIndexPsu1Part5Pre == -1)||(nowIndexPsu1Part5Pre >= cmdListPsu1Part5Pre.size()-1))
+    if((nowIndexPsu1Part5Pre == -1)||(nowIndexPsu1Part5Pre >= cmdListPsu1Part5Pre->size()-1))
         return;
-    cmdListPsu1Part5Pre.swap(nowIndexPsu1Part5Pre, nowIndexPsu1Part5Pre+1);
+    cmdListPsu1Part5Pre->swap(nowIndexPsu1Part5Pre, nowIndexPsu1Part5Pre+1);
     nowIndexPsu1Part5Pre++;
     showPsu1Part5PreCmdList();
 }
@@ -2137,12 +2171,14 @@ void curdataconfig::on_pushBtnPsu1Part5PreSave_clicked()
             ui->lineEditPsu1Part5PreEnd->text().size() == 0 &&
             ui->lineEditPsu1Part5PreJudge->text().size() == 0)
         return;
-    nowCommandPsu1Part5->setName(ui->lineEditPsu1Part5PreName->text());
-    nowCommandPsu1Part5->setParam(ui->lineEditPsu1Part5PreParam->text());
-    nowCommandPsu1Part5->setStart(ui->lineEditPsu1Part5PreStart->text());
-    nowCommandPsu1Part5->setEnd(ui->lineEditPsu1Part5PreEnd->text());
-    nowCommandPsu1Part5->setJudge(ui->lineEditPsu1Part5PreJudge->text());
-    showPsu1Part5PreCmdList();
+    if(nowCommandPsu1Part5 != NULL){
+        nowCommandPsu1Part5->setName(ui->lineEditPsu1Part5PreName->text());
+        nowCommandPsu1Part5->setParam(ui->lineEditPsu1Part5PreParam->text());
+        nowCommandPsu1Part5->setStart(ui->lineEditPsu1Part5PreStart->text());
+        nowCommandPsu1Part5->setEnd(ui->lineEditPsu1Part5PreEnd->text());
+        nowCommandPsu1Part5->setJudge(ui->lineEditPsu1Part5PreJudge->text());
+        showPsu1Part5PreCmdList();
+    }
 }
 // 撤消按钮
 void curdataconfig::on_pushBtnPsu1Part5PreUndo_clicked()
@@ -2504,17 +2540,17 @@ void curdataconfig::on_pushBtnPsu1Part5TestUndo_clicked()
 void curdataconfig::on_pushBtnPsu2PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu2Pre.size();
-    cmdListPsu2Pre.append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu2Pre.size();
+    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu2Pre->size();
+    cmdListPsu2Pre->append(newCommand);
+    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu2Pre->size();
     showPsu2PreCmdList();
 }
 // 刷新命令框
 void curdataconfig::showPsu2PreCmdList()
 {
     ui->psu2PreCmdList->clear();
-    for(int i=0; i != cmdListPsu2Pre.size(); ++i){
-        command *curCommand = cmdListPsu2Pre.at(i);
+    for(int i=0; i != cmdListPsu2Pre->size(); ++i){
+        command *curCommand = cmdListPsu2Pre->at(i);
         ui->psu2PreCmdList->addItem(curCommand->getFullName());
     }
 }
@@ -2523,7 +2559,7 @@ void curdataconfig::on_psu2PreCmdList_clicked(const QModelIndex &index)
 {
     qDebug() << index.data().toString();
     nowIndexPsu2Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
-    nowCommandPsu2 = cmdListPsu2Pre.at(nowIndexPsu2Pre);  // 保存ch1前置命令页当前命令的指针
+    nowCommandPsu2 = cmdListPsu2Pre->at(nowIndexPsu2Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu2PreUndo_clicked();
 }
 // 删除按钮
@@ -2532,10 +2568,10 @@ void curdataconfig::on_pushBtnPsu2PreDel_clicked()
     if(nowIndexPsu2Pre == -1){
         return ;
     }
-    cmdListPsu2Pre.removeAt(nowIndexPsu2Pre);
-    nowIndexPsu2Pre = cmdListPsu2Pre.size()-1;
+    cmdListPsu2Pre->removeAt(nowIndexPsu2Pre);
+    nowIndexPsu2Pre = cmdListPsu2Pre->size()-1;
     if(nowIndexPsu2Pre != -1)
-        nowCommandPsu2 = cmdListPsu2Pre.at(nowIndexPsu2Pre);
+        nowCommandPsu2 = cmdListPsu2Pre->at(nowIndexPsu2Pre);
     showPsu2PreCmdList();
     // 清空当前命令详情
     ui->lineEditPsu2PreCmdName->clear();
@@ -2549,16 +2585,16 @@ void curdataconfig::on_pushBtnPsu2PreUp_clicked()
 {
     if(nowIndexPsu2Pre < 1)
         return;
-    cmdListPsu2Pre.swap(nowIndexPsu2Pre, nowIndexPsu2Pre-1);
+    cmdListPsu2Pre->swap(nowIndexPsu2Pre, nowIndexPsu2Pre-1);
     nowIndexPsu2Pre--;
     showPsu2PreCmdList();
 }
 // 向下按钮
 void curdataconfig::on_pushBtnPsu2PreDown_clicked()
 {
-    if((nowIndexPsu2Pre == -1)||(nowIndexPsu2Pre >= cmdListPsu2Pre.size()-1))
+    if((nowIndexPsu2Pre == -1)||(nowIndexPsu2Pre >= cmdListPsu2Pre->size()-1))
         return;
-    cmdListPsu2Pre.swap(nowIndexPsu2Pre, nowIndexPsu2Pre+1);
+    cmdListPsu2Pre->swap(nowIndexPsu2Pre, nowIndexPsu2Pre+1);
     nowIndexPsu2Pre++;
     showPsu2PreCmdList();
 }
@@ -2571,12 +2607,14 @@ void curdataconfig::on_pushBtnPsu2PreSave_clicked()
             ui->lineEditPsu2PreEnd->text().size() == 0 &&
             ui->lineEditPsu2PreJudge->text().size() == 0)
         return;
-    nowCommandPsu2->setName(ui->lineEditPsu2PreCmdName->text());
-    nowCommandPsu2->setParam(ui->lineEditPsu2PreParam->text());
-    nowCommandPsu2->setStart(ui->lineEditPsu2PreStart->text());
-    nowCommandPsu2->setEnd(ui->lineEditPsu2PreEnd->text());
-    nowCommandPsu2->setJudge(ui->lineEditPsu2PreJudge->text());
-    showPsu2PreCmdList();
+    if(nowCommandPsu2 != NULL){
+        nowCommandPsu2->setName(ui->lineEditPsu2PreCmdName->text());
+        nowCommandPsu2->setParam(ui->lineEditPsu2PreParam->text());
+        nowCommandPsu2->setStart(ui->lineEditPsu2PreStart->text());
+        nowCommandPsu2->setEnd(ui->lineEditPsu2PreEnd->text());
+        nowCommandPsu2->setJudge(ui->lineEditPsu2PreJudge->text());
+        showPsu2PreCmdList();
+    }
 }
 // 撤消按钮
 void curdataconfig::on_pushBtnPsu2PreUndo_clicked()
@@ -2605,17 +2643,17 @@ void curdataconfig::on_pushBtnPsu2PreUndo_clicked()
 void curdataconfig::on_pushBtnPsu2Part1PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu2Part1Pre.size();
-    cmdListPsu2Part1Pre.append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu2Part1Pre.size();
+    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu2Part1Pre->size();
+    cmdListPsu2Part1Pre->append(newCommand);
+    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu2Part1Pre->size();
     showPsu2Part1PreCmdList();
 }
 // 刷新命令框
 void curdataconfig::showPsu2Part1PreCmdList()
 {
     ui->psu2Part1PreCmdList->clear();
-    for(int i=0; i != cmdListPsu2Part1Pre.size(); ++i){
-        command *curCommand = cmdListPsu2Part1Pre.at(i);
+    for(int i=0; i != cmdListPsu2Part1Pre->size(); ++i){
+        command *curCommand = cmdListPsu2Part1Pre->at(i);
         ui->psu2Part1PreCmdList->addItem(curCommand->getFullName());
     }
 }
@@ -2624,7 +2662,7 @@ void curdataconfig::on_psu2Part1PreCmdList_clicked(const QModelIndex &index)
 {
     qDebug() << index.data().toString();
     nowIndexPsu2Part1Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
-    nowCommandPsu2Part1 = cmdListPsu2Part1Pre.at(nowIndexPsu2Part1Pre);  // 保存ch1前置命令页当前命令的指针
+    nowCommandPsu2Part1 = cmdListPsu2Part1Pre->at(nowIndexPsu2Part1Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu2Part1PreUndo_clicked();
 }
 // 删除按钮
@@ -2633,10 +2671,10 @@ void curdataconfig::on_pushBtnPsu2Part1PreDel_clicked()
     if(nowIndexPsu2Part1Pre == -1){
         return ;
     }
-    cmdListPsu2Part1Pre.removeAt(nowIndexPsu2Part1Pre);
-    nowIndexPsu2Part1Pre = cmdListPsu2Part1Pre.size()-1;
+    cmdListPsu2Part1Pre->removeAt(nowIndexPsu2Part1Pre);
+    nowIndexPsu2Part1Pre = cmdListPsu2Part1Pre->size()-1;
     if(nowIndexPsu2Part1Pre != -1)
-        nowCommandPsu2Part1 = cmdListPsu2Part1Pre.at(nowIndexPsu2Part1Pre);
+        nowCommandPsu2Part1 = cmdListPsu2Part1Pre->at(nowIndexPsu2Part1Pre);
     showPsu2Part1PreCmdList();
     // 清空当前命令详情
     ui->lineEditPsu2Part1PreName->clear();
@@ -2650,16 +2688,16 @@ void curdataconfig::on_pushBtnPsu2Part1PreUp_clicked()
 {
     if(nowIndexPsu2Part1Pre < 1)
         return;
-    cmdListPsu2Part1Pre.swap(nowIndexPsu2Part1Pre, nowIndexPsu2Part1Pre-1);
+    cmdListPsu2Part1Pre->swap(nowIndexPsu2Part1Pre, nowIndexPsu2Part1Pre-1);
     nowIndexPsu2Part1Pre--;
     showPsu2Part1PreCmdList();
 }
 // 向下按钮
 void curdataconfig::on_pushBtnPsu2Part1PreDown_clicked()
 {
-    if((nowIndexPsu2Part1Pre == -1)||(nowIndexPsu2Part1Pre >= cmdListPsu2Part1Pre.size()-1))
+    if((nowIndexPsu2Part1Pre == -1)||(nowIndexPsu2Part1Pre >= cmdListPsu2Part1Pre->size()-1))
         return;
-    cmdListPsu2Part1Pre.swap(nowIndexPsu2Part1Pre, nowIndexPsu2Part1Pre+1);
+    cmdListPsu2Part1Pre->swap(nowIndexPsu2Part1Pre, nowIndexPsu2Part1Pre+1);
     nowIndexPsu2Part1Pre++;
     showPsu2Part1PreCmdList();
 }
@@ -2672,12 +2710,14 @@ void curdataconfig::on_pushBtnPsu2Part1PreSave_clicked()
             ui->lineEditPsu2Part1PreEnd->text().size() == 0 &&
             ui->lineEditPsu2Part1PreJudge->text().size() == 0)
         return;
-    nowCommandPsu2Part1->setName(ui->lineEditPsu2Part1PreName->text());
-    nowCommandPsu2Part1->setParam(ui->lineEditPsu2Part1PreParam->text());
-    nowCommandPsu2Part1->setStart(ui->lineEditPsu2Part1PreStart->text());
-    nowCommandPsu2Part1->setEnd(ui->lineEditPsu2Part1PreEnd->text());
-    nowCommandPsu2Part1->setJudge(ui->lineEditPsu2Part1PreJudge->text());
-    showPsu2Part1PreCmdList();
+    if (nowCommandPsu2Part1 != NULL){
+        nowCommandPsu2Part1->setName(ui->lineEditPsu2Part1PreName->text());
+        nowCommandPsu2Part1->setParam(ui->lineEditPsu2Part1PreParam->text());
+        nowCommandPsu2Part1->setStart(ui->lineEditPsu2Part1PreStart->text());
+        nowCommandPsu2Part1->setEnd(ui->lineEditPsu2Part1PreEnd->text());
+        nowCommandPsu2Part1->setJudge(ui->lineEditPsu2Part1PreJudge->text());
+        showPsu2Part1PreCmdList();
+    }
 }
 // 撤消按钮
 void curdataconfig::on_pushBtnPsu2Part1PreUndo_clicked()
@@ -3039,17 +3079,17 @@ void curdataconfig::on_pushBtnPsu2Part1TestUndo_clicked()
 void curdataconfig::on_pushBtnPsu2Part2PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu2Part2Pre.size();
-    cmdListPsu2Part2Pre.append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu2Part2Pre.size();
+    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu2Part2Pre->size();
+    cmdListPsu2Part2Pre->append(newCommand);
+    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu2Part2Pre->size();
     showPsu2Part2PreCmdList();
 }
 // 刷新命令框
 void curdataconfig::showPsu2Part2PreCmdList()
 {
     ui->psu2Part2PreCmdList->clear();
-    for(int i=0; i != cmdListPsu2Part2Pre.size(); ++i){
-        command *curCommand = cmdListPsu2Part2Pre.at(i);
+    for(int i=0; i != cmdListPsu2Part2Pre->size(); ++i){
+        command *curCommand = cmdListPsu2Part2Pre->at(i);
         ui->psu2Part2PreCmdList->addItem(curCommand->getFullName());
     }
 }
@@ -3058,7 +3098,7 @@ void curdataconfig::on_psu2Part2PreCmdList_clicked(const QModelIndex &index)
 {
     qDebug() << index.data().toString();
     nowIndexPsu2Part2Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
-    nowCommandPsu2Part2 = cmdListPsu2Part2Pre.at(nowIndexPsu2Part2Pre);  // 保存ch1前置命令页当前命令的指针
+    nowCommandPsu2Part2 = cmdListPsu2Part2Pre->at(nowIndexPsu2Part2Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu2Part2PreUndo_clicked();
 }
 // 删除按钮
@@ -3067,10 +3107,10 @@ void curdataconfig::on_pushBtnPsu2Part2PreDel_clicked()
     if(nowIndexPsu2Part2Pre == -1){
         return ;
     }
-    cmdListPsu2Part2Pre.removeAt(nowIndexPsu2Part2Pre);
-    nowIndexPsu2Part2Pre = cmdListPsu2Part2Pre.size()-1;
+    cmdListPsu2Part2Pre->removeAt(nowIndexPsu2Part2Pre);
+    nowIndexPsu2Part2Pre = cmdListPsu2Part2Pre->size()-1;
     if(nowIndexPsu2Part2Pre != -1)
-        nowCommandPsu2Part2 = cmdListPsu2Part2Pre.at(nowIndexPsu2Part2Pre);
+        nowCommandPsu2Part2 = cmdListPsu2Part2Pre->at(nowIndexPsu2Part2Pre);
     showPsu2Part2PreCmdList();
     // 清空当前命令详情
     ui->lineEditPsu2Part2PreName->clear();
@@ -3084,16 +3124,16 @@ void curdataconfig::on_pushBtnPsu2Part2PreUp_clicked()
 {
     if(nowIndexPsu2Part2Pre < 1)
         return;
-    cmdListPsu2Part2Pre.swap(nowIndexPsu2Part2Pre, nowIndexPsu2Part2Pre-1);
+    cmdListPsu2Part2Pre->swap(nowIndexPsu2Part2Pre, nowIndexPsu2Part2Pre-1);
     nowIndexPsu2Part2Pre--;
     showPsu2Part2PreCmdList();
 }
 // 向下按钮
 void curdataconfig::on_pushBtnPsu2Part2PreDown_clicked()
 {
-    if((nowIndexPsu2Part2Pre == -1)||(nowIndexPsu2Part2Pre >= cmdListPsu2Part2Pre.size()-1))
+    if((nowIndexPsu2Part2Pre == -1)||(nowIndexPsu2Part2Pre >= cmdListPsu2Part2Pre->size()-1))
         return;
-    cmdListPsu2Part2Pre.swap(nowIndexPsu2Part2Pre, nowIndexPsu2Part2Pre+1);
+    cmdListPsu2Part2Pre->swap(nowIndexPsu2Part2Pre, nowIndexPsu2Part2Pre+1);
     nowIndexPsu2Part2Pre++;
     showPsu2Part2PreCmdList();
 }
@@ -3106,12 +3146,14 @@ void curdataconfig::on_pushBtnPsu2Part2PreSave_clicked()
             ui->lineEditPsu2Part2PreEnd->text().size() == 0 &&
             ui->lineEditPsu2Part2PreJudge->text().size() == 0)
         return;
-    nowCommandPsu2Part2->setName(ui->lineEditPsu2Part2PreName->text());
-    nowCommandPsu2Part2->setParam(ui->lineEditPsu2Part2PreParam->text());
-    nowCommandPsu2Part2->setStart(ui->lineEditPsu2Part2PreStart->text());
-    nowCommandPsu2Part2->setEnd(ui->lineEditPsu2Part2PreEnd->text());
-    nowCommandPsu2Part2->setJudge(ui->lineEditPsu2Part2PreJudge->text());
-    showPsu2Part2PreCmdList();
+    if(nowCommandPsu2Part2 != NULL){
+        nowCommandPsu2Part2->setName(ui->lineEditPsu2Part2PreName->text());
+        nowCommandPsu2Part2->setParam(ui->lineEditPsu2Part2PreParam->text());
+        nowCommandPsu2Part2->setStart(ui->lineEditPsu2Part2PreStart->text());
+        nowCommandPsu2Part2->setEnd(ui->lineEditPsu2Part2PreEnd->text());
+        nowCommandPsu2Part2->setJudge(ui->lineEditPsu2Part2PreJudge->text());
+        showPsu2Part2PreCmdList();
+    }
 }
 // 撤消按钮
 void curdataconfig::on_pushBtnPsu2Part2PreUndo_clicked()
@@ -3473,17 +3515,17 @@ void curdataconfig::on_pushBtnPsu2Part2TestUndo_clicked()
 void curdataconfig::on_pushBtnPsu2Part3PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu2Part3Pre.size();
-    cmdListPsu2Part3Pre.append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu2Part3Pre.size();
+    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu2Part3Pre->size();
+    cmdListPsu2Part3Pre->append(newCommand);
+    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu2Part3Pre->size();
     showPsu2Part3PreCmdList();
 }
 // 刷新命令框
 void curdataconfig::showPsu2Part3PreCmdList()
 {
     ui->psu2Part3PreCmdList->clear();
-    for(int i=0; i != cmdListPsu2Part3Pre.size(); ++i){
-        command *curCommand = cmdListPsu2Part3Pre.at(i);
+    for(int i=0; i != cmdListPsu2Part3Pre->size(); ++i){
+        command *curCommand = cmdListPsu2Part3Pre->at(i);
         ui->psu2Part3PreCmdList->addItem(curCommand->getFullName());
     }
 }
@@ -3492,7 +3534,7 @@ void curdataconfig::on_psu2Part3PreCmdList_clicked(const QModelIndex &index)
 {
     qDebug() << index.data().toString();
     nowIndexPsu2Part3Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
-    nowCommandPsu2Part3 = cmdListPsu2Part3Pre.at(nowIndexPsu2Part3Pre);  // 保存ch1前置命令页当前命令的指针
+    nowCommandPsu2Part3 = cmdListPsu2Part3Pre->at(nowIndexPsu2Part3Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu2Part3PreUndo_clicked();
 }
 // 删除按钮
@@ -3501,10 +3543,10 @@ void curdataconfig::on_pushBtnPsu2Part3PreDel_clicked()
     if(nowIndexPsu2Part3Pre == -1){
         return ;
     }
-    cmdListPsu2Part3Pre.removeAt(nowIndexPsu2Part3Pre);
-    nowIndexPsu2Part3Pre = cmdListPsu2Part3Pre.size()-1;
+    cmdListPsu2Part3Pre->removeAt(nowIndexPsu2Part3Pre);
+    nowIndexPsu2Part3Pre = cmdListPsu2Part3Pre->size()-1;
     if(nowIndexPsu2Part3Pre != -1)
-        nowCommandPsu2Part3 = cmdListPsu2Part3Pre.at(nowIndexPsu2Part3Pre);
+        nowCommandPsu2Part3 = cmdListPsu2Part3Pre->at(nowIndexPsu2Part3Pre);
     showPsu2Part3PreCmdList();
     // 清空当前命令详情
     ui->lineEditPsu2Part3PreName->clear();
@@ -3518,16 +3560,16 @@ void curdataconfig::on_pushBtnPsu2Part3PreUp_clicked()
 {
     if(nowIndexPsu2Part3Pre < 1)
         return;
-    cmdListPsu2Part3Pre.swap(nowIndexPsu2Part3Pre, nowIndexPsu2Part3Pre-1);
+    cmdListPsu2Part3Pre->swap(nowIndexPsu2Part3Pre, nowIndexPsu2Part3Pre-1);
     nowIndexPsu2Part3Pre--;
     showPsu2Part3PreCmdList();
 }
 // 向下按钮
 void curdataconfig::on_pushBtnPsu2Part3PreDown_clicked()
 {
-    if((nowIndexPsu2Part3Pre == -1)||(nowIndexPsu2Part3Pre >= cmdListPsu2Part3Pre.size()-1))
+    if((nowIndexPsu2Part3Pre == -1)||(nowIndexPsu2Part3Pre >= cmdListPsu2Part3Pre->size()-1))
         return;
-    cmdListPsu2Part3Pre.swap(nowIndexPsu2Part3Pre, nowIndexPsu2Part3Pre+1);
+    cmdListPsu2Part3Pre->swap(nowIndexPsu2Part3Pre, nowIndexPsu2Part3Pre+1);
     nowIndexPsu2Part3Pre++;
     showPsu2Part3PreCmdList();
 }
@@ -3540,12 +3582,14 @@ void curdataconfig::on_pushBtnPsu2Part3PreSave_clicked()
             ui->lineEditPsu2Part3PreEnd->text().size() == 0 &&
             ui->lineEditPsu2Part3PreJudge->text().size() == 0)
         return;
-    nowCommandPsu2Part3->setName(ui->lineEditPsu2Part3PreName->text());
-    nowCommandPsu2Part3->setParam(ui->lineEditPsu2Part3PreParam->text());
-    nowCommandPsu2Part3->setStart(ui->lineEditPsu2Part3PreStart->text());
-    nowCommandPsu2Part3->setEnd(ui->lineEditPsu2Part3PreEnd->text());
-    nowCommandPsu2Part3->setJudge(ui->lineEditPsu2Part3PreJudge->text());
-    showPsu2Part3PreCmdList();
+    if(nowCommandPsu2Part3 != NULL){
+        nowCommandPsu2Part3->setName(ui->lineEditPsu2Part3PreName->text());
+        nowCommandPsu2Part3->setParam(ui->lineEditPsu2Part3PreParam->text());
+        nowCommandPsu2Part3->setStart(ui->lineEditPsu2Part3PreStart->text());
+        nowCommandPsu2Part3->setEnd(ui->lineEditPsu2Part3PreEnd->text());
+        nowCommandPsu2Part3->setJudge(ui->lineEditPsu2Part3PreJudge->text());
+        showPsu2Part3PreCmdList();
+    }
 }
 // 撤消按钮
 void curdataconfig::on_pushBtnPsu2Part3PreUndo_clicked()
@@ -3907,17 +3951,17 @@ void curdataconfig::on_pushBtnPsu2Part3TestUndo_clicked()
 void curdataconfig::on_pushBtnPsu2Part4PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu2Part4Pre.size();
-    cmdListPsu2Part4Pre.append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu2Part4Pre.size();
+    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu2Part4Pre->size();
+    cmdListPsu2Part4Pre->append(newCommand);
+    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu2Part4Pre->size();
     showPsu2Part4PreCmdList();
 }
 // 刷新命令框
 void curdataconfig::showPsu2Part4PreCmdList()
 {
     ui->psu2Part4PreCmdList->clear();
-    for(int i=0; i != cmdListPsu2Part4Pre.size(); ++i){
-        command *curCommand = cmdListPsu2Part4Pre.at(i);
+    for(int i=0; i != cmdListPsu2Part4Pre->size(); ++i){
+        command *curCommand = cmdListPsu2Part4Pre->at(i);
         ui->psu2Part4PreCmdList->addItem(curCommand->getFullName());
     }
 }
@@ -3926,7 +3970,7 @@ void curdataconfig::on_psu2Part4PreCmdList_clicked(const QModelIndex &index)
 {
     qDebug() << index.data().toString();
     nowIndexPsu2Part4Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
-    nowCommandPsu2Part4 = cmdListPsu2Part4Pre.at(nowIndexPsu2Part4Pre);  // 保存ch1前置命令页当前命令的指针
+    nowCommandPsu2Part4 = cmdListPsu2Part4Pre->at(nowIndexPsu2Part4Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu2Part4PreUndo_clicked();
 }
 // 删除按钮
@@ -3935,10 +3979,10 @@ void curdataconfig::on_pushBtnPsu2Part4PreDel_clicked()
     if(nowIndexPsu2Part4Pre == -1){
         return ;
     }
-    cmdListPsu2Part4Pre.removeAt(nowIndexPsu2Part4Pre);
-    nowIndexPsu2Part4Pre = cmdListPsu2Part4Pre.size()-1;
+    cmdListPsu2Part4Pre->removeAt(nowIndexPsu2Part4Pre);
+    nowIndexPsu2Part4Pre = cmdListPsu2Part4Pre->size()-1;
     if(nowIndexPsu2Part4Pre != -1)
-        nowCommandPsu2Part4 = cmdListPsu2Part4Pre.at(nowIndexPsu2Part4Pre);
+        nowCommandPsu2Part4 = cmdListPsu2Part4Pre->at(nowIndexPsu2Part4Pre);
     showPsu2Part4PreCmdList();
     // 清空当前命令详情
     ui->lineEditPsu2Part4PreName->clear();
@@ -3952,16 +3996,16 @@ void curdataconfig::on_pushBtnPsu2Part4PreUp_clicked()
 {
     if(nowIndexPsu2Part4Pre < 1)
         return;
-    cmdListPsu2Part4Pre.swap(nowIndexPsu2Part4Pre, nowIndexPsu2Part4Pre-1);
+    cmdListPsu2Part4Pre->swap(nowIndexPsu2Part4Pre, nowIndexPsu2Part4Pre-1);
     nowIndexPsu2Part4Pre--;
     showPsu2Part4PreCmdList();
 }
 // 向下按钮
 void curdataconfig::on_pushBtnPsu2Part4PreDown_clicked()
 {
-    if((nowIndexPsu2Part4Pre == -1)||(nowIndexPsu2Part4Pre >= cmdListPsu2Part4Pre.size()-1))
+    if((nowIndexPsu2Part4Pre == -1)||(nowIndexPsu2Part4Pre >= cmdListPsu2Part4Pre->size()-1))
         return;
-    cmdListPsu2Part4Pre.swap(nowIndexPsu2Part4Pre, nowIndexPsu2Part4Pre+1);
+    cmdListPsu2Part4Pre->swap(nowIndexPsu2Part4Pre, nowIndexPsu2Part4Pre+1);
     nowIndexPsu2Part4Pre++;
     showPsu2Part4PreCmdList();
 }
@@ -3974,12 +4018,14 @@ void curdataconfig::on_pushBtnPsu2Part4PreSave_clicked()
             ui->lineEditPsu2Part4PreEnd->text().size() == 0 &&
             ui->lineEditPsu2Part4PreJudge->text().size() == 0)
         return;
-    nowCommandPsu2Part4->setName(ui->lineEditPsu2Part4PreName->text());
-    nowCommandPsu2Part4->setParam(ui->lineEditPsu2Part4PreParam->text());
-    nowCommandPsu2Part4->setStart(ui->lineEditPsu2Part4PreStart->text());
-    nowCommandPsu2Part4->setEnd(ui->lineEditPsu2Part4PreEnd->text());
-    nowCommandPsu2Part4->setJudge(ui->lineEditPsu2Part4PreJudge->text());
-    showPsu2Part4PreCmdList();
+    if(nowCommandPsu2Part4 != NULL){
+        nowCommandPsu2Part4->setName(ui->lineEditPsu2Part4PreName->text());
+        nowCommandPsu2Part4->setParam(ui->lineEditPsu2Part4PreParam->text());
+        nowCommandPsu2Part4->setStart(ui->lineEditPsu2Part4PreStart->text());
+        nowCommandPsu2Part4->setEnd(ui->lineEditPsu2Part4PreEnd->text());
+        nowCommandPsu2Part4->setJudge(ui->lineEditPsu2Part4PreJudge->text());
+        showPsu2Part4PreCmdList();
+    }
 }
 // 撤消按钮
 void curdataconfig::on_pushBtnPsu2Part4PreUndo_clicked()
@@ -4341,17 +4387,17 @@ void curdataconfig::on_pushBtnPsu2Part4TestUndo_clicked()
 void curdataconfig::on_pushBtnPsu2Part5PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu2Part5Pre.size();
-    cmdListPsu2Part5Pre.append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu2Part5Pre.size();
+    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu2Part5Pre->size();
+    cmdListPsu2Part5Pre->append(newCommand);
+    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu2Part5Pre->size();
     showPsu2Part5PreCmdList();
 }
 // 刷新命令框
 void curdataconfig::showPsu2Part5PreCmdList()
 {
     ui->psu2Part5PreCmdList->clear();
-    for(int i=0; i != cmdListPsu2Part5Pre.size(); ++i){
-        command *curCommand = cmdListPsu2Part5Pre.at(i);
+    for(int i=0; i != cmdListPsu2Part5Pre->size(); ++i){
+        command *curCommand = cmdListPsu2Part5Pre->at(i);
         ui->psu2Part5PreCmdList->addItem(curCommand->getFullName());
     }
 }
@@ -4360,7 +4406,7 @@ void curdataconfig::on_psu2Part5PreCmdList_clicked(const QModelIndex &index)
 {
     qDebug() << index.data().toString();
     nowIndexPsu2Part5Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
-    nowCommandPsu2Part5 = cmdListPsu2Part5Pre.at(nowIndexPsu2Part5Pre);  // 保存ch1前置命令页当前命令的指针
+    nowCommandPsu2Part5 = cmdListPsu2Part5Pre->at(nowIndexPsu2Part5Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu2Part5PreUndo_clicked();
 }
 // 删除按钮
@@ -4369,10 +4415,10 @@ void curdataconfig::on_pushBtnPsu2Part5PreDel_clicked()
     if(nowIndexPsu2Part5Pre == -1){
         return ;
     }
-    cmdListPsu2Part5Pre.removeAt(nowIndexPsu2Part5Pre);
-    nowIndexPsu2Part5Pre = cmdListPsu2Part5Pre.size()-1;
+    cmdListPsu2Part5Pre->removeAt(nowIndexPsu2Part5Pre);
+    nowIndexPsu2Part5Pre = cmdListPsu2Part5Pre->size()-1;
     if(nowIndexPsu2Part5Pre != -1)
-        nowCommandPsu2Part5 = cmdListPsu2Part5Pre.at(nowIndexPsu2Part5Pre);
+        nowCommandPsu2Part5 = cmdListPsu2Part5Pre->at(nowIndexPsu2Part5Pre);
     showPsu2Part5PreCmdList();
     // 清空当前命令详情
     ui->lineEditPsu2Part5PreName->clear();
@@ -4386,16 +4432,16 @@ void curdataconfig::on_pushBtnPsu2Part5PreUp_clicked()
 {
     if(nowIndexPsu2Part5Pre < 1)
         return;
-    cmdListPsu2Part5Pre.swap(nowIndexPsu2Part5Pre, nowIndexPsu2Part5Pre-1);
+    cmdListPsu2Part5Pre->swap(nowIndexPsu2Part5Pre, nowIndexPsu2Part5Pre-1);
     nowIndexPsu2Part5Pre--;
     showPsu2Part5PreCmdList();
 }
 // 向下按钮
 void curdataconfig::on_pushBtnPsu2Part5PreDown_clicked()
 {
-    if((nowIndexPsu2Part5Pre == -1)||(nowIndexPsu2Part5Pre >= cmdListPsu2Part5Pre.size()-1))
+    if((nowIndexPsu2Part5Pre == -1)||(nowIndexPsu2Part5Pre >= cmdListPsu2Part5Pre->size()-1))
         return;
-    cmdListPsu2Part5Pre.swap(nowIndexPsu2Part5Pre, nowIndexPsu2Part5Pre+1);
+    cmdListPsu2Part5Pre->swap(nowIndexPsu2Part5Pre, nowIndexPsu2Part5Pre+1);
     nowIndexPsu2Part5Pre++;
     showPsu2Part5PreCmdList();
 }
@@ -4408,12 +4454,14 @@ void curdataconfig::on_pushBtnPsu2Part5PreSave_clicked()
             ui->lineEditPsu2Part5PreEnd->text().size() == 0 &&
             ui->lineEditPsu2Part5PreJudge->text().size() == 0)
         return;
-    nowCommandPsu2Part5->setName(ui->lineEditPsu2Part5PreName->text());
-    nowCommandPsu2Part5->setParam(ui->lineEditPsu2Part5PreParam->text());
-    nowCommandPsu2Part5->setStart(ui->lineEditPsu2Part5PreStart->text());
-    nowCommandPsu2Part5->setEnd(ui->lineEditPsu2Part5PreEnd->text());
-    nowCommandPsu2Part5->setJudge(ui->lineEditPsu2Part5PreJudge->text());
-    showPsu2Part5PreCmdList();
+    if(nowCommandPsu2Part5 != NULL){
+        nowCommandPsu2Part5->setName(ui->lineEditPsu2Part5PreName->text());
+        nowCommandPsu2Part5->setParam(ui->lineEditPsu2Part5PreParam->text());
+        nowCommandPsu2Part5->setStart(ui->lineEditPsu2Part5PreStart->text());
+        nowCommandPsu2Part5->setEnd(ui->lineEditPsu2Part5PreEnd->text());
+        nowCommandPsu2Part5->setJudge(ui->lineEditPsu2Part5PreJudge->text());
+        showPsu2Part5PreCmdList();
+    }
 }
 // 撤消按钮
 void curdataconfig::on_pushBtnPsu2Part5PreUndo_clicked()

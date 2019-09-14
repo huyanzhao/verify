@@ -1,6 +1,5 @@
 #include "voldataconfig.h"
 #include "ui_voldataconfig.h"
-#include "command.h"
 #include <QDebug>
 #include <QScrollBar>
 #include <QMessageBox>
@@ -9,6 +8,8 @@
 #include <QPair>
 #include "batchadd.h"
 #include "qstringinthex.h"
+#include "command.h"
+#include "testitem.h"
 
 volDataConfig::volDataConfig(QWidget *parent) :
     QDialog(parent),
@@ -17,6 +18,8 @@ volDataConfig::volDataConfig(QWidget *parent) :
     ui->setupUi(this);
     // ch1
     nowIndexCh1Pre = -1;  // 前置命令框当前选项索引
+    cmdListCh1Pre = new QList<command *>;
+    nowCommandCh1 = NULL;
 
     nowIndexCh1Data = 0;  // 当前数据项索引
     dataAndAddrListCh1 = new QList<QPair<bool, QPair<QString, QString> * > * >;
@@ -38,6 +41,8 @@ volDataConfig::volDataConfig(QWidget *parent) :
 
     // ch2
     nowIndexCh2Pre = -1;  // 前置命令框当前选项索引
+    cmdListCh2Pre = new QList<command *>;
+    nowCommandCh2 = NULL;
 
     nowIndexCh2Data = 0;  // 当前数据项索引
     dataAndAddrListCh2 = new QList<QPair<bool, QPair<QString, QString> *> * >;
@@ -62,6 +67,22 @@ volDataConfig::~volDataConfig()
 {
     delete ui;
 }
+// 退出事件
+void volDataConfig::closeEvent(QCloseEvent *event)
+{
+    qDebug() << "emit a signal to main window";
+    testItem * ch1 = new testItem(cmdListCh1Pre, dataAndAddrListCh1,
+                                  setCmdCh1Verify, setCh1Multi,
+                                  dmmCmdCh1Verify, dmmCh1Multi,
+                                  meterCmdCh1Verify, meterCh1Multi,
+                                  setCmdCh1Test, dmmCmdCh1Test, meterCmdCh1Test);
+    testItem * ch2 = new testItem(cmdListCh2Pre, dataAndAddrListCh2,
+                                  setCmdCh2Verify, setCh2Multi,
+                                  dmmCmdCh2Verify, dmmCh2Multi,
+                                  meterCmdCh2Verify, meterCh2Multi,
+                                  setCmdCh2Test, dmmCmdCh2Test, meterCmdCh2Test);
+    emit returnTestItem(ch1, ch2);
+}
 // 退出
 void volDataConfig::on_pushBtnExit_clicked()
 {
@@ -73,9 +94,9 @@ void volDataConfig::on_pushBtnExit_clicked()
 void volDataConfig::on_pushBtnCh1PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListCh1Pre.size();
-    cmdListCh1Pre.append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListCh1Pre.size();
+    qDebug() << "before append new command, size of cmdlist is " << cmdListCh1Pre->size();
+    cmdListCh1Pre->append(newCommand);
+    qDebug() << "after append new command, size of cmdlist is " << cmdListCh1Pre->size();
     showCh1PreCmdList();
 }
 // 命令框点击事件
@@ -85,15 +106,15 @@ void volDataConfig::on_ch1PreCmdList_clicked(const QModelIndex &index)
     qDebug() << index.row();
 
     nowIndexCh1Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
-    nowCommandCh1 = cmdListCh1Pre.at(nowIndexCh1Pre);  // 保存ch1前置命令页当前命令的指针
+    nowCommandCh1 = cmdListCh1Pre->at(nowIndexCh1Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnCh1PreUndo_clicked();
 }
 // 刷新命令框
 void volDataConfig::showCh1PreCmdList()
 {
     ui->ch1PreCmdList->clear();
-    for(int i=0; i != cmdListCh1Pre.size(); ++i){
-        command *curCommand = cmdListCh1Pre.at(i);
+    for(int i=0; i != cmdListCh1Pre->size(); ++i){
+        command *curCommand = cmdListCh1Pre->at(i);
         ui->ch1PreCmdList->addItem(curCommand->getFullName());
     }
 }
@@ -103,10 +124,10 @@ void volDataConfig::on_pushBtnCh1PreDel_clicked()
     if(nowIndexCh1Pre == -1){
         return ;
     }
-    cmdListCh1Pre.removeAt(nowIndexCh1Pre);
-    nowIndexCh1Pre = cmdListCh1Pre.size()-1;
+    cmdListCh1Pre->removeAt(nowIndexCh1Pre);
+    nowIndexCh1Pre = cmdListCh1Pre->size()-1;
     if(nowIndexCh1Pre != -1)
-        nowCommandCh1 = cmdListCh1Pre.at(nowIndexCh1Pre);
+        nowCommandCh1 = cmdListCh1Pre->at(nowIndexCh1Pre);
     showCh1PreCmdList();
     // 清空当前命令详情
     ui->lineEditCh1PreCmdName->clear();
@@ -120,16 +141,16 @@ void volDataConfig::on_pushBtnCh1PreUp_clicked()
 {
     if(nowIndexCh1Pre < 1)
         return;
-    cmdListCh1Pre.swap(nowIndexCh1Pre, nowIndexCh1Pre-1);
+    cmdListCh1Pre->swap(nowIndexCh1Pre, nowIndexCh1Pre-1);
     nowIndexCh1Pre--;
     showCh1PreCmdList();
 }
 // 向下按钮
 void volDataConfig::on_pushBtnCh1PreDown_clicked()
 {
-    if((nowIndexCh1Pre == -1)||(nowIndexCh1Pre >= cmdListCh1Pre.size()-1))
+    if((nowIndexCh1Pre == -1)||(nowIndexCh1Pre >= cmdListCh1Pre->size()-1))
         return;
-    cmdListCh1Pre.swap(nowIndexCh1Pre, nowIndexCh1Pre+1);
+    cmdListCh1Pre->swap(nowIndexCh1Pre, nowIndexCh1Pre+1);
     nowIndexCh1Pre++;
     showCh1PreCmdList();
 }
@@ -142,12 +163,14 @@ void volDataConfig::on_pushBtnCh1PreSave_clicked()
             ui->lineEditCh1PreEnd->text().size() == 0 &&
             ui->lineEditCh1PreJudge->text().size() == 0)
         return;
-    nowCommandCh1->setName(ui->lineEditCh1PreCmdName->text());
-    nowCommandCh1->setParam(ui->lineEditCh1PreParam->text());
-    nowCommandCh1->setStart(ui->lineEditCh1PreStart->text());
-    nowCommandCh1->setEnd(ui->lineEditCh1PreEnd->text());
-    nowCommandCh1->setJudge(ui->lineEditCh1PreJudge->text());
-    showCh1PreCmdList();
+    if(nowCommandCh1 != NULL){
+        nowCommandCh1->setName(ui->lineEditCh1PreCmdName->text());
+        nowCommandCh1->setParam(ui->lineEditCh1PreParam->text());
+        nowCommandCh1->setStart(ui->lineEditCh1PreStart->text());
+        nowCommandCh1->setEnd(ui->lineEditCh1PreEnd->text());
+        nowCommandCh1->setJudge(ui->lineEditCh1PreJudge->text());
+        showCh1PreCmdList();
+    }
 }
 // 撤消按钮
 void volDataConfig::on_pushBtnCh1PreUndo_clicked()
@@ -513,9 +536,9 @@ void volDataConfig::on_pushBtnCh1TestUndo_clicked()
 void volDataConfig::on_pushBtnCh2PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListCh2Pre.size();
-    cmdListCh2Pre.append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListCh2Pre.size();
+    qDebug() << "before append new command, size of cmdlist is " << cmdListCh2Pre->size();
+    cmdListCh2Pre->append(newCommand);
+    qDebug() << "after append new command, size of cmdlist is " << cmdListCh2Pre->size();
     showCh2PreCmdList();
 }
 // 命令框点击事件
@@ -523,15 +546,15 @@ void volDataConfig::on_ch2PreCmdList_clicked(const QModelIndex &index)
 {
     qDebug() << index.data().toString();
     nowIndexCh2Pre = index.row();  // 保存ch2前置命令页当前命令在列表中的索引
-    nowCommandCh2 = cmdListCh2Pre.at(nowIndexCh2Pre);  // 保存ch2前置命令页当前命令的指针
+    nowCommandCh2 = cmdListCh2Pre->at(nowIndexCh2Pre);  // 保存ch2前置命令页当前命令的指针
     on_pushBtnCh2PreUndo_clicked();
 }
 // 刷新命令框
 void volDataConfig::showCh2PreCmdList()
 {
     ui->ch2PreCmdList->clear();
-    for(int i=0; i != cmdListCh2Pre.size(); ++i){
-        command *curCommand = cmdListCh2Pre.at(i);
+    for(int i=0; i != cmdListCh2Pre->size(); ++i){
+        command *curCommand = cmdListCh2Pre->at(i);
         ui->ch2PreCmdList->addItem(curCommand->getFullName());
     }
 }
@@ -541,10 +564,10 @@ void volDataConfig::on_pushBtnCh2PreDel_clicked()
     if(nowIndexCh2Pre == -1){
         return ;
     }
-    cmdListCh2Pre.removeAt(nowIndexCh2Pre);
-    nowIndexCh2Pre = cmdListCh2Pre.size()-1;
+    cmdListCh2Pre->removeAt(nowIndexCh2Pre);
+    nowIndexCh2Pre = cmdListCh2Pre->size()-1;
     if(nowIndexCh2Pre != -1)
-        nowCommandCh2 = cmdListCh2Pre.at(nowIndexCh2Pre);
+        nowCommandCh2 = cmdListCh2Pre->at(nowIndexCh2Pre);
     showCh2PreCmdList();
     // 清空当前命令详情
     ui->lineEditCh2PreCmdName->clear();
@@ -558,16 +581,16 @@ void volDataConfig::on_pushBtnCh2PreUp_clicked()
 {
     if(nowIndexCh2Pre < 1)
         return;
-    cmdListCh2Pre.swap(nowIndexCh2Pre, nowIndexCh2Pre-1);
+    cmdListCh2Pre->swap(nowIndexCh2Pre, nowIndexCh2Pre-1);
     nowIndexCh2Pre--;
     showCh2PreCmdList();
 }
 // 向下按钮
 void volDataConfig::on_pushBtnCh2PreDown_clicked()
 {
-    if((nowIndexCh2Pre == -1)||(nowIndexCh2Pre >= cmdListCh2Pre.size()-1))
+    if((nowIndexCh2Pre == -1)||(nowIndexCh2Pre >= cmdListCh2Pre->size()-1))
         return;
-    cmdListCh2Pre.swap(nowIndexCh2Pre, nowIndexCh2Pre+1);
+    cmdListCh2Pre->swap(nowIndexCh2Pre, nowIndexCh2Pre+1);
     nowIndexCh2Pre++;
     showCh2PreCmdList();
 }
@@ -580,12 +603,14 @@ void volDataConfig::on_pushBtnCh2PreSave_clicked()
             ui->lineEditCh2PreEnd->text().size() == 0 &&
             ui->lineEditCh2PreJudge->text().size() == 0)
         return;
-    nowCommandCh2->setName(ui->lineEditCh2PreCmdName->text());
-    nowCommandCh2->setParam(ui->lineEditCh2PreParam->text());
-    nowCommandCh2->setStart(ui->lineEditCh2PreStart->text());
-    nowCommandCh2->setEnd(ui->lineEditCh2PreEnd->text());
-    nowCommandCh2->setJudge(ui->lineEditCh2PreJudge->text());
-    showCh2PreCmdList();
+    if(nowCommandCh2 != NULL){
+        nowCommandCh2->setName(ui->lineEditCh2PreCmdName->text());
+        nowCommandCh2->setParam(ui->lineEditCh2PreParam->text());
+        nowCommandCh2->setStart(ui->lineEditCh2PreStart->text());
+        nowCommandCh2->setEnd(ui->lineEditCh2PreEnd->text());
+        nowCommandCh2->setJudge(ui->lineEditCh2PreJudge->text());
+        showCh2PreCmdList();
+    }
 }
 // 撤消按钮
 void volDataConfig::on_pushBtnCh2PreUndo_clicked()
