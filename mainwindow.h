@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QButtonGroup>
+#include <QRadioButton>
+#include <QVariantMap>
 #include "command.h"
 #include "testitem.h"
 #include "currentitem.h"
@@ -11,6 +13,11 @@ namespace Ui {
 class MainWindow;
 }
 
+enum verifyOrTest{noneVot, verify, test};  // 校准或测试
+enum voltageOrCurrent{noneVoc, voltage, current};  // 电压或电流
+enum ch{noneCh, ch1, ch2};  // 电压通道
+enum psu{nonePsu, psu1, psu2};  // 电流通道
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -18,6 +25,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void getParameters();
     
 private slots:
     void on_actionNew_triggered();            // 新建
@@ -54,10 +62,22 @@ private slots:
     void on_checkBoxPart5_clicked();          // Part5
 
 
+    void on_pushBtnStart_clicked();
+
 private:
     Ui::MainWindow *ui;
-    testItem * ch1;
-    testItem * ch2;
+    testItem * itemCh1;
+    testItem * itemCh2;
+
+    QVariantMap config;
+
+    QList<QRadioButton *> * slotList;
+    int currentSlot;  // 当前通道
+    verifyOrTest vot;  //  校准或测试
+    voltageOrCurrent voc;  //  电压或电流
+    ch currentCh;  //  ch1或ch2
+    psu currentPsu;  //  psu1或psu2
+    QList<int> * partList;  // 档位列表
 };
 
 #endif // MAINWINDOW_H

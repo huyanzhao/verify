@@ -5,6 +5,11 @@
 #include <utility>
 #include <QButtonGroup>
 #include <QResizeEvent>
+#include "parser.h"
+#include "parserrunnable.h"
+#include "qjson_export.h"
+#include "qobjecthelper.h"
+#include "serializer.h"
 #include "meteraddress.h"
 #include "slotsconfig.h"
 #include "voldataconfig.h"
@@ -20,6 +25,17 @@ MainWindow::MainWindow(QWidget *parent):
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    slotList = new QList<QRadioButton * >;
+    slotList->append(ui->radioBtnSlot1);
+    slotList->append(ui->radioBtnSlot2);
+    slotList->append(ui->radioBtnSlot3);
+    slotList->append(ui->radioBtnSlot4);
+    currentSlot = 0;
+    vot = noneVot;
+    voc = noneVoc;
+    currentCh = noneCh;
+    currentPsu = nonePsu;
+    partList = new QList<int>;
 
     // 在状态栏添加两个标签，用来显示zynq和万用表的接连状态
     QLabel * zynqStatus = new QLabel(this);
@@ -34,8 +50,8 @@ MainWindow::MainWindow(QWidget *parent):
     ui->radioBtnCH0->setHidden(true);  // 隐藏多的单选按钮,用来显示CH1和CH2未被选中的状态
     ui->radioBtnPSU0->setHidden(true);  // 隐藏多的单选按钮,用来显示PSU1和PSU2未被选中的状态
 
-    ch1 = NULL;
-    ch2 = NULL;
+    itemCh1 = NULL;
+    itemCh2 = NULL;
 }
 // 析构
 MainWindow::~MainWindow()
@@ -202,6 +218,7 @@ void MainWindow::recviceSlots(QMap<QString, QPair<QString, int> > *hosts)
     int headheight, slotheight;
     headheight = ui->frameSlot->height() % hosts->count() / 2;
     slotheight = ui->frameSlot->height() / hosts->count();
+    slotList->clear();
     for(int i=0; i != hosts->count(); ++i){
         QString ip;
         ip = hosts->value(QString("slot%1").arg(i+1)).first;
@@ -213,36 +230,41 @@ void MainWindow::recviceSlots(QMap<QString, QPair<QString, int> > *hosts)
         slot->setObjectName(QString("slotRadioBtn%1").arg(i+1));
         slot->setStatusTip(QString("slot %1").arg(i+1));
         slot->show();
+        slotList->append(slot);
     }
 }
 // 接收电压设置参数
 void MainWindow::recviceVolParam(testItem * ch_1, testItem * ch_2)
 {
-    ch1 = ch_1;
-    ch2 = ch_2;
-    qDebug() << "ch1 pre command size: " << ch1->getCmdList()->size();
-    qDebug() << "ch1 data size: " << ch1->getDataList()->size();
-    qDebug() << "ch1 verify set command: " << ch1->getSetCmdVerify()->getName();
-    qDebug() << "ch1 verify set multi: " << ch1->getSetMulti();
-    qDebug() << "ch1 verify dmm command: " << ch1->getDmmCmdVerify()->getName();
-    qDebug() << "ch1 verify dmm multi: " << ch1->getDmmMulti();
-    qDebug() << "ch1 verify meter command: " << ch1->getMeterCmdVerify()->getName();
-    qDebug() << "ch1 verify meter multi: " << ch1->getMeterMulti();
-    qDebug() << "ch1 test set command: " << ch1->getSetCmdTest()->getName();
-    qDebug() << "ch1 test dmm command: " << ch1->getDmmCmdTest()->getName();
-    qDebug() << "ch1 test meter command: " << ch1->getMeterCmdTest()->getName();
+    itemCh1 = ch_1;
+    itemCh2 = ch_2;
+    qDebug() << "ch1 pre command size: " << itemCh1->getCmdList()->size();
+    qDebug() << "ch1 data size: " << itemCh1->getDataList()->size();
+    qDebug() << "ch1 verify set command: " << itemCh1->getSetCmdVerify()->getName();
+    qDebug() << "ch1 verify set multi: " << itemCh1->getSetMulti();
+    qDebug() << "ch1 verify dmm command: " << itemCh1->getDmmCmdVerify()->getName();
+    qDebug() << "ch1 verify dmm multi: " << itemCh1->getDmmMulti();
+    qDebug() << "ch1 verify meter command: " << itemCh1->getMeterCmdVerify()->getName();
+    qDebug() << "ch1 verify meter multi: " << itemCh1->getMeterMulti();
+    qDebug() << "ch1 test set command: " << itemCh1->getSetCmdTest()->getName();
+    qDebug() << "ch1 test dmm command: " << itemCh1->getDmmCmdTest()->getName();
+    qDebug() << "ch1 test meter command: " << itemCh1->getMeterCmdTest()->getName();
 
-    qDebug() << "ch2 pre command size: " << ch2->getCmdList()->size();
-    qDebug() << "ch2 data size: " << ch2->getDataList()->size();
-    qDebug() << "ch2 verify set command: " << ch2->getSetCmdVerify()->getName();
-    qDebug() << "ch2 verify set multi: " << ch2->getSetMulti();
-    qDebug() << "ch2 verify dmm command: " << ch2->getDmmCmdVerify()->getName();
-    qDebug() << "ch2 verify dmm multi: " << ch2->getDmmMulti();
-    qDebug() << "ch2 verify meter command: " << ch2->getMeterCmdVerify()->getName();
-    qDebug() << "ch2 verify meter multi: " << ch2->getMeterMulti();
-    qDebug() << "ch2 test set command: " << ch2->getSetCmdTest()->getName();
-    qDebug() << "ch2 test dmm command: " << ch2->getDmmCmdTest()->getName();
-    qDebug() << "ch2 test meter command: " << ch2->getMeterCmdTest()->getName();
+    qDebug() << "ch2 pre command size: " << itemCh2->getCmdList()->size();
+    qDebug() << "ch2 data size: " << itemCh2->getDataList()->size();
+    qDebug() << "ch2 verify set command: " << itemCh2->getSetCmdVerify()->getName();
+    qDebug() << "ch2 verify set multi: " << itemCh2->getSetMulti();
+    qDebug() << "ch2 verify dmm command: " << itemCh2->getDmmCmdVerify()->getName();
+    qDebug() << "ch2 verify dmm multi: " << itemCh2->getDmmMulti();
+    qDebug() << "ch2 verify meter command: " << itemCh2->getMeterCmdVerify()->getName();
+    qDebug() << "ch2 verify meter multi: " << itemCh2->getMeterMulti();
+    qDebug() << "ch2 test set command: " << itemCh2->getSetCmdTest()->getName();
+    qDebug() << "ch2 test dmm command: " << itemCh2->getDmmCmdTest()->getName();
+    qDebug() << "ch2 test meter command: " << itemCh2->getMeterCmdTest()->getName();
+
+    config =  QJson::QObjectHelper::qobject2qvariant(itemCh1);
+    QJson::Serializer serializer;
+    qDebug() << serializer.serialize(config);
 }
 // 电压单选按钮
 void MainWindow::on_radioBtnVol_clicked()
@@ -354,4 +376,72 @@ void MainWindow::on_checkBoxPart5_clicked()
         ui->checkBoxAll->setChecked(true);
     else if(!ui->checkBoxPart5->checkState())
         ui->checkBoxAll->setChecked(false);
+}
+// 开始按钮
+void MainWindow::on_pushBtnStart_clicked()
+{
+    getParameters();
+    qDebug() << "start" ;
+    qDebug() << "current Slot: " << currentSlot;
+    qDebug() << "verify or test: " << vot;
+    qDebug() << "voltage or current: " << voc;
+    qDebug() << "ch1 or ch2: " << currentCh;
+    qDebug() << "psu1 or psu2: " << currentPsu;
+    qDebug() << "part list size: " << partList->size();
+    for(int i=0; i != partList->size(); ++i)
+        qDebug() << partList->at(i);
+}
+// 获取参数
+void MainWindow::getParameters()
+{
+    for(int i=0; i != slotList->size(); ++i){
+        if(slotList->at(i)->isChecked()){
+            currentSlot = i+1;
+            break;
+        }
+    }
+    if(ui->radioBtnVerify->isChecked()){
+        vot = verify;
+    }else if(ui->radioBtnTest->isChecked()){
+        vot = test;
+    }else{
+        vot = noneVot;
+    }
+    if(ui->radioBtnVol->isChecked()){
+        voc = voltage;
+    }else if(ui->radioBtnCur->isChecked()){
+        voc = current;
+    }else {
+        voc = noneVoc;
+    }
+    if(ui->radioBtnCH1->isChecked()){
+        currentCh = ch1;
+    }else if(ui->radioBtnCH2->isChecked()){
+        currentCh = ch2;
+    }else {
+        currentCh = noneCh;
+    }
+    if(ui->radioBtnPSU1->isChecked()){
+        currentPsu = psu1;
+    }else if(ui->radioBtnPSU2->isChecked()){
+        currentPsu = psu2;
+    }else {
+        currentPsu = nonePsu;
+    }
+    partList->clear();
+    if(ui->checkBoxPart1->isChecked()){
+        partList->append(1);
+    }
+    if(ui->checkBoxPart2->isChecked()){
+        partList->append(2);
+    }
+    if(ui->checkBoxPart3->isChecked()){
+        partList->append(3);
+    }
+    if(ui->checkBoxPart4->isChecked()){
+        partList->append(4);
+    }
+    if(ui->checkBoxPart5->isChecked()){
+        partList->append(5);
+    }
 }
