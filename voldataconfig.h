@@ -19,7 +19,7 @@ class volDataConfig : public QDialog
     Q_OBJECT
     
 public:
-    explicit volDataConfig(QWidget *parent = 0);
+    explicit volDataConfig(testItem *, testItem *, QWidget *parent = 0);
     ~volDataConfig();
 
 signals:

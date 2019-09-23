@@ -128,7 +128,7 @@ curdataconfig::curdataconfig(QWidget *parent) :
     meterCmdPsu1Part5Test = new command(QString("read?"));
     // PSU2  前置命令
     nowIndexPsu2Pre = -1;  // 前置命令框当前选项索引
-    cmdListPsu1Pre = new QList<command *>;
+    cmdListPsu2Pre = new QList<command *>;
     nowCommandPsu2 = NULL;
     // PSU2  Part1  换档命令
     nowIndexPsu2Part1Pre = -1;  // 换档命令框当前选项索引

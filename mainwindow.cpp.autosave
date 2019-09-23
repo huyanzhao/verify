@@ -797,7 +797,7 @@ void MainWindow::on_pushBtnStart_clicked()
             ui->tableView->setColumnWidth(8, width*6);
             ui->tableView->setColumnWidth(9, width*2);
         } else if(voc == current){
-            qDeleteAll(ui->tableView);
+            ui->tableView->
             qDebug() << tr("校准电流");
         }
     } else if(vot == test){

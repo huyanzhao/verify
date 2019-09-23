@@ -5,7 +5,8 @@
 #-------------------------------------------------
 
 QT       += core gui \
-            network
+            network \
+            sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -23,7 +24,14 @@ SOURCES += main.cpp\
     qstringinthex.cpp \
     curdataconfig.cpp \
     testitem.cpp \
-    currentitem.cpp
+    currentitem.cpp \
+    qjson4/QJsonDocument.cpp \
+    qjson4/QJsonArray.cpp \
+    qjson4/QJsonObject.cpp \
+    qjson4/QJsonParseError.cpp \
+    qjson4/QJsonValueRef.cpp \
+    qjson4/QJsonValue.cpp \
+    qjson4/QJsonParser.cpp
 
 HEADERS  += mainwindow.h \
     meteraddress.h \
@@ -34,7 +42,15 @@ HEADERS  += mainwindow.h \
     qstringinthex.h \
     curdataconfig.h \
     testitem.h \
-    currentitem.h
+    currentitem.h \
+    qjson4/QJsonDocument.h \
+    qjson4/QJsonArray.h \
+    qjson4/QJsonObject.h \
+    qjson4/QJsonParseError.h \
+    qjson4/QJsonValueRef.h \
+    qjson4/QJsonValue.h \
+    qjson4/QJsonRoot.h \
+    qjson4/QJsonParser.h
 
 FORMS    += mainwindow.ui \
     meteraddress.ui \

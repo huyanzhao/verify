@@ -8,7 +8,7 @@ command::command(QString nameParam):
     name(nameParam)
 {
     qDebug() << QString("Create new command,name:%1").arg(name);
-    judgeEqual = QString("Done");
+//    judgeEqual = QString("Done");
 }
 // ÉèÖÃÃüÁîÃû³Æ
 void command::setName(QString newName)

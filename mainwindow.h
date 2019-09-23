@@ -5,9 +5,15 @@
 #include <QButtonGroup>
 #include <QRadioButton>
 #include <QVariantMap>
+#include <QAbstractSocket>
+#include <QLabel>
+#include <QButtonGroup>
 #include "command.h"
 #include "testitem.h"
 #include "currentitem.h"
+#include "qjson4/QJsonObject.h"
+
+class QTcpSocket;
 
 namespace Ui {
 class MainWindow;
@@ -47,11 +53,36 @@ private slots:
     void on_actionDataConfig_triggered();     // 数据配置的帮助信息
     void on_actionAbout_triggered();          // 关于
     void resizeEvent(QResizeEvent *);         // 大小改变
+    bool eventFilter(QObject *, QEvent *);    // 点击事件
+
+    void newMeterConnect();                   // 新建万用表连接
+    void readMeterMessage();                  // 读取万用表信息
+    void meterConnected();                    // 万用表连接成功
+    void displayMeterError(QAbstractSocket::SocketError);  // 显示万用表连接错误
+
+    void newZynqConnect();                    // 新建ZYNQ连接
+    void readZynqMessage();                   // 读取ZYNQ信息
+    void zynqConnected();                     // ZYNQ连接成功
+    void displayZynqError(QAbstractSocket::SocketError);  // 显示zynq连接错误
 
     void recviceMeter(QString host, int port);  // 接收用户设定的万用表IP端口
     void recviceSlots(QMap<QString, QPair<QString, int> >*);  // 接收用记设定的通道数据
     void recviceVolParam(testItem *,testItem *);  // 接收电压设置参数
 
+    void readConfFile(QString name="default.json");  // 读取配置文件
+    void initConfig(QJsonObject);             // 初始化配置
+    void parseSlots(QJsonObject);  // 将json字典解析为通道列表
+    testItem * parseItem(QJsonObject);        // 将json字典解析为测试项
+    command * parseCmd(QJsonObject);          // 将json字典解析为命令
+
+
+    QVariantMap saveSlots();                  // 保存通道列表
+    QVariantMap saveTestItem(testItem *);     // 保存测试项
+    QVariantList saveCommandList(QList<command *> *);  // 保存命令列表
+    QVariantList saveDataList(QList<QPair<bool, QPair<QString, QString> *> *> *);  // 保存数据列表
+    QVariantMap saveCommand(command *);       // 保存命令
+
+    void on_radioSlot_clicked(int);              // 通道单选框
     void on_radioBtnCur_clicked();            // 电流单选框
     void on_radioBtnVol_clicked();            // 电压单选框
     void on_checkBoxAll_clicked();            // 全选
@@ -66,11 +97,26 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QString meterHost;  // 万用表地址
+    int meterPort;  // 万用表端口
+    QTcpSocket *meterSocket;  //万用表socket
+    QString meterMessage;  // 万用表接收到的信息
+    quint16 meterBlockSize;  // 用来存放数据的大小信息
+    QLabel * meterStatus;  // 状态栏万用表状态指示
+
+    QString zynqHost;  // ZYNQ地址
+    int zynqPort;  // ZYNQ端口
+    QTcpSocket * zynqSocket;  // ZYNQsocket
+    QString zynqMessage;  // ZYNQ接收到的信息
+    quint16 zynqBlockSize;  // 用来存放数据的大小信息
+    QLabel * zynqStatus;  // 状态栏ZYNQ状态指示
+
     testItem * itemCh1;
     testItem * itemCh2;
 
     QVariantMap config;
 
+    QButtonGroup * slotGroup;
     QList<QRadioButton *> * slotList;
     int currentSlot;  // 当前通道
     verifyOrTest vot;  //  校准或测试
