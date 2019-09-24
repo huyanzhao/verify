@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     qjson4/QJsonParseError.cpp \
     qjson4/QJsonValueRef.cpp \
     qjson4/QJsonValue.cpp \
-    qjson4/QJsonParser.cpp
+    qjson4/QJsonParser.cpp \
+    mythread.cpp
 
 HEADERS  += mainwindow.h \
     meteraddress.h \
@@ -50,7 +51,8 @@ HEADERS  += mainwindow.h \
     qjson4/QJsonValueRef.h \
     qjson4/QJsonValue.h \
     qjson4/QJsonRoot.h \
-    qjson4/QJsonParser.h
+    qjson4/QJsonParser.h \
+    mythread.h
 
 FORMS    += mainwindow.ui \
     meteraddress.ui \

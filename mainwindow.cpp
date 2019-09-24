@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QFile>
+#include <QTime>
+#include <QTimer>
 #include <QDebug>
 #include <utility>
 #include <QButtonGroup>
@@ -9,6 +11,7 @@
 #include <QByteArray>
 #include <QtNetwork>
 #include <QStandardItemModel>
+#include <QCoreApplication>
 #include "qjson4/QJsonArray.h"
 #include "qjson4/QJsonDocument.h"
 #include "qjson4/QJsonObject.h"
@@ -23,6 +26,7 @@
 #include "curdataconfig.h"
 #include "testitem.h"
 #include "currentitem.h"
+#include "mythread.h"
 
 // 通道列表
 QMap<QString, QPair<QString, int> > slotsMap;
@@ -32,6 +36,11 @@ MainWindow::MainWindow(QWidget *parent):
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    model = new QStandardItemModel(this);
+    myTimer = new QTimer(this);
+    connect(myTimer, SIGNAL(timeout()), this, SLOT(updateConsume()));
+    QTime t = QTime::currentTime();
+    qsrand(t.msec()+t.second()*1000);
     // 初始化万用表地址端品
     meterStatus = new QLabel(this);
     meterStatus->installEventFilter(this);  //安装事件过滤器
@@ -40,7 +49,6 @@ MainWindow::MainWindow(QWidget *parent):
     meterHost = "114.115.181.41";
     meterPort = 80;
     meterSocket = new QTcpSocket(this);
-    connect(meterSocket, SIGNAL(readyRead()), this, SLOT(readMeterMessage()));
     connect(meterSocket, SIGNAL(connected()), this, SLOT(meterConnected()));
     connect(meterSocket, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(displayMeterError(QAbstractSocket::SocketError)));
@@ -53,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent):
     zynqStatus->setText(tr("ZYNQ未连接"));
     ui->statusBar->addPermanentWidget(zynqStatus);
     zynqSocket = new QTcpSocket(this);
-    connect(zynqSocket, SIGNAL(readyRead()), this, SLOT(readZynqMessage()));
+
     connect(zynqSocket, SIGNAL(connected()), this, SLOT(zynqConnected()));
     connect(zynqSocket, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(displayZynqError(QAbstractSocket::SocketError)));
@@ -228,13 +236,127 @@ void MainWindow::resizeEvent(QResizeEvent * event)
     ui->frameTop->resize(width, 100);
     ui->frameBtn->move(QPoint(width-190, 0));
     ui->frameOptionAll->move(QPoint(width-790, 0));
-    ui->labelSecond->resize(width-790-156, 100);
+    ui->labelSecond->resize(width-790-168, 100);
     // 进度条
     ui->frameProgress->resize(width, 30);
     ui->progressBar->resize(width-10, 20);
     // 表格
     ui->frameTable->resize(width, height-175);
     ui->tableView->resize(width-10, height-180);
+    repaintTable();
+}
+// 重画表头
+void MainWindow::repaintTable()
+{
+    if(vot == verify && voc == voltage){
+        model->setColumnCount(10);
+        model->setHeaderData(0,Qt::Horizontal, tr("测试项"));
+        model->setHeaderData(1,Qt::Horizontal, tr("设置电压"));
+        model->setHeaderData(2,Qt::Horizontal, tr("地址"));
+        model->setHeaderData(3,Qt::Horizontal, tr("DMM电压"));
+        model->setHeaderData(4,Qt::Horizontal, tr("地址"));
+        model->setHeaderData(5,Qt::Horizontal, tr("万用表电压"));
+        model->setHeaderData(6,Qt::Horizontal, tr("地址"));
+        model->setHeaderData(7,Qt::Horizontal, tr("设置电压 - DMM电压"));
+        model->setHeaderData(8,Qt::Horizontal, tr("万用表电压 - DMM电压"));
+        model->setHeaderData(9,Qt::Horizontal, tr("结果"));
+        ui->tableView->setModel(model);
+        int width = ui->tableView->width() / 40;
+        ui->tableView->setColumnWidth(0, width*8);
+        ui->tableView->setColumnWidth(1, width*4);
+        ui->tableView->setColumnWidth(2, width*2);
+        ui->tableView->setColumnWidth(3, width*4);
+        ui->tableView->setColumnWidth(4, width*2);
+        ui->tableView->setColumnWidth(5, width*4);
+        ui->tableView->setColumnWidth(6, width*2);
+        ui->tableView->setColumnWidth(7, width*6);
+        ui->tableView->setColumnWidth(8, width*6);
+        ui->tableView->setColumnWidth(9, width*2);
+    } else if(vot == verify && voc == current){
+        model->setColumnCount(10);
+        model->setHeaderData(0,Qt::Horizontal, tr("测试项"));
+        model->setHeaderData(1,Qt::Horizontal, tr("设置电流"));
+        model->setHeaderData(2,Qt::Horizontal, tr("地址"));
+        model->setHeaderData(3,Qt::Horizontal, tr("PSU电流"));
+        model->setHeaderData(4,Qt::Horizontal, tr("地址"));
+        model->setHeaderData(5,Qt::Horizontal, tr("万用表电流"));
+        model->setHeaderData(6,Qt::Horizontal, tr("地址"));
+        model->setHeaderData(7,Qt::Horizontal, tr("设置电流 - PSU电流"));
+        model->setHeaderData(8,Qt::Horizontal, tr("万用表电流 - PSU电流"));
+        model->setHeaderData(9,Qt::Horizontal, tr("结果"));
+        ui->tableView->setModel(model);
+        int width = ui->tableView->width() / 40;
+        ui->tableView->setColumnWidth(0, width*8);
+        ui->tableView->setColumnWidth(1, width*4);
+        ui->tableView->setColumnWidth(2, width*2);
+        ui->tableView->setColumnWidth(3, width*4);
+        ui->tableView->setColumnWidth(4, width*2);
+        ui->tableView->setColumnWidth(5, width*4);
+        ui->tableView->setColumnWidth(6, width*2);
+        ui->tableView->setColumnWidth(7, width*6);
+        ui->tableView->setColumnWidth(8, width*6);
+        ui->tableView->setColumnWidth(9, width*2);
+    } else if(vot == test && voc == voltage){
+        model->setColumnCount(9);
+        model->setHeaderData(0,Qt::Horizontal, tr("测试项"));
+        model->setHeaderData(1,Qt::Horizontal, tr("设置电压"));
+        model->setHeaderData(2,Qt::Horizontal, tr("DMM电压"));
+        model->setHeaderData(3,Qt::Horizontal, tr("万用表电压"));
+        model->setHeaderData(4,Qt::Horizontal, tr("设置电压 - DMM电压"));
+        model->setHeaderData(5,Qt::Horizontal, tr("差值与设置电压比率"));
+        model->setHeaderData(6,Qt::Horizontal, tr("万用表电压 - DMM电压"));
+        model->setHeaderData(7,Qt::Horizontal, tr("差值与设置电压比率"));
+        model->setHeaderData(8,Qt::Horizontal, tr("结果"));
+        ui->tableView->setModel(model);
+        int width = ui->tableView->width() / 42;
+        ui->tableView->setColumnWidth(0, width*8);
+        ui->tableView->setColumnWidth(1, width*3);
+        ui->tableView->setColumnWidth(2, width*3);
+        ui->tableView->setColumnWidth(3, width*3);
+        ui->tableView->setColumnWidth(4, width*6);
+        ui->tableView->setColumnWidth(5, width*5);
+        ui->tableView->setColumnWidth(6, width*6);
+        ui->tableView->setColumnWidth(7, width*6);
+        ui->tableView->setColumnWidth(8, width*2);
+    } else if(vot == test && voc == current){
+        model->setColumnCount(9);
+        model->setHeaderData(0,Qt::Horizontal, tr("测试项"));
+        model->setHeaderData(1,Qt::Horizontal, tr("设置电流"));
+        model->setHeaderData(2,Qt::Horizontal, tr("PSU电流"));
+        model->setHeaderData(3,Qt::Horizontal, tr("万用表电流"));
+        model->setHeaderData(4,Qt::Horizontal, tr("设置电流 - PSU电流"));
+        model->setHeaderData(5,Qt::Horizontal, tr("差值与设置电压比率"));
+        model->setHeaderData(6,Qt::Horizontal, tr("万用表电流 - PSU电流"));
+        model->setHeaderData(7,Qt::Horizontal, tr("差值与设置电压比率"));
+        model->setHeaderData(8,Qt::Horizontal, tr("结果"));
+        ui->tableView->setModel(model);
+        int width = ui->tableView->width() / 42;
+        ui->tableView->setColumnWidth(0, width*8);
+        ui->tableView->setColumnWidth(1, width*3);
+        ui->tableView->setColumnWidth(2, width*3);
+        ui->tableView->setColumnWidth(3, width*3);
+        ui->tableView->setColumnWidth(4, width*6);
+        ui->tableView->setColumnWidth(5, width*5);
+        ui->tableView->setColumnWidth(6, width*6);
+        ui->tableView->setColumnWidth(7, width*6);
+        ui->tableView->setColumnWidth(8, width*2);
+    }
+
+}
+// 更新耗时
+void MainWindow::updateConsume()
+{
+    consume += 0.1;
+    ui->labelSecond->setText(QString::number(consume,'f',1) + "s");
+    if(int(consume * 10) % 10 == 0){
+        int r = qrand() % 255;
+        int g = qrand() % 255;
+        int b = qrand() % 255;
+        QPalette palette;
+        palette.setColor(QPalette::Background, QColor(r, g, b));
+        ui->labelSecond->setAutoFillBackground(true);
+        ui->labelSecond->setPalette(palette);
+    }
 }
 // 点击事件
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
@@ -276,8 +398,6 @@ void MainWindow::recviceMeter(QString host, int port)
 // 新建万用表连接
 void MainWindow::newMeterConnect()
 {
-    // 初始化数据大小信息为0
-    meterBlockSize = 0;
     // 取消已有的连接
     meterSocket->abort();
     meterStatus->setText(tr("万用表未连接"));
@@ -285,27 +405,6 @@ void MainWindow::newMeterConnect()
     pe.setColor(QPalette::WindowText,Qt::black);
     meterStatus->setPalette(pe);
     meterSocket->connectToHost(meterHost, meterPort);
-}
-// 接收万用表信息
-void MainWindow::readMeterMessage()
-{
-    QDataStream in(meterSocket);
-    // 设置数据流版本，这里要和服务器端相同
-    in.setVersion(QDataStream::Qt_4_6);
-    // 如果是刚开始接收数据
-    if (meterBlockSize == 0) {
-        //判断接收的数据是否大于两字节，也就是文件的大小信息所占的空间
-        //如果是则保存到blockSize变量中，否则直接返回，继续接收数据
-        if(meterSocket->bytesAvailable() < (int)sizeof(quint16)) return;
-        in >> meterBlockSize;
-    }
-    // 如果没有得到全部的数据，则返回，继续接收数据
-    if(meterSocket->bytesAvailable() < meterBlockSize) return;
-    // 将接收到的数据存放到变量中
-    in >> meterMessage;
-    // 显示接收到的数据
-    qDebug() << meterMessage;
-    ui->statusBar->showMessage(meterMessage);
 }
 // 万用表连接成功
 void MainWindow::meterConnected()
@@ -320,7 +419,7 @@ void MainWindow::meterConnected()
 void MainWindow::displayMeterError(QAbstractSocket::SocketError)
 {
     qDebug() << meterSocket->errorString();
-    ui->statusBar->showMessage(meterSocket->errorString());
+    ui->statusBar->showMessage(tr("Meter: ") + meterSocket->errorString());
     if(meterSocket->error() == QAbstractSocket::RemoteHostClosedError){ // 断开连接
         meterStatus->setText(tr("万用表已断开连接！"));
         QPalette pe;
@@ -358,8 +457,6 @@ void MainWindow::recviceSlots(QMap<QString, QPair<QString, int> > *hosts)
 // 新建ZYNQ连接
 void MainWindow::newZynqConnect()
 {
-    // 初始化数据大小信息为0
-    zynqBlockSize = 0;
     // 取消已有的连接
     zynqSocket->abort();
     zynqStatus->setText(tr("ZYNQ未连接"));
@@ -368,27 +465,7 @@ void MainWindow::newZynqConnect()
     zynqStatus->setPalette(pe);
     zynqSocket->connectToHost(zynqHost, zynqPort);
 }
-// 接收ZYNQ信息
-void MainWindow::readZynqMessage()
-{
-    QDataStream in(zynqSocket);
-    // 设置数据流版本，这里要和服务器端相同
-    in.setVersion(QDataStream::Qt_4_6);
-    // 如果是刚开始接收数据
-    if (zynqBlockSize == 0) {
-        //判断接收的数据是否大于两字节，也就是文件的大小信息所占的空间
-        //如果是则保存到blockSize变量中，否则直接返回，继续接收数据
-        if(zynqSocket->bytesAvailable() < (int)sizeof(quint16)) return;
-        in >> zynqBlockSize;
-    }
-    // 如果没有得到全部的数据，则返回，继续接收数据
-    if(zynqSocket->bytesAvailable() < zynqBlockSize) return;
-    // 将接收到的数据存放到变量中
-    in >> zynqMessage;
-    // 显示接收到的数据
-    qDebug() << zynqMessage;
-    ui->statusBar->showMessage(zynqMessage);
-}
+
 // ZTNQ连接成功
 void MainWindow::zynqConnected()
 {
@@ -402,7 +479,7 @@ void MainWindow::zynqConnected()
 void MainWindow::displayZynqError(QAbstractSocket::SocketError)
 {
     qDebug() << zynqSocket->errorString();
-    ui->statusBar->showMessage(zynqSocket->errorString());
+    ui->statusBar->showMessage(tr("ZYNQ: ") + zynqSocket->errorString());
     if(zynqSocket->error() == QAbstractSocket::RemoteHostClosedError){ // 断开连接
         zynqStatus->setText(tr("万用表已断开连接！"));
         QPalette pe;
@@ -765,48 +842,77 @@ void MainWindow::on_pushBtnStart_clicked()
 //        qDebug() << partList->at(i);
     if(currentSlot == -1 || vot == 0 || voc == 0)
         return;
-    QStringList header;
-    int tableWidth = ui->tableView->width();
-    QStandardItemModel* model = new QStandardItemModel(this);
-    if(vot == verify){
-        if(voc == voltage){
-            qDebug() << tr("校准电压");
-
-            /*设置列字段名*/
-            model->setColumnCount(10);
-            model->setHeaderData(0,Qt::Horizontal, tr("测试项"));
-            model->setHeaderData(1,Qt::Horizontal, tr("设置电压"));
-            model->setHeaderData(2,Qt::Horizontal, tr("地址"));
-            model->setHeaderData(3,Qt::Horizontal, tr("DMM电压"));
-            model->setHeaderData(4,Qt::Horizontal, tr("地址"));
-            model->setHeaderData(5,Qt::Horizontal, tr("万用表电压"));
-            model->setHeaderData(6,Qt::Horizontal, tr("地址"));
-            model->setHeaderData(7,Qt::Horizontal, tr("设置电压 - DMM电压"));
-            model->setHeaderData(8,Qt::Horizontal, tr("万用表电压 - DMM电压"));
-            model->setHeaderData(9,Qt::Horizontal, tr("结果"));
-            ui->tableView->setModel(model);
-            int width = tableWidth / 40;
-            ui->tableView->setColumnWidth(0, width*8);
-            ui->tableView->setColumnWidth(1, width*4);
-            ui->tableView->setColumnWidth(2, width*2);
-            ui->tableView->setColumnWidth(3, width*4);
-            ui->tableView->setColumnWidth(4, width*2);
-            ui->tableView->setColumnWidth(5, width*4);
-            ui->tableView->setColumnWidth(6, width*2);
-            ui->tableView->setColumnWidth(7, width*6);
-            ui->tableView->setColumnWidth(8, width*6);
-            ui->tableView->setColumnWidth(9, width*2);
-        } else if(voc == current){
-            qDeleteAll(ui->tableView);
-            qDebug() << tr("校准电流");
+    repaintTable();
+    QString path = QCoreApplication::applicationDirPath();  //获取程序当前运行目录
+    QDateTime local(QDateTime::currentDateTime());
+    QString date = local.toString("yyyyMMdd");
+    QString time = local.toString("hhmmss");
+    QString logPath = path + '\\log\\' + date;
+    QString csvPath = path + '\\data\\' + date;
+    QString chStr;
+    if(voc == voltage){
+        testItem * ch;
+        if(ui->radioBtnCH1->isChecked()){
+            if(itemCh1 == NULL){
+                ui->statusBar->showMessage(tr("没有CH1的校准测试数据"));
+                return;
+            } else{
+                ch = itemCh1;
+                chStr = "ch1";
+            }
+        } else if(ui->radioBtnCH2->isChecked()){
+            if(itemCh2 == NULL){
+                ui->statusBar->showMessage(tr("没有CH2的校准测试数据"));
+                return;
+            } else{
+                ch = itemCh2;
+                chStr = "ch2";
+            }
         }
-    } else if(vot == test){
-        if(voc == voltage){
-            qDebug() << tr("测试电压");
-        } else if(voc == current){
-            qDebug() << tr("测试电流");
+        consume = 0.0;
+        myTimer->start(100);
+        createFolder(logPath);
+        createFolder(csvPath);
+        if(vot == verify){
+            qDebug() << tr("CH1电压校准");
+            QString logFile = logPath + '/' + time + '-' + chStr + '-verify.log';
+            QString csvFile = csvPath + '/' + time + '-' + chStr + '-verify.csv';
+            thread = new verifyVoltageThread(ch, meterSocket, zynqSocket, logFile, csvFile);
+            connect(thread, SIGNAL(statusBarShow(QString)), this, SLOT(statusBarShow(QString)));
+            connect(thread, SIGNAL(setProgressMaxSize(int)), this, SLOT(setProGressMax(int)));
+            thread->start();
+        } else if(vot == test){
+            QString logFile = logPath + '/' + time + '-' + chStr + '-test.log';
+            QString csvFile = csvPath + '/' + time + '-' + chStr + '-test.csv';
+            qDebug() << tr("CH2电压校准");
+        }
+    } else if(voc == current){
+        currentItem * psu;
+        if(ui->radioBtnPSU1->isChecked()){
+            if(itemPsu1 == NULL){
+                ui->statusBar->showMessage(tr("没有PSU1的校准测试数据"));
+                return;
+            } else{
+                psu = itemPsu1;
+            }
+        } else if(ui->radioBtnPSU2->isChecked()){
+            if(itemPsu2 == NULL){
+                ui->statusBar->showMessage(tr("没有PSU2的校准测试数据"));
+                return;
+            } else{
+                psu = itemPsu2;
+            }
+        }
+        consume = 0.0;
+        myTimer->start(100);
+        if(vot == verify){
+            qDebug() << tr("PSU1电流校准");
+        } else if(vot == test){
+            qDebug() << tr("PSU2电流测试");
         }
     }
+    ui->pushBtnStart->setEnabled(false);
+    ui->pushBtnStop->setEnabled(true);
 }
 // 获取参数
 void MainWindow::getParameters()
@@ -856,4 +962,34 @@ void MainWindow::getParameters()
     if(ui->checkBoxPart5->isChecked()){
         partList->append(5);
     }
+}
+// 停止按钮
+void MainWindow::on_pushBtnStop_clicked()
+{
+    myTimer->stop();
+    ui->pushBtnStart->setEnabled(true);
+    ui->pushBtnStop->setEnabled(false);
+}
+// 创建目录
+bool MainWindow::createFolder(QString path)
+{
+    // 检查目录是否存在，若不存在则新建
+    QDir dir;
+    if (!dir.exists(path))
+    {
+        bool res = dir.mkpath(path);
+        qDebug() << tr("新建目录是否成功") << res;
+        return res;
+    }
+    return true;
+}
+// 状态栏显示
+void MainWindow::statusBarShow(QString message)
+{
+    ui->statusBar->showMessage(message);
+}
+// 设置滚动条最大值
+void MainWindow::setProGressMax(int max)
+{
+    ui->progressBar->setMaximum(max);
 }

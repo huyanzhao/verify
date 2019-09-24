@@ -8,6 +8,8 @@
 #include <QAbstractSocket>
 #include <QLabel>
 #include <QButtonGroup>
+#include <QStandardItemModel>
+#include <QTimer>
 #include "command.h"
 #include "testitem.h"
 #include "currentitem.h"
@@ -54,14 +56,14 @@ private slots:
     void on_actionAbout_triggered();          // 关于
     void resizeEvent(QResizeEvent *);         // 大小改变
     bool eventFilter(QObject *, QEvent *);    // 点击事件
+    void repaintTable();                      // 重画表头
+    void updateConsume();                     // 更新耗时
 
     void newMeterConnect();                   // 新建万用表连接
-    void readMeterMessage();                  // 读取万用表信息
     void meterConnected();                    // 万用表连接成功
     void displayMeterError(QAbstractSocket::SocketError);  // 显示万用表连接错误
 
     void newZynqConnect();                    // 新建ZYNQ连接
-    void readZynqMessage();                   // 读取ZYNQ信息
     void zynqConnected();                     // ZYNQ连接成功
     void displayZynqError(QAbstractSocket::SocketError);  // 显示zynq连接错误
 
@@ -91,28 +93,32 @@ private slots:
     void on_checkBoxPart3_clicked();          // Part3
     void on_checkBoxPart4_clicked();          // Part4
     void on_checkBoxPart5_clicked();          // Part5
+    void on_pushBtnStart_clicked();           // 开始按钮
+    void on_pushBtnStop_clicked();            // 停止按钮
 
-
-    void on_pushBtnStart_clicked();
+    bool createFolder(QString);               // 创建目录
+    void statusBarShow(QString);              // 在状态栏显示信息, 供子线程调用
+    void setProGressMax(int);                 // 设置滚动条总大小
 
 private:
     Ui::MainWindow *ui;
+    QStandardItemModel * model;  // 表格
+    QTimer * myTimer;  // 定时器
+    float consume;  // 耗时
     QString meterHost;  // 万用表地址
     int meterPort;  // 万用表端口
     QTcpSocket *meterSocket;  //万用表socket
-    QString meterMessage;  // 万用表接收到的信息
-    quint16 meterBlockSize;  // 用来存放数据的大小信息
     QLabel * meterStatus;  // 状态栏万用表状态指示
 
     QString zynqHost;  // ZYNQ地址
     int zynqPort;  // ZYNQ端口
     QTcpSocket * zynqSocket;  // ZYNQsocket
-    QString zynqMessage;  // ZYNQ接收到的信息
-    quint16 zynqBlockSize;  // 用来存放数据的大小信息
     QLabel * zynqStatus;  // 状态栏ZYNQ状态指示
 
     testItem * itemCh1;
     testItem * itemCh2;
+    currentItem * itemPsu1;
+    currentItem * itemPsu2;
 
     QVariantMap config;
 
@@ -124,6 +130,8 @@ private:
     ch currentCh;  //  ch1或ch2
     psu currentPsu;  //  psu1或psu2
     QList<int> * partList;  // 档位列表
+
+    QThread * thread;  // 校准测试进程
 };
 
 #endif // MAINWINDOW_H

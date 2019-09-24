@@ -55,9 +55,9 @@
     <widget class="QLabel" name="labelSecond">
      <property name="geometry">
       <rect>
-       <x>161</x>
+       <x>165</x>
        <y>0</y>
-       <width>249</width>
+       <width>244</width>
        <height>100</height>
       </rect>
      </property>
@@ -676,6 +676,9 @@
       </property>
      </widget>
      <widget class="QPushButton" name="pushBtnStop">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -696,7 +699,7 @@
        <enum>Qt::StrongFocus</enum>
       </property>
       <property name="text">
-       <string>中止</string>
+       <string>停止</string>
       </property>
      </widget>
     </widget>
