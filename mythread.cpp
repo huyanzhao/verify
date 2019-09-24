@@ -121,6 +121,7 @@ verifyVoltageThread::verifyVoltageThread(testItem * ch, QTcpSocket * meterSocket
                                          QString csvFile, QObject *parent):
     myThread(meterSocket, zynqSocket, logFile, csvFile, parent)
 {
+    qDebug() << "logFile: " << logFile;
     qDebug() << tr("校准电压线程创建成功!");
     cmdList = ch->getCmdList();
     dataList = ch->getDataList();

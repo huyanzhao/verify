@@ -847,8 +847,8 @@ void MainWindow::on_pushBtnStart_clicked()
     QDateTime local(QDateTime::currentDateTime());
     QString date = local.toString("yyyyMMdd");
     QString time = local.toString("hhmmss");
-    QString logPath = path + '\\log\\' + date;
-    QString csvPath = path + '\\data\\' + date;
+    QString logPath = path + "/log/" + date;
+    QString csvPath = path + "/data/" + date;
     QString chStr;
     if(voc == voltage){
         testItem * ch;
@@ -875,8 +875,9 @@ void MainWindow::on_pushBtnStart_clicked()
         createFolder(csvPath);
         if(vot == verify){
             qDebug() << tr("CH1µçÑ¹Ð£×¼");
-            QString logFile = logPath + '/' + time + '-' + chStr + '-verify.log';
-            QString csvFile = csvPath + '/' + time + '-' + chStr + '-verify.csv';
+            qDebug() << "logPath11: " << logPath;
+            QString logFile = logPath + "/" + time + "-" + chStr + "-verify.log";
+            QString csvFile = csvPath + "/" + time + "-" + chStr + "-verify.csv";
             thread = new verifyVoltageThread(ch, meterSocket, zynqSocket, logFile, csvFile);
             connect(thread, SIGNAL(statusBarShow(QString)), this, SLOT(statusBarShow(QString)));
             connect(thread, SIGNAL(setProgressMaxSize(int)), this, SLOT(setProGressMax(int)));
