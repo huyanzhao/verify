@@ -14,8 +14,11 @@ public:
     explicit myThread(QTcpSocket *, QTcpSocket *, QString, QString, QObject *parent = 0);
 
     void run();
-    bool sendMeter(QString *);                  // 发送万用表
-    bool sendZynq(QString *);                   // 发送ZYNQ
+    bool sendMeter(QString);                // 给发送万用表发送信息
+    bool sendZynq(QString);                 // 给发送ZYNQ发送信息
+    void paragraph(QString);                  // 段落开始与结束
+    bool recvMeter();                         // 从万用表读取信息
+    bool recvZynq();                          // 从ZYNQ读取信息
     
 signals:
     void setProgressMaxSize(int);             // 设置进度条总大小
@@ -23,19 +26,18 @@ signals:
     void statusBarShow(QString);              // 在主窗口状态栏显示
     
 public slots:
-    void readMeterMessage();                  // 读取万用表信息
-    void readZynqMessage();                   // 读取ZYNQ信息
-    void writeLog(QString , QString );        // 写入Log
-    void writeCsv(QString , QString );        // 写入数据
+    void writeLog(QString );        // 写入Log
+    void writeCsv(QString );        // 写入数据
     
 protected:
     QTcpSocket * meter;  // 万用表socket
     QString meterMessage;  // 万用表接收到的信息
-    quint16 meterBlockSize;  // 用来存放数据的大小信息
 
     QTcpSocket * zynq;   // zynq socket
     QString zynqMessage;  // ZYNQ接收到的信息
-    quint16 zynqBlockSize;  // 用来存放数据的大小信息
+
+    qint64 meterTimeOut;  // 接收万用表时的超时
+    qint64 zynqTimeOut;  // 接收zynq时的超时
 
     QString log;
     QString csv;

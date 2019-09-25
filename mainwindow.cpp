@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QFile>
+#include <QDesktopServices>
+#include <QUrl>
 #include <QTime>
 #include <QTimer>
 #include <QDebug>
@@ -46,8 +48,8 @@ MainWindow::MainWindow(QWidget *parent):
     meterStatus->installEventFilter(this);  //安装事件过滤器
     meterStatus->setFrameStyle(QFrame::Box | QFrame::Sunken);
     ui->statusBar->addPermanentWidget(meterStatus);
-    meterHost = "114.115.181.41";
-    meterPort = 80;
+    meterHost = "127.0.0.1";
+    meterPort = 5025;
     meterSocket = new QTcpSocket(this);
     connect(meterSocket, SIGNAL(connected()), this, SLOT(meterConnected()));
     connect(meterSocket, SIGNAL(error(QAbstractSocket::SocketError)),
@@ -194,21 +196,37 @@ void MainWindow::on_actionCurrentData_triggered()
 void MainWindow::on_actionDataFile_triggered()
 {
     qDebug() << tr("打开当前数据文件");
+    QFile bfilePath(csvFile);
+    if(!bfilePath.exists())
+        return;
+    QDesktopServices::openUrl(QUrl::fromLocalFile("file:///" + csvFile));
 }
 // 打开当前数据文件夹
 void MainWindow::on_actionDataDir_triggered()
 {
     qDebug() << tr("打开当前数据文件夹");
+    QDir bfilePath(csvPath);
+    if(!bfilePath.exists())
+        return;
+    QDesktopServices::openUrl(QUrl::fromLocalFile("file:///" + csvPath));
 }
 // 打开当前log文件
 void MainWindow::on_actionLogFile_triggered()
 {
     qDebug() << tr("打开当前log文件");
+    QFile bfilePath(logFile);
+    if(!bfilePath.exists())
+        return;
+    QDesktopServices::openUrl(QUrl::fromLocalFile("file:///" + logFile));
 }
 // 打开log文件夹
 void MainWindow::on_actionLogDir_triggered()
 {
     qDebug() << tr("打开log文件夹");
+    QDir bfilePath(logPath);
+    if(!bfilePath.exists())
+        return;
+    QDesktopServices::openUrl(QUrl::fromLocalFile("file:///" + logPath));
 }
 // 关于菜单
 // 帮助里的硬件平台搭建
@@ -481,7 +499,7 @@ void MainWindow::displayZynqError(QAbstractSocket::SocketError)
     qDebug() << zynqSocket->errorString();
     ui->statusBar->showMessage(tr("ZYNQ: ") + zynqSocket->errorString());
     if(zynqSocket->error() == QAbstractSocket::RemoteHostClosedError){ // 断开连接
-        zynqStatus->setText(tr("万用表已断开连接！"));
+        zynqStatus->setText(tr("ZYNQ已断开连接！"));
         QPalette pe;
         pe.setColor(QPalette::WindowText,Qt::red);
         zynqStatus->setPalette(pe);
@@ -847,9 +865,11 @@ void MainWindow::on_pushBtnStart_clicked()
     QDateTime local(QDateTime::currentDateTime());
     QString date = local.toString("yyyyMMdd");
     QString time = local.toString("hhmmss");
-    QString logPath = path + "/log/" + date;
-    QString csvPath = path + "/data/" + date;
+    logPath = path + "/log/" + date;
+    csvPath = path + "/data/" + date;
     QString chStr;
+    qDebug() << "main window zynq message size: " << zynqSocket->bytesAvailable();
+    qDebug() << "main window zynq message: " << zynqSocket->readAll();
     if(voc == voltage){
         testItem * ch;
         if(ui->radioBtnCH1->isChecked()){
@@ -873,18 +893,22 @@ void MainWindow::on_pushBtnStart_clicked()
         myTimer->start(100);
         createFolder(logPath);
         createFolder(csvPath);
+        ui->actionDataDir->setEnabled(true);
+        ui->actionLogDir->setEnabled(true);
         if(vot == verify){
-            qDebug() << tr("CH1电压校准");
-            qDebug() << "logPath11: " << logPath;
-            QString logFile = logPath + "/" + time + "-" + chStr + "-verify.log";
-            QString csvFile = csvPath + "/" + time + "-" + chStr + "-verify.csv";
+            logFile = logPath + "/" + time + "-" + chStr + "-verify.log";
+            csvFile = csvPath + "/" + time + "-" + chStr + "-verify.csv";
+            ui->actionDataFile->setEnabled(true);
+            ui->actionLogFile->setEnabled(true);
             thread = new verifyVoltageThread(ch, meterSocket, zynqSocket, logFile, csvFile);
             connect(thread, SIGNAL(statusBarShow(QString)), this, SLOT(statusBarShow(QString)));
             connect(thread, SIGNAL(setProgressMaxSize(int)), this, SLOT(setProGressMax(int)));
             thread->start();
         } else if(vot == test){
-            QString logFile = logPath + '/' + time + '-' + chStr + '-test.log';
-            QString csvFile = csvPath + '/' + time + '-' + chStr + '-test.csv';
+            logFile = logPath + '/' + time + '-' + chStr + '-test.log';
+            csvFile = csvPath + '/' + time + '-' + chStr + '-test.csv';
+            ui->actionDataFile->setEnabled(true);
+            ui->actionLogFile->setEnabled(true);
             qDebug() << tr("CH2电压校准");
         }
     } else if(voc == current){

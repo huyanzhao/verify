@@ -132,6 +132,10 @@ private:
     QList<int> * partList;  // 档位列表
 
     QThread * thread;  // 校准测试进程
+    QString logPath;
+    QString csvPath;
+    QString logFile;
+    QString csvFile;
 };
 
 #endif // MAINWINDOW_H

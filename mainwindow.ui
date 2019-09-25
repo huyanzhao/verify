@@ -931,6 +931,9 @@
    </property>
   </action>
   <action name="actionDataFile">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>数据文件</string>
    </property>
@@ -942,6 +945,9 @@
    </property>
   </action>
   <action name="actionDataDir">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>数据文件夹</string>
    </property>
@@ -953,6 +959,9 @@
    </property>
   </action>
   <action name="actionLogFile">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>log文件</string>
    </property>
@@ -964,6 +973,9 @@
    </property>
   </action>
   <action name="actionLogDir">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>log文件夹</string>
    </property>
