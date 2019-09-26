@@ -96,7 +96,7 @@ void slotsconfig::on_pushBtnAdd_clicked()
         hosts->insert(QString("slot%1").arg(hosts->count()+1), qMakePair(QString("127.0.0.1"), 80));
         rePaint();
     }else{
-        qDebug() << "The maximum number of channels has been reached, and up to 8 channels can be connected simultaneously.";
+        qDebug() << tr("已达到最大通道数, 最多可同时连接8个通道。");
     }
 }
 // 删除

@@ -41,3 +41,17 @@ int QString2int(QString addr)
         return addr.toInt(&ok, 16);
     }
 }
+// 将字符串参数转换成16进制整数的字符串
+QString Qstring2hexString(QString addr)
+{
+    if(QStringIsBase16Int(addr))
+        return addr.mid(2);
+    if(QStringIsBase10Int(addr)){
+        return QString("%1").arg(addr.toInt(),8,16,QChar('0'));
+    }
+}
+// 将10进制整数转换成16进制整数的字符串形式
+QString int2hexString(int base10)
+{
+    return QString("%1").arg(base10,4,16,QChar('0'));
+}

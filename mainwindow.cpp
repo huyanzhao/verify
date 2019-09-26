@@ -101,7 +101,7 @@ void MainWindow::on_actionOpen_triggered()
 // 保存
 void MainWindow::on_actionSave_triggered()
 {
-    qDebug() << "保存配置参数为json文件";
+    qDebug() << tr("保存配置参数为json文件");
     QVariantMap conf;
     QVariantMap ch1Map = saveTestItem(itemCh1);
     QVariantMap ch2Map = saveTestItem(itemCh2);
@@ -119,19 +119,19 @@ void MainWindow::on_actionSave_triggered()
     QFile file(fileName);
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        QMessageBox::warning(this,"error","open file failure!");
+        QMessageBox::warning(this,"error",tr("打开配置文件失败!"));
     } else{
         QTextStream textStream(&file);
         QString str = jsonDocument.toJson();
         textStream << str;
-        QMessageBox::warning(this,"tip","Save File Success!");
+        QMessageBox::warning(this,"tip",tr("打开配置文件成功!"));
         file.close();
     }
 }
 // 另存为
 void MainWindow::on_actionSaveAs_triggered()
 {
-    qDebug() << "另存为当前配置";
+    qDebug() << tr("另存为当前配置");
 }
 // 重命名配置文件
 void MainWindow::on_actionRename_triggered()
@@ -510,29 +510,29 @@ void MainWindow::recviceVolParam(testItem * ch_1, testItem * ch_2)
 {
     itemCh1 = ch_1;
     itemCh2 = ch_2;
-    qDebug() << "ch1 pre command size: " << itemCh1->getCmdList()->size();
-    qDebug() << "ch1 data size: " << itemCh1->getDataList()->size();
-    qDebug() << "ch1 verify set command: " << itemCh1->getSetCmdVerify()->getName();
-    qDebug() << "ch1 verify set multi: " << itemCh1->getSetMulti();
-    qDebug() << "ch1 verify dmm command: " << itemCh1->getDmmCmdVerify()->getName();
-    qDebug() << "ch1 verify dmm multi: " << itemCh1->getDmmMulti();
-    qDebug() << "ch1 verify meter command: " << itemCh1->getMeterCmdVerify()->getName();
-    qDebug() << "ch1 verify meter multi: " << itemCh1->getMeterMulti();
-    qDebug() << "ch1 test set command: " << itemCh1->getSetCmdTest()->getName();
-    qDebug() << "ch1 test dmm command: " << itemCh1->getDmmCmdTest()->getName();
-    qDebug() << "ch1 test meter command: " << itemCh1->getMeterCmdTest()->getName();
+//    qDebug() << "ch1 pre command size: " << itemCh1->getCmdList()->size();
+//    qDebug() << "ch1 data size: " << itemCh1->getDataList()->size();
+//    qDebug() << "ch1 verify set command: " << itemCh1->getSetCmdVerify()->getName();
+//    qDebug() << "ch1 verify set multi: " << itemCh1->getSetMulti();
+//    qDebug() << "ch1 verify dmm command: " << itemCh1->getDmmCmdVerify()->getName();
+//    qDebug() << "ch1 verify dmm multi: " << itemCh1->getDmmMulti();
+//    qDebug() << "ch1 verify meter command: " << itemCh1->getMeterCmdVerify()->getName();
+//    qDebug() << "ch1 verify meter multi: " << itemCh1->getMeterMulti();
+//    qDebug() << "ch1 test set command: " << itemCh1->getSetCmdTest()->getName();
+//    qDebug() << "ch1 test dmm command: " << itemCh1->getDmmCmdTest()->getName();
+//    qDebug() << "ch1 test meter command: " << itemCh1->getMeterCmdTest()->getName();
 
-    qDebug() << "ch2 pre command size: " << itemCh2->getCmdList()->size();
-    qDebug() << "ch2 data size: " << itemCh2->getDataList()->size();
-    qDebug() << "ch2 verify set command: " << itemCh2->getSetCmdVerify()->getName();
-    qDebug() << "ch2 verify set multi: " << itemCh2->getSetMulti();
-    qDebug() << "ch2 verify dmm command: " << itemCh2->getDmmCmdVerify()->getName();
-    qDebug() << "ch2 verify dmm multi: " << itemCh2->getDmmMulti();
-    qDebug() << "ch2 verify meter command: " << itemCh2->getMeterCmdVerify()->getName();
-    qDebug() << "ch2 verify meter multi: " << itemCh2->getMeterMulti();
-    qDebug() << "ch2 test set command: " << itemCh2->getSetCmdTest()->getName();
-    qDebug() << "ch2 test dmm command: " << itemCh2->getDmmCmdTest()->getName();
-    qDebug() << "ch2 test meter command: " << itemCh2->getMeterCmdTest()->getName();
+//    qDebug() << "ch2 pre command size: " << itemCh2->getCmdList()->size();
+//    qDebug() << "ch2 data size: " << itemCh2->getDataList()->size();
+//    qDebug() << "ch2 verify set command: " << itemCh2->getSetCmdVerify()->getName();
+//    qDebug() << "ch2 verify set multi: " << itemCh2->getSetMulti();
+//    qDebug() << "ch2 verify dmm command: " << itemCh2->getDmmCmdVerify()->getName();
+//    qDebug() << "ch2 verify dmm multi: " << itemCh2->getDmmMulti();
+//    qDebug() << "ch2 verify meter command: " << itemCh2->getMeterCmdVerify()->getName();
+//    qDebug() << "ch2 verify meter multi: " << itemCh2->getMeterMulti();
+//    qDebug() << "ch2 test set command: " << itemCh2->getSetCmdTest()->getName();
+//    qDebug() << "ch2 test dmm command: " << itemCh2->getDmmCmdTest()->getName();
+//    qDebug() << "ch2 test meter command: " << itemCh2->getMeterCmdTest()->getName();
 }
 // 读取配置文件
 void MainWindow::readConfFile(QString name)
@@ -540,11 +540,11 @@ void MainWindow::readConfFile(QString name)
     QString fileName = "conf/" + name;
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
-        QMessageBox::warning(this,"error","open file error!");
+        QMessageBox::warning(this,"error", tr("打开文件错误!"));
         return;
     }
     if(!file.isReadable()){
-        QMessageBox::warning(this,"error","this file is not readable!");
+        QMessageBox::warning(this,"error",tr("文件不可读取!"));
         return;
     }
     const QByteArray array = file.readAll();
@@ -682,7 +682,7 @@ QVariantMap MainWindow::saveTestItem(testItem * item)
     chOrPart.insert("setCmdTest", saveCommand(item->getSetCmdTest()));
     chOrPart.insert("dmmCmdTest", saveCommand(item->getDmmCmdTest()));
     chOrPart.insert("meterCmdTest", saveCommand(item->getMeterCmdTest()));
-    qDebug() << "chOrPart: " << chOrPart;
+//    qDebug() << "chOrPart: " << chOrPart;
     return chOrPart;
 }
 // 保存命令列表
@@ -860,6 +860,7 @@ void MainWindow::on_pushBtnStart_clicked()
 //        qDebug() << partList->at(i);
     if(currentSlot == -1 || vot == 0 || voc == 0)
         return;
+    model->clear();
     repaintTable();
     QString path = QCoreApplication::applicationDirPath();  //获取程序当前运行目录
     QDateTime local(QDateTime::currentDateTime());
@@ -890,6 +891,8 @@ void MainWindow::on_pushBtnStart_clicked()
             }
         }
         consume = 0.0;
+        curTableLine = 0;
+
         myTimer->start(100);
         createFolder(logPath);
         createFolder(csvPath);
@@ -903,6 +906,10 @@ void MainWindow::on_pushBtnStart_clicked()
             thread = new verifyVoltageThread(ch, meterSocket, zynqSocket, logFile, csvFile);
             connect(thread, SIGNAL(statusBarShow(QString)), this, SLOT(statusBarShow(QString)));
             connect(thread, SIGNAL(setProgressMaxSize(int)), this, SLOT(setProGressMax(int)));
+            connect(thread, SIGNAL(finished()), this, SLOT(runCompleted()));
+            connect(thread, SIGNAL(setProgressCurSize(int)), this, SLOT(setProGress(int)));
+            connect(thread, SIGNAL(showTable(QStringList)), this, SLOT(showTable(QStringList)));
+
             thread->start();
         } else if(vot == test){
             logFile = logPath + '/' + time + '-' + chStr + '-test.log';
@@ -991,10 +998,18 @@ void MainWindow::getParameters()
 // 停止按钮
 void MainWindow::on_pushBtnStop_clicked()
 {
+    runCompleted();
+    thread->terminate();
+    thread->wait();
+}
+// 线程运行结束
+void MainWindow::runCompleted()
+{
     myTimer->stop();
     ui->pushBtnStart->setEnabled(true);
     ui->pushBtnStop->setEnabled(false);
 }
+
 // 创建目录
 bool MainWindow::createFolder(QString path)
 {
@@ -1017,4 +1032,23 @@ void MainWindow::statusBarShow(QString message)
 void MainWindow::setProGressMax(int max)
 {
     ui->progressBar->setMaximum(max);
+}
+// 设置滚动条
+void MainWindow::setProGress(int value)
+{
+    ui->progressBar->setValue(value);
+}
+// 表格中显示结果
+void MainWindow::showTable(QStringList result)
+{
+//    qDebug() << tr("result") << result;
+    for(int i=0; i != result.size(); ++i){
+        model->setItem(curTableLine,i,new QStandardItem(result.at(i)));
+    }
+
+//    QScrollBar * bar = ui->tableView->verticalScrollBar();
+//    bar->setMaximun(curTableLine);
+    ui->tableView->scrollToBottom();
+
+    curTableLine++;
 }

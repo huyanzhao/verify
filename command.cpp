@@ -7,7 +7,7 @@
 command::command(QString nameParam):
     name(nameParam)
 {
-    qDebug() << QString("Create new command,name:%1").arg(name);
+//    qDebug() << QString("create new command:%1").arg(name);
 //    judgeEqual = QString("Done");
 }
 // 设置命令名称
@@ -35,6 +35,12 @@ void command::setEnd(QString strEnd)
 {
     end = strEnd;
 }
+// 设置浮点数结果
+void command::setFloatResult(float result)
+{
+    floatResult = result;
+}
+
 // 截取结果
 void command::intercept()
 {
@@ -107,6 +113,13 @@ QString command::getEnd()
 QString command::getJudge()
 {
     return judgeEqual;
+}
+// 获取浮点数结果
+QString command::getFloatResult()
+{
+    if(!floatResult)
+        computeFloatResult();
+    return QString("%1").arg(floatResult);
 }
 // 获取误差率
 QString command::getRatio()

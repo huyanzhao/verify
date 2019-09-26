@@ -24,6 +24,7 @@ signals:
     void setProgressMaxSize(int);             // 设置进度条总大小
     void setProgressCurSize(int);             // 设置进度条当前大小
     void statusBarShow(QString);              // 在主窗口状态栏显示
+    void showTable(QStringList);              // 在主窗口的表格中显示结果
     
 public slots:
     void writeLog(QString );        // 写入Log
@@ -38,6 +39,7 @@ protected:
 
     qint64 meterTimeOut;  // 接收万用表时的超时
     qint64 zynqTimeOut;  // 接收zynq时的超时
+    qint64 cmdDelay;  // 命令延时
 
     QString log;
     QString csv;

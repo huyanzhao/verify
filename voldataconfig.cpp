@@ -180,9 +180,9 @@ void volDataConfig::on_pushBtnCh1PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
     newCommand->setRatio(0.0);
-    qDebug() << "before append new command, size of cmdlist is " << cmdListCh1Pre->size();
+    qDebug() << tr("添加新命令前, 命令个数：") << cmdListCh1Pre->size();
     cmdListCh1Pre->append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListCh1Pre->size();
+    qDebug() << tr("添加新命令后, 命令个数：") << cmdListCh1Pre->size();
     showCh1PreCmdList();
 }
 // 命令框点击事件
@@ -623,9 +623,9 @@ void volDataConfig::on_pushBtnCh2PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
     newCommand->setRatio(0.0);
-    qDebug() << "before append new command, size of cmdlist is " << cmdListCh2Pre->size();
+    qDebug() << tr("添加新命令前, 命令个数：") << cmdListCh2Pre->size();
     cmdListCh2Pre->append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListCh2Pre->size();
+    qDebug() << tr("添加新命令后, 命令个数：") << cmdListCh2Pre->size();
     showCh2PreCmdList();
 }
 // 命令框点击事件

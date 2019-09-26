@@ -5,9 +5,11 @@
 #include <QDateTime>
 #include <windows.h>
 #include <QMessageBox>
+#include <math.h>
 #include "testitem.h"
 #include "currentitem.h"
 #include "command.h"
+#include "qstringinthex.h"
 
 myThread::myThread(QTcpSocket * meterSocket, QTcpSocket *zynqSocket, QString logFile, QString csvFile, QObject *parent) :
     meter(meterSocket),
@@ -41,7 +43,7 @@ void myThread::writeLog(QString message)
 void myThread::writeCsv(QString data)
 {
     QFile f(csv);
-    if(!f.open(QFile::WriteOnly | QFile::Truncate | QFile::Text)){
+    if(!f.open(QFile::WriteOnly | QFile::Text | QFile::Append)){
         qDebug() << tr("数据文件打开失败!");
         return;
     }
@@ -142,7 +144,8 @@ verifyVoltageThread::verifyVoltageThread(testItem * ch, QTcpSocket * meterSocket
     setCmdTest = ch->getSetCmdTest();
     dmmCmdTest = ch->getDmmCmdTest();
     meterCmdTest = ch->getMeterCmdTest();
-    emit setProgressMaxSize(cmdList->size());
+
+    cmdDelay = 100;  // 毫秒
 }
 void verifyVoltageThread::run()
 {
@@ -153,21 +156,13 @@ void verifyVoltageThread::run()
     bool judge = true;
     if(!sendMeter("SYSTEM:REMOTE"))
         judge = false;
-    else{
-        if(recvMeter())
-            qDebug() << "meter message: " << meterMessage;
-        else
-            qDebug() << tr("读取万用表失败");
-    }
+    else
+        recvMeter();
     writeLog("\n");
     if(!sendMeter(":CONF:VOLT:DC"))
         judge = false;
-    else{
-        if(recvMeter())
-            qDebug() << "meter message: " << meterMessage;
-        else
-            qDebug() << tr("读取万用表失败");
-    }
+    else
+        recvMeter();
     paragraph("end");
     if(!judge){
         writeLog(tr("设置万用表失败\n"));
@@ -185,34 +180,12 @@ void verifyVoltageThread::run()
         message = QString("[%1]").arg(++cmdIndex) + cmd->getFullName();
         if(!sendZynq(message))
             judge = false;
-        else{
-            if(recvZynq())
-                qDebug() << "zynqMessage: " << zynqMessage;
-            else
-                qDebug() << tr("读取ZYNQ失败");
-        }
-        QString result;
-        if(!cmd->getStart().isEmpty() && !cmd->getEnd().isEmpty()){
-            writeLog(QString(tr("start= %1, end= %2")).arg(cmd->getStart()).arg(cmd->getEnd()));
-            int start = zynqMessage.indexOf(cmd->getStart());
-            int end = zynqMessage.indexOf(cmd->getEnd());
-            writeLog(QString(tr("startIndex= %1, endIndex= %2")).arg(start).arg(end));
-            if(start == -1 || end == -1){
-                writeLog(tr("截取失败"));
-                judge = false;
-            }else{
-                start = start + cmd->getStart().size();
-                result = zynqMessage.mid(start, end-start);
-                writeLog(QString(tr("result= %1")).arg(result));
-                writeLog(QString(tr("Judge= %1")).arg(cmd->getJudge()));
-                if(!result.compare(cmd->getJudge())){
-                    writeLog(tr("结果不匹配"));
-                    judge = false;
-                }
-            }
-        }else{
-            writeLog(tr("该命令没有start或end截取参数"));
-        }
+        else
+            recvZynq();
+        if(cmd->getStart().isEmpty() || cmd->getEnd().isEmpty() || cmd->getJudge().isEmpty()){
+            writeLog(tr("该命令缺少截取参数或判断结果参数"));
+        }else
+            judge = cmd->equalJudge();
         if(i != cmdList->size()-1)
             writeLog("\n");
     }
@@ -230,21 +203,104 @@ void verifyVoltageThread::run()
             datas->append(dataList->at(i)->second);
         }
     }
+    if(dmmCmdVerify->getStart().isEmpty() || dmmCmdVerify->getEnd().isEmpty() || dmmCmdVerify->getRatio().toFloat() == 0){
+        writeLog(tr("电压读取命令缺少截取参数或差比率"));
+        return;
+    }
+    if(meterCmdVerify->getRatio().toFloat() == 0){
+        writeLog(tr("万用表读取命令缺少差比率"));
+        return;
+    }
+    QStringList title;
+    title << "dac" << "addr" << "adc" << "addr" << "ref" << "addr" << "adc-dac" << "adc-ref";
+    writeCsv(title.join(","));
+    emit setProgressMaxSize(datas->size());
     for(int i = 0; i != datas->size(); ++i){
         paragraph("start");
-        QString cmd = setCmdVerify->getName();
-        message = QString("[%1]").arg(++cmdIndex) + cmd + QString("(%1)").arg(datas->at(i)->first);
+        judge = true;
+        // 设置电压
+        int dacSet = datas->at(i)->first.toInt();
+        message = QString("[%1]%2(%3)").arg(++cmdIndex).arg(setCmdVerify->getName()).arg(dacSet);
         if(!sendZynq(message))
             judge = false;
-        else{
-            if(recvZynq())
-                qDebug() << "zynqMessage: " << zynqMessage;
-            else
-                qDebug() << tr("读取ZYNQ失败");
-        }
-
-
-
+        else
+            recvZynq();
+        int dac = int(dacSet * setMulti);
+        Sleep(cmdDelay);
+        // 读取电压
+        message = QString("[%1]%2()").arg(++cmdIndex).arg(dmmCmdVerify->getName());
+        if(!sendZynq(message))
+            judge = false;
+        else
+            recvZynq();
+        dmmCmdVerify->setResult(zynqMessage);
+        judge = dmmCmdVerify->judgeRatio(float(dacSet), float(dacSet));
+        float adc = dmmCmdVerify->getFloatResult().toFloat() * dmmMulti;
+        // 读取万用表
+        message = meterCmdVerify->getName();
+        if(!sendMeter(message))
+            judge = false;
+        else
+            recvMeter();
+        meterCmdVerify->setFloatResult(meterMessage.toFloat());
+        judge = meterCmdVerify->judgeRatio(dmmCmdVerify->getFloatResult().toFloat(), float(dacSet));
+        float ref = meterMessage.toFloat() * meterMulti;
+        // 写入eeprom
+        QString address = datas->at(i)->second;
+        int addr;
+        if(!QStringIsInt(address)){
+            writeLog(QString(tr("数据地址%1无效")).arg(address));
+            return;
+        }else
+            addr = QString2int(address);
+        QString dacStr = QString("%1").arg(dac);
+        while(dacStr.length() < 6)
+            dacStr = "0" + dacStr;
+        QString adcStr = QString("%1").arg(int(adc));
+        while(adcStr.length() < 6)
+            adcStr = "0" + adcStr;
+        QString refStr = QString("%1").arg(int(ref));
+        while(refStr.length() < 6)
+            refStr = "0" + refStr;
+        message = QString("[%1]eeprom write string(DMM, at16, %2, %3)").arg(++cmdIndex).arg(int2hexString(addr)).arg(dacStr);
+        if(!sendZynq(message))
+            judge = false;
+        else
+            recvZynq();
+        message = QString("[%1]eeprom write string(DMM, at16, %2, %3)").arg(++cmdIndex).arg(int2hexString(addr+6)).arg(adcStr);
+        if(!sendZynq(message))
+            judge = false;
+        else
+            recvZynq();
+        message = QString("[%1]eeprom write string(DMM, at16, %2, %3)").arg(++cmdIndex).arg(int2hexString(addr+12)).arg(refStr);
+        if(!sendZynq(message))
+            judge = false;
+        else
+            recvZynq();
+        // 保存数据到csv
+        QStringList csvline;
+        csvline << QString("%1").arg(dacSet)
+                << QString("%1").arg(addr)
+                << QString("%1").arg(adc)
+                << QString("%1").arg(addr+6)
+                << QString("%1").arg(ref)
+                << QString("%1").arg(addr+12)
+                << QString("%1").arg(adc-dac)
+                << QString("%1").arg(adc-ref);
+        writeCsv(csvline.join(","));
+        // 表格表示
+        QString passOrFail;
+        if(judge)
+            passOrFail = "pass";
+        else
+            passOrFail = "fail";
+        QStringList tableline = csvline;
+        tableline << passOrFail;
+        tableline.insert(tableline.begin(), QString("set valtage %1").arg(dacSet));
+        emit showTable(tableline);
+        emit setProgressCurSize(i+1);
         paragraph("end");
+        writeLog("\n");
     }
+    statusBarShow(tr("电压校准完成"));
 }

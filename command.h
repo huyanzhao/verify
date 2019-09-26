@@ -15,6 +15,7 @@ public:
     void setEnd(QString);          // 设置截取结尾
     void intercept();              // 从结果中截取
     void setJudge(QString);        // 设置判等用的结果
+    void setFloatResult(float);    // 设置浮点数结果
     bool equalJudge();             // 判断截取后的结果与judgeEqual是否相等
     void computeFloatResult();     // 将截取后的结果转换成浮点数
     void setRatio(float);          // 设置差值比率
@@ -26,6 +27,7 @@ public:
     QString getStart();            // 获取截取起始
     QString getEnd();              // 获取截取结尾
     QString getJudge();            // 获取判等用的结果
+    QString getFloatResult();      // 获取浮点数结果
     QString getRatio();            // 获取差值比率
 
 private:

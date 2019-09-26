@@ -249,17 +249,17 @@ curdataconfig::~curdataconfig()
 // 退出
 void curdataconfig::on_pushBtnExit_clicked()
 {
-    qDebug() << "Exit current config";
-        this->close();
+    qDebug() << tr("退出当前配置");
+    this->close();
 }
 // PSU1  前置命令
 // 添加按钮
 void curdataconfig::on_pushBtnPsu1PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu1Pre->size();
+    qDebug() << tr("添加新命令前, 命令个数：") << cmdListPsu1Pre->size();
     cmdListPsu1Pre->append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu1Pre->size();
+    qDebug() << tr("添加新命令后, 命令个数：") << cmdListPsu1Pre->size();
     showPsu1PreCmdList();
 }
 // 刷新命令框
@@ -360,9 +360,9 @@ void curdataconfig::on_pushBtnPsu1PreUndo_clicked()
 void curdataconfig::on_pushBtnPsu1Part1PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu1Part1Pre->size();
+    qDebug() << tr("添加新命令前, 命令个数：") << cmdListPsu1Part1Pre->size();
     cmdListPsu1Part1Pre->append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu1Part1Pre->size();
+    qDebug() << tr("添加新命令后, 命令个数：") << cmdListPsu1Part1Pre->size();
     showPsu1Part1PreCmdList();
 }
 // 刷新命令框
@@ -796,9 +796,9 @@ void curdataconfig::on_pushBtnPsu1Part1TestUndo_clicked()
 void curdataconfig::on_pushBtnPsu1Part2PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu1Part2Pre->size();
+    qDebug() << tr("添加新命令前, 命令个数：") << cmdListPsu1Part2Pre->size();
     cmdListPsu1Part2Pre->append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu1Part2Pre->size();
+    qDebug() << tr("添加新命令后, 命令个数：") << cmdListPsu1Part2Pre->size();
     showPsu1Part2PreCmdList();
 }
 // 刷新命令框
@@ -1232,9 +1232,9 @@ void curdataconfig::on_pushBtnPsu1Part2TestUndo_clicked()
 void curdataconfig::on_pushBtnPsu1Part3PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu1Part3Pre->size();
+    qDebug() << tr("添加新命令前, 命令个数：") << cmdListPsu1Part3Pre->size();
     cmdListPsu1Part3Pre->append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu1Part3Pre->size();
+    qDebug() << tr("添加新命令后, 命令个数：") << cmdListPsu1Part3Pre->size();
     showPsu1Part3PreCmdList();
 }
 // 刷新命令框
@@ -1668,9 +1668,9 @@ void curdataconfig::on_pushBtnPsu1Part3TestUndo_clicked()
 void curdataconfig::on_pushBtnPsu1Part4PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu1Part4Pre->size();
+    qDebug() << tr("添加新命令前, 命令个数：") << cmdListPsu1Part4Pre->size();
     cmdListPsu1Part4Pre->append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu1Part4Pre->size();
+    qDebug() << tr("添加新命令后, 命令个数：") << cmdListPsu1Part4Pre->size();
     showPsu1Part4PreCmdList();
 }
 // 刷新命令框
@@ -2104,9 +2104,9 @@ void curdataconfig::on_pushBtnPsu1Part4TestUndo_clicked()
 void curdataconfig::on_pushBtnPsu1Part5PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu1Part5Pre->size();
+    qDebug() << tr("添加新命令前, 命令个数：") << cmdListPsu1Part5Pre->size();
     cmdListPsu1Part5Pre->append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu1Part5Pre->size();
+    qDebug() << tr("添加新命令后, 命令个数：") << cmdListPsu1Part5Pre->size();
     showPsu1Part5PreCmdList();
 }
 // 刷新命令框
@@ -2540,9 +2540,9 @@ void curdataconfig::on_pushBtnPsu1Part5TestUndo_clicked()
 void curdataconfig::on_pushBtnPsu2PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu2Pre->size();
+    qDebug() << tr("添加新命令前, 命令个数：") << cmdListPsu2Pre->size();
     cmdListPsu2Pre->append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu2Pre->size();
+    qDebug() << tr("添加新命令后, 命令个数：") << cmdListPsu2Pre->size();
     showPsu2PreCmdList();
 }
 // 刷新命令框
@@ -2643,9 +2643,9 @@ void curdataconfig::on_pushBtnPsu2PreUndo_clicked()
 void curdataconfig::on_pushBtnPsu2Part1PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu2Part1Pre->size();
+    qDebug() << tr("添加新命令前, 命令个数：") << cmdListPsu2Part1Pre->size();
     cmdListPsu2Part1Pre->append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu2Part1Pre->size();
+    qDebug() << tr("添加新命令后, 命令个数：") << cmdListPsu2Part1Pre->size();
     showPsu2Part1PreCmdList();
 }
 // 刷新命令框
@@ -3079,9 +3079,9 @@ void curdataconfig::on_pushBtnPsu2Part1TestUndo_clicked()
 void curdataconfig::on_pushBtnPsu2Part2PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu2Part2Pre->size();
+    qDebug() << tr("添加新命令前, 命令个数：") << cmdListPsu2Part2Pre->size();
     cmdListPsu2Part2Pre->append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu2Part2Pre->size();
+    qDebug() << tr("添加新命令后, 命令个数：") << cmdListPsu2Part2Pre->size();
     showPsu2Part2PreCmdList();
 }
 // 刷新命令框
@@ -3515,9 +3515,9 @@ void curdataconfig::on_pushBtnPsu2Part2TestUndo_clicked()
 void curdataconfig::on_pushBtnPsu2Part3PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu2Part3Pre->size();
+    qDebug() << tr("添加新命令前, 命令个数：") << cmdListPsu2Part3Pre->size();
     cmdListPsu2Part3Pre->append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu2Part3Pre->size();
+    qDebug() << tr("添加新命令后, 命令个数：") << cmdListPsu2Part3Pre->size();
     showPsu2Part3PreCmdList();
 }
 // 刷新命令框
@@ -3951,9 +3951,9 @@ void curdataconfig::on_pushBtnPsu2Part3TestUndo_clicked()
 void curdataconfig::on_pushBtnPsu2Part4PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu2Part4Pre->size();
+    qDebug() << tr("添加新命令前, 命令个数：") << cmdListPsu2Part4Pre->size();
     cmdListPsu2Part4Pre->append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu2Part4Pre->size();
+    qDebug() << tr("添加新命令后, 命令个数：") << cmdListPsu2Part4Pre->size();
     showPsu2Part4PreCmdList();
 }
 // 刷新命令框
@@ -4387,9 +4387,9 @@ void curdataconfig::on_pushBtnPsu2Part4TestUndo_clicked()
 void curdataconfig::on_pushBtnPsu2Part5PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
-    qDebug() << "before append new command, size of cmdlist is " << cmdListPsu2Part5Pre->size();
+    qDebug() << tr("添加新命令前, 命令个数：") << cmdListPsu2Part5Pre->size();
     cmdListPsu2Part5Pre->append(newCommand);
-    qDebug() << "after append new command, size of cmdlist is " << cmdListPsu2Part5Pre->size();
+    qDebug() << tr("添加新命令后, 命令个数：") << cmdListPsu2Part5Pre->size();
     showPsu2Part5PreCmdList();
 }
 // 刷新命令框

@@ -95,10 +95,13 @@ private slots:
     void on_checkBoxPart5_clicked();          // Part5
     void on_pushBtnStart_clicked();           // 开始按钮
     void on_pushBtnStop_clicked();            // 停止按钮
+    void runCompleted();                      // 线程运行结束
 
     bool createFolder(QString);               // 创建目录
     void statusBarShow(QString);              // 在状态栏显示信息, 供子线程调用
     void setProGressMax(int);                 // 设置滚动条总大小
+    void setProGress(int);                    // 设置滚动条
+    void showTable(QStringList);              // 显示表格
 
 private:
     Ui::MainWindow *ui;
@@ -136,6 +139,7 @@ private:
     QString csvPath;
     QString logFile;
     QString csvFile;
+    int curTableLine;  // 当前表格行
 };
 
 #endif // MAINWINDOW_H
