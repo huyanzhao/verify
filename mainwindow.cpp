@@ -81,6 +81,8 @@ MainWindow::MainWindow(QWidget *parent):
 
     readConfFile();  // 读取配置文件
     recviceSlots(&slotsMap);
+
+    bit = 1;
 }
 // 析构
 MainWindow::~MainWindow()
@@ -266,21 +268,39 @@ void MainWindow::resizeEvent(QResizeEvent * event)
 // 重画表头
 void MainWindow::repaintTable()
 {
-    if(vot == verify && voc == voltage){
+    int verticalWidth = 8 + bit*7;
+    int subWidth = 19 + verticalWidth;
+    int totalWidth = ui->tableView->width() - subWidth;
+    ui->tableView->verticalHeader()->setFixedWidth(verticalWidth);
+    if(vot == verify){
         model->setColumnCount(10);
-        model->setHeaderData(0,Qt::Horizontal, tr("测试项"));
-        model->setHeaderData(1,Qt::Horizontal, tr("设置电压"));
-        model->setHeaderData(2,Qt::Horizontal, tr("地址"));
-        model->setHeaderData(3,Qt::Horizontal, tr("DMM电压"));
-        model->setHeaderData(4,Qt::Horizontal, tr("地址"));
-        model->setHeaderData(5,Qt::Horizontal, tr("万用表电压"));
-        model->setHeaderData(6,Qt::Horizontal, tr("地址"));
-        model->setHeaderData(7,Qt::Horizontal, tr("设置电压 - DMM电压"));
-        model->setHeaderData(8,Qt::Horizontal, tr("万用表电压 - DMM电压"));
-        model->setHeaderData(9,Qt::Horizontal, tr("结果"));
+        if(voc == voltage){
+            model->setHeaderData(0,Qt::Horizontal, tr("测试项"));
+            model->setHeaderData(1,Qt::Horizontal, tr("设置电压"));
+            model->setHeaderData(2,Qt::Horizontal, tr("地址"));
+            model->setHeaderData(3,Qt::Horizontal, tr("DMM电压"));
+            model->setHeaderData(4,Qt::Horizontal, tr("地址"));
+            model->setHeaderData(5,Qt::Horizontal, tr("万用表电压"));
+            model->setHeaderData(6,Qt::Horizontal, tr("地址"));
+            model->setHeaderData(7,Qt::Horizontal, tr("设置电压 - DMM电压"));
+            model->setHeaderData(8,Qt::Horizontal, tr("万用表电压 - DMM电压"));
+            model->setHeaderData(9,Qt::Horizontal, tr("结果"));
+        } else if(voc == current){
+            model->setHeaderData(0,Qt::Horizontal, tr("测试项"));
+            model->setHeaderData(1,Qt::Horizontal, tr("设置电流"));
+            model->setHeaderData(2,Qt::Horizontal, tr("地址"));
+            model->setHeaderData(3,Qt::Horizontal, tr("PSU电流"));
+            model->setHeaderData(4,Qt::Horizontal, tr("地址"));
+            model->setHeaderData(5,Qt::Horizontal, tr("万用表电流"));
+            model->setHeaderData(6,Qt::Horizontal, tr("地址"));
+            model->setHeaderData(7,Qt::Horizontal, tr("设置电流 - PSU电流"));
+            model->setHeaderData(8,Qt::Horizontal, tr("万用表电流 - PSU电流"));
+            model->setHeaderData(9,Qt::Horizontal, tr("结果"));
+        }
         ui->tableView->setModel(model);
-        int width = ui->tableView->width() / 40;
-        ui->tableView->setColumnWidth(0, width*8);
+        int width = totalWidth / 40;
+        int surplus = totalWidth - width * 40;
+        ui->tableView->setColumnWidth(0, width*8+surplus);
         ui->tableView->setColumnWidth(1, width*4);
         ui->tableView->setColumnWidth(2, width*2);
         ui->tableView->setColumnWidth(3, width*4);
@@ -290,66 +310,33 @@ void MainWindow::repaintTable()
         ui->tableView->setColumnWidth(7, width*6);
         ui->tableView->setColumnWidth(8, width*6);
         ui->tableView->setColumnWidth(9, width*2);
-    } else if(vot == verify && voc == current){
-        model->setColumnCount(10);
-        model->setHeaderData(0,Qt::Horizontal, tr("测试项"));
-        model->setHeaderData(1,Qt::Horizontal, tr("设置电流"));
-        model->setHeaderData(2,Qt::Horizontal, tr("地址"));
-        model->setHeaderData(3,Qt::Horizontal, tr("PSU电流"));
-        model->setHeaderData(4,Qt::Horizontal, tr("地址"));
-        model->setHeaderData(5,Qt::Horizontal, tr("万用表电流"));
-        model->setHeaderData(6,Qt::Horizontal, tr("地址"));
-        model->setHeaderData(7,Qt::Horizontal, tr("设置电流 - PSU电流"));
-        model->setHeaderData(8,Qt::Horizontal, tr("万用表电流 - PSU电流"));
-        model->setHeaderData(9,Qt::Horizontal, tr("结果"));
-        ui->tableView->setModel(model);
-        int width = ui->tableView->width() / 40;
-        ui->tableView->setColumnWidth(0, width*8);
-        ui->tableView->setColumnWidth(1, width*4);
-        ui->tableView->setColumnWidth(2, width*2);
-        ui->tableView->setColumnWidth(3, width*4);
-        ui->tableView->setColumnWidth(4, width*2);
-        ui->tableView->setColumnWidth(5, width*4);
-        ui->tableView->setColumnWidth(6, width*2);
-        ui->tableView->setColumnWidth(7, width*6);
-        ui->tableView->setColumnWidth(8, width*6);
-        ui->tableView->setColumnWidth(9, width*2);
-    } else if(vot == test && voc == voltage){
+    } else if(vot == test){
         model->setColumnCount(9);
-        model->setHeaderData(0,Qt::Horizontal, tr("测试项"));
-        model->setHeaderData(1,Qt::Horizontal, tr("设置电压"));
-        model->setHeaderData(2,Qt::Horizontal, tr("DMM电压"));
-        model->setHeaderData(3,Qt::Horizontal, tr("万用表电压"));
-        model->setHeaderData(4,Qt::Horizontal, tr("设置电压 - DMM电压"));
-        model->setHeaderData(5,Qt::Horizontal, tr("差值与设置电压比率"));
-        model->setHeaderData(6,Qt::Horizontal, tr("万用表电压 - DMM电压"));
-        model->setHeaderData(7,Qt::Horizontal, tr("差值与设置电压比率"));
-        model->setHeaderData(8,Qt::Horizontal, tr("结果"));
+        if(voc == voltage){
+            model->setHeaderData(0, Qt::Horizontal, tr("测试项"));
+            model->setHeaderData(1, Qt::Horizontal, tr("设置电压"));
+            model->setHeaderData(2, Qt::Horizontal, tr("DMM电压"));
+            model->setHeaderData(3, Qt::Horizontal, tr("万用表电压"));
+            model->setHeaderData(4, Qt::Horizontal, tr("设置电压 - DMM电压"));
+            model->setHeaderData(5, Qt::Horizontal, tr("差值与设置电压比率"));
+            model->setHeaderData(6, Qt::Horizontal, tr("万用表电压 - DMM电压"));
+            model->setHeaderData(7, Qt::Horizontal, tr("差值与设置电压比率"));
+            model->setHeaderData(8, Qt::Horizontal, tr("结果"));
+        } else if(vot == test && voc == current){
+            model->setHeaderData(0, Qt::Horizontal, tr("测试项"));
+            model->setHeaderData(1, Qt::Horizontal, tr("设置电流"));
+            model->setHeaderData(2, Qt::Horizontal, tr("PSU电流"));
+            model->setHeaderData(3, Qt::Horizontal, tr("万用表电流"));
+            model->setHeaderData(4, Qt::Horizontal, tr("设置电流 - PSU电流"));
+            model->setHeaderData(5, Qt::Horizontal, tr("差值与设置电压比率"));
+            model->setHeaderData(6, Qt::Horizontal, tr("万用表电流 - PSU电流"));
+            model->setHeaderData(7, Qt::Horizontal, tr("差值与设置电压比率"));
+            model->setHeaderData(8, Qt::Horizontal, tr("结果"));
+        }
         ui->tableView->setModel(model);
-        int width = ui->tableView->width() / 42;
-        ui->tableView->setColumnWidth(0, width*8);
-        ui->tableView->setColumnWidth(1, width*3);
-        ui->tableView->setColumnWidth(2, width*3);
-        ui->tableView->setColumnWidth(3, width*3);
-        ui->tableView->setColumnWidth(4, width*6);
-        ui->tableView->setColumnWidth(5, width*5);
-        ui->tableView->setColumnWidth(6, width*6);
-        ui->tableView->setColumnWidth(7, width*6);
-        ui->tableView->setColumnWidth(8, width*2);
-    } else if(vot == test && voc == current){
-        model->setColumnCount(9);
-        model->setHeaderData(0,Qt::Horizontal, tr("测试项"));
-        model->setHeaderData(1,Qt::Horizontal, tr("设置电流"));
-        model->setHeaderData(2,Qt::Horizontal, tr("PSU电流"));
-        model->setHeaderData(3,Qt::Horizontal, tr("万用表电流"));
-        model->setHeaderData(4,Qt::Horizontal, tr("设置电流 - PSU电流"));
-        model->setHeaderData(5,Qt::Horizontal, tr("差值与设置电压比率"));
-        model->setHeaderData(6,Qt::Horizontal, tr("万用表电流 - PSU电流"));
-        model->setHeaderData(7,Qt::Horizontal, tr("差值与设置电压比率"));
-        model->setHeaderData(8,Qt::Horizontal, tr("结果"));
-        ui->tableView->setModel(model);
-        int width = ui->tableView->width() / 42;
-        ui->tableView->setColumnWidth(0, width*8);
+        int width = totalWidth / 42;
+        int surplus = totalWidth - width * 42;
+        ui->tableView->setColumnWidth(0, width*8+surplus);
         ui->tableView->setColumnWidth(1, width*3);
         ui->tableView->setColumnWidth(2, width*3);
         ui->tableView->setColumnWidth(3, width*3);
@@ -359,7 +346,6 @@ void MainWindow::repaintTable()
         ui->tableView->setColumnWidth(7, width*6);
         ui->tableView->setColumnWidth(8, width*2);
     }
-
 }
 // 更新耗时
 void MainWindow::updateConsume()
@@ -483,7 +469,6 @@ void MainWindow::newZynqConnect()
     zynqStatus->setPalette(pe);
     zynqSocket->connectToHost(zynqHost, zynqPort);
 }
-
 // ZTNQ连接成功
 void MainWindow::zynqConnected()
 {
@@ -860,8 +845,10 @@ void MainWindow::on_pushBtnStart_clicked()
 //        qDebug() << partList->at(i);
     if(currentSlot == -1 || vot == 0 || voc == 0)
         return;
+    curTableLine = 0;
     model->clear();
     repaintTable();
+    endResult = true;
     QString path = QCoreApplication::applicationDirPath();  //获取程序当前运行目录
     QDateTime local(QDateTime::currentDateTime());
     QString date = local.toString("yyyyMMdd");
@@ -891,32 +878,34 @@ void MainWindow::on_pushBtnStart_clicked()
             }
         }
         consume = 0.0;
-        curTableLine = 0;
 
         myTimer->start(100);
         createFolder(logPath);
         createFolder(csvPath);
         ui->actionDataDir->setEnabled(true);
         ui->actionLogDir->setEnabled(true);
+        ui->actionDataFile->setEnabled(true);
+        ui->actionLogFile->setEnabled(true);
         if(vot == verify){
             logFile = logPath + "/" + time + "-" + chStr + "-verify.log";
             csvFile = csvPath + "/" + time + "-" + chStr + "-verify.csv";
-            ui->actionDataFile->setEnabled(true);
-            ui->actionLogFile->setEnabled(true);
             thread = new verifyVoltageThread(ch, meterSocket, zynqSocket, logFile, csvFile);
             connect(thread, SIGNAL(statusBarShow(QString)), this, SLOT(statusBarShow(QString)));
             connect(thread, SIGNAL(setProgressMaxSize(int)), this, SLOT(setProGressMax(int)));
             connect(thread, SIGNAL(finished()), this, SLOT(runCompleted()));
             connect(thread, SIGNAL(setProgressCurSize(int)), this, SLOT(setProGress(int)));
             connect(thread, SIGNAL(showTable(QStringList)), this, SLOT(showTable(QStringList)));
-
             thread->start();
         } else if(vot == test){
             logFile = logPath + '/' + time + '-' + chStr + '-test.log';
             csvFile = csvPath + '/' + time + '-' + chStr + '-test.csv';
-            ui->actionDataFile->setEnabled(true);
-            ui->actionLogFile->setEnabled(true);
-            qDebug() << tr("CH2电压校准");
+            thread = new testVoltageThread(ch, meterSocket, zynqSocket, logFile, csvFile);
+            connect(thread, SIGNAL(statusBarShow(QString)), this, SLOT(statusBarShow(QString)));
+            connect(thread, SIGNAL(setProgressMaxSize(int)), this, SLOT(setProGressMax(int)));
+            connect(thread, SIGNAL(finished()), this, SLOT(runCompleted()));
+            connect(thread, SIGNAL(setProgressCurSize(int)), this, SLOT(setProGress(int)));
+            connect(thread, SIGNAL(showTable(QStringList)), this, SLOT(showTable(QStringList)));
+            thread->start();
         }
     } else if(voc == current){
         currentItem * psu;
@@ -1006,10 +995,20 @@ void MainWindow::on_pushBtnStop_clicked()
 void MainWindow::runCompleted()
 {
     myTimer->stop();
+    QPalette palette;
+    if(endResult){
+        palette.setColor(QPalette::Background, QColor(0, 255, 0));
+        ui->labelSecond->setText("Pass\n" + QString::number(consume,'f',1) + "s");
+    }else{
+        palette.setColor(QPalette::Background, QColor(255, 0, 0));
+        ui->labelSecond->setText("Fail\n" + QString::number(consume,'f',1) + "s");
+    }
+    ui->labelSecond->setAutoFillBackground(true);
+    ui->labelSecond->setPalette(palette);
     ui->pushBtnStart->setEnabled(true);
     ui->pushBtnStop->setEnabled(false);
+    ui->tableView->scrollToTop();
 }
-
 // 创建目录
 bool MainWindow::createFolder(QString path)
 {
@@ -1041,14 +1040,30 @@ void MainWindow::setProGress(int value)
 // 表格中显示结果
 void MainWindow::showTable(QStringList result)
 {
-//    qDebug() << tr("result") << result;
+    bool pass = (result.last() == "pass");
+    if(!pass)
+        endResult = false;
     for(int i=0; i != result.size(); ++i){
         model->setItem(curTableLine,i,new QStandardItem(result.at(i)));
+        if(!pass)
+            model->item(curTableLine,i)->setBackground(QBrush(QColor("red")));
     }
-
-//    QScrollBar * bar = ui->tableView->verticalScrollBar();
-//    bar->setMaximun(curTableLine);
     ui->tableView->scrollToBottom();
+    if(result.takeLast() == "fail")
+
 
     curTableLine++;
+    if(curTableLine == 10){
+        bit = 2;
+        repaintTable();
+    }else if(curTableLine == 100){
+        bit = 3;
+        repaintTable();
+    }else if(curTableLine == 1000){
+        bit = 4;
+        repaintTable();
+    }else if(curTableLine == 10000){
+        bit = 5;
+        repaintTable();
+    }
 }

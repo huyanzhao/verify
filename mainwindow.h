@@ -140,6 +140,8 @@ private:
     QString logFile;
     QString csvFile;
     int curTableLine;  // 当前表格行
+    bool endResult;  // 最终结果
+    int bit;  // 序列位数
 };
 
 #endif // MAINWINDOW_H

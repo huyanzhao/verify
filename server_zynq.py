@@ -14,7 +14,7 @@ while True:
         print(recv.decode("utf-8"))
         if len(recv) == 0:
             break
-        time.sleep(0.1)
+        time.sleep(0.01)
         conn.sendall(recv)
     conn.close()
     print(addr, " is disconnect.")

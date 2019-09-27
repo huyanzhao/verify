@@ -60,9 +60,19 @@ private:
     int dmmMulti;                // 校准读取数据写入eeprom时的倍数
     command * meterCmdVerify;    // 校准读万用表命令
     int meterMulti;              // 万用表数据写入eeprom时的倍数
-    command * setCmdTest;        // 测试设置命令
-    command * dmmCmdTest;        // 测试读取命令
-    command * meterCmdTest;      // 测试读万用表命令
 };
 
+class testVoltageThread: public myThread
+{
+    Q_OBJECT
+public:
+    explicit testVoltageThread(testItem *,QTcpSocket *, QTcpSocket *, QString, QString, QObject *parent = 0);
+    void run();
+private:
+    QList<command *> * cmdList;
+    QList<QPair<bool, QPair<QString, QString> *> *> * dataList;  // 数据列表
+    command * setCmdTest;      // 校准设置命令
+    command * dmmCmdTest;      // 校准读取命令
+    command * meterCmdTest;    // 校准读万用表命令
+};
 #endif // MYTHREAD_H
