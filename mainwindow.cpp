@@ -14,6 +14,7 @@
 #include <QtNetwork>
 #include <QStandardItemModel>
 #include <QCoreApplication>
+#include <QAbstractItemView>
 #include "qjson4/QJsonArray.h"
 #include "qjson4/QJsonDocument.h"
 #include "qjson4/QJsonObject.h"
@@ -82,7 +83,13 @@ MainWindow::MainWindow(QWidget *parent):
     readConfFile();  // 读取配置文件
     recviceSlots(&slotsMap);
 
+    thread = NULL;
+
     bit = 1;
+
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);  // 设置选择行为，以行为单位
+    ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);  // 设置选择模式，选择单行
+    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers );  // 禁止编辑
 }
 // 析构
 MainWindow::~MainWindow()
@@ -108,9 +115,13 @@ void MainWindow::on_actionSave_triggered()
     QVariantMap ch1Map = saveTestItem(itemCh1);
     QVariantMap ch2Map = saveTestItem(itemCh2);
     QVariantMap slotMap = saveSlots();
+    QVariantMap psu1Map = saveCurTestItem(itemPsu1);
+    QVariantMap psu2Map = saveCurTestItem(itemPsu2);
     conf.insert("ch1", ch1Map);
     conf.insert("ch2", ch2Map);
     conf.insert("slots", slotMap);
+    conf.insert("psu1", psu1Map);
+    conf.insert("psu2", psu2Map);
     QJsonDocument  jsonDocument = QJsonDocument::fromVariant(conf);
     if (jsonDocument.isNull())
     {
@@ -121,12 +132,12 @@ void MainWindow::on_actionSave_triggered()
     QFile file(fileName);
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        QMessageBox::warning(this,"error",tr("打开配置文件失败!"));
+        QMessageBox::warning(this,"error",tr("打开配置文件失败!\n保存失败"));
     } else{
         QTextStream textStream(&file);
         QString str = jsonDocument.toJson();
         textStream << str;
-        QMessageBox::warning(this,"tip",tr("打开配置文件成功!"));
+        QMessageBox::warning(this,"tip",tr("打开配置文件成功!\n保存成功"));
         file.close();
     }
 }
@@ -190,7 +201,8 @@ void MainWindow::on_actionCurrentData_triggered()
 {
     qDebug() << tr("电流校准数据");
     curdataconfig * curdatadialog;
-    curdatadialog = new curdataconfig();
+    curdatadialog = new curdataconfig(itemPsu1, itemPsu2);
+    connect(curdatadialog, SIGNAL(returnTestItem(currentItem*,currentItem*)), this, SLOT(recviceCurParam(currentItem*,currentItem*)));
     curdatadialog->show();
 }
 // 查看菜单
@@ -491,10 +503,10 @@ void MainWindow::displayZynqError(QAbstractSocket::SocketError)
     }
 }
 // 接收电压设置参数
-void MainWindow::recviceVolParam(testItem * ch_1, testItem * ch_2)
+void MainWindow::recviceVolParam(testItem * ch1, testItem * ch2)
 {
-    itemCh1 = ch_1;
-    itemCh2 = ch_2;
+    itemCh1 = ch1;
+    itemCh2 = ch2;
 //    qDebug() << "ch1 pre command size: " << itemCh1->getCmdList()->size();
 //    qDebug() << "ch1 data size: " << itemCh1->getDataList()->size();
 //    qDebug() << "ch1 verify set command: " << itemCh1->getSetCmdVerify()->getName();
@@ -518,6 +530,12 @@ void MainWindow::recviceVolParam(testItem * ch_1, testItem * ch_2)
 //    qDebug() << "ch2 test set command: " << itemCh2->getSetCmdTest()->getName();
 //    qDebug() << "ch2 test dmm command: " << itemCh2->getDmmCmdTest()->getName();
 //    qDebug() << "ch2 test meter command: " << itemCh2->getMeterCmdTest()->getName();
+}
+// 接收电流设置参数
+void MainWindow::recviceCurParam(currentItem * psu1, currentItem * psu2)
+{
+    itemPsu1 = psu1;
+    itemPsu2 = psu2;
 }
 // 读取配置文件
 void MainWindow::readConfFile(QString name)
@@ -560,9 +578,24 @@ void MainWindow::initConfig(QJsonObject conf)
         QJsonValue ch2Value = conf.value("ch2");
         itemCh2 = parseItem(ch2Value.toObject());
     }
+
     if(conf.contains("slots")){
         QJsonValue slotsValue = conf.value("slots");
         parseSlots(slotsValue.toObject());
+    }
+
+    if(!conf.contains("psu1"))
+        itemPsu1 = NULL;
+    else{
+        QJsonValue psu1Value = conf.value("psu1");
+        itemPsu1 = parseCurItem(psu1Value.toObject());
+    }
+
+    if(!conf.contains("psu2"))
+        itemPsu2 = NULL;
+    else{
+        QJsonValue psu2Value = conf.value("psu2");
+        itemPsu2 = parseCurItem(psu2Value.toObject());
     }
 }
 // 将json对象解析成通道列表
@@ -578,9 +611,46 @@ void MainWindow::parseSlots(QJsonObject json)
         slotsMap[QString("slot%1").arg(i+1)] = qMakePair(host, port);
     }
 }
+// 将json对象解析成电流测试项
+currentItem * MainWindow::parseCurItem(QJsonObject json)
+{
+    // 解析前置命令
+    // 解析前置命令列表
+    QList<command *> * preCmdList = new QList<command *>;
+    if(json.contains("preCmdList")){
+        QJsonArray cmdArray = json.value("preCmdList").toArray();
+        for(QJsonArray::iterator it = cmdArray.begin(); it != cmdArray.end(); ++it){
+            preCmdList->append(parseCmd(it->toObject()));
+        }
+    }else
+        preCmdList = NULL;
+    testItem * part1 = NULL;
+    testItem * part2 = NULL;
+    testItem * part3 = NULL;
+    testItem * part4 = NULL;
+    testItem * part5 = NULL;
+    if(json.contains("part1")){
+        part1 = parseItem(json.value("part1").toObject());
+    }
+    if(json.contains("part2")){
+        part2 = parseItem(json.value("part2").toObject());
+    }
+    if(json.contains("part3")){
+        part3 = parseItem(json.value("part3").toObject());
+    }
+    if(json.contains("part4")){
+        part4 = parseItem(json.value("part4").toObject());
+    }
+    if(json.contains("part5")){
+        part5 = parseItem(json.value("part5").toObject());
+    }
+    return new currentItem(preCmdList, part1, part2, part3, part4, part5);
+}
 // 将json对象解析成测试项
 testItem * MainWindow::parseItem(QJsonObject json)
 {
+    if(json.isEmpty())
+        return NULL;
     // 解析前置命令列表
     QList<command *> * cmdList = new QList<command *>;
     if(json.contains("cmdList")){
@@ -649,7 +719,27 @@ QVariantMap MainWindow::saveSlots()
     }
     return slotMap;
 }
-// 保存测试项
+// 保存电流测试项
+QVariantMap MainWindow::saveCurTestItem(currentItem * item)
+{
+    if(item == NULL){
+        return QVariantMap();
+    }
+    QVariantMap psuItem;
+    psuItem.insert("preCmdList", saveCommandList(item->getPreCmdList()));
+    if(item->getPart1())
+        psuItem.insert("part1", saveTestItem(item->getPart1()));
+    if(item->getPart2())
+        psuItem.insert("part2", saveTestItem(item->getPart2()));
+    if(item->getPart3())
+        psuItem.insert("part3", saveTestItem(item->getPart3()));
+    if(item->getPart4())
+        psuItem.insert("part4", saveTestItem(item->getPart4()));
+    if(item->getPart5())
+        psuItem.insert("part5", saveTestItem(item->getPart5()));
+    return psuItem;
+}
+// 保存电压测试项
 QVariantMap MainWindow::saveTestItem(testItem * item)
 {
     if(item == NULL){
@@ -855,7 +945,7 @@ void MainWindow::on_pushBtnStart_clicked()
     QString time = local.toString("hhmmss");
     logPath = path + "/log/" + date;
     csvPath = path + "/data/" + date;
-    QString chStr;
+    QString Str;
     qDebug() << "main window zynq message size: " << zynqSocket->bytesAvailable();
     qDebug() << "main window zynq message: " << zynqSocket->readAll();
     if(voc == voltage){
@@ -866,7 +956,7 @@ void MainWindow::on_pushBtnStart_clicked()
                 return;
             } else{
                 ch = itemCh1;
-                chStr = "ch1";
+                Str = "CH1";
             }
         } else if(ui->radioBtnCH2->isChecked()){
             if(itemCh2 == NULL){
@@ -874,11 +964,10 @@ void MainWindow::on_pushBtnStart_clicked()
                 return;
             } else{
                 ch = itemCh2;
-                chStr = "ch2";
+                Str = "CH2";
             }
         }
         consume = 0.0;
-
         myTimer->start(100);
         createFolder(logPath);
         createFolder(csvPath);
@@ -887,8 +976,8 @@ void MainWindow::on_pushBtnStart_clicked()
         ui->actionDataFile->setEnabled(true);
         ui->actionLogFile->setEnabled(true);
         if(vot == verify){
-            logFile = logPath + "/" + time + "-" + chStr + "-verify.log";
-            csvFile = csvPath + "/" + time + "-" + chStr + "-verify.csv";
+            logFile = logPath + "/" + time + "-" + Str + "-verify.log";
+            csvFile = csvPath + "/" + time + "-" + Str + "-verify.csv";
             thread = new verifyVoltageThread(ch, meterSocket, zynqSocket, logFile, csvFile);
             connect(thread, SIGNAL(statusBarShow(QString)), this, SLOT(statusBarShow(QString)));
             connect(thread, SIGNAL(setProgressMaxSize(int)), this, SLOT(setProGressMax(int)));
@@ -897,8 +986,8 @@ void MainWindow::on_pushBtnStart_clicked()
             connect(thread, SIGNAL(showTable(QStringList)), this, SLOT(showTable(QStringList)));
             thread->start();
         } else if(vot == test){
-            logFile = logPath + '/' + time + '-' + chStr + '-test.log';
-            csvFile = csvPath + '/' + time + '-' + chStr + '-test.csv';
+            logFile = logPath + '/' + time + '-' + Str + '-test.log';
+            csvFile = csvPath + '/' + time + '-' + Str + '-test.csv';
             thread = new testVoltageThread(ch, meterSocket, zynqSocket, logFile, csvFile);
             connect(thread, SIGNAL(statusBarShow(QString)), this, SLOT(statusBarShow(QString)));
             connect(thread, SIGNAL(setProgressMaxSize(int)), this, SLOT(setProGressMax(int)));
@@ -915,6 +1004,7 @@ void MainWindow::on_pushBtnStart_clicked()
                 return;
             } else{
                 psu = itemPsu1;
+                Str = "PSU1";
             }
         } else if(ui->radioBtnPSU2->isChecked()){
             if(itemPsu2 == NULL){
@@ -922,12 +1012,28 @@ void MainWindow::on_pushBtnStart_clicked()
                 return;
             } else{
                 psu = itemPsu2;
+                Str = "PSU2";
             }
         }
         consume = 0.0;
         myTimer->start(100);
+        createFolder(logPath);
+        createFolder(csvPath);
+        ui->actionDataDir->setEnabled(true);
+        ui->actionLogDir->setEnabled(true);
+        ui->actionDataFile->setEnabled(true);
+        ui->actionLogFile->setEnabled(true);
         if(vot == verify){
             qDebug() << tr("PSU1电流校准");
+            logFile = logPath + "/" + time + "-" + Str + "-verify.log";
+            csvFile = csvPath + "/" + time + "-" + Str + "-verify.csv";
+            thread = new verifyCurrentThread(psu, partList, Str, meterSocket, zynqSocket, logFile, csvFile);
+            connect(thread, SIGNAL(statusBarShow(QString)), this, SLOT(statusBarShow(QString)));
+            connect(thread, SIGNAL(setProgressMaxSize(int)), this, SLOT(setProGressMax(int)));
+            connect(thread, SIGNAL(finished()), this, SLOT(runCompleted()));
+            connect(thread, SIGNAL(setProgressCurSize(int)), this, SLOT(setProGress(int)));
+            connect(thread, SIGNAL(showTable(QStringList)), this, SLOT(showTable(QStringList)));
+            thread->start();
         } else if(vot == test){
             qDebug() << tr("PSU2电流测试");
         }
@@ -988,8 +1094,10 @@ void MainWindow::getParameters()
 void MainWindow::on_pushBtnStop_clicked()
 {
     runCompleted();
-    thread->terminate();
-    thread->wait();
+    if(thread){
+        thread->terminate();
+        thread->wait();
+    }
 }
 // 线程运行结束
 void MainWindow::runCompleted()
@@ -1064,6 +1172,12 @@ void MainWindow::showTable(QStringList result)
         repaintTable();
     }else if(curTableLine == 10000){
         bit = 5;
+        repaintTable();
+    }else if(curTableLine == 100000){
+        bit = 6;
+        repaintTable();
+    }else if(curTableLine == 1000000){
+        bit = 7;
         repaintTable();
     }
 }

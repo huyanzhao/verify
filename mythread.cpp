@@ -145,8 +145,6 @@ verifyVoltageThread::verifyVoltageThread(testItem * ch, QTcpSocket * meterSocket
 }
 void verifyVoltageThread::run()
 {
-    qDebug() << tr("开始校准电压");
-
     // 设置万用表为远程电压模式
     paragraph("start");
     bool judge = true;
@@ -316,8 +314,6 @@ testVoltageThread::testVoltageThread(testItem * ch, QTcpSocket * meterSocket,
 }
 void testVoltageThread::run()
 {
-    qDebug() << tr("开始校准电压");
-
     // 设置万用表为远程电压模式
     paragraph("start");
     bool judge = true;
@@ -441,5 +437,244 @@ void testVoltageThread::run()
         paragraph("end");
         writeLog("\n");
     }
-    statusBarShow(tr("电压校准完成"));
+    statusBarShow(tr("电压测试完成"));
+}
+verifyCurrentThread::verifyCurrentThread(currentItem * psuParam, QList<int> * partListParam, QString StrParam,
+                                         QTcpSocket * meterSocket, QTcpSocket *zynqSocket,
+                                         QString logFile, QString csvFile, QObject *parent):
+    myThread(meterSocket, zynqSocket, logFile, csvFile, parent)
+{
+    psu = psuParam;
+    partList = partListParam;
+    Str = StrParam;
+    cmdDelay = 100;  // 毫秒
+}
+void verifyCurrentThread::run()
+{
+    // 设置万用表为远程电流模式
+    paragraph("start");
+    bool judge = true;
+    if(!sendMeter("SYSTEM:REMOTE"))
+        judge = false;
+    else
+        recvMeter();
+    writeLog("\n");
+    if(!sendMeter(":CONF:CURR:DC"))
+        judge = false;
+    else
+        recvMeter();
+    paragraph("end");
+    if(!judge){
+        writeLog(tr("设置万用表失败\n"));
+    } else{
+        writeLog(tr("设置万用表成功\n"));
+    }
+
+    // 初始化psu
+    judge = true;
+    int cmdIndex = 0;
+    paragraph("start");
+    QString message;
+    QList<command *> * cmdList = psu->getPreCmdList();
+    for(int i = 0; i != cmdList->size(); ++i){
+        command * cmd = cmdList->at(i);
+        message = QString("[%1]").arg(++cmdIndex) + cmd->getFullName();
+        if(!sendZynq(message))
+            judge = false;
+        else
+            recvZynq();
+        if(cmd->getStart().isEmpty() || cmd->getEnd().isEmpty() || cmd->getJudge().isEmpty()){
+            writeLog(tr("该命令缺少截取参数或判断结果参数"));
+        }else
+            judge = cmd->equalJudge();
+        if(i != cmdList->size()-1)
+            writeLog("\n");
+    }
+    paragraph("end");
+    if(!judge){
+        writeLog(tr("初始化PSU失败\n"));
+    }else{
+        writeLog(tr("初始化PSU成功\n"));
+    }
+    int sum = 0;
+    for(int i=0; i != partList->size(); ++i){
+        if(partList->at(i) == 1 && psu->getPart1())
+            sum += psu->getPart1()->getDataList()->size();
+        if(partList->at(i) == 2 && psu->getPart2())
+            sum += psu->getPart2()->getDataList()->size();
+        if(partList->at(i) == 3 && psu->getPart3())
+            sum += psu->getPart3()->getDataList()->size();
+        if(partList->at(i) == 4 && psu->getPart4())
+            sum += psu->getPart4()->getDataList()->size();
+        if(partList->at(i) == 5 && psu->getPart5())
+            sum += psu->getPart5()->getDataList()->size();
+    }
+    int indexTable = 0;
+    emit setProgressMaxSize(sum);
+    for(int i=0; i != partList->size(); ++i){
+        testItem * part;
+        switch(partList->at(i)){
+        case 1:
+            part = psu->getPart1();
+            break;
+        case 2:
+            part = psu->getPart2();
+            break;
+        case 3:
+            part = psu->getPart3();
+            break;
+        case 4:
+            part = psu->getPart4();
+            break;
+        case 5:
+            part = psu->getPart5();
+            break;
+        default:
+            statusBarShow(tr("part参数错误，退出校准"));
+            return;
+        }
+        if(part == NULL){
+            statusBarShow(tr("没有part%1的数据，跳至下一档").arg(partList->at(i)));
+            continue;
+        }
+        // 切换档位
+        judge = true;
+        paragraph("start");
+        QList<command *> * cmdList = part->getCmdList();
+        for(int j = 0; j != cmdList->size(); ++j){
+            command * cmd = cmdList->at(j);
+            message = QString("[%1]").arg(++cmdIndex) + cmd->getFullName();
+            if(!sendZynq(message))
+                judge = false;
+            else
+                recvZynq();
+            if(cmd->getStart().isEmpty() || cmd->getEnd().isEmpty() || cmd->getJudge().isEmpty()){
+                writeLog(tr("该命令缺少截取参数或判断结果参数"));
+            }else
+                judge = cmd->equalJudge();
+            if(i != cmdList->size()-1)
+                writeLog("\n");
+        }
+        paragraph("end");
+        if(!judge){
+            writeLog(tr("档位切换失败\n"));
+        }else{
+            writeLog(tr("档位切换成功\n"));
+        }
+        // 开始校准
+        QList<QPair<QString, QString> *> * datas = new QList<QPair<QString, QString> *>;
+        QList<QPair<bool, QPair<QString, QString> *> *> * dataList = part->getDataList();
+        for(int k = 0; k != dataList->size(); ++k){  // 整理数据
+            if(dataList->at(k)->first){
+                datas->append(dataList->at(k)->second);
+            }
+        }
+        command * dmmCmdVerify = part->getDmmCmdVerify();
+        if(dmmCmdVerify->getStart().isEmpty() || dmmCmdVerify->getEnd().isEmpty() || dmmCmdVerify->getRatio().toFloat() == 0){
+            writeLog(tr("电压读取命令缺少截取参数或差比率"));
+            return;
+        }
+        command * meterCmdVerify = part->getMeterCmdVerify();
+        if(meterCmdVerify->getRatio().toFloat() == 0){
+            writeLog(tr("万用表读取命令缺少差比率"));
+            return;
+        }
+        writeCsv(QString("Part%1").arg(partList->at(i)));
+        QStringList title;
+        title << "set" << "addr" << "dmm" << "addr" << "meter" << "addr" << "dmm-set" << "dmm-meter";
+        writeCsv(title.join(","));
+        command * setCmdVerify = part->getSetCmdVerify();
+        int setMulti = part->getSetMulti();
+        int dmmMulti = part->getDmmMulti();
+        int meterMulti = part->getMeterMulti();
+        for(int l = 0; l != datas->size(); ++l){
+            paragraph("start");
+            judge = true;
+            // 设置电流
+            int set = datas->at(l)->first.toInt();
+            message = QString("[%1]%2(%3)").arg(++cmdIndex).arg(setCmdVerify->getName()).arg(set);
+            if(!sendZynq(message))
+                judge = false;
+            else
+                recvZynq();
+            int dac = int(set * setMulti);
+            Sleep(cmdDelay);
+            // 读取电压
+            message = QString("[%1]%2()").arg(++cmdIndex).arg(dmmCmdVerify->getName());
+            if(!sendZynq(message))
+                judge = false;
+            else
+                recvZynq();
+            dmmCmdVerify->setResult(zynqMessage);
+            judge = dmmCmdVerify->judgeRatio(float(set), float(set));
+            float dmm = dmmCmdVerify->getFloatResult().toFloat() * dmmMulti;
+            // 读取万用表
+            message = meterCmdVerify->getName();
+            if(!sendMeter(message))
+                judge = false;
+            else
+                recvMeter();
+            meterCmdVerify->setFloatResult(meterMessage.toFloat());
+            judge = meterCmdVerify->judgeRatio(dmmCmdVerify->getFloatResult().toFloat(), float(set));
+            float meter = meterMessage.toFloat() * meterMulti;
+            // 写入eeprom
+            QString address = datas->at(l)->second;
+            int addr;
+            if(!QStringIsInt(address)){
+                writeLog(QString(tr("数据地址%1无效")).arg(address));
+                return;
+            }else
+                addr = QString2int(address);
+            QString dacStr = QString("%1").arg(dac);
+            while(dacStr.length() < 6)
+                dacStr = "0" + dacStr;
+            QString dmmStr = QString("%1").arg(int(dmm));
+            while(dmmStr.length() < 6)
+                dmmStr = "0" + dmmStr;
+            QString meterStr = QString("%1").arg(int(meter));
+            while(meterStr.length() < 6)
+                meterStr = "0" + meterStr;
+            message = QString("[%1]eeprom write string(%2, at16, %3, %4)").arg(++cmdIndex).arg(Str).arg(int2hexString(addr)).arg(dacStr);
+            if(!sendZynq(message))
+                judge = false;
+            else
+                recvZynq();
+            message = QString("[%1]eeprom write string(%2, at16, %3, %4)").arg(++cmdIndex).arg(Str).arg(int2hexString(addr+6)).arg(dmmStr);
+            if(!sendZynq(message))
+                judge = false;
+            else
+                recvZynq();
+            message = QString("[%1]eeprom write string(%2, at16, %3, %4)").arg(++cmdIndex).arg(Str).arg(int2hexString(addr+12)).arg(meterStr);
+            if(!sendZynq(message))
+                judge = false;
+            else
+                recvZynq();
+            // 保存数据到csv
+            QStringList csvline;
+            csvline << QString("%1").arg(set)
+                    << QString("%1").arg(addr)
+                    << QString("%1").arg(dmm)
+                    << QString("%1").arg(addr+6)
+                    << QString("%1").arg(meter)
+                    << QString("%1").arg(addr+12)
+                    << QString("%1").arg(dmm-dac)
+                    << QString("%1").arg(dmm-meter);
+            writeCsv(csvline.join(","));
+            // 表格表示
+            QString passOrFail;
+            if(judge)
+                passOrFail = "pass";
+            else
+                passOrFail = "fail";
+            QStringList tableline = csvline;
+            tableline << passOrFail;
+            tableline.insert(tableline.begin(), QString("set part%1 current %2").arg(partList->at(i)).arg(set));
+            emit showTable(tableline);
+            emit setProgressCurSize(++indexTable);
+            paragraph("end");
+            writeLog("\n");
+        }
+        writeCsv("\n");
+    }
+    statusBarShow(tr("电流校准完成"));
 }

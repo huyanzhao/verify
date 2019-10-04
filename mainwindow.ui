@@ -73,7 +73,7 @@
       <string>耗时</string>
      </property>
      <property name="text">
-      <string>100.0s</string>
+      <string>0.0s</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

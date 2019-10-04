@@ -75,4 +75,17 @@ private:
     command * dmmCmdTest;      // 校准读取命令
     command * meterCmdTest;    // 校准读万用表命令
 };
+
+class verifyCurrentThread: public myThread
+{
+    Q_OBJECT
+public:
+    explicit verifyCurrentThread(currentItem *, QList<int> *, QString, QTcpSocket *, QTcpSocket *, QString, QString, QObject *parent = 0);
+    void run();
+private:
+    currentItem * psu;
+    QList<int> * partList;
+    QString Str;
+};
+
 #endif // MYTHREAD_H

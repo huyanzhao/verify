@@ -8,6 +8,7 @@
 #include <QCheckBox>
 #include <QLineEdit>
 #include "command.h"
+#include "currentitem.h"
 
 namespace Ui {
 class curdataconfig;
@@ -18,8 +19,11 @@ class curdataconfig : public QDialog
     Q_OBJECT
     
 public:
-    explicit curdataconfig(QWidget *parent = 0);
+    explicit curdataconfig(currentItem *, currentItem *, QWidget *parent = 0);
     ~curdataconfig();
+
+signals:
+    void returnTestItem(currentItem *, currentItem *);  // 返回设定的参数给主窗口
     
 private slots:
     void on_pushBtnExit_clicked(); // 退出
@@ -302,12 +306,30 @@ private slots:
     void on_pushBtnPsu2Part5TestSave_clicked();      // 保存按钮
     void on_pushBtnPsu2Part5TestUndo_clicked();      // 撤消按钮
 
+    void closeEvent(QCloseEvent *);                  // 退出事件
+
 private:
     Ui::curdataconfig *ui;
     // PSU1  前置
     QList<command *> * cmdListPsu1Pre;   // 命令列表
     int nowIndexPsu1Pre;                // 当前命令索引
-    command * nowCommandPsu1;           // 当前命令指针
+    command * nowCommandPsu1;           // 当前命令指针    
+    testItem * psu1Part1;
+    testItem * psu1Part2;
+    testItem * psu1Part3;
+    testItem * psu1Part4;
+    testItem * psu1Part5;
+
+    // PSU2  前置
+    QList<command *> * cmdListPsu2Pre;   // 命令列表
+    int nowIndexPsu2Pre;                // 当前命令索引
+    command * nowCommandPsu2;           // 当前命令指针
+    testItem * psu2Part1;
+    testItem * psu2Part2;
+    testItem * psu2Part3;
+    testItem * psu2Part4;
+    testItem * psu2Part5;
+
     // PSU1  Part1  换档
     QList<command *> * cmdListPsu1Part1Pre;  // 命令列表
     int nowIndexPsu1Part1Pre;           // 当前命令索引
@@ -418,10 +440,7 @@ private:
     command * setCmdPsu1Part5Test;      // 测试设置电流命令
     command * dmmCmdPsu1Part5Test;      // 测试读取电流命令
     command * meterCmdPsu1Part5Test;    // 测试读万用表命令
-    // PSU2  前置
-    QList<command *> * cmdListPsu2Pre;   // 命令列表
-    int nowIndexPsu2Pre;                // 当前命令索引
-    command * nowCommandPsu2;           // 当前命令指针
+
     // PSU2  Part1  换档
     QList<command *> * cmdListPsu2Part1Pre;  // 命令列表
     int nowIndexPsu2Part1Pre;           // 当前命令索引

@@ -155,7 +155,7 @@ volDataConfig::~volDataConfig()
 // 退出事件
 void volDataConfig::closeEvent(QCloseEvent *event)
 {
-    qDebug() << "emit a signal to main window";
+    qDebug() << tr("发射信号给主窗口");
     testItem * ch1 = new testItem(cmdListCh1Pre, dataAndAddrListCh1,
                                   setCmdCh1Verify, setCh1Multi,
                                   dmmCmdCh1Verify, dmmCh1Multi,
@@ -171,7 +171,7 @@ void volDataConfig::closeEvent(QCloseEvent *event)
 // 退出
 void volDataConfig::on_pushBtnExit_clicked()
 {
-    qDebug() << "Exit voltage config";
+    qDebug() << tr("退出电压配置");
     this->close();
 }
 // ch1前置命令页

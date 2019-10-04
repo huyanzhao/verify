@@ -70,15 +70,18 @@ private slots:
     void recviceMeter(QString host, int port);  // 接收用户设定的万用表IP端口
     void recviceSlots(QMap<QString, QPair<QString, int> >*);  // 接收用记设定的通道数据
     void recviceVolParam(testItem *,testItem *);  // 接收电压设置参数
+    void recviceCurParam(currentItem *, currentItem *);  // 接收电流设置参数
 
     void readConfFile(QString name="default.json");  // 读取配置文件
     void initConfig(QJsonObject);             // 初始化配置
-    void parseSlots(QJsonObject);  // 将json字典解析为通道列表
+    void parseSlots(QJsonObject);             // 将json字典解析为通道列表
+    currentItem * parseCurItem(QJsonObject);  // 将json字典解析为电流测试项
     testItem * parseItem(QJsonObject);        // 将json字典解析为测试项
     command * parseCmd(QJsonObject);          // 将json字典解析为命令
 
 
     QVariantMap saveSlots();                  // 保存通道列表
+    QVariantMap saveCurTestItem(currentItem *);  // 保存电流测试项
     QVariantMap saveTestItem(testItem *);     // 保存测试项
     QVariantList saveCommandList(QList<command *> *);  // 保存命令列表
     QVariantList saveDataList(QList<QPair<bool, QPair<QString, QString> *> *> *);  // 保存数据列表
