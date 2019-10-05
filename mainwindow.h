@@ -10,6 +10,7 @@
 #include <QButtonGroup>
 #include <QStandardItemModel>
 #include <QTimer>
+#include <QSettings>
 #include "command.h"
 #include "testitem.h"
 #include "currentitem.h"
@@ -41,7 +42,6 @@ private slots:
     void on_actionSave_triggered();           // 保存
     void on_actionSaveAs_triggered();         // 另存为
     void on_actionRename_triggered();         // 重命名
-    void on_actionRecent_triggered();         // 最近打开
     void on_actionExit_triggered();           // 退出
     void on_actionMeter_triggered();          // 设置万用表
     void on_actionSlot_triggered();           // 设置通道
@@ -54,6 +54,7 @@ private slots:
     void on_actionHardwareBuild_triggered();  // 硬件平台搭建的帮助信息
     void on_actionDataConfig_triggered();     // 数据配置的帮助信息
     void on_actionAbout_triggered();          // 关于
+    void closeEvent(QCloseEvent *);           // 退出事件
     void resizeEvent(QResizeEvent *);         // 大小改变
     bool eventFilter(QObject *, QEvent *);    // 点击事件
     void repaintTable();                      // 重画表头
@@ -72,7 +73,7 @@ private slots:
     void recviceVolParam(testItem *,testItem *);  // 接收电压设置参数
     void recviceCurParam(currentItem *, currentItem *);  // 接收电流设置参数
 
-    void readConfFile(QString name="default.json");  // 读取配置文件
+    void readConfFile();  // 读取配置文件
     void initConfig(QJsonObject);             // 初始化配置
     void parseSlots(QJsonObject);             // 将json字典解析为通道列表
     currentItem * parseCurItem(QJsonObject);  // 将json字典解析为电流测试项
@@ -87,7 +88,7 @@ private slots:
     QVariantList saveDataList(QList<QPair<bool, QPair<QString, QString> *> *> *);  // 保存数据列表
     QVariantMap saveCommand(command *);       // 保存命令
 
-    void on_radioSlot_clicked(int);              // 通道单选框
+    void on_radioSlot_clicked(int);           // 通道单选框
     void on_radioBtnCur_clicked();            // 电流单选框
     void on_radioBtnVol_clicked();            // 电压单选框
     void on_checkBoxAll_clicked();            // 全选
@@ -136,6 +137,9 @@ private:
     ch currentCh;  //  ch1或ch2
     psu currentPsu;  //  psu1或psu2
     QList<int> * partList;  // 档位列表
+    QString currentPath;  // 当前目录
+    QString confPath;  // 配置文件目录
+    QString currentConf;  // 当前配置文件
 
     QThread * thread;  // 校准测试进程
     QString logPath;
@@ -145,6 +149,7 @@ private:
     int curTableLine;  // 当前表格行
     bool endResult;  // 最终结果
     int bit;  // 序列位数
+    QSettings * settings;
 };
 
 #endif // MAINWINDOW_H

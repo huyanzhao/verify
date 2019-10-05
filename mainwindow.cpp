@@ -15,13 +15,15 @@
 #include <QStandardItemModel>
 #include <QCoreApplication>
 #include <QAbstractItemView>
+#include <QFileDialog>
+#include <QSettings>
 #include "qjson4/QJsonArray.h"
 #include "qjson4/QJsonDocument.h"
 #include "qjson4/QJsonObject.h"
 #include "qjson4/QJsonParseError.h"
+#include "qjson4/QJsonValue.h"
 //#include "qjson4/QJsonParser.h"
 //#include "qjson4/QJsonRoot.h"
-#include "qjson4/QJsonValue.h"
 //#include "qjson4/QJsonValueRef.h"
 #include "meteraddress.h"
 #include "slotsconfig.h"
@@ -39,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent):
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    settings =new QSettings("setting.ini", QSettings::IniFormat);
     model = new QStandardItemModel(this);
     myTimer = new QTimer(this);
     connect(myTimer, SIGNAL(timeout()), this, SLOT(updateConsume()));
@@ -49,8 +52,6 @@ MainWindow::MainWindow(QWidget *parent):
     meterStatus->installEventFilter(this);  //安装事件过滤器
     meterStatus->setFrameStyle(QFrame::Box | QFrame::Sunken);
     ui->statusBar->addPermanentWidget(meterStatus);
-    meterHost = "127.0.0.1";
-    meterPort = 5025;
     meterSocket = new QTcpSocket(this);
     connect(meterSocket, SIGNAL(connected()), this, SLOT(meterConnected()));
     connect(meterSocket, SIGNAL(error(QAbstractSocket::SocketError)),
@@ -80,11 +81,22 @@ MainWindow::MainWindow(QWidget *parent):
     ui->radioBtnCH0->setHidden(true);  // 隐藏多的单选按钮,用来显示CH1和CH2未被选中的状态
     ui->radioBtnPSU0->setHidden(true);  // 隐藏多的单选按钮,用来显示PSU1和PSU2未被选中的状态
 
+    currentPath = QCoreApplication::applicationDirPath();  //获取程序当前运行目录
+    confPath = currentPath + "/conf";
+    createFolder(confPath);
+    settings->beginGroup("METER");
+    meterHost = settings->value("IP").toString();
+    meterPort = settings->value("PORT").toInt();
+    settings->endGroup();
+    settings->beginGroup("CONFIG FILE");
+    currentConf = settings->value("CURRENT CONFIG FILE NAME").toString();
+    settings->endGroup();
     readConfFile();  // 读取配置文件
     recviceSlots(&slotsMap);
 
-    thread = NULL;
+    this->setWindowTitle(QString(tr("B&P通用校准测试平台 - %1").arg(currentConf)));
 
+    thread = NULL;
     bit = 1;
 
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);  // 设置选择行为，以行为单位
@@ -96,39 +108,73 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-// 文件菜单
 // 新建配置文件
 void MainWindow::on_actionNew_triggered()
 {
-    qDebug() << tr("新建配置文件");
+    QString fileFullName = QFileDialog::getSaveFileName(this,
+            QString::fromLocal8Bit("新建配置文件"),
+            "./conf/Untitled.json",
+            tr("Json Files (*.json)"));
+    if(fileFullName == NULL)
+        return;
+    if(!fileFullName.endsWith(".json")){
+        QMessageBox::warning(this, tr("新建配置文件错误"), tr("新建的文件必须是json文件"), QMessageBox::Ok);
+        return;
+    }
+    itemCh1 = NULL;
+    itemCh2 = NULL;
+    slotsMap.clear();
+    qDeleteAll(ui->frameSlot->children());
+    qDeleteAll(slotGroup->children());
+    itemPsu1 = NULL;
+    itemPsu2 = NULL;
+    currentConf = fileFullName.mid(fileFullName.lastIndexOf("/")+1);
+    on_actionSave_triggered();
+    ui->statusBar->showMessage(tr("请依次配置硬件通道、电压校准数据和电流校准数据"));
+    this->setWindowTitle(QString(tr("B&P通用校准测试平台 - %1").arg(currentConf)));
 }
 // 打开配置文件
 void MainWindow::on_actionOpen_triggered()
 {
-    qDebug() << tr("打开配置文件");
+    QString fileFullName = QFileDialog::getOpenFileName(this,
+            QString::fromLocal8Bit("打开配置文件"),
+            "./conf/default.json",
+            tr("Json Files (*.json)"));
+    if(fileFullName == NULL)
+        return;
+    if(!fileFullName.endsWith(".json")){
+        QMessageBox::warning(this, tr("打开配置文件错误"), tr("打开的文件必须是json文件"), QMessageBox::Ok);
+        return;
+    }
+    qDebug() << fileFullName;
+    currentConf = fileFullName.mid(fileFullName.lastIndexOf("/")+1);
+    slotsMap.clear();
+    qDeleteAll(ui->frameSlot->children());
+    qDeleteAll(slotGroup->children());
+    readConfFile();
+    this->setWindowTitle(QString(tr("B&P通用校准测试平台 - %1").arg(currentConf)));
 }
 // 保存
 void MainWindow::on_actionSave_triggered()
 {
-    qDebug() << tr("保存配置参数为json文件");
     QVariantMap conf;
-    QVariantMap ch1Map = saveTestItem(itemCh1);
-    QVariantMap ch2Map = saveTestItem(itemCh2);
-    QVariantMap slotMap = saveSlots();
-    QVariantMap psu1Map = saveCurTestItem(itemPsu1);
-    QVariantMap psu2Map = saveCurTestItem(itemPsu2);
-    conf.insert("ch1", ch1Map);
-    conf.insert("ch2", ch2Map);
-    conf.insert("slots", slotMap);
-    conf.insert("psu1", psu1Map);
-    conf.insert("psu2", psu2Map);
+    if(itemCh1)
+        conf.insert("ch1", saveTestItem(itemCh1));
+    if(itemCh2)
+        conf.insert("ch2", saveTestItem(itemCh2));
+    if(!slotsMap.isEmpty())
+        conf.insert("slots", saveSlots());
+    if(itemPsu1)
+        conf.insert("psu1", saveCurTestItem(itemPsu1));
+    if(itemPsu2)
+        conf.insert("psu2", saveCurTestItem(itemPsu2));
     QJsonDocument  jsonDocument = QJsonDocument::fromVariant(conf);
     if (jsonDocument.isNull())
     {
         QMessageBox::warning(this,"error","conf trans for json failure!");
         return;
     }
-    QString fileName("conf/default.json");
+    QString fileName(confPath + "/" + currentConf);
     QFile file(fileName);
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
@@ -144,17 +190,40 @@ void MainWindow::on_actionSave_triggered()
 // 另存为
 void MainWindow::on_actionSaveAs_triggered()
 {
-    qDebug() << tr("另存为当前配置");
+    QString fileFullName = QFileDialog::getSaveFileName(this,
+            QString::fromLocal8Bit("另存为"),
+            "./conf/Untitled.json",
+            tr("Json Files (*.json)"));
+    if(fileFullName == NULL)
+        return;
+    if(!fileFullName.endsWith(".json")){
+        QMessageBox::warning(this, tr("另存为配置文件错误"), tr("新建的文件必须是json文件"), QMessageBox::Ok);
+        return;
+    }
+    currentConf = fileFullName.mid(fileFullName.lastIndexOf("/")+1);
+    on_actionSave_triggered();
 }
 // 重命名配置文件
 void MainWindow::on_actionRename_triggered()
 {
     qDebug() << tr("重命名配置文件");
-}
-// 最近打开
-void MainWindow::on_actionRecent_triggered()
-{
-    qDebug() << tr("最近打开");
+    QString oldConf = currentConf;
+    QString fileFullName = QFileDialog::getSaveFileName(this,
+            QString::fromLocal8Bit("重命名"),
+            QString("./conf/%1").arg(currentConf),
+            tr("Json Files (*.json)"));
+    qDebug() << fileFullName;
+    if(fileFullName == NULL)
+        return;
+    if(!fileFullName.endsWith(".json")){
+        QMessageBox::warning(this, tr("重命令配置文件错误"), tr("新建的文件必须是json文件"), QMessageBox::Ok);
+        return;
+    }
+    currentConf = fileFullName.mid(fileFullName.lastIndexOf("/")+1);
+    QFile f(confPath + "/" + oldConf);
+    f.rename(confPath + "/" + oldConf, fileFullName);
+    QMessageBox::information(this, tr("重命名"), QString(tr("重命令成功。新文件名：%1").arg(currentConf)), QMessageBox::Ok);
+    this->setWindowTitle(QString(tr("B&P通用校准测试平台 - %1").arg(currentConf)));
 }
 // 退出应用程序
 void MainWindow::on_actionExit_triggered()
@@ -162,7 +231,6 @@ void MainWindow::on_actionExit_triggered()
     qDebug() << tr("退出应用程序");
     this->close();
 }
-// 配置菜单
 // 配置万用表地址端口
 void MainWindow::on_actionMeter_triggered()
 {
@@ -175,17 +243,11 @@ void MainWindow::on_actionMeter_triggered()
 // 配置通道的地址端口
 void MainWindow::on_actionSlot_triggered()
 {
-    qDebug() << tr("配置通道的地址端口");
-
-//    for(QMap<QString, QPair<QString, int> >::Iterator it = hosts.begin(); it != hosts.end(); it++)
-//        qDebug() << it.key() << ": " << it.value().first << ":" << it.value().second;
-
     slotsconfig * slotsdialog;
     slotsdialog = new slotsconfig(&slotsMap);
     connect(slotsdialog, SIGNAL(slotsConfigDone(QMap<QString,QPair<QString,int> >*)),
             this, SLOT(recviceSlots(QMap<QString,QPair<QString,int> >*)));
     slotsdialog->show();
-
 }
 // 电压校准数据
 void MainWindow::on_actionVoltageData_triggered()
@@ -205,7 +267,6 @@ void MainWindow::on_actionCurrentData_triggered()
     connect(curdatadialog, SIGNAL(returnTestItem(currentItem*,currentItem*)), this, SLOT(recviceCurParam(currentItem*,currentItem*)));
     curdatadialog->show();
 }
-// 查看菜单
 // 打开当前数据文件
 void MainWindow::on_actionDataFile_triggered()
 {
@@ -257,6 +318,19 @@ void MainWindow::on_actionDataConfig_triggered()
 void MainWindow::on_actionAbout_triggered()
 {
     qDebug() << tr("关于");
+}
+// 退出事件
+void MainWindow::closeEvent(QCloseEvent * event)
+{
+    // 清空配置文件
+    settings->clear();
+    settings->beginGroup("METER");
+    settings->setValue("IP", meterHost); //调用setValue中键名按字面解析
+    settings->setValue("PORT", QString("%1").arg(meterPort));
+    settings->endGroup();
+    settings->beginGroup("CONFIG FILE");
+    settings->setValue("CURRENT CONFIG FILE NAME", currentConf);
+    settings->endGroup();
 }
 // 大小改变
 void MainWindow::resizeEvent(QResizeEvent * event)
@@ -446,8 +520,6 @@ void MainWindow::displayMeterError(QAbstractSocket::SocketError)
 // 接收用户设置的通道数据
 void MainWindow::recviceSlots(QMap<QString, QPair<QString, int> > *hosts)
 {
-//    for(QMap<QString, QPair<QString, int> >::Iterator it = hosts->begin(); it != hosts->end(); it++)
-//        qDebug() << it.key() << ": " << it.value().first << ":" << it.value().second;
     qDeleteAll(ui->frameSlot->children());
     slotsMap = *hosts;
     hosts = &slotsMap;
@@ -507,29 +579,6 @@ void MainWindow::recviceVolParam(testItem * ch1, testItem * ch2)
 {
     itemCh1 = ch1;
     itemCh2 = ch2;
-//    qDebug() << "ch1 pre command size: " << itemCh1->getCmdList()->size();
-//    qDebug() << "ch1 data size: " << itemCh1->getDataList()->size();
-//    qDebug() << "ch1 verify set command: " << itemCh1->getSetCmdVerify()->getName();
-//    qDebug() << "ch1 verify set multi: " << itemCh1->getSetMulti();
-//    qDebug() << "ch1 verify dmm command: " << itemCh1->getDmmCmdVerify()->getName();
-//    qDebug() << "ch1 verify dmm multi: " << itemCh1->getDmmMulti();
-//    qDebug() << "ch1 verify meter command: " << itemCh1->getMeterCmdVerify()->getName();
-//    qDebug() << "ch1 verify meter multi: " << itemCh1->getMeterMulti();
-//    qDebug() << "ch1 test set command: " << itemCh1->getSetCmdTest()->getName();
-//    qDebug() << "ch1 test dmm command: " << itemCh1->getDmmCmdTest()->getName();
-//    qDebug() << "ch1 test meter command: " << itemCh1->getMeterCmdTest()->getName();
-
-//    qDebug() << "ch2 pre command size: " << itemCh2->getCmdList()->size();
-//    qDebug() << "ch2 data size: " << itemCh2->getDataList()->size();
-//    qDebug() << "ch2 verify set command: " << itemCh2->getSetCmdVerify()->getName();
-//    qDebug() << "ch2 verify set multi: " << itemCh2->getSetMulti();
-//    qDebug() << "ch2 verify dmm command: " << itemCh2->getDmmCmdVerify()->getName();
-//    qDebug() << "ch2 verify dmm multi: " << itemCh2->getDmmMulti();
-//    qDebug() << "ch2 verify meter command: " << itemCh2->getMeterCmdVerify()->getName();
-//    qDebug() << "ch2 verify meter multi: " << itemCh2->getMeterMulti();
-//    qDebug() << "ch2 test set command: " << itemCh2->getSetCmdTest()->getName();
-//    qDebug() << "ch2 test dmm command: " << itemCh2->getDmmCmdTest()->getName();
-//    qDebug() << "ch2 test meter command: " << itemCh2->getMeterCmdTest()->getName();
 }
 // 接收电流设置参数
 void MainWindow::recviceCurParam(currentItem * psu1, currentItem * psu2)
@@ -538,9 +587,9 @@ void MainWindow::recviceCurParam(currentItem * psu1, currentItem * psu2)
     itemPsu2 = psu2;
 }
 // 读取配置文件
-void MainWindow::readConfFile(QString name)
+void MainWindow::readConfFile()
 {
-    QString fileName = "conf/" + name;
+    QString fileName = confPath + "/" + currentConf;
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
         QMessageBox::warning(this,"error", tr("打开文件错误!"));
@@ -565,38 +614,26 @@ void MainWindow::readConfFile(QString name)
 // 初始化配置
 void MainWindow::initConfig(QJsonObject conf)
 {
-    if(!conf.contains("ch1"))
+    if(conf.contains("ch1"))
+        itemCh1 = parseItem(conf.value("ch1").toObject());
+    else
         itemCh1 = NULL;
-    else{
-        QJsonValue ch1Value = conf.value("ch1");
-        itemCh1 = parseItem(ch1Value.toObject());
-    }
-
-    if(!conf.contains("ch2"))
+    if(conf.contains("ch2"))
+        itemCh2 = parseItem(conf.value("ch2").toObject());
+    else
         itemCh2 = NULL;
-    else{
-        QJsonValue ch2Value = conf.value("ch2");
-        itemCh2 = parseItem(ch2Value.toObject());
-    }
-
-    if(conf.contains("slots")){
-        QJsonValue slotsValue = conf.value("slots");
-        parseSlots(slotsValue.toObject());
-    }
-
-    if(!conf.contains("psu1"))
+    if(conf.contains("slots"))
+        parseSlots(conf.value("slots").toObject());
+    else
+        slotsMap.clear();
+    if(conf.contains("psu1"))
+        itemPsu1 = parseCurItem(conf.value("psu1").toObject());
+    else
         itemPsu1 = NULL;
-    else{
-        QJsonValue psu1Value = conf.value("psu1");
-        itemPsu1 = parseCurItem(psu1Value.toObject());
-    }
-
-    if(!conf.contains("psu2"))
+    if(conf.contains("psu2"))
+        itemPsu2 = parseCurItem(conf.value("psu2").toObject());
+    else
         itemPsu2 = NULL;
-    else{
-        QJsonValue psu2Value = conf.value("psu2");
-        itemPsu2 = parseCurItem(psu2Value.toObject());
-    }
 }
 // 将json对象解析成通道列表
 void MainWindow::parseSlots(QJsonObject json)
@@ -610,6 +647,7 @@ void MainWindow::parseSlots(QJsonObject json)
         int port = slot.value("port").toInt();
         slotsMap[QString("slot%1").arg(i+1)] = qMakePair(host, port);
     }
+    recviceSlots(&slotsMap);
 }
 // 将json对象解析成电流测试项
 currentItem * MainWindow::parseCurItem(QJsonObject json)
@@ -924,27 +962,17 @@ void MainWindow::on_checkBoxPart5_clicked()
 void MainWindow::on_pushBtnStart_clicked()
 {
     getParameters();
-//    qDebug() << "start" ;
-//    qDebug() << "current Slot: " << currentSlot;
-//    qDebug() << "verify or test: " << vot;
-//    qDebug() << "voltage or current: " << voc;
-//    qDebug() << "ch1 or ch2: " << currentCh;
-//    qDebug() << "psu1 or psu2: " << currentPsu;
-//    qDebug() << "part list size: " << partList->size();
-//    for(int i=0; i != partList->size(); ++i)
-//        qDebug() << partList->at(i);
     if(currentSlot == -1 || vot == 0 || voc == 0)
         return;
     curTableLine = 0;
     model->clear();
     repaintTable();
-    endResult = true;
-    QString path = QCoreApplication::applicationDirPath();  //获取程序当前运行目录
+    endResult = true;    
     QDateTime local(QDateTime::currentDateTime());
     QString date = local.toString("yyyyMMdd");
     QString time = local.toString("hhmmss");
-    logPath = path + "/log/" + date;
-    csvPath = path + "/data/" + date;
+    logPath = currentPath + "/log/" + date;
+    csvPath = currentPath + "/data/" + date;
     QString Str;
     qDebug() << "main window zynq message size: " << zynqSocket->bytesAvailable();
     qDebug() << "main window zynq message: " << zynqSocket->readAll();
@@ -1024,7 +1052,6 @@ void MainWindow::on_pushBtnStart_clicked()
         ui->actionDataFile->setEnabled(true);
         ui->actionLogFile->setEnabled(true);
         if(vot == verify){
-            qDebug() << tr("PSU1电流校准");
             logFile = logPath + "/" + time + "-" + Str + "-verify.log";
             csvFile = csvPath + "/" + time + "-" + Str + "-verify.csv";
             thread = new verifyCurrentThread(psu, partList, Str, meterSocket, zynqSocket, logFile, csvFile);
@@ -1035,7 +1062,15 @@ void MainWindow::on_pushBtnStart_clicked()
             connect(thread, SIGNAL(showTable(QStringList)), this, SLOT(showTable(QStringList)));
             thread->start();
         } else if(vot == test){
-            qDebug() << tr("PSU2电流测试");
+            logFile = logPath + '/' + time + '-' + Str + '-test.log';
+            csvFile = csvPath + '/' + time + '-' + Str + '-test.csv';
+            thread = new testCurrentThread(psu, partList, Str, meterSocket, zynqSocket, logFile, csvFile);
+            connect(thread, SIGNAL(statusBarShow(QString)), this, SLOT(statusBarShow(QString)));
+            connect(thread, SIGNAL(setProgressMaxSize(int)), this, SLOT(setProGressMax(int)));
+            connect(thread, SIGNAL(finished()), this, SLOT(runCompleted()));
+            connect(thread, SIGNAL(setProgressCurSize(int)), this, SLOT(setProGress(int)));
+            connect(thread, SIGNAL(showTable(QStringList)), this, SLOT(showTable(QStringList)));
+            thread->start();
         }
     }
     ui->pushBtnStart->setEnabled(false);

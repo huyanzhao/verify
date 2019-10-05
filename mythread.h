@@ -88,4 +88,15 @@ private:
     QString Str;
 };
 
+class testCurrentThread: public myThread
+{
+    Q_OBJECT
+public:
+    explicit testCurrentThread(currentItem *, QList<int> *, QString, QTcpSocket *, QTcpSocket *, QString, QString, QObject *parent = 0);
+    void run();
+private:
+    currentItem * psu;
+    QList<int> * partList;
+    QString Str;
+};
 #endif // MYTHREAD_H

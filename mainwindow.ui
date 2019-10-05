@@ -781,7 +781,6 @@
     <addaction name="actionSave"/>
     <addaction name="actionSaveAs"/>
     <addaction name="actionRename"/>
-    <addaction name="actionRecent"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -851,17 +850,6 @@
    </property>
    <property name="statusTip">
     <string>重命名当前机型的校准测试配置</string>
-   </property>
-  </action>
-  <action name="actionRecent">
-   <property name="text">
-    <string>最近打开</string>
-   </property>
-   <property name="toolTip">
-    <string>打开最近使用过的校准测试配置</string>
-   </property>
-   <property name="statusTip">
-    <string>打开最近使用过的校准测试配置</string>
    </property>
   </action>
   <action name="actionImport">
