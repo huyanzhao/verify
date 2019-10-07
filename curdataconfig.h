@@ -310,6 +310,8 @@ private slots:
 
 private:
     Ui::curdataconfig *ui;
+    currentItem * itemPsu1;
+    currentItem * itemPsu2;
     // PSU1  前置
     QList<command *> * cmdListPsu1Pre;   // 命令列表
     int nowIndexPsu1Pre;                // 当前命令索引

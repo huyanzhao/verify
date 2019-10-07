@@ -1,9 +1,7 @@
 <RCC>
     <qresource prefix="/new/prefix">
-        <file>img/霹雳.jpg</file>
         <file>img/device_mm_router_wired_128px_42870_easyicon.net.ico</file>
         <file>img/man_mechanic_249px_1214364_easyicon.net.png</file>
-        <file>img/Multimeter_723px_1233211_easyicon.net.png</file>
         <file>img/start.bmp</file>
         <file>img/pass.bmp</file>
         <file>img/fail.bmp</file>

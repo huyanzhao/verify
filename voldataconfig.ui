@@ -30,7 +30,7 @@
     <enum>QTabWidget::North</enum>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="channel1">
     <attribute name="title">
@@ -1017,7 +1017,7 @@
        </widget>
        <widget class="QLineEdit" name="lineEditCh1VerifyDMMParam">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="geometry">
          <rect>
@@ -3086,7 +3086,7 @@
        </widget>
        <widget class="QLineEdit" name="lineEditCh2VerifyDMMParam">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="geometry">
          <rect>

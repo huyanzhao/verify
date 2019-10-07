@@ -85,6 +85,8 @@ private slots:
 
 private:
     Ui::volDataConfig *ui;
+    testItem * itemCh1;
+    testItem * itemCh2;
     // ch1前置命令页
     QList<command *> * cmdListCh1Pre;            // 命令列表
     int nowIndexCh1Pre;                          // 当前命令索引

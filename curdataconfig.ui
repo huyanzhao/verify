@@ -52,7 +52,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>5</number>
      </property>
      <property name="iconSize">
       <size>
@@ -502,7 +502,7 @@
         </rect>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="shift">
         <attribute name="title">
@@ -1480,7 +1480,7 @@
          </widget>
          <widget class="QLineEdit" name="lineEditPsu1Part1VerifyDMMParam">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="geometry">
            <rect>
@@ -2540,7 +2540,7 @@
         </rect>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="shift_2">
         <attribute name="title">
@@ -3518,7 +3518,7 @@
          </widget>
          <widget class="QLineEdit" name="lineEditPsu1Part2VerifyDMMParam">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="geometry">
            <rect>
@@ -4578,7 +4578,7 @@
         </rect>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="shift_3">
         <attribute name="title">
@@ -5556,7 +5556,7 @@
          </widget>
          <widget class="QLineEdit" name="lineEditPsu1Part3VerifyDMMParam">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="geometry">
            <rect>
@@ -6616,7 +6616,7 @@
         </rect>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="shift_4">
         <attribute name="title">
@@ -7594,7 +7594,7 @@
          </widget>
          <widget class="QLineEdit" name="lineEditPsu1Part4VerifyDMMParam">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="geometry">
            <rect>
@@ -8654,7 +8654,7 @@
         </rect>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="shift_5">
         <attribute name="title">
@@ -9632,7 +9632,7 @@
          </widget>
          <widget class="QLineEdit" name="lineEditPsu1Part5VerifyDMMParam">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="geometry">
            <rect>
@@ -11150,7 +11150,7 @@
         </rect>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="shift_6">
         <attribute name="title">
@@ -12128,7 +12128,7 @@
          </widget>
          <widget class="QLineEdit" name="lineEditPsu2Part1VerifyDMMParam">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="geometry">
            <rect>
@@ -14836,7 +14836,7 @@
          </widget>
          <widget class="QLineEdit" name="lineEditPsu2Part2TestDMMParam">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="geometry">
            <rect>
@@ -15226,7 +15226,7 @@
         </rect>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="shift_8">
         <attribute name="title">
@@ -16204,7 +16204,7 @@
          </widget>
          <widget class="QLineEdit" name="lineEditPsu2Part3VerifyDMMParam">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="geometry">
            <rect>
@@ -17264,7 +17264,7 @@
         </rect>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="shift_9">
         <attribute name="title">
@@ -18242,7 +18242,7 @@
          </widget>
          <widget class="QLineEdit" name="lineEditPsu2Part4VerifyDMMParam">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="geometry">
            <rect>
@@ -20950,7 +20950,7 @@
          </widget>
          <widget class="QLineEdit" name="lineEditPsu2Part5TestDMMParam">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="geometry">
            <rect>

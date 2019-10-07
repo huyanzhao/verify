@@ -12,6 +12,8 @@
 #include "testitem.h"
 
 volDataConfig::volDataConfig(testItem * ch1, testItem * ch2, QWidget *parent) :
+    itemCh1(ch1),
+    itemCh2(ch2),
     QDialog(parent),
     ui(new Ui::volDataConfig)
 {
@@ -27,60 +29,77 @@ volDataConfig::volDataConfig(testItem * ch1, testItem * ch2, QWidget *parent) :
     ui->lineEditCh1VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditCh1TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditCh1TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
-    if(ch1 == NULL){
+    if(itemCh1 == NULL){
         cmdListCh1Pre = new QList<command *>;
         dataAndAddrListCh1 = new QList<QPair<bool, QPair<QString, QString> * > * >;
         setCmdCh1Verify = new command(QString("PSU1_V"));
-        setCmdCh1Verify->setRatio(0.0);
+        setCmdCh1Verify->setStart(QString("("));
+        setCmdCh1Verify->setEnd(QString(";"));
+        setCmdCh1Verify->setJudge(QString("DONE"));
+        setCmdCh1Verify->setRatio(0);
+        setCh1Multi = 1;
         dmmCmdCh1Verify = new command(QString("CH1_Voltage_MEASURE_AD"));
+        dmmCmdCh1Verify->setStart(QString("("));
+        dmmCmdCh1Verify->setEnd(QString(";"));
+        dmmCmdCh1Verify->setRatio(10);
+        dmmCh1Multi = 1;
         meterCmdCh1Verify = new command(QString("read?"));
+        meterCmdCh1Verify->setRatio(10);
+        meterCh1Multi = 1;
         setCmdCh1Test = new command(QString("PSU1_V"));
-        setCmdCh1Test->setRatio(0.0);
-        dmmCmdCh1Test = new command(QString("CH1_Voltage_MEASURE_AD"));
+        setCmdCh1Test->setStart(QString("("));
+        setCmdCh1Test->setEnd(QString(";"));
+        setCmdCh1Test->setJudge(QString("DONE"));
+        setCmdCh1Test->setRatio(0);
+        dmmCmdCh1Test = new command(QString("CH1_Voltage_MEASURE"));
+        dmmCmdCh1Test->setStart(QString("("));
+        dmmCmdCh1Test->setEnd(QString(";"));
+        dmmCmdCh1Test->setRatio(0.1);
         meterCmdCh1Test = new command(QString("read?"));
+        meterCmdCh1Test->setRatio(0.1);
     }else{
-        cmdListCh1Pre = ch1->getCmdList();  // 初始化前置命令列表并刷新
-        showCh1PreCmdList();
-        dataAndAddrListCh1 = ch1->getDataList();  // 初始化并显示数据列表
-        for(int i=0; i != dataAndAddrListCh1->size(); ++i){
-            on_pushBtnCh1DataAdd_clicked();
-            checkBoxListCh1Data.at(i)->setChecked(dataAndAddrListCh1->at(i)->first);
-            dataLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->second->first);
-            addrLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->second->second);
-        }
-        setCmdCh1Verify = ch1->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
-        ui->lineEditCh1VerifySetCmd->setText(setCmdCh1Verify->getName());
-        ui->lineEditCh1VerifySetStart->setText(setCmdCh1Verify->getStart());
-        ui->lineEditCh1VerifySetEnd->setText(setCmdCh1Verify->getEnd());
-        ui->lineEditCh1VerifySetJudge->setText(setCmdCh1Verify->getJudge());
-        setCh1Multi = ch1->getSetMulti();   // 放大倍数
-        ui->lineEditCh1VerifySetMulti->setText(QString("%1").arg(setCh1Multi));
-        dmmCmdCh1Verify = ch1->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
-        ui->lineEditCh1VerifyDMMCmd->setText(dmmCmdCh1Verify->getName());
-        ui->lineEditCh1VerifyDMMStart->setText(dmmCmdCh1Verify->getStart());
-        ui->lineEditCh1VerifyDMMEnd->setText(dmmCmdCh1Verify->getEnd());
-        ui->lineEditCh1VerifyDMMJudge->setText(dmmCmdCh1Verify->getRatio());
-        dmmCh1Multi = ch1->getDmmMulti();  // 放大倍数
-        ui->lineEditCh1VerifyDMMMulti->setText(QString("%1").arg(dmmCh1Multi));
-        meterCmdCh1Verify = ch1->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
-        ui->lineEditCh1VerifyMeterCmd->setText(meterCmdCh1Verify->getName());
-        ui->lineEditCh1VerifyMeterJudge->setText(meterCmdCh1Verify->getRatio());
-        meterCh1Multi = ch1->getMeterMulti();  // 放大倍数
-        ui->lineEditCh1VerifyMeterMulti->setText(QString("%1").arg(meterCh1Multi));
-        setCmdCh1Test = ch1->getSetCmdTest();  // 初始化并显示测试页设置电压命令
-        ui->lineEditCh1TestSetCmd->setText(setCmdCh1Test->getName());
-        ui->lineEditCh1TestSetStart->setText(setCmdCh1Test->getStart());
-        ui->lineEditCh1TestSetEnd->setText(setCmdCh1Test->getEnd());
-        ui->lineEditCh1TestSetJudge->setText(setCmdCh1Test->getJudge());
-        dmmCmdCh1Test = ch1->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
-        ui->lineEditCh1TestDMMCmd->setText(dmmCmdCh1Test->getName());
-        ui->lineEditCh1TestDMMStart->setText(dmmCmdCh1Test->getStart());
-        ui->lineEditCh1TestDMMEnd->setText(dmmCmdCh1Test->getEnd());
-        ui->lineEditCh1TestDMMJudge->setText(dmmCmdCh1Test->getRatio());
-        meterCmdCh1Test = ch1->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
-        ui->lineEditCh1TestMeterCmd->setText(meterCmdCh1Test->getName());
-        ui->lineEditCh1TestMeterJudge->setText(meterCmdCh1Test->getRatio());
+        cmdListCh1Pre = itemCh1->getCmdList();  // 初始化前置命令列表并刷新        
+        dataAndAddrListCh1 = itemCh1->getDataList();  // 初始化并显示数据列表        
+        setCmdCh1Verify = itemCh1->getSetCmdVerify();  // 初始化并显示校准页设置电压命令        
+        setCh1Multi = itemCh1->getSetMulti();   // 放大倍数        
+        dmmCmdCh1Verify = itemCh1->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令        
+        dmmCh1Multi = itemCh1->getDmmMulti();  // 放大倍数
+        meterCmdCh1Verify = itemCh1->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令        
+        meterCh1Multi = itemCh1->getMeterMulti();  // 放大倍数        
+        setCmdCh1Test = itemCh1->getSetCmdTest();  // 初始化并显示测试页设置电压命令        
+        dmmCmdCh1Test = itemCh1->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令        
+        meterCmdCh1Test = itemCh1->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令        
     }
+    showCh1PreCmdList();
+    for(int i=0; i != dataAndAddrListCh1->size(); ++i){
+        on_pushBtnCh1DataAdd_clicked();
+        checkBoxListCh1Data.at(i)->setChecked(dataAndAddrListCh1->at(i)->first);
+        dataLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->second->first);
+        addrLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->second->second);
+    }
+    ui->lineEditCh1VerifySetCmd->setText(setCmdCh1Verify->getName());
+    ui->lineEditCh1VerifySetStart->setText(setCmdCh1Verify->getStart());
+    ui->lineEditCh1VerifySetEnd->setText(setCmdCh1Verify->getEnd());
+    ui->lineEditCh1VerifySetJudge->setText(setCmdCh1Verify->getJudge());
+    ui->lineEditCh1VerifySetMulti->setText(QString("%1").arg(setCh1Multi));
+    ui->lineEditCh1VerifyDMMCmd->setText(dmmCmdCh1Verify->getName());
+    ui->lineEditCh1VerifyDMMStart->setText(dmmCmdCh1Verify->getStart());
+    ui->lineEditCh1VerifyDMMEnd->setText(dmmCmdCh1Verify->getEnd());
+    ui->lineEditCh1VerifyDMMJudge->setText(dmmCmdCh1Verify->getRatio());
+    ui->lineEditCh1VerifyDMMMulti->setText(QString("%1").arg(dmmCh1Multi));
+    ui->lineEditCh1VerifyMeterCmd->setText(meterCmdCh1Verify->getName());
+    ui->lineEditCh1VerifyMeterJudge->setText(meterCmdCh1Verify->getRatio());
+    ui->lineEditCh1VerifyMeterMulti->setText(QString("%1").arg(meterCh1Multi));
+    ui->lineEditCh1TestSetCmd->setText(setCmdCh1Test->getName());
+    ui->lineEditCh1TestSetStart->setText(setCmdCh1Test->getStart());
+    ui->lineEditCh1TestSetEnd->setText(setCmdCh1Test->getEnd());
+    ui->lineEditCh1TestSetJudge->setText(setCmdCh1Test->getJudge());
+    ui->lineEditCh1TestDMMCmd->setText(dmmCmdCh1Test->getName());
+    ui->lineEditCh1TestDMMStart->setText(dmmCmdCh1Test->getStart());
+    ui->lineEditCh1TestDMMEnd->setText(dmmCmdCh1Test->getEnd());
+    ui->lineEditCh1TestDMMJudge->setText(dmmCmdCh1Test->getRatio());
+    ui->lineEditCh1TestMeterCmd->setText(meterCmdCh1Test->getName());
+    ui->lineEditCh1TestMeterJudge->setText(meterCmdCh1Test->getRatio());
     // ch2
     nowIndexCh2Pre = -1;  // 前置命令框当前选项索引
     nowCommandCh2 = NULL;
@@ -92,60 +111,77 @@ volDataConfig::volDataConfig(testItem * ch1, testItem * ch2, QWidget *parent) :
     ui->lineEditCh2VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditCh2TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditCh2TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
-    if(ch2 == NULL){
+    if(itemCh2 == NULL){
         cmdListCh2Pre = new QList<command *>;
         dataAndAddrListCh2 = new QList<QPair<bool, QPair<QString, QString> * > * >;
-        setCmdCh2Verify = new command(QString("PSU1_V"));
-        setCmdCh2Verify->setRatio(0.0);
+        setCmdCh2Verify = new command(QString("PSU2_V"));
+        setCmdCh2Verify->setStart(QString("("));
+        setCmdCh2Verify->setEnd(QString(";"));
+        setCmdCh2Verify->setJudge(QString("DONE"));
+        setCmdCh2Verify->setRatio(0);
+        setCh2Multi = 1;
         dmmCmdCh2Verify = new command(QString("CH2_Voltage_MEASURE_AD"));
+        dmmCmdCh2Verify->setStart(QString("("));
+        dmmCmdCh2Verify->setEnd(QString(";"));
+        dmmCmdCh2Verify->setRatio(10);
+        dmmCh2Multi = 1;
         meterCmdCh2Verify = new command(QString("read?"));
+        meterCmdCh2Verify->setRatio(10);
+        meterCh2Multi = 1;
         setCmdCh2Test = new command(QString("PSU2_V"));
-        setCmdCh2Test->setRatio(0.0);
-        dmmCmdCh2Test = new command(QString("CH2_Voltage_MEASURE_AD"));
+        setCmdCh2Test->setStart(QString("("));
+        setCmdCh2Test->setEnd(QString(";"));
+        setCmdCh2Test->setJudge(QString("DONE"));
+        setCmdCh2Test->setRatio(0);
+        dmmCmdCh2Test = new command(QString("CH2_Voltage_MEASURE"));
+        dmmCmdCh2Test->setStart(QString("("));
+        dmmCmdCh2Test->setEnd(QString(";"));
+        dmmCmdCh2Test->setRatio(0.1);
         meterCmdCh2Test = new command(QString("read?"));
+        meterCmdCh1Test->setRatio(0.1);
     }else{
-        cmdListCh2Pre = ch2->getCmdList();  // 初始化前置命令列表并刷新
-        showCh2PreCmdList();
-        dataAndAddrListCh2 = ch2->getDataList();  // 初始化并显示数据列表
-        for(int i=0; i != dataAndAddrListCh2->size(); ++i){
-            on_pushBtnCh2DataAdd_clicked();
-            checkBoxListCh2Data.at(i)->setChecked(dataAndAddrListCh2->at(i)->first);
-            dataLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->second->first);
-            addrLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->second->second);
-        }
-        setCmdCh2Verify = ch2->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
-        ui->lineEditCh2VerifySetCmd->setText(setCmdCh2Verify->getName());
-        ui->lineEditCh2VerifySetStart->setText(setCmdCh2Verify->getStart());
-        ui->lineEditCh2VerifySetEnd->setText(setCmdCh2Verify->getEnd());
-        ui->lineEditCh2VerifySetJudge->setText(setCmdCh2Verify->getJudge());
-        setCh2Multi = ch2->getSetMulti();   // 放大倍数
-        ui->lineEditCh2VerifySetMulti->setText(QString("%1").arg(setCh2Multi));
-        dmmCmdCh2Verify = ch2->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
-        ui->lineEditCh2VerifyDMMCmd->setText(dmmCmdCh2Verify->getName());
-        ui->lineEditCh2VerifyDMMStart->setText(dmmCmdCh2Verify->getStart());
-        ui->lineEditCh2VerifyDMMEnd->setText(dmmCmdCh2Verify->getEnd());
-        ui->lineEditCh2VerifyDMMJudge->setText(dmmCmdCh2Verify->getRatio());
-        dmmCh2Multi = ch2->getDmmMulti();  // 放大倍数
-        ui->lineEditCh2VerifyDMMMulti->setText(QString("%1").arg(dmmCh2Multi));
-        meterCmdCh2Verify = ch1->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
-        ui->lineEditCh2VerifyMeterCmd->setText(meterCmdCh2Verify->getName());
-        ui->lineEditCh2VerifyMeterJudge->setText(meterCmdCh2Verify->getRatio());
-        meterCh2Multi = ch2->getMeterMulti();  // 放大倍数
-        ui->lineEditCh2VerifyMeterMulti->setText(QString("%1").arg(meterCh2Multi));
-        setCmdCh2Test = ch2->getSetCmdTest();  // 初始化并显示测试页设置电压命令
-        ui->lineEditCh2TestSetCmd->setText(setCmdCh2Test->getName());
-        ui->lineEditCh2TestSetStart->setText(setCmdCh2Test->getStart());
-        ui->lineEditCh2TestSetEnd->setText(setCmdCh2Test->getEnd());
-        ui->lineEditCh2TestSetJudge->setText(setCmdCh2Test->getJudge());
-        dmmCmdCh2Test = ch2->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
-        ui->lineEditCh2TestDMMCmd->setText(dmmCmdCh2Test->getName());
-        ui->lineEditCh2TestDMMStart->setText(dmmCmdCh2Test->getStart());
-        ui->lineEditCh2TestDMMEnd->setText(dmmCmdCh2Test->getEnd());
-        ui->lineEditCh2TestDMMJudge->setText(dmmCmdCh2Test->getRatio());
-        meterCmdCh2Test = ch2->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
-        ui->lineEditCh2TestMeterCmd->setText(meterCmdCh2Test->getName());
-        ui->lineEditCh2TestMeterJudge->setText(meterCmdCh2Test->getRatio());
+        cmdListCh2Pre = itemCh2->getCmdList();  // 初始化前置命令列表并刷新        
+        dataAndAddrListCh2 = itemCh2->getDataList();  // 初始化并显示数据列表        
+        setCmdCh2Verify = itemCh2->getSetCmdVerify();  // 初始化并显示校准页设置电压命令        
+        setCh2Multi = itemCh2->getSetMulti();   // 放大倍数        
+        dmmCmdCh2Verify = itemCh2->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令        
+        dmmCh2Multi = itemCh2->getDmmMulti();  // 放大倍数        
+        meterCmdCh2Verify = itemCh2->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令        
+        meterCh2Multi = itemCh2->getMeterMulti();  // 放大倍数        
+        setCmdCh2Test = itemCh2->getSetCmdTest();  // 初始化并显示测试页设置电压命令        
+        dmmCmdCh2Test = itemCh2->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令        
+        meterCmdCh2Test = itemCh2->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
     }
+    showCh2PreCmdList();
+    for(int i=0; i != dataAndAddrListCh2->size(); ++i){
+        on_pushBtnCh2DataAdd_clicked();
+        checkBoxListCh2Data.at(i)->setChecked(dataAndAddrListCh2->at(i)->first);
+        dataLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->second->first);
+        addrLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->second->second);
+    }
+    ui->lineEditCh2VerifySetCmd->setText(setCmdCh2Verify->getName());
+    ui->lineEditCh2VerifySetStart->setText(setCmdCh2Verify->getStart());
+    ui->lineEditCh2VerifySetEnd->setText(setCmdCh2Verify->getEnd());
+    ui->lineEditCh2VerifySetJudge->setText(setCmdCh2Verify->getJudge());
+    ui->lineEditCh2VerifySetMulti->setText(QString("%1").arg(setCh2Multi));
+    ui->lineEditCh2VerifyDMMCmd->setText(dmmCmdCh2Verify->getName());
+    ui->lineEditCh2VerifyDMMStart->setText(dmmCmdCh2Verify->getStart());
+    ui->lineEditCh2VerifyDMMEnd->setText(dmmCmdCh2Verify->getEnd());
+    ui->lineEditCh2VerifyDMMJudge->setText(dmmCmdCh2Verify->getRatio());
+    ui->lineEditCh2VerifyDMMMulti->setText(QString("%1").arg(dmmCh2Multi));
+    ui->lineEditCh2VerifyMeterCmd->setText(meterCmdCh2Verify->getName());
+    ui->lineEditCh2VerifyMeterJudge->setText(meterCmdCh2Verify->getRatio());
+    ui->lineEditCh2VerifyMeterMulti->setText(QString("%1").arg(meterCh2Multi));
+    ui->lineEditCh2TestSetCmd->setText(setCmdCh2Test->getName());
+    ui->lineEditCh2TestSetStart->setText(setCmdCh2Test->getStart());
+    ui->lineEditCh2TestSetEnd->setText(setCmdCh2Test->getEnd());
+    ui->lineEditCh2TestSetJudge->setText(setCmdCh2Test->getJudge());
+    ui->lineEditCh2TestDMMCmd->setText(dmmCmdCh2Test->getName());
+    ui->lineEditCh2TestDMMStart->setText(dmmCmdCh2Test->getStart());
+    ui->lineEditCh2TestDMMEnd->setText(dmmCmdCh2Test->getEnd());
+    ui->lineEditCh2TestDMMJudge->setText(dmmCmdCh2Test->getRatio());
+    ui->lineEditCh2TestMeterCmd->setText(meterCmdCh2Test->getName());
+    ui->lineEditCh2TestMeterJudge->setText(meterCmdCh2Test->getRatio());
 }
 // 析构
 volDataConfig::~volDataConfig()
@@ -155,18 +191,23 @@ volDataConfig::~volDataConfig()
 // 退出事件
 void volDataConfig::closeEvent(QCloseEvent *event)
 {
-    qDebug() << tr("发射信号给主窗口");
-    testItem * ch1 = new testItem(cmdListCh1Pre, dataAndAddrListCh1,
-                                  setCmdCh1Verify, setCh1Multi,
-                                  dmmCmdCh1Verify, dmmCh1Multi,
-                                  meterCmdCh1Verify, meterCh1Multi,
-                                  setCmdCh1Test, dmmCmdCh1Test, meterCmdCh1Test);
-    testItem * ch2 = new testItem(cmdListCh2Pre, dataAndAddrListCh2,
-                                  setCmdCh2Verify, setCh2Multi,
-                                  dmmCmdCh2Verify, dmmCh2Multi,
-                                  meterCmdCh2Verify, meterCh2Multi,
-                                  setCmdCh2Test, dmmCmdCh2Test, meterCmdCh2Test);
-    emit returnTestItem(ch1, ch2);
+    if(cmdListCh1Pre->size() != 0 && dataAndAddrListCh1->size() != 0)
+        itemCh1 = new testItem(cmdListCh1Pre, dataAndAddrListCh1,
+                               setCmdCh1Verify, setCh1Multi,
+                               dmmCmdCh1Verify, dmmCh1Multi,
+                               meterCmdCh1Verify, meterCh1Multi,
+                               setCmdCh1Test, dmmCmdCh1Test, meterCmdCh1Test);
+    else
+        itemCh1 = NULL;
+    if(cmdListCh2Pre->size() != 0 && dataAndAddrListCh2 != 0)
+        itemCh2 = new testItem(cmdListCh2Pre, dataAndAddrListCh2,
+                               setCmdCh2Verify, setCh2Multi,
+                               dmmCmdCh2Verify, dmmCh2Multi,
+                               meterCmdCh2Verify, meterCh2Multi,
+                               setCmdCh2Test, dmmCmdCh2Test, meterCmdCh2Test);
+    else
+        itemCh2 = NULL;
+    emit returnTestItem(itemCh1, itemCh2);
 }
 // 退出
 void volDataConfig::on_pushBtnExit_clicked()
@@ -180,9 +221,7 @@ void volDataConfig::on_pushBtnCh1PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
     newCommand->setRatio(0.0);
-    qDebug() << tr("添加新命令前, 命令个数：") << cmdListCh1Pre->size();
     cmdListCh1Pre->append(newCommand);
-    qDebug() << tr("添加新命令后, 命令个数：") << cmdListCh1Pre->size();
     showCh1PreCmdList();
 }
 // 命令框点击事件
@@ -510,8 +549,9 @@ void volDataConfig::on_pushBtnCh1VerifySave_clicked()
         QMessageBox::information(this, tr("保存失败"), tr("设置电压命令的参数填写不完整，请重新填写"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // 读取并判断电压读取命令的参数
+    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // 读取并判断电压读取命令的参数
     dmmName = ui->lineEditCh1VerifyDMMCmd->text();
+    dmmParam = ui->lineEditCh1VerifyDMMParam->text();
     dmmStart = ui->lineEditCh1VerifyDMMStart->text();
     dmmEnd = ui->lineEditCh1VerifyDMMEnd->text();
     dmmJudge = ui->lineEditCh1VerifyDMMJudge->text();
@@ -533,6 +573,7 @@ void volDataConfig::on_pushBtnCh1VerifySave_clicked()
     setCmdCh1Verify->setJudge(setJudge);
     setCh1Multi = setMulti.toInt();
     dmmCmdCh1Verify->setName(dmmName); // 保存读取电压命令参数
+    dmmCmdCh1Verify->setParam(dmmParam);
     dmmCmdCh1Verify->setStart(dmmStart);
     dmmCmdCh1Verify->setEnd(dmmEnd);
     dmmCmdCh1Verify->setRatio(dmmJudge.toDouble());
@@ -951,8 +992,9 @@ void volDataConfig::on_pushBtnCh2VerifySave_clicked()
         QMessageBox::information(this, tr("保存失败"), tr("设置电压命令的参数填写不完整，请重新填写"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // 读取并判断电压读取命令的参数
+    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // 读取并判断电压读取命令的参数
     dmmName = ui->lineEditCh2VerifyDMMCmd->text();
+    dmmParam = ui->lineEditCh2VerifyDMMParam->text();
     dmmStart = ui->lineEditCh2VerifyDMMStart->text();
     dmmEnd = ui->lineEditCh2VerifyDMMEnd->text();
     dmmJudge = ui->lineEditCh2VerifyDMMJudge->text();
@@ -974,6 +1016,7 @@ void volDataConfig::on_pushBtnCh2VerifySave_clicked()
     setCmdCh2Verify->setJudge(setJudge);
     setCh2Multi = setMulti.toInt();
     dmmCmdCh2Verify->setName(dmmName); // 保存读取电压命令参数
+    dmmCmdCh2Verify->setParam(dmmParam);
     dmmCmdCh2Verify->setStart(dmmStart);
     dmmCmdCh2Verify->setEnd(dmmEnd);
     dmmCmdCh2Verify->setRatio(dmmJudge.toDouble());
