@@ -60,5 +60,5 @@ void meterAddress::on_pushBtnOk_clicked()
     port = ui->lineEditPort->text().toInt();
     // ·¢ÉäÐÅºÅ
     emit meterConfigDone(host, port);
-
+    this->close();
 }

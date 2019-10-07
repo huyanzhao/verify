@@ -201,6 +201,7 @@ void MainWindow::on_actionSaveAs_triggered()
         return;
     }
     currentConf = fileFullName.mid(fileFullName.lastIndexOf("/")+1);
+    this->setWindowTitle(QString(tr("B&P通用校准测试平台 - %1").arg(currentConf)));
     on_actionSave_triggered();
 }
 // 重命名配置文件
