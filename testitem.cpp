@@ -20,19 +20,6 @@ testItem::testItem(QList<command *> * cmdListParam,  // 前置命令列表
     dmmCmdTest(dmmTestParam),           // 测试读取命令
     meterCmdTest(meterTestParam)        // 测试读万用表命令
 {
-    /*  默认初始化
-    cmdList = new QList<command *>;
-    dataList = new QList<QPair<bool, QPair<QString, QString> *> *>;
-    setCmdVerify = new command("Untitled");
-    setMulti = 1000;
-    dmmCmdVerify = new command("Untitled");
-    dmmMulti = 1000;
-    meterCmdVerify = new command("read?");
-    meterMulti = 1000000;
-    setCmdTest = new command("Untitled");
-    dmmCmdTest = new command("Untitled");
-    meterCmdTest = new command("read?");
-    */
 }
 
 testItem::~testItem()

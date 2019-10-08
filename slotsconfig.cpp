@@ -1,6 +1,5 @@
 #include "slotsconfig.h"
 #include "ui_slotsconfig.h"
-#include <QDebug>
 #include <QLabel>
 #include <QLineEdit>
 
@@ -12,7 +11,6 @@ slotsconfig::slotsconfig(QMap<QString, QPair<QString, int> > * remoteHosts, QWid
     QDialog(parent),
     ui(new Ui::slotsconfig)
 {
-    qDebug() << "Initialization Channel Configuration Interface";
     ui->setupUi(this);
     hostMap = * remoteHosts;
     hosts = &hostMap;
@@ -85,33 +83,25 @@ slotsconfig::~slotsconfig()
 // 取消
 void slotsconfig::on_pushBtnCancel_clicked()
 {
-    qDebug() << "Cancel";
     this->close();
 }
 // 添加
 void slotsconfig::on_pushBtnAdd_clicked()
 {
-    qDebug() << "Add" << hosts->count();
     if(hosts->count() < 8){
         hosts->insert(QString("slot%1").arg(hosts->count()+1), qMakePair(QString("127.0.0.1"), 80));
         rePaint();
-    }else{
-        qDebug() << tr("已达到最大通道数, 最多可同时连接8个通道。");
     }
 }
 // 删除
 void slotsconfig::on_pushBtnDel_clicked()
 {
-    qDebug() << "Del" << hosts->count();
     hosts->remove(QString("slot%1").arg(hosts->count()));
-    for(QMap<QString, QPair<QString, int> >::Iterator it = hosts->begin(); it != hosts->end(); it++)
-        qDebug() << it.key() << ": " << it.value().first << ":" << it.value().second;
     rePaint();
 }
 // 确定
 void slotsconfig::on_pushBtnOk_clicked()
 {
-    qDebug() << "Ok" << hosts->count();
     for(QMap<QString, QPair<QString, int> >::Iterator it = hosts->begin(); it != hosts->end(); it++){
         QString key;
         key = it.key();
@@ -119,11 +109,8 @@ void slotsconfig::on_pushBtnOk_clicked()
         slotindex = key.right(1).toInt();
         QPair<QString, int> tempHost;
         tempHost = qMakePair(IPList.at(slotindex-1)->text(), PortList.at(slotindex-1)->text().toInt());
-//        qDebug() << tempHost;
         hostMap[key] = tempHost;
     }
-    for(QMap<QString, QPair<QString, int> >::Iterator it = hosts->begin(); it != hosts->end(); it++)
-        qDebug() << it.key() << ": " << it.value().first << ":" << it.value().second;
     emit slotsConfigDone(hosts);
     this->close();
 }

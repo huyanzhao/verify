@@ -1,5 +1,4 @@
 #include "command.h"
-#include "QDebug"
 #include <QStringList>
 #include <QRegExp>
 #include <math.h>
@@ -7,7 +6,6 @@
 command::command(QString nameParam):
     name(nameParam)
 {
-//    qDebug() << QString("create new command:%1").arg(name);
 //    judgeEqual = QString("Done");
 }
 // 设置命令名称
@@ -40,7 +38,6 @@ void command::setFloatResult(float result)
 {
     floatResult = result;
 }
-
 // 截取结果
 void command::intercept()
 {

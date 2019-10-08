@@ -1,6 +1,5 @@
 #include "mythread.h"
 #include <QTcpSocket>
-#include <QDebug>
 #include <QFile>
 #include <QDateTime>
 #include <windows.h>
@@ -27,10 +26,8 @@ void myThread::writeLog(QString message)
     QDateTime local(QDateTime::currentDateTime());
     QString timeStamp = local.toString("yyyy-MM-dd hh:mm:ss.zzz  ");
     QFile f(log);
-    if(!f.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append)){
-        qDebug() << tr("log 文件打开失败!");
+    if(!f.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
         return;
-    }
     QTextStream txtOutput(&f);
     emit statusBarShow(message.simplified());
     if(message == "\n")
@@ -43,10 +40,8 @@ void myThread::writeLog(QString message)
 void myThread::writeCsv(QString data)
 {
     QFile f(csv);
-    if(!f.open(QFile::WriteOnly | QFile::Text | QFile::Append)){
-        qDebug() << tr("数据文件打开失败!");
+    if(!f.open(QFile::WriteOnly | QFile::Text | QFile::Append))
         return;
-    }
     QTextStream textStream;
     textStream.setDevice(&f);
     textStream.setCodec("utf-8");

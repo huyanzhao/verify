@@ -1,5 +1,4 @@
 #include "qstringinthex.h"
-#include <QDebug>
 // 判断字符串参数是否为十进制整数
 bool QStringIsBase10Int(QString addr)
 {

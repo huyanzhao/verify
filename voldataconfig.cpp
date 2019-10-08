@@ -212,7 +212,6 @@ void volDataConfig::closeEvent(QCloseEvent *event)
 // 退出
 void volDataConfig::on_pushBtnExit_clicked()
 {
-    qDebug() << tr("退出电压配置");
     this->close();
 }
 // ch1前置命令页
@@ -227,9 +226,6 @@ void volDataConfig::on_pushBtnCh1PreAdd_clicked()
 // 命令框点击事件
 void volDataConfig::on_ch1PreCmdList_clicked(const QModelIndex &index)
 {
-    qDebug() << index.data().toString();
-    qDebug() << index.row();
-
     nowIndexCh1Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
     nowCommandCh1 = cmdListCh1Pre->at(nowIndexCh1Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnCh1PreUndo_clicked();
@@ -365,10 +361,6 @@ void volDataConfig::on_pushBtnCh1DataAdd_clicked()
     addrlineedit->setObjectName(QString("lineEditCh1Data_%1").arg(nowIndexCh1Data+1));
     addrLineEditListCh1Data.append(addrlineedit);
     addrlineedit->show();
-//    qDebug() << "frame number:" << frameListCh1Data.size()
-//             << "checkBox number:" << checkBoxListCh1Data.size()
-//             << "data frame number:" << dataLineEditListCh1Data.size()
-//             << "address frame number:" << addrLineEditListCh1Data.size();
     nowIndexCh1Data++;
 }
 // 判断全选状态
@@ -457,7 +449,6 @@ void volDataConfig::handleBatchParamsCh1(int num, double dataStart,
                                       double dataStep, QString strAddrStart,
                                       int addrStep, bool isRise)
 {
-    qDebug() << num << dataStart << dataStep << strAddrStart << addrStep;
     bool isHex;
     int addrStart;
     if(QStringIsBase16Int(strAddrStart)){
@@ -517,9 +508,6 @@ void volDataConfig::on_pushBtnCh1DataSave_clicked()
     }
     dataAndAddrListCh1->clear();
     dataAndAddrListCh1 = tempList;
-//    for(int j=0; j != dataAndAddrListCh1->size(); ++j){
-//        qDebug() << j << dataAndAddrListCh1->at(j)->first << dataAndAddrListCh1->at(j)->second;
-//    }
     if(!dataAndAddrListCh1->isEmpty())
         QMessageBox::information(this, tr("保存成功"), tr("保存成功"), QMessageBox::Ok);
 }
@@ -664,15 +652,12 @@ void volDataConfig::on_pushBtnCh2PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
     newCommand->setRatio(0.0);
-    qDebug() << tr("添加新命令前, 命令个数：") << cmdListCh2Pre->size();
     cmdListCh2Pre->append(newCommand);
-    qDebug() << tr("添加新命令后, 命令个数：") << cmdListCh2Pre->size();
     showCh2PreCmdList();
 }
 // 命令框点击事件
 void volDataConfig::on_ch2PreCmdList_clicked(const QModelIndex &index)
 {
-    qDebug() << index.data().toString();
     nowIndexCh2Pre = index.row();  // 保存ch2前置命令页当前命令在列表中的索引
     nowCommandCh2 = cmdListCh2Pre->at(nowIndexCh2Pre);  // 保存ch2前置命令页当前命令的指针
     on_pushBtnCh2PreUndo_clicked();
@@ -808,10 +793,6 @@ void volDataConfig::on_pushBtnCh2DataAdd_clicked()
     addrlineedit->setObjectName(QString("lineEditCh2Data_%1").arg(nowIndexCh2Data+1));
     addrLineEditListCh2Data.append(addrlineedit);
     addrlineedit->show();
-//    qDebug() << "frame number:" << frameListCh2Data.size()
-//             << "checkBox number:" << checkBoxListCh2Data.size()
-//             << "data frame number:" << dataLineEditListCh2Data.size()
-//             << "address frame number:" << addrLineEditListCh2Data.size();
     nowIndexCh2Data++;
 }
 // 判断全选状态
@@ -900,7 +881,6 @@ void volDataConfig::handleBatchParamsCh2(int num, double dataStart,
                                       double dataStep, QString strAddrStart,
                                       int addrStep, bool isRise)
 {
-    qDebug() << num << dataStart << dataStep << strAddrStart << addrStep;
     bool isHex;
     int addrStart;
     if(QStringIsBase16Int(strAddrStart)){
@@ -960,9 +940,6 @@ void volDataConfig::on_pushBtnCh2DataSave_clicked()
     }
     dataAndAddrListCh2->clear();
     dataAndAddrListCh2 = tempList;
-//    for(int j=0; j != dataAndAddrListCh2->size(); ++j){
-//        qDebug() << j << dataAndAddrListCh2->at(j)->first << dataAndAddrListCh2->at(j)->second;
-//    }
     if(!dataAndAddrListCh2->isEmpty())
         QMessageBox::information(this, tr("保存成功"), tr("保存成功"), QMessageBox::Ok);
 }

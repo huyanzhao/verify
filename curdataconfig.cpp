@@ -1,6 +1,5 @@
 #include "curdataconfig.h"
 #include "ui_curdataconfig.h"
-#include <QDebug>
 #include <QScrollBar>
 #include <QMessageBox>
 #include "command.h"
@@ -1047,7 +1046,6 @@ void curdataconfig::showPsu1Part1PreCmdList()
 // 命令框点击事件
 void curdataconfig::on_psu1Part1PreCmdList_clicked(const QModelIndex &index)
 {
-    qDebug() << index.data().toString();
     nowIndexPsu1Part1Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
     nowCommandPsu1Part1 = cmdListPsu1Part1Pre->at(nowIndexPsu1Part1Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu1Part1PreUndo_clicked();
@@ -1261,7 +1259,6 @@ void curdataconfig::handleBatchParamsPsu1Part1(int num, double dataStart,
                                       double dataStep, QString strAddrStart,
                                       int addrStep, bool isRise)
 {
-    qDebug() << num << dataStart << dataStep << strAddrStart << addrStep;
     bool isHex;
     int addrStart;
     if(QStringIsBase16Int(strAddrStart)){
@@ -1534,7 +1531,6 @@ void curdataconfig::showPsu1Part2PreCmdList()
 // 命令框点击事件
 void curdataconfig::on_psu1Part2PreCmdList_clicked(const QModelIndex &index)
 {
-    qDebug() << index.data().toString();
     nowIndexPsu1Part2Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
     nowCommandPsu1Part2 = cmdListPsu1Part2Pre->at(nowIndexPsu1Part2Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu1Part2PreUndo_clicked();
@@ -1748,7 +1744,6 @@ void curdataconfig::handleBatchParamsPsu1Part2(int num, double dataStart,
                                       double dataStep, QString strAddrStart,
                                       int addrStep, bool isRise)
 {
-    qDebug() << num << dataStart << dataStep << strAddrStart << addrStep;
     bool isHex;
     int addrStart;
     if(QStringIsBase16Int(strAddrStart)){
@@ -2021,7 +2016,6 @@ void curdataconfig::showPsu1Part3PreCmdList()
 // 命令框点击事件
 void curdataconfig::on_psu1Part3PreCmdList_clicked(const QModelIndex &index)
 {
-    qDebug() << index.data().toString();
     nowIndexPsu1Part3Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
     nowCommandPsu1Part3 = cmdListPsu1Part3Pre->at(nowIndexPsu1Part3Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu1Part3PreUndo_clicked();
@@ -2235,7 +2229,6 @@ void curdataconfig::handleBatchParamsPsu1Part3(int num, double dataStart,
                                       double dataStep, QString strAddrStart,
                                       int addrStep, bool isRise)
 {
-    qDebug() << num << dataStart << dataStep << strAddrStart << addrStep;
     bool isHex;
     int addrStart;
     if(QStringIsBase16Int(strAddrStart)){
@@ -2508,7 +2501,6 @@ void curdataconfig::showPsu1Part4PreCmdList()
 // 命令框点击事件
 void curdataconfig::on_psu1Part4PreCmdList_clicked(const QModelIndex &index)
 {
-    qDebug() << index.data().toString();
     nowIndexPsu1Part4Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
     nowCommandPsu1Part4 = cmdListPsu1Part4Pre->at(nowIndexPsu1Part4Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu1Part4PreUndo_clicked();
@@ -2722,7 +2714,6 @@ void curdataconfig::handleBatchParamsPsu1Part4(int num, double dataStart,
                                       double dataStep, QString strAddrStart,
                                       int addrStep, bool isRise)
 {
-    qDebug() << num << dataStart << dataStep << strAddrStart << addrStep;
     bool isHex;
     int addrStart;
     if(QStringIsBase16Int(strAddrStart)){
@@ -2995,7 +2986,6 @@ void curdataconfig::showPsu1Part5PreCmdList()
 // 命令框点击事件
 void curdataconfig::on_psu1Part5PreCmdList_clicked(const QModelIndex &index)
 {
-    qDebug() << index.data().toString();
     nowIndexPsu1Part5Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
     nowCommandPsu1Part5 = cmdListPsu1Part5Pre->at(nowIndexPsu1Part5Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu1Part5PreUndo_clicked();
@@ -3209,7 +3199,6 @@ void curdataconfig::handleBatchParamsPsu1Part5(int num, double dataStart,
                                       double dataStep, QString strAddrStart,
                                       int addrStep, bool isRise)
 {
-    qDebug() << num << dataStart << dataStep << strAddrStart << addrStep;
     bool isHex;
     int addrStart;
     if(QStringIsBase16Int(strAddrStart)){
@@ -3474,7 +3463,6 @@ void curdataconfig::showPsu2PreCmdList()
 // 命令框点击事件
 void curdataconfig::on_psu2PreCmdList_clicked(const QModelIndex &index)
 {
-    qDebug() << index.data().toString();
     nowIndexPsu2Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
     nowCommandPsu2 = cmdListPsu2Pre->at(nowIndexPsu2Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu2PreUndo_clicked();
@@ -3587,7 +3575,6 @@ void curdataconfig::showPsu2Part1PreCmdList()
 // 命令框点击事件
 void curdataconfig::on_psu2Part1PreCmdList_clicked(const QModelIndex &index)
 {
-    qDebug() << index.data().toString();
     nowIndexPsu2Part1Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
     nowCommandPsu2Part1 = cmdListPsu2Part1Pre->at(nowIndexPsu2Part1Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu2Part1PreUndo_clicked();
@@ -3801,7 +3788,6 @@ void curdataconfig::handleBatchParamsPsu2Part1(int num, double dataStart,
                                       double dataStep, QString strAddrStart,
                                       int addrStep, bool isRise)
 {
-    qDebug() << num << dataStart << dataStep << strAddrStart << addrStep;
     bool isHex;
     int addrStart;
     if(QStringIsBase16Int(strAddrStart)){
@@ -4074,7 +4060,6 @@ void curdataconfig::showPsu2Part2PreCmdList()
 // 命令框点击事件
 void curdataconfig::on_psu2Part2PreCmdList_clicked(const QModelIndex &index)
 {
-    qDebug() << index.data().toString();
     nowIndexPsu2Part2Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
     nowCommandPsu2Part2 = cmdListPsu2Part2Pre->at(nowIndexPsu2Part2Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu2Part2PreUndo_clicked();
@@ -4288,7 +4273,6 @@ void curdataconfig::handleBatchParamsPsu2Part2(int num, double dataStart,
                                       double dataStep, QString strAddrStart,
                                       int addrStep, bool isRise)
 {
-    qDebug() << num << dataStart << dataStep << strAddrStart << addrStep;
     bool isHex;
     int addrStart;
     if(QStringIsBase16Int(strAddrStart)){
@@ -4774,7 +4758,6 @@ void curdataconfig::handleBatchParamsPsu2Part3(int num, double dataStart,
                                       double dataStep, QString strAddrStart,
                                       int addrStep, bool isRise)
 {
-    qDebug() << num << dataStart << dataStep << strAddrStart << addrStep;
     bool isHex;
     int addrStart;
     if(QStringIsBase16Int(strAddrStart)){
@@ -5047,7 +5030,6 @@ void curdataconfig::showPsu2Part4PreCmdList()
 // 命令框点击事件
 void curdataconfig::on_psu2Part4PreCmdList_clicked(const QModelIndex &index)
 {
-    qDebug() << index.data().toString();
     nowIndexPsu2Part4Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
     nowCommandPsu2Part4 = cmdListPsu2Part4Pre->at(nowIndexPsu2Part4Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu2Part4PreUndo_clicked();
@@ -5261,7 +5243,6 @@ void curdataconfig::handleBatchParamsPsu2Part4(int num, double dataStart,
                                       double dataStep, QString strAddrStart,
                                       int addrStep, bool isRise)
 {
-    qDebug() << num << dataStart << dataStep << strAddrStart << addrStep;
     bool isHex;
     int addrStart;
     if(QStringIsBase16Int(strAddrStart)){
@@ -5534,7 +5515,6 @@ void curdataconfig::showPsu2Part5PreCmdList()
 // 命令框点击事件
 void curdataconfig::on_psu2Part5PreCmdList_clicked(const QModelIndex &index)
 {
-    qDebug() << index.data().toString();
     nowIndexPsu2Part5Pre = index.row();  // 保存ch1前置命令页当前命令在列表中的索引
     nowCommandPsu2Part5 = cmdListPsu2Part5Pre->at(nowIndexPsu2Part5Pre);  // 保存ch1前置命令页当前命令的指针
     on_pushBtnPsu2Part5PreUndo_clicked();
@@ -5748,7 +5728,6 @@ void curdataconfig::handleBatchParamsPsu2Part5(int num, double dataStart,
                                       double dataStep, QString strAddrStart,
                                       int addrStep, bool isRise)
 {
-    qDebug() << num << dataStart << dataStep << strAddrStart << addrStep;
     bool isHex;
     int addrStart;
     if(QStringIsBase16Int(strAddrStart)){

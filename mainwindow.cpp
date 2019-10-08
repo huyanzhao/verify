@@ -146,7 +146,6 @@ void MainWindow::on_actionOpen_triggered()
         QMessageBox::warning(this, tr("打开配置文件错误"), tr("打开的文件必须是json文件"), QMessageBox::Ok);
         return;
     }
-    qDebug() << fileFullName;
     currentConf = fileFullName.mid(fileFullName.lastIndexOf("/")+1);
     slotsMap.clear();
     qDeleteAll(ui->frameSlot->children());
@@ -183,7 +182,7 @@ void MainWindow::on_actionSave_triggered()
         QTextStream textStream(&file);
         QString str = jsonDocument.toJson();
         textStream << str;
-        QMessageBox::warning(this,"tip",tr("打开配置文件成功!\n保存成功"));
+        QMessageBox::warning(this,"tip",tr("保存配置文件成功!"));
         file.close();
     }
 }
@@ -207,13 +206,11 @@ void MainWindow::on_actionSaveAs_triggered()
 // 重命名配置文件
 void MainWindow::on_actionRename_triggered()
 {
-    qDebug() << tr("重命名配置文件");
     QString oldConf = currentConf;
     QString fileFullName = QFileDialog::getSaveFileName(this,
             QString::fromLocal8Bit("重命名"),
             QString("./conf/%1").arg(currentConf),
             tr("Json Files (*.json)"));
-    qDebug() << fileFullName;
     if(fileFullName == NULL)
         return;
     if(!fileFullName.endsWith(".json")){
@@ -229,13 +226,11 @@ void MainWindow::on_actionRename_triggered()
 // 退出应用程序
 void MainWindow::on_actionExit_triggered()
 {
-    qDebug() << tr("退出应用程序");
     this->close();
 }
 // 配置万用表地址端口
 void MainWindow::on_actionMeter_triggered()
 {
-    qDebug() << tr("配置万用表地址端口");
     meterAddress *meterdialog;
     meterdialog = new meterAddress(meterHost, meterPort);
     connect(meterdialog, SIGNAL(meterConfigDone(QString, int)), this, SLOT(recviceMeter(QString,int)));
@@ -253,7 +248,6 @@ void MainWindow::on_actionSlot_triggered()
 // 电压校准数据
 void MainWindow::on_actionVoltageData_triggered()
 {
-    qDebug() << tr("电压校准数据");
     volDataConfig * voldatadialog;
     voldatadialog = new volDataConfig(itemCh1, itemCh2);
     connect(voldatadialog, SIGNAL(returnTestItem(testItem*,testItem*)), this, SLOT(recviceVolParam(testItem*,testItem*)));
@@ -262,7 +256,6 @@ void MainWindow::on_actionVoltageData_triggered()
 // 电流校准数据
 void MainWindow::on_actionCurrentData_triggered()
 {
-    qDebug() << tr("电流校准数据");
     curdataconfig * curdatadialog;
     curdatadialog = new curdataconfig(itemPsu1, itemPsu2);
     connect(curdatadialog, SIGNAL(returnTestItem(currentItem*,currentItem*)), this, SLOT(recviceCurParam(currentItem*,currentItem*)));
@@ -271,7 +264,6 @@ void MainWindow::on_actionCurrentData_triggered()
 // 打开当前数据文件
 void MainWindow::on_actionDataFile_triggered()
 {
-    qDebug() << tr("打开当前数据文件");
     QFile bfilePath(csvFile);
     if(!bfilePath.exists())
         return;
@@ -280,7 +272,6 @@ void MainWindow::on_actionDataFile_triggered()
 // 打开当前数据文件夹
 void MainWindow::on_actionDataDir_triggered()
 {
-    qDebug() << tr("打开当前数据文件夹");
     QDir bfilePath(csvPath);
     if(!bfilePath.exists())
         return;
@@ -289,7 +280,6 @@ void MainWindow::on_actionDataDir_triggered()
 // 打开当前log文件
 void MainWindow::on_actionLogFile_triggered()
 {
-    qDebug() << tr("打开当前log文件");
     QFile bfilePath(logFile);
     if(!bfilePath.exists())
         return;
@@ -298,7 +288,6 @@ void MainWindow::on_actionLogFile_triggered()
 // 打开log文件夹
 void MainWindow::on_actionLogDir_triggered()
 {
-    qDebug() << tr("打开log文件夹");
     QDir bfilePath(logPath);
     if(!bfilePath.exists())
         return;
@@ -481,7 +470,6 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 // 接收用户选定的万用表地址和端口
 void MainWindow::recviceMeter(QString host, int port)
 {
-    qDebug() << host << port;
     meterHost = host;
     meterPort = port;
     newMeterConnect();
@@ -509,7 +497,6 @@ void MainWindow::meterConnected()
 // 万用表连接错误
 void MainWindow::displayMeterError(QAbstractSocket::SocketError)
 {
-    qDebug() << meterSocket->errorString();
     ui->statusBar->showMessage(tr("Meter: ") + meterSocket->errorString());
     if(meterSocket->error() == QAbstractSocket::RemoteHostClosedError){ // 断开连接
         meterStatus->setText(tr("万用表已断开连接！"));
@@ -566,7 +553,6 @@ void MainWindow::zynqConnected()
 // ZYNQ连接错误
 void MainWindow::displayZynqError(QAbstractSocket::SocketError)
 {
-    qDebug() << zynqSocket->errorString();
     ui->statusBar->showMessage(tr("ZYNQ: ") + zynqSocket->errorString());
     if(zynqSocket->error() == QAbstractSocket::RemoteHostClosedError){ // 断开连接
         zynqStatus->setText(tr("ZYNQ已断开连接！"));
@@ -796,7 +782,6 @@ QVariantMap MainWindow::saveTestItem(testItem * item)
     chOrPart.insert("setCmdTest", saveCommand(item->getSetCmdTest()));
     chOrPart.insert("dmmCmdTest", saveCommand(item->getDmmCmdTest()));
     chOrPart.insert("meterCmdTest", saveCommand(item->getMeterCmdTest()));
-//    qDebug() << "chOrPart: " << chOrPart;
     return chOrPart;
 }
 // 保存命令列表
@@ -975,8 +960,6 @@ void MainWindow::on_pushBtnStart_clicked()
     logPath = currentPath + "/log/" + date;
     csvPath = currentPath + "/data/" + date;
     QString Str;
-    qDebug() << "main window zynq message size: " << zynqSocket->bytesAvailable();
-    qDebug() << "main window zynq message: " << zynqSocket->readAll();
     if(voc == voltage){
         testItem * ch;
         if(ui->radioBtnCH1->isChecked()){
@@ -1159,11 +1142,7 @@ bool MainWindow::createFolder(QString path)
     // 检查目录是否存在，若不存在则新建
     QDir dir;
     if (!dir.exists(path))
-    {
-        bool res = dir.mkpath(path);
-        qDebug() << tr("新建目录是否成功") << res;
-        return res;
-    }
+        return dir.mkpath(path);
     return true;
 }
 // 状态栏显示

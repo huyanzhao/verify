@@ -1,7 +1,6 @@
 #include "batchadd.h"
 #include "ui_batchadd.h"
 #include <QMessageBox>
-#include <QDebug>
 #include <QDoubleValidator>
 #include "qstringinthex.h"
 
