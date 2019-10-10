@@ -8,17 +8,18 @@ class testItem
 {
 public:
     testItem(QList<command *> *,
-    QList<QPair<bool, QPair<QString, QString> *> *> *,
+    QList<QPair<bool, QPair<QString, QString> *> *> *, int,
     command *, int,
     command *, int,
     command *, int,
     command *,
     command *,
-    command *);
+    command *);    
     ~testItem();
 
     void setCmdList(QList<command *> *);  // 设置前置命令列表
     void setDataList(QList<QPair<bool, QPair<QString, QString> *> *> *);  // 设置数据列表
+    void setDatalength(int);              // 设置数据长度
     void setSetCmdVerify(command *);      // 设置校准设置命令
     void setSetMulti(int);                // 设置校准数据倍数
     void setDmmCmdVerify(command *);      // 设置校准读取命令
@@ -31,6 +32,7 @@ public:
 
     QList<command *> * getCmdList();      // 获取前置命令列表
     QList<QPair<bool, QPair<QString, QString> *> *> * getDataList();  // 获取数据列表
+    int getDataLength();                  // 获取数据长度
     command * getSetCmdVerify();          // 获取校准设置命令
     int getSetMulti();                    // 获取校准数据倍数
     command * getDmmCmdVerify();          // 获取校准读取命令
@@ -41,9 +43,12 @@ public:
     command * getDmmCmdTest();            // 获取测试读取命令
     command * getMeterCmdTest();          // 获取测试读万用表命令
 
+    testItem * deepcopy();                // 尝试复制
+
 private:
     QList<command *> * cmdList;  // 前置命令列表
     QList<QPair<bool, QPair<QString, QString> *> *> * dataList;  // 数据列表
+    int dataLength;              // 数据长度
     command * setCmdVerify;      // 校准设置命令
     int setMulti;                // 校准设置数据写入eeprom时的倍数
     command * dmmCmdVerify;      // 校准读取命令

@@ -41,6 +41,8 @@ protected:
     qint64 zynqTimeOut;  // 接收zynq时的超时
     qint64 cmdDelay;  // 命令延时
 
+    int dataLength;  // 数据长度
+
     QString log;
     QString csv;
 };

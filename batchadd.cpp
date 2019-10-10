@@ -21,19 +21,15 @@ BatchAdd::~BatchAdd()
 // 生成
 void BatchAdd::on_pushBtnGenerate_clicked()
 {
-    QString number, dataStart, dataSetp, addrStart, addrStep;
+    QString number, dataStart, dataSetp, addrStart;
     bool isRise;
     number = ui->lineEditNum->text();
     dataStart = ui->lineEditStartData->text();
     dataSetp = ui->lineEditDataStep->text();
     addrStart = ui->lineEditStartAddr->text();
-    addrStep = ui->lineEditAddrStep->text();
 
-    if(number.size() == 0 || dataStart.size() == 0 || dataSetp.size() == 0 || addrStart.size() ==0 || addrStep.size() == 0){
+    if(number.size() == 0 || dataStart.size() == 0 || dataSetp.size() == 0 || addrStart.size() ==0){
         QMessageBox::information(this, QString(tr("生成失败")), QString(tr("参数未填写完整，请重新填写")),QMessageBox::Yes);
-        return;
-    }else if(!QStringIsInt(addrStep)){
-        QMessageBox::information(this, QString(tr("生成失败")), QString(tr("地址步长不是有效的十进制或十六进制数，请重新填写")),QMessageBox::Yes);
         return;
     }else if(!QStringIsInt(addrStart)){
         QMessageBox::information(this, QString(tr("生成失败")), QString(tr("起始地址不是有效的十进制或十六进制数，请重新填写")),QMessageBox::Yes);
@@ -42,17 +38,16 @@ void BatchAdd::on_pushBtnGenerate_clicked()
         QMessageBox::information(this, QString(tr("生成失败")), QString(tr("数据个数不能为0，请重新填写")),QMessageBox::Yes);
         return;
     }
-    int intNumber, intAddrStep;
+    int intNumber;
     double doubleDataStart, doubleDataSetp;
     intNumber = number.toInt();
     doubleDataStart = dataStart.toDouble();
     doubleDataSetp = dataSetp.toDouble();
-    intAddrStep = QString2int(addrStep);
     if(ui->radioBtnRise->isChecked())
         isRise = true;
     else
         isRise = false;
-    emit returnParams(intNumber, doubleDataStart, doubleDataSetp, addrStart, intAddrStep, isRise);
+    emit returnParams(intNumber, doubleDataStart, doubleDataSetp, addrStart, isRise);
 
     this->close();
 }
@@ -63,6 +58,5 @@ void BatchAdd::on_pushBtnReset_clicked()
     ui->lineEditStartData->clear();
     ui->lineEditDataStep->clear();
     ui->lineEditStartAddr->clear();
-    ui->lineEditAddrStep->clear();
     ui->radioBtnRise->setChecked(true);
 }

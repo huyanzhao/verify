@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>215</width>
-    <height>300</height>
+    <height>251</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -160,49 +160,11 @@
     <string>起始地址</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_5">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>210</y>
-     <width>81</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial Unicode MS</family>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>地址步长：</string>
-   </property>
-   <property name="buddy">
-    <cstring>lineEditAddrStep</cstring>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEditAddrStep">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>210</y>
-     <width>71</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="whatsThis">
-    <string>十进制或十六进制</string>
-   </property>
-   <property name="placeholderText">
-    <string>地址步长</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushBtnGenerate">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>250</y>
+     <y>210</y>
      <width>75</width>
      <height>31</height>
     </rect>
@@ -223,8 +185,8 @@
   <widget class="QPushButton" name="pushBtnReset">
    <property name="geometry">
     <rect>
-     <x>115</x>
-     <y>250</y>
+     <x>120</x>
+     <y>210</y>
      <width>75</width>
      <height>31</height>
     </rect>

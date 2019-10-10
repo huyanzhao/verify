@@ -32,6 +32,7 @@
 #include "testitem.h"
 #include "currentitem.h"
 #include "mythread.h"
+#include "about.h"
 
 // 通道列表
 QMap<QString, QPair<QString, int> > slotsMap;
@@ -89,7 +90,7 @@ MainWindow::MainWindow(QWidget *parent):
     meterPort = settings->value("PORT").toInt();
     settings->endGroup();
     settings->beginGroup("CONFIG FILE");
-    currentConf = settings->value("CURRENT CONFIG FILE NAME").toString();
+    currentConf = settings->value("FILE NAME").toString();
     settings->endGroup();
     readConfFile();  // 读取配置文件
     recviceSlots(&slotsMap);
@@ -177,12 +178,12 @@ void MainWindow::on_actionSave_triggered()
     QFile file(fileName);
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        QMessageBox::warning(this,"error",tr("打开配置文件失败!\n保存失败"));
+        QMessageBox::warning(this, "error", tr("打开配置文件失败!\n保存失败"));
     } else{
         QTextStream textStream(&file);
         QString str = jsonDocument.toJson();
         textStream << str;
-        QMessageBox::warning(this,"tip",tr("保存配置文件成功!"));
+        QMessageBox::warning(this, tr("保存成功"),tr("保存配置文件成功!"));
         file.close();
     }
 }
@@ -307,7 +308,8 @@ void MainWindow::on_actionDataConfig_triggered()
 // 关于
 void MainWindow::on_actionAbout_triggered()
 {
-    qDebug() << tr("关于");
+    About * about = new About();
+    about->show();
 }
 // 退出事件
 void MainWindow::closeEvent(QCloseEvent * event)
@@ -319,7 +321,7 @@ void MainWindow::closeEvent(QCloseEvent * event)
     settings->setValue("PORT", QString("%1").arg(meterPort));
     settings->endGroup();
     settings->beginGroup("CONFIG FILE");
-    settings->setValue("CURRENT CONFIG FILE NAME", currentConf);
+    settings->setValue("FILE NAME", currentConf);
     settings->endGroup();
 }
 // 大小改变
@@ -528,7 +530,7 @@ void MainWindow::recviceSlots(QMap<QString, QPair<QString, int> > *hosts)
         slot->show();
         slotGroup->addButton(slot, i);
     }
-    connect(slotGroup, SIGNAL(buttonClicked(int)), this, SLOT(on_radioSlot_clicked(int)));
+    connect(slotGroup, SIGNAL(buttonClicked(int)), this, SLOT(radioSlot_clicked(int)));
 }
 // 新建ZYNQ连接
 void MainWindow::newZynqConnect()
@@ -699,6 +701,9 @@ testItem * MainWindow::parseItem(QJsonObject json)
             dataList->append(dataPair);
         }
     }
+    int dataLength = 6;
+    if(json.contains("dataLength"))
+        dataLength = json.value("dataLength").toInt();
     // 解析校准项
     command * setCmdVerify = parseCmd(json.value("setCmdVerify").toObject());
     int setMulti = json.value("setMulti").toInt();
@@ -709,7 +714,7 @@ testItem * MainWindow::parseItem(QJsonObject json)
     command * setCmdTest = parseCmd(json.value("setCmdTest").toObject());
     command * dmmCmdTest = parseCmd(json.value("dmmCmdTest").toObject());
     command * meterCmdTest = parseCmd(json.value("meterCmdTest").toObject());
-    return new testItem(cmdList, dataList, setCmdVerify, setMulti, dmmCmdVerify, dmmMulti,
+    return new testItem(cmdList, dataList, dataLength, setCmdVerify, setMulti, dmmCmdVerify, dmmMulti,
                         meterCmdVerify, meterMulti, setCmdTest, dmmCmdTest, meterCmdTest);
 }
 // 将json对象解析为命令
@@ -773,6 +778,7 @@ QVariantMap MainWindow::saveTestItem(testItem * item)
     QVariantMap chOrPart;
     chOrPart.insert("cmdList", saveCommandList(item->getCmdList()));
     chOrPart.insert("dataList", saveDataList(item->getDataList()));
+    chOrPart.insert("dataLength", item->getDataLength());
     chOrPart.insert("setCmdVerify", saveCommand(item->getSetCmdVerify()));
     chOrPart.insert("setMulti", item->getSetMulti());
     chOrPart.insert("dmmCmdVerify", saveCommand(item->getDmmCmdVerify()));
@@ -825,7 +831,7 @@ QVariantMap MainWindow::saveCommand(command * cmd)
     return cmdMap;
 }
 // 通道单选框
-void MainWindow::on_radioSlot_clicked(int id)
+void MainWindow::radioSlot_clicked(int id)
 {
     QString key = QString("slot%1").arg(id+1);
     QPair<QString, int> hostPort = slotsMap.value(key);

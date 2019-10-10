@@ -2,6 +2,7 @@
 #include "ui_curdataconfig.h"
 #include <QScrollBar>
 #include <QMessageBox>
+#include <QDebug>
 #include "command.h"
 #include "qstringinthex.h"
 #include "batchadd.h"
@@ -34,11 +35,11 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }
     nowIndexPsu1Pre = -1;  // 前置命令框当前选项索引
     nowCommandPsu1 = NULL;
-
     nowIndexPsu1Part1Data = 0;  // 当前数据项索引
     if(psu1Part1 == NULL){
         cmdListPsu1Part1Pre = new QList<command *>;
         dataAndAddrListPsu1Part1 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu1Part1 = 6;
         setCmdPsu1Part1Verify = new command(QString("PSU1_I"));
         setCmdPsu1Part1Verify->setStart(QString("("));
         setCmdPsu1Part1Verify->setEnd(QString(";"));
@@ -67,7 +68,8 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
         meterCmdPsu1Part1Test->setRatio(0.1);
     }else{
         cmdListPsu1Part1Pre = psu1Part1->getCmdList();        
-        dataAndAddrListPsu1Part1 = psu1Part1->getDataList();        
+        dataAndAddrListPsu1Part1 = psu1Part1->getDataList();
+        dataLengthPsu1Part1 = psu1Part1->getDataLength();
         setCmdPsu1Part1Verify = psu1Part1->getSetCmdVerify();  // 初始化并显示校准页设置电压命令        
         setPsu1Part1Multi = psu1Part1->getSetMulti();   // 放大倍数        
         dmmCmdPsu1Part1Verify = psu1Part1->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令        
@@ -86,7 +88,8 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
         addrLineEditListPsu1Part1Data.at(i)->setText(dataAndAddrListPsu1Part1->at(i)->second->second);
     }
     nowIndexPsu1Part1Pre = -1;  // 换档命令框当前选项索引
-    nowCommandPsu1Part1 = NULL;
+    nowCommandPsu1Part1 = NULL;    
+    ui->lineEditDataLengthPsu1Part1->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu1Part1VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu1Part1VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu1Part1VerifyDMMMulti->setValidator(new QIntValidator(1, 1000000, this));
@@ -94,6 +97,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu1Part1VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu1Part1TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu1Part1TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
+    ui->lineEditDataLengthPsu1Part1->setText(QString("%1").arg(dataLengthPsu1Part1));
     ui->lineEditPsu1Part1VerifySetCmd->setText(setCmdPsu1Part1Verify->getName());
     ui->lineEditPsu1Part1VerifySetStart->setText(setCmdPsu1Part1Verify->getStart());
     ui->lineEditPsu1Part1VerifySetEnd->setText(setCmdPsu1Part1Verify->getEnd());
@@ -123,6 +127,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     if(psu1Part2 == NULL){
         cmdListPsu1Part2Pre = new QList<command *>;
         dataAndAddrListPsu1Part2 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu1Part2 = 6;
         setCmdPsu1Part2Verify = new command(QString("PSU1_I"));
         setCmdPsu1Part2Verify->setStart(QString("("));
         setCmdPsu1Part2Verify->setEnd(QString(";"));
@@ -152,6 +157,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }else{
         cmdListPsu1Part2Pre = psu1Part2->getCmdList();
         dataAndAddrListPsu1Part2 = psu1Part2->getDataList();
+        dataLengthPsu1Part2 = psu1Part2->getDataLength();
         setCmdPsu1Part2Verify = psu1Part2->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
         setPsu1Part2Multi = psu1Part2->getSetMulti();   // 放大倍数
         dmmCmdPsu1Part2Verify = psu1Part2->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
@@ -171,6 +177,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }
     nowIndexPsu1Part2Pre = -1;  // 换档命令框当前选项索引
     nowCommandPsu1Part2 = NULL;
+    ui->lineEditDataLengthPsu1Part2->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu1Part2VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu1Part2VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu1Part2VerifyDMMMulti->setValidator(new QIntValidator(1, 1000000, this));
@@ -178,6 +185,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu1Part2VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu1Part2TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu1Part2TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
+    ui->lineEditDataLengthPsu1Part2->setText(QString("%1").arg(dataLengthPsu1Part2));
     ui->lineEditPsu1Part2VerifySetCmd->setText(setCmdPsu1Part2Verify->getName());
     ui->lineEditPsu1Part2VerifySetStart->setText(setCmdPsu1Part2Verify->getStart());
     ui->lineEditPsu1Part2VerifySetEnd->setText(setCmdPsu1Part2Verify->getEnd());
@@ -207,6 +215,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     if(psu1Part3 == NULL){
         cmdListPsu1Part3Pre = new QList<command *>;
         dataAndAddrListPsu1Part3 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu1Part3 = 6;
         setCmdPsu1Part3Verify = new command(QString("PSU1_I"));
         setCmdPsu1Part3Verify->setStart(QString("("));
         setCmdPsu1Part3Verify->setEnd(QString(";"));
@@ -236,6 +245,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }else{
         cmdListPsu1Part3Pre = psu1Part3->getCmdList();
         dataAndAddrListPsu1Part3 = psu1Part3->getDataList();
+        dataLengthPsu1Part3 = psu1Part3->getDataLength();
         setCmdPsu1Part3Verify = psu1Part3->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
         setPsu1Part3Multi = psu1Part3->getSetMulti();   // 放大倍数
         dmmCmdPsu1Part3Verify = psu1Part3->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
@@ -255,6 +265,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }
     nowIndexPsu1Part3Pre = -1;  // 换档命令框当前选项索引
     nowCommandPsu1Part3 = NULL;
+    ui->lineEditDataLengthPsu1Part3->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu1Part3VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu1Part3VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu1Part3VerifyDMMMulti->setValidator(new QIntValidator(1, 1000000, this));
@@ -262,6 +273,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu1Part3VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu1Part3TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu1Part3TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
+    ui->lineEditDataLengthPsu1Part3->setText(QString("%1").arg(dataLengthPsu1Part3));
     ui->lineEditPsu1Part3VerifySetCmd->setText(setCmdPsu1Part3Verify->getName());
     ui->lineEditPsu1Part3VerifySetStart->setText(setCmdPsu1Part3Verify->getStart());
     ui->lineEditPsu1Part3VerifySetEnd->setText(setCmdPsu1Part3Verify->getEnd());
@@ -291,6 +303,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     if(psu1Part4 == NULL){
         cmdListPsu1Part4Pre = new QList<command *>;
         dataAndAddrListPsu1Part4 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu1Part4 = 6;
         setCmdPsu1Part4Verify = new command(QString("PSU1_I"));
         setCmdPsu1Part4Verify->setStart(QString("("));
         setCmdPsu1Part4Verify->setEnd(QString(";"));
@@ -320,6 +333,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }else{
         cmdListPsu1Part4Pre = psu1Part4->getCmdList();
         dataAndAddrListPsu1Part4 = psu1Part4->getDataList();
+        dataLengthPsu1Part4 = psu1Part4->getDataLength();
         setCmdPsu1Part4Verify = psu1Part4->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
         setPsu1Part4Multi = psu1Part4->getSetMulti();   // 放大倍数
         dmmCmdPsu1Part4Verify = psu1Part4->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
@@ -339,6 +353,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }
     nowIndexPsu1Part4Pre = -1;  // 换档命令框当前选项索引
     nowCommandPsu1Part4 = NULL;
+    ui->lineEditDataLengthPsu1Part4->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu1Part4VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu1Part4VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu1Part4VerifyDMMMulti->setValidator(new QIntValidator(1, 1000000, this));
@@ -346,6 +361,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu1Part4VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu1Part4TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu1Part4TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
+    ui->lineEditDataLengthPsu1Part4->setText(QString("%1").arg(dataLengthPsu1Part4));
     ui->lineEditPsu1Part4VerifySetCmd->setText(setCmdPsu1Part4Verify->getName());
     ui->lineEditPsu1Part4VerifySetStart->setText(setCmdPsu1Part4Verify->getStart());
     ui->lineEditPsu1Part4VerifySetEnd->setText(setCmdPsu1Part4Verify->getEnd());
@@ -375,6 +391,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     if(psu1Part5 == NULL){
         cmdListPsu1Part5Pre = new QList<command *>;
         dataAndAddrListPsu1Part5 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu1Part5 = 6;
         setCmdPsu1Part5Verify = new command(QString("PSU1_I"));
         setCmdPsu1Part5Verify->setStart(QString("("));
         setCmdPsu1Part5Verify->setEnd(QString(";"));
@@ -404,6 +421,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }else{
         cmdListPsu1Part5Pre = psu1Part5->getCmdList();
         dataAndAddrListPsu1Part5 = psu1Part5->getDataList();
+        dataLengthPsu1Part5 = psu1Part5->getDataLength();
         setCmdPsu1Part5Verify = psu1Part5->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
         setPsu1Part5Multi = psu1Part5->getSetMulti();   // 放大倍数
         dmmCmdPsu1Part5Verify = psu1Part5->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
@@ -423,6 +441,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }
     nowIndexPsu1Part5Pre = -1;  // 换档命令框当前选项索引
     nowCommandPsu1Part5 = NULL;
+    ui->lineEditDataLengthPsu1Part5->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu1Part5VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu1Part5VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu1Part5VerifyDMMMulti->setValidator(new QIntValidator(1, 1000000, this));
@@ -430,13 +449,14 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu1Part5VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu1Part5TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu1Part5TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
+    ui->lineEditDataLengthPsu1Part5->setText(QString("%1").arg(dataLengthPsu1Part5));
     ui->lineEditPsu1Part5VerifySetCmd->setText(setCmdPsu1Part5Verify->getName());
     ui->lineEditPsu1Part5VerifySetStart->setText(setCmdPsu1Part5Verify->getStart());
     ui->lineEditPsu1Part5VerifySetEnd->setText(setCmdPsu1Part5Verify->getEnd());
     ui->lineEditPsu1Part5VerifySetJudge->setText(setCmdPsu1Part5Verify->getJudge());
     ui->lineEditPsu1Part5VerifySetMulti->setText(QString("%1").arg(setPsu1Part5Multi));
     ui->lineEditPsu1Part5VerifyDMMCmd->setText(dmmCmdPsu1Part5Verify->getName());
-    ui->lineEditPsu1Part5VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
+    ui->lineEditPsu1Part5VerifyDMMParam->setText(dmmCmdPsu1Part5Verify->getParam());
     ui->lineEditPsu1Part5VerifyDMMStart->setText(dmmCmdPsu1Part5Verify->getStart());
     ui->lineEditPsu1Part5VerifyDMMEnd->setText(dmmCmdPsu1Part5Verify->getEnd());
     ui->lineEditPsu1Part5VerifyDMMJudge->setText(dmmCmdPsu1Part5Verify->getRatio());
@@ -479,6 +499,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     if(psu2Part1 == NULL){
         cmdListPsu2Part1Pre = new QList<command *>;
         dataAndAddrListPsu2Part1 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu2Part1 = 6;
         setCmdPsu2Part1Verify = new command(QString("PSU2_I"));
         setCmdPsu2Part1Verify->setStart(QString("("));
         setCmdPsu2Part1Verify->setEnd(QString(";"));
@@ -508,6 +529,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }else{
         cmdListPsu2Part1Pre = psu2Part1->getCmdList();
         dataAndAddrListPsu2Part1 = psu2Part1->getDataList();
+        dataLengthPsu2Part1 = psu2Part1->getDataLength();
         setCmdPsu2Part1Verify = psu2Part1->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
         setPsu2Part1Multi = psu2Part1->getSetMulti();   // 放大倍数
         dmmCmdPsu2Part1Verify = psu2Part1->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
@@ -527,6 +549,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }
     nowIndexPsu2Part1Pre = -1;  // 换档命令框当前选项索引
     nowCommandPsu2Part1 = NULL;
+    ui->lineEditDataLengthPsu2Part1->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu2Part1VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu2Part1VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu2Part1VerifyDMMMulti->setValidator(new QIntValidator(1, 1000000, this));
@@ -534,6 +557,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu2Part1VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu2Part1TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu2Part1TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
+    ui->lineEditDataLengthPsu2Part1->setText(QString("%1").arg(dataLengthPsu2Part1));
     ui->lineEditPsu2Part1VerifySetCmd->setText(setCmdPsu2Part1Verify->getName());
     ui->lineEditPsu2Part1VerifySetStart->setText(setCmdPsu2Part1Verify->getStart());
     ui->lineEditPsu2Part1VerifySetEnd->setText(setCmdPsu2Part1Verify->getEnd());
@@ -563,6 +587,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     if(psu2Part2 == NULL){
         cmdListPsu2Part2Pre = new QList<command *>;
         dataAndAddrListPsu2Part2 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu2Part2 = 6;
         setCmdPsu2Part2Verify = new command(QString("PSU2_I"));
         setCmdPsu2Part2Verify->setStart(QString("("));
         setCmdPsu2Part2Verify->setEnd(QString(";"));
@@ -592,6 +617,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }else{
         cmdListPsu2Part2Pre = psu2Part2->getCmdList();
         dataAndAddrListPsu2Part2 = psu2Part2->getDataList();
+        dataLengthPsu2Part2 = psu2Part2->getDataLength();
         setCmdPsu2Part2Verify = psu2Part2->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
         setPsu2Part2Multi = psu2Part2->getSetMulti();   // 放大倍数
         dmmCmdPsu2Part2Verify = psu2Part2->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
@@ -611,6 +637,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }
     nowIndexPsu2Part2Pre = -1;  // 换档命令框当前选项索引
     nowCommandPsu2Part2 = NULL;
+    ui->lineEditDataLengthPsu2Part2->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu2Part2VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu2Part2VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu2Part2VerifyDMMMulti->setValidator(new QIntValidator(1, 1000000, this));
@@ -618,6 +645,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu2Part2VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu2Part2TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu2Part2TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
+    ui->lineEditDataLengthPsu2Part2->setText(QString("%1").arg(dataLengthPsu2Part2));
     ui->lineEditPsu2Part2VerifySetCmd->setText(setCmdPsu2Part2Verify->getName());
     ui->lineEditPsu2Part2VerifySetStart->setText(setCmdPsu2Part2Verify->getStart());
     ui->lineEditPsu2Part2VerifySetEnd->setText(setCmdPsu2Part2Verify->getEnd());
@@ -647,6 +675,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     if(psu2Part3 == NULL){
         cmdListPsu2Part3Pre = new QList<command *>;
         dataAndAddrListPsu2Part3 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu2Part3 = 6;
         setCmdPsu2Part3Verify = new command(QString("PSU2_I"));
         setCmdPsu2Part3Verify->setStart(QString("("));
         setCmdPsu2Part3Verify->setEnd(QString(";"));
@@ -676,6 +705,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }else{
         cmdListPsu2Part3Pre = psu2Part3->getCmdList();
         dataAndAddrListPsu2Part3 = psu2Part3->getDataList();
+        dataLengthPsu2Part3 = psu2Part3->getDataLength();
         setCmdPsu2Part3Verify = psu2Part3->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
         setPsu2Part3Multi = psu2Part3->getSetMulti();   // 放大倍数
         dmmCmdPsu2Part3Verify = psu2Part3->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
@@ -695,6 +725,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }
     nowIndexPsu2Part3Pre = -1;  // 换档命令框当前选项索引
     nowCommandPsu2Part3 = NULL;
+    ui->lineEditDataLengthPsu2Part3->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu2Part3VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu2Part3VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu2Part3VerifyDMMMulti->setValidator(new QIntValidator(1, 1000000, this));
@@ -702,6 +733,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu2Part3VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu2Part3TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu2Part3TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
+    ui->lineEditDataLengthPsu2Part3->setText(QString("%1").arg(dataLengthPsu2Part3));
     ui->lineEditPsu2Part3VerifySetCmd->setText(setCmdPsu2Part3Verify->getName());
     ui->lineEditPsu2Part3VerifySetStart->setText(setCmdPsu2Part3Verify->getStart());
     ui->lineEditPsu2Part3VerifySetEnd->setText(setCmdPsu2Part3Verify->getEnd());
@@ -731,6 +763,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     if(psu2Part4 == NULL){
         cmdListPsu2Part4Pre = new QList<command *>;
         dataAndAddrListPsu2Part4 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu2Part4 = 6;
         setCmdPsu2Part4Verify = new command(QString("PSU2_I"));
         setCmdPsu2Part4Verify->setStart(QString("("));
         setCmdPsu2Part4Verify->setEnd(QString(";"));
@@ -760,6 +793,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }else{
         cmdListPsu2Part4Pre = psu2Part4->getCmdList();
         dataAndAddrListPsu2Part4 = psu2Part4->getDataList();
+        dataLengthPsu2Part4 = psu2Part4->getDataLength();
         setCmdPsu2Part4Verify = psu2Part4->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
         setPsu2Part4Multi = psu2Part4->getSetMulti();   // 放大倍数
         dmmCmdPsu2Part4Verify = psu2Part4->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
@@ -779,6 +813,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }
     nowIndexPsu2Part4Pre = -1;  // 换档命令框当前选项索引
     nowCommandPsu2Part4 = NULL;
+    ui->lineEditDataLengthPsu2Part4->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu2Part4VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu2Part4VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu2Part4VerifyDMMMulti->setValidator(new QIntValidator(1, 1000000, this));
@@ -786,6 +821,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu2Part4VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu2Part4TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu2Part4TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
+    ui->lineEditDataLengthPsu2Part4->setText(QString("%1").arg(dataLengthPsu2Part1));
     ui->lineEditPsu2Part4VerifySetCmd->setText(setCmdPsu2Part4Verify->getName());
     ui->lineEditPsu2Part4VerifySetStart->setText(setCmdPsu2Part4Verify->getStart());
     ui->lineEditPsu2Part4VerifySetEnd->setText(setCmdPsu2Part4Verify->getEnd());
@@ -815,6 +851,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     if(psu2Part5 == NULL){
         cmdListPsu2Part5Pre = new QList<command *>;
         dataAndAddrListPsu2Part5 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu2Part5 = 6;
         setCmdPsu2Part5Verify = new command(QString("PSU2_I"));
         setCmdPsu2Part5Verify->setStart(QString("("));
         setCmdPsu2Part5Verify->setEnd(QString(";"));
@@ -844,6 +881,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }else{
         cmdListPsu2Part5Pre = psu2Part5->getCmdList();
         dataAndAddrListPsu2Part5 = psu2Part5->getDataList();
+        dataLengthPsu2Part5 = psu2Part5->getDataLength();
         setCmdPsu2Part5Verify = psu2Part5->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
         setPsu2Part5Multi = psu2Part5->getSetMulti();   // 放大倍数
         dmmCmdPsu2Part5Verify = psu2Part5->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
@@ -863,6 +901,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     }
     nowIndexPsu2Part5Pre = -1;  // 换档命令框当前选项索引
     nowCommandPsu2Part5 = NULL;
+    ui->lineEditDataLengthPsu2Part5->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu2Part5VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu2Part5VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu2Part5VerifyDMMMulti->setValidator(new QIntValidator(1, 1000000, this));
@@ -870,6 +909,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu2Part5VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu2Part5TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu2Part5TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
+    ui->lineEditDataLengthPsu2Part5->setText(QString("%1").arg(dataLengthPsu2Part5));
     ui->lineEditPsu2Part5VerifySetCmd->setText(setCmdPsu2Part5Verify->getName());
     ui->lineEditPsu2Part5VerifySetStart->setText(setCmdPsu2Part5Verify->getStart());
     ui->lineEditPsu2Part5VerifySetEnd->setText(setCmdPsu2Part5Verify->getEnd());
@@ -1021,7 +1061,7 @@ void curdataconfig::on_pushBtnPsu1Part1PreAdd_clicked()
     command *newCommand = new command(QString("untitled"));
     cmdListPsu1Part1Pre->append(newCommand);
     if(psu1Part1 == NULL){
-        psu1Part1 = new testItem(cmdListPsu1Part1Pre, dataAndAddrListPsu1Part1,
+        psu1Part1 = new testItem(cmdListPsu1Part1Pre, dataAndAddrListPsu1Part1, dataLengthPsu1Part1,
                                  setCmdPsu1Part1Verify, setPsu1Part1Multi,
                                  dmmCmdPsu1Part1Verify, dmmPsu1Part1Multi,
                                  meterCmdPsu1Part1Verify, meterPsu1Part1Multi,
@@ -1250,14 +1290,13 @@ void curdataconfig::on_pushBtnPsu1Part1DataBatchAdd_clicked()
         if(QMessageBox::question(this, tr("询问"), tr("是否保留当前已填数据？"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu1Part1DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
-    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, int, bool)),
-            this, SLOT(handleBatchParamsPsu1Part1(int, double, double, QString, int, bool)));
+    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
+            this, SLOT(handleBatchParamsPsu1Part1(int, double, double, QString, bool)));
     batchdialog->show();
 }
 // 处理接收到的批量添加参数
 void curdataconfig::handleBatchParamsPsu1Part1(int num, double dataStart,
-                                      double dataStep, QString strAddrStart,
-                                      int addrStep, bool isRise)
+                                      double dataStep, QString strAddrStart, bool isRise)
 {
     bool isHex;
     int addrStart;
@@ -1277,13 +1316,23 @@ void curdataconfig::handleBatchParamsPsu1Part1(int num, double dataStart,
         else
             strData = QString("%1").arg(dataStart-dataStep*i);
         if(isHex){
-            strAddr = QString("0x%1").arg(addrStart+addrStep*i, 4, 16, QLatin1Char('0'));
+            strAddr = QString("0x%1").arg(addrStart+dataLengthPsu1Part1*3*i, 4, 16, QLatin1Char('0'));
         }else{
-            strAddr = QString("%1").arg(addrStart+addrStep*i);
+            strAddr = QString("%1").arg(addrStart+dataLengthPsu1Part1*3*i);
         }
         dataLineEditListPsu1Part1Data.at(nowIndexPsu1Part1Data-1)->setText(strData);
         addrLineEditListPsu1Part1Data.at(nowIndexPsu1Part1Data-1)->setText(strAddr);
     }
+}
+// 数据长度编辑
+void curdataconfig::on_lineEditDataLengthPsu1Part1_textEdited()
+{
+    if(ui->lineEditDataLengthPsu1Part1->text().isEmpty()){
+        QMessageBox::information(this, tr("错误"), tr("数据长度不能为空！"), QMessageBox::Ok);
+        ui->lineEditDataLengthPsu1Part1->setText(QString("%1").arg(dataLengthPsu1Part1));
+        return;
+    }
+    dataLengthPsu1Part1 = ui->lineEditDataLengthPsu1Part1->text().toInt();
 }
 // 保存按钮
 void curdataconfig::on_pushBtnPsu1Part1DataSave_clicked()
@@ -1320,7 +1369,7 @@ void curdataconfig::on_pushBtnPsu1Part1DataSave_clicked()
     dataAndAddrListPsu1Part1 = tempList;
     if(!dataAndAddrListPsu1Part1->isEmpty()){
         if(psu1Part1 == NULL){
-            psu1Part1 = new testItem(cmdListPsu1Part1Pre, dataAndAddrListPsu1Part1,
+            psu1Part1 = new testItem(cmdListPsu1Part1Pre, dataAndAddrListPsu1Part1, dataLengthPsu1Part1,
                                      setCmdPsu1Part1Verify, setPsu1Part1Multi,
                                      dmmCmdPsu1Part1Verify, dmmPsu1Part1Multi,
                                      meterCmdPsu1Part1Verify, meterPsu1Part1Multi,
@@ -1391,7 +1440,7 @@ void curdataconfig::on_pushBtnPsu1Part1VerifySave_clicked()
     meterCmdPsu1Part1Verify->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     meterPsu1Part1Multi = meterMulti.toInt();
     if(psu1Part1 == NULL){
-        psu1Part1 = new testItem(cmdListPsu1Part1Pre, dataAndAddrListPsu1Part1,
+        psu1Part1 = new testItem(cmdListPsu1Part1Pre, dataAndAddrListPsu1Part1, dataLengthPsu1Part1,
                                  setCmdPsu1Part1Verify, setPsu1Part1Multi,
                                  dmmCmdPsu1Part1Verify, dmmPsu1Part1Multi,
                                  meterCmdPsu1Part1Verify, meterPsu1Part1Multi,
@@ -1467,7 +1516,7 @@ void curdataconfig::on_pushBtnPsu1Part1TestSave_clicked()
     dmmCmdPsu1Part1Test->setRatio(dmmJudge.toDouble());
     meterCmdPsu1Part1Test->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     if(psu1Part1 == NULL){
-        psu1Part1 = new testItem(cmdListPsu1Part1Pre, dataAndAddrListPsu1Part1,
+        psu1Part1 = new testItem(cmdListPsu1Part1Pre, dataAndAddrListPsu1Part1, dataLengthPsu1Part1,
                                  setCmdPsu1Part1Verify, setPsu1Part1Multi,
                                  dmmCmdPsu1Part1Verify, dmmPsu1Part1Multi,
                                  meterCmdPsu1Part1Verify, meterPsu1Part1Multi,
@@ -1506,7 +1555,7 @@ void curdataconfig::on_pushBtnPsu1Part2PreAdd_clicked()
     command *newCommand = new command(QString("untitled"));
     cmdListPsu1Part2Pre->append(newCommand);
     if(psu1Part2 == NULL){
-        psu1Part2 = new testItem(cmdListPsu1Part2Pre, dataAndAddrListPsu1Part2,
+        psu1Part2 = new testItem(cmdListPsu1Part2Pre, dataAndAddrListPsu1Part2, dataLengthPsu1Part2,
                                      setCmdPsu1Part2Verify, setPsu1Part2Multi,
                                      dmmCmdPsu1Part2Verify, dmmPsu1Part2Multi,
                                      meterCmdPsu1Part2Verify, meterPsu1Part2Multi,
@@ -1735,14 +1784,13 @@ void curdataconfig::on_pushBtnPsu1Part2DataBatchAdd_clicked()
         if(QMessageBox::question(this, tr("询问"), tr("是否保留当前已填数据？"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu1Part2DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
-    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, int, bool)),
-            this, SLOT(handleBatchParamsPsu1Part2(int, double, double, QString, int, bool)));
+    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
+            this, SLOT(handleBatchParamsPsu1Part2(int, double, double, QString, bool)));
     batchdialog->show();
 }
 // 处理接收到的批量添加参数
 void curdataconfig::handleBatchParamsPsu1Part2(int num, double dataStart,
-                                      double dataStep, QString strAddrStart,
-                                      int addrStep, bool isRise)
+                                      double dataStep, QString strAddrStart, bool isRise)
 {
     bool isHex;
     int addrStart;
@@ -1762,13 +1810,23 @@ void curdataconfig::handleBatchParamsPsu1Part2(int num, double dataStart,
         else
             strData = QString("%1").arg(dataStart-dataStep*i);
         if(isHex){
-            strAddr = QString("0x%1").arg(addrStart+addrStep*i, 4, 16, QLatin1Char('0'));
+            strAddr = QString("0x%1").arg(addrStart+dataLengthPsu1Part2*3*i, 4, 16, QLatin1Char('0'));
         }else{
-            strAddr = QString("%1").arg(addrStart+addrStep*i);
+            strAddr = QString("%1").arg(addrStart+dataLengthPsu1Part2*3*i);
         }
         dataLineEditListPsu1Part2Data.at(nowIndexPsu1Part2Data-1)->setText(strData);
         addrLineEditListPsu1Part2Data.at(nowIndexPsu1Part2Data-1)->setText(strAddr);
     }
+}
+// 数据长度编辑
+void curdataconfig::on_lineEditDataLengthPsu1Part2_textEdited()
+{
+    if(ui->lineEditDataLengthPsu1Part2->text().isEmpty()){
+        QMessageBox::information(this, tr("错误"), tr("数据长度不能为空！"), QMessageBox::Ok);
+        ui->lineEditDataLengthPsu1Part2->setText(QString("%1").arg(dataLengthPsu1Part2));
+        return;
+    }
+    dataLengthPsu1Part2 = ui->lineEditDataLengthPsu1Part2->text().toInt();
 }
 // 保存按钮
 void curdataconfig::on_pushBtnPsu1Part2DataSave_clicked()
@@ -1805,7 +1863,7 @@ void curdataconfig::on_pushBtnPsu1Part2DataSave_clicked()
     dataAndAddrListPsu1Part2 = tempList;
     if(!dataAndAddrListPsu1Part2->isEmpty()){
         if(psu1Part2 == NULL){
-            psu1Part2 = new testItem(cmdListPsu1Part2Pre, dataAndAddrListPsu1Part2,
+            psu1Part2 = new testItem(cmdListPsu1Part2Pre, dataAndAddrListPsu1Part2, dataLengthPsu1Part2,
                                      setCmdPsu1Part2Verify, setPsu1Part2Multi,
                                      dmmCmdPsu1Part2Verify, dmmPsu1Part2Multi,
                                      meterCmdPsu1Part2Verify, meterPsu1Part2Multi,
@@ -1876,7 +1934,7 @@ void curdataconfig::on_pushBtnPsu1Part2VerifySave_clicked()
     meterCmdPsu1Part2Verify->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     meterPsu1Part2Multi = meterMulti.toInt();
     if(psu1Part2 == NULL){
-        psu1Part2 = new testItem(cmdListPsu1Part2Pre, dataAndAddrListPsu1Part2,
+        psu1Part2 = new testItem(cmdListPsu1Part2Pre, dataAndAddrListPsu1Part2, dataLengthPsu1Part2,
                                  setCmdPsu1Part2Verify, setPsu1Part2Multi,
                                  dmmCmdPsu1Part2Verify, dmmPsu1Part2Multi,
                                  meterCmdPsu1Part2Verify, meterPsu1Part2Multi,
@@ -1952,7 +2010,7 @@ void curdataconfig::on_pushBtnPsu1Part2TestSave_clicked()
     dmmCmdPsu1Part2Test->setRatio(dmmJudge.toDouble());
     meterCmdPsu1Part2Test->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     if(psu1Part2 == NULL){
-        psu1Part2 = new testItem(cmdListPsu1Part2Pre, dataAndAddrListPsu1Part2,
+        psu1Part2 = new testItem(cmdListPsu1Part2Pre, dataAndAddrListPsu1Part2, dataLengthPsu1Part2,
                                  setCmdPsu1Part2Verify, setPsu1Part2Multi,
                                  dmmCmdPsu1Part2Verify, dmmPsu1Part2Multi,
                                  meterCmdPsu1Part2Verify, meterPsu1Part2Multi,
@@ -1991,7 +2049,7 @@ void curdataconfig::on_pushBtnPsu1Part3PreAdd_clicked()
     command *newCommand = new command(QString("untitled"));
     cmdListPsu1Part3Pre->append(newCommand);
     if(psu1Part3 == NULL){
-        psu1Part3 = new testItem(cmdListPsu1Part3Pre, dataAndAddrListPsu1Part3,
+        psu1Part3 = new testItem(cmdListPsu1Part3Pre, dataAndAddrListPsu1Part3, dataLengthPsu1Part3,
                                  setCmdPsu1Part3Verify, setPsu1Part3Multi,
                                  dmmCmdPsu1Part3Verify, dmmPsu1Part3Multi,
                                  meterCmdPsu1Part3Verify, meterPsu1Part3Multi,
@@ -2220,14 +2278,13 @@ void curdataconfig::on_pushBtnPsu1Part3DataBatchAdd_clicked()
         if(QMessageBox::question(this, tr("询问"), tr("是否保留当前已填数据？"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu1Part3DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
-    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, int, bool)),
-            this, SLOT(handleBatchParamsPsu1Part3(int, double, double, QString, int, bool)));
+    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
+            this, SLOT(handleBatchParamsPsu1Part3(int, double, double, QString, bool)));
     batchdialog->show();
 }
 // 处理接收到的批量添加参数
 void curdataconfig::handleBatchParamsPsu1Part3(int num, double dataStart,
-                                      double dataStep, QString strAddrStart,
-                                      int addrStep, bool isRise)
+                                      double dataStep, QString strAddrStart, bool isRise)
 {
     bool isHex;
     int addrStart;
@@ -2247,13 +2304,23 @@ void curdataconfig::handleBatchParamsPsu1Part3(int num, double dataStart,
         else
             strData = QString("%1").arg(dataStart-dataStep*i);
         if(isHex){
-            strAddr = QString("0x%1").arg(addrStart+addrStep*i, 4, 16, QLatin1Char('0'));
+            strAddr = QString("0x%1").arg(addrStart+dataLengthPsu1Part3*3*i, 4, 16, QLatin1Char('0'));
         }else{
-            strAddr = QString("%1").arg(addrStart+addrStep*i);
+            strAddr = QString("%1").arg(addrStart+dataLengthPsu1Part3*3*i);
         }
         dataLineEditListPsu1Part3Data.at(nowIndexPsu1Part3Data-1)->setText(strData);
         addrLineEditListPsu1Part3Data.at(nowIndexPsu1Part3Data-1)->setText(strAddr);
     }
+}
+// 数据长度编辑
+void curdataconfig::on_lineEditDataLengthPsu1Part3_textEdited()
+{
+    if(ui->lineEditDataLengthPsu1Part3->text().isEmpty()){
+        QMessageBox::information(this, tr("错误"), tr("数据长度不能为空！"), QMessageBox::Ok);
+        ui->lineEditDataLengthPsu1Part3->setText(QString("%1").arg(dataLengthPsu1Part3));
+        return;
+    }
+    dataLengthPsu1Part3 = ui->lineEditDataLengthPsu1Part3->text().toInt();
 }
 // 保存按钮
 void curdataconfig::on_pushBtnPsu1Part3DataSave_clicked()
@@ -2290,7 +2357,7 @@ void curdataconfig::on_pushBtnPsu1Part3DataSave_clicked()
     dataAndAddrListPsu1Part3 = tempList;
     if(!dataAndAddrListPsu1Part3->isEmpty()){
         if(psu1Part3 == NULL){
-            psu1Part3 = new testItem(cmdListPsu1Part3Pre, dataAndAddrListPsu1Part3,
+            psu1Part3 = new testItem(cmdListPsu1Part3Pre, dataAndAddrListPsu1Part3, dataLengthPsu1Part3,
                                      setCmdPsu1Part3Verify, setPsu1Part3Multi,
                                      dmmCmdPsu1Part3Verify, dmmPsu1Part3Multi,
                                      meterCmdPsu1Part3Verify, meterPsu1Part3Multi,
@@ -2361,7 +2428,7 @@ void curdataconfig::on_pushBtnPsu1Part3VerifySave_clicked()
     meterCmdPsu1Part3Verify->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     meterPsu1Part3Multi = meterMulti.toInt();
     if(psu1Part3 == NULL){
-        psu1Part3 = new testItem(cmdListPsu1Part3Pre, dataAndAddrListPsu1Part3,
+        psu1Part3 = new testItem(cmdListPsu1Part3Pre, dataAndAddrListPsu1Part3, dataLengthPsu1Part3,
                                  setCmdPsu1Part3Verify, setPsu1Part3Multi,
                                  dmmCmdPsu1Part3Verify, dmmPsu1Part3Multi,
                                  meterCmdPsu1Part3Verify, meterPsu1Part3Multi,
@@ -2437,7 +2504,7 @@ void curdataconfig::on_pushBtnPsu1Part3TestSave_clicked()
     dmmCmdPsu1Part3Test->setRatio(dmmJudge.toDouble());
     meterCmdPsu1Part3Test->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     if(psu1Part3 == NULL){
-        psu1Part3 = new testItem(cmdListPsu1Part3Pre, dataAndAddrListPsu1Part3,
+        psu1Part3 = new testItem(cmdListPsu1Part3Pre, dataAndAddrListPsu1Part3, dataLengthPsu1Part3,
                                  setCmdPsu1Part3Verify, setPsu1Part3Multi,
                                  dmmCmdPsu1Part3Verify, dmmPsu1Part3Multi,
                                  meterCmdPsu1Part3Verify, meterPsu1Part3Multi,
@@ -2476,7 +2543,7 @@ void curdataconfig::on_pushBtnPsu1Part4PreAdd_clicked()
     command *newCommand = new command(QString("untitled"));
     cmdListPsu1Part4Pre->append(newCommand);
     if(psu1Part4 == NULL){
-        psu1Part4 = new testItem(cmdListPsu1Part4Pre, dataAndAddrListPsu1Part4,
+        psu1Part4 = new testItem(cmdListPsu1Part4Pre, dataAndAddrListPsu1Part4, dataLengthPsu1Part4,
                                  setCmdPsu1Part4Verify, setPsu1Part4Multi,
                                  dmmCmdPsu1Part4Verify, dmmPsu1Part4Multi,
                                  meterCmdPsu1Part4Verify, meterPsu1Part4Multi,
@@ -2705,14 +2772,13 @@ void curdataconfig::on_pushBtnPsu1Part4DataBatchAdd_clicked()
         if(QMessageBox::question(this, tr("询问"), tr("是否保留当前已填数据？"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu1Part4DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
-    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, int, bool)),
-            this, SLOT(handleBatchParamsPsu1Part4(int, double, double, QString, int, bool)));
+    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
+            this, SLOT(handleBatchParamsPsu1Part4(int, double, double, QString, bool)));
     batchdialog->show();
 }
 // 处理接收到的批量添加参数
 void curdataconfig::handleBatchParamsPsu1Part4(int num, double dataStart,
-                                      double dataStep, QString strAddrStart,
-                                      int addrStep, bool isRise)
+                                      double dataStep, QString strAddrStart, bool isRise)
 {
     bool isHex;
     int addrStart;
@@ -2732,13 +2798,23 @@ void curdataconfig::handleBatchParamsPsu1Part4(int num, double dataStart,
         else
             strData = QString("%1").arg(dataStart-dataStep*i);
         if(isHex){
-            strAddr = QString("0x%1").arg(addrStart+addrStep*i, 4, 16, QLatin1Char('0'));
+            strAddr = QString("0x%1").arg(addrStart+dataLengthPsu1Part4*3*i, 4, 16, QLatin1Char('0'));
         }else{
-            strAddr = QString("%1").arg(addrStart+addrStep*i);
+            strAddr = QString("%1").arg(addrStart+dataLengthPsu1Part4*3*i);
         }
         dataLineEditListPsu1Part4Data.at(nowIndexPsu1Part4Data-1)->setText(strData);
         addrLineEditListPsu1Part4Data.at(nowIndexPsu1Part4Data-1)->setText(strAddr);
     }
+}
+// 数据长度编辑
+void curdataconfig::on_lineEditDataLengthPsu1Part4_textEdited()
+{
+    if(ui->lineEditDataLengthPsu1Part4->text().isEmpty()){
+        QMessageBox::information(this, tr("错误"), tr("数据长度不能为空！"), QMessageBox::Ok);
+        ui->lineEditDataLengthPsu1Part4->setText(QString("%1").arg(dataLengthPsu1Part4));
+        return;
+    }
+    dataLengthPsu1Part4 = ui->lineEditDataLengthPsu1Part4->text().toInt();
 }
 // 保存按钮
 void curdataconfig::on_pushBtnPsu1Part4DataSave_clicked()
@@ -2775,7 +2851,7 @@ void curdataconfig::on_pushBtnPsu1Part4DataSave_clicked()
     dataAndAddrListPsu1Part4 = tempList;
     if(!dataAndAddrListPsu1Part4->isEmpty()){
         if(psu1Part4 == NULL){
-            psu1Part4 = new testItem(cmdListPsu1Part4Pre, dataAndAddrListPsu1Part4,
+            psu1Part4 = new testItem(cmdListPsu1Part4Pre, dataAndAddrListPsu1Part4, dataLengthPsu1Part4,
                                      setCmdPsu1Part4Verify, setPsu1Part4Multi,
                                      dmmCmdPsu1Part4Verify, dmmPsu1Part4Multi,
                                      meterCmdPsu1Part4Verify, meterPsu1Part4Multi,
@@ -2846,7 +2922,7 @@ void curdataconfig::on_pushBtnPsu1Part4VerifySave_clicked()
     meterCmdPsu1Part4Verify->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     meterPsu1Part4Multi = meterMulti.toInt();
     if(psu1Part4 == NULL){
-        psu1Part4 = new testItem(cmdListPsu1Part4Pre, dataAndAddrListPsu1Part4,
+        psu1Part4 = new testItem(cmdListPsu1Part4Pre, dataAndAddrListPsu1Part4, dataLengthPsu1Part4,
                                  setCmdPsu1Part4Verify, setPsu1Part4Multi,
                                  dmmCmdPsu1Part4Verify, dmmPsu1Part4Multi,
                                  meterCmdPsu1Part4Verify, meterPsu1Part4Multi,
@@ -2922,7 +2998,7 @@ void curdataconfig::on_pushBtnPsu1Part4TestSave_clicked()
     dmmCmdPsu1Part4Test->setRatio(dmmJudge.toDouble());
     meterCmdPsu1Part4Test->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     if(psu1Part4 == NULL){
-        psu1Part4 = new testItem(cmdListPsu1Part4Pre, dataAndAddrListPsu1Part4,
+        psu1Part4 = new testItem(cmdListPsu1Part4Pre, dataAndAddrListPsu1Part4, dataLengthPsu1Part4,
                                  setCmdPsu1Part4Verify, setPsu1Part4Multi,
                                  dmmCmdPsu1Part4Verify, dmmPsu1Part4Multi,
                                  meterCmdPsu1Part4Verify, meterPsu1Part4Multi,
@@ -2961,7 +3037,7 @@ void curdataconfig::on_pushBtnPsu1Part5PreAdd_clicked()
     command *newCommand = new command(QString("untitled"));
     cmdListPsu1Part5Pre->append(newCommand);
     if(psu1Part5 == NULL){
-        psu1Part5 = new testItem(cmdListPsu1Part5Pre, dataAndAddrListPsu1Part5,
+        psu1Part5 = new testItem(cmdListPsu1Part5Pre, dataAndAddrListPsu1Part5, dataLengthPsu1Part5,
                                  setCmdPsu1Part5Verify, setPsu1Part5Multi,
                                  dmmCmdPsu1Part5Verify, dmmPsu1Part5Multi,
                                  meterCmdPsu1Part5Verify, meterPsu1Part5Multi,
@@ -3190,14 +3266,13 @@ void curdataconfig::on_pushBtnPsu1Part5DataBatchAdd_clicked()
         if(QMessageBox::question(this, tr("询问"), tr("是否保留当前已填数据？"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu1Part5DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
-    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, int, bool)),
-            this, SLOT(handleBatchParamsPsu1Part5(int, double, double, QString, int, bool)));
+    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
+            this, SLOT(handleBatchParamsPsu1Part5(int, double, double, QString, bool)));
     batchdialog->show();
 }
 // 处理接收到的批量添加参数
 void curdataconfig::handleBatchParamsPsu1Part5(int num, double dataStart,
-                                      double dataStep, QString strAddrStart,
-                                      int addrStep, bool isRise)
+                                      double dataStep, QString strAddrStart, bool isRise)
 {
     bool isHex;
     int addrStart;
@@ -3217,13 +3292,23 @@ void curdataconfig::handleBatchParamsPsu1Part5(int num, double dataStart,
         else
             strData = QString("%1").arg(dataStart-dataStep*i);
         if(isHex){
-            strAddr = QString("0x%1").arg(addrStart+addrStep*i, 4, 16, QLatin1Char('0'));
+            strAddr = QString("0x%1").arg(addrStart+dataLengthPsu1Part5*3*i, 4, 16, QLatin1Char('0'));
         }else{
-            strAddr = QString("%1").arg(addrStart+addrStep*i);
+            strAddr = QString("%1").arg(addrStart+dataLengthPsu1Part5*3*i);
         }
         dataLineEditListPsu1Part5Data.at(nowIndexPsu1Part5Data-1)->setText(strData);
         addrLineEditListPsu1Part5Data.at(nowIndexPsu1Part5Data-1)->setText(strAddr);
     }
+}
+// 数据长度编辑
+void curdataconfig::on_lineEditDataLengthPsu1Part5_textEdited()
+{
+    if(ui->lineEditDataLengthPsu1Part5->text().isEmpty()){
+        QMessageBox::information(this, tr("错误"), tr("数据长度不能为空！"), QMessageBox::Ok);
+        ui->lineEditDataLengthPsu1Part5->setText(QString("%1").arg(dataLengthPsu1Part5));
+        return;
+    }
+    dataLengthPsu1Part5 = ui->lineEditDataLengthPsu1Part5->text().toInt();
 }
 // 保存按钮
 void curdataconfig::on_pushBtnPsu1Part5DataSave_clicked()
@@ -3260,7 +3345,7 @@ void curdataconfig::on_pushBtnPsu1Part5DataSave_clicked()
     dataAndAddrListPsu1Part5 = tempList;
     if(!dataAndAddrListPsu1Part5->isEmpty()){
         if(psu1Part5 == NULL){
-            psu1Part5 = new testItem(cmdListPsu1Part5Pre, dataAndAddrListPsu1Part5,
+            psu1Part5 = new testItem(cmdListPsu1Part5Pre, dataAndAddrListPsu1Part5, dataLengthPsu1Part5,
                                      setCmdPsu1Part5Verify, setPsu1Part5Multi,
                                      dmmCmdPsu1Part5Verify, dmmPsu1Part5Multi,
                                      meterCmdPsu1Part5Verify, meterPsu1Part5Multi,
@@ -3331,7 +3416,7 @@ void curdataconfig::on_pushBtnPsu1Part5VerifySave_clicked()
     meterCmdPsu1Part5Verify->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     meterPsu1Part5Multi = meterMulti.toInt();
     if(psu1Part5 == NULL){
-        psu1Part5 = new testItem(cmdListPsu1Part5Pre, dataAndAddrListPsu1Part5,
+        psu1Part5 = new testItem(cmdListPsu1Part5Pre, dataAndAddrListPsu1Part5, dataLengthPsu1Part5,
                                  setCmdPsu1Part5Verify, setPsu1Part5Multi,
                                  dmmCmdPsu1Part5Verify, dmmPsu1Part5Multi,
                                  meterCmdPsu1Part5Verify, meterPsu1Part5Multi,
@@ -3407,7 +3492,7 @@ void curdataconfig::on_pushBtnPsu1Part5TestSave_clicked()
     dmmCmdPsu1Part5Test->setRatio(dmmJudge.toDouble());
     meterCmdPsu1Part5Test->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     if(psu1Part5 == NULL){
-        psu1Part5 = new testItem(cmdListPsu1Part5Pre, dataAndAddrListPsu1Part5,
+        psu1Part5 = new testItem(cmdListPsu1Part5Pre, dataAndAddrListPsu1Part5, dataLengthPsu1Part5,
                                  setCmdPsu1Part5Verify, setPsu1Part5Multi,
                                  dmmCmdPsu1Part5Verify, dmmPsu1Part5Multi,
                                  meterCmdPsu1Part5Verify, meterPsu1Part5Multi,
@@ -3550,7 +3635,7 @@ void curdataconfig::on_pushBtnPsu2Part1PreAdd_clicked()
     command *newCommand = new command(QString("untitled"));
     cmdListPsu2Part1Pre->append(newCommand);
     if(psu2Part1 == NULL){
-        psu2Part1 = new testItem(cmdListPsu2Part1Pre, dataAndAddrListPsu2Part1,
+        psu2Part1 = new testItem(cmdListPsu2Part1Pre, dataAndAddrListPsu2Part1, dataLengthPsu2Part1,
                                  setCmdPsu2Part1Verify, setPsu2Part1Multi,
                                  dmmCmdPsu2Part1Verify, dmmPsu2Part1Multi,
                                  meterCmdPsu2Part1Verify, meterPsu2Part1Multi,
@@ -3779,14 +3864,13 @@ void curdataconfig::on_pushBtnPsu2Part1DataBatchAdd_clicked()
         if(QMessageBox::question(this, tr("询问"), tr("是否保留当前已填数据？"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu2Part1DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
-    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, int, bool)),
-            this, SLOT(handleBatchParamsPsu2Part1(int, double, double, QString, int, bool)));
+    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
+            this, SLOT(handleBatchParamsPsu2Part1(int, double, double, QString, bool)));
     batchdialog->show();
 }
 // 处理接收到的批量添加参数
 void curdataconfig::handleBatchParamsPsu2Part1(int num, double dataStart,
-                                      double dataStep, QString strAddrStart,
-                                      int addrStep, bool isRise)
+                                      double dataStep, QString strAddrStart, bool isRise)
 {
     bool isHex;
     int addrStart;
@@ -3806,13 +3890,23 @@ void curdataconfig::handleBatchParamsPsu2Part1(int num, double dataStart,
         else
             strData = QString("%1").arg(dataStart-dataStep*i);
         if(isHex){
-            strAddr = QString("0x%1").arg(addrStart+addrStep*i, 4, 16, QLatin1Char('0'));
+            strAddr = QString("0x%1").arg(addrStart+dataLengthPsu2Part1*3*i, 4, 16, QLatin1Char('0'));
         }else{
-            strAddr = QString("%1").arg(addrStart+addrStep*i);
+            strAddr = QString("%1").arg(addrStart+dataLengthPsu2Part1*3*i);
         }
         dataLineEditListPsu2Part1Data.at(nowIndexPsu2Part1Data-1)->setText(strData);
         addrLineEditListPsu2Part1Data.at(nowIndexPsu2Part1Data-1)->setText(strAddr);
     }
+}
+// 数据长度编辑
+void curdataconfig::on_lineEditDataLengthPsu2Part1_textEdited()
+{
+    if(ui->lineEditDataLengthPsu2Part1->text().isEmpty()){
+        QMessageBox::information(this, tr("错误"), tr("数据长度不能为空！"), QMessageBox::Ok);
+        ui->lineEditDataLengthPsu2Part1->setText(QString("%1").arg(dataLengthPsu2Part1));
+        return;
+    }
+    dataLengthPsu2Part1 = ui->lineEditDataLengthPsu2Part1->text().toInt();
 }
 // 保存按钮
 void curdataconfig::on_pushBtnPsu2Part1DataSave_clicked()
@@ -3849,7 +3943,7 @@ void curdataconfig::on_pushBtnPsu2Part1DataSave_clicked()
     dataAndAddrListPsu2Part1 = tempList;
     if(!dataAndAddrListPsu2Part1->isEmpty()){
         if(psu2Part1 == NULL){
-            psu2Part1 = new testItem(cmdListPsu2Part1Pre, dataAndAddrListPsu2Part1,
+            psu2Part1 = new testItem(cmdListPsu2Part1Pre, dataAndAddrListPsu2Part1, dataLengthPsu2Part1,
                                      setCmdPsu2Part1Verify, setPsu2Part1Multi,
                                      dmmCmdPsu2Part1Verify, dmmPsu2Part1Multi,
                                      meterCmdPsu2Part1Verify, meterPsu2Part1Multi,
@@ -3920,7 +4014,7 @@ void curdataconfig::on_pushBtnPsu2Part1VerifySave_clicked()
     meterCmdPsu2Part1Verify->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     meterPsu2Part1Multi = meterMulti.toInt();
     if(psu2Part1 == NULL){
-        psu2Part1 = new testItem(cmdListPsu2Part1Pre, dataAndAddrListPsu2Part1,
+        psu2Part1 = new testItem(cmdListPsu2Part1Pre, dataAndAddrListPsu2Part1, dataLengthPsu2Part1,
                                  setCmdPsu2Part1Verify, setPsu2Part1Multi,
                                  dmmCmdPsu2Part1Verify, dmmPsu2Part1Multi,
                                  meterCmdPsu2Part1Verify, meterPsu2Part1Multi,
@@ -3996,7 +4090,7 @@ void curdataconfig::on_pushBtnPsu2Part1TestSave_clicked()
     dmmCmdPsu2Part1Test->setRatio(dmmJudge.toDouble());
     meterCmdPsu2Part1Test->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     if(psu2Part1 == NULL){
-        psu2Part1 = new testItem(cmdListPsu2Part1Pre, dataAndAddrListPsu2Part1,
+        psu2Part1 = new testItem(cmdListPsu2Part1Pre, dataAndAddrListPsu2Part1, dataLengthPsu2Part1,
                                  setCmdPsu2Part1Verify, setPsu2Part1Multi,
                                  dmmCmdPsu2Part1Verify, dmmPsu2Part1Multi,
                                  meterCmdPsu2Part1Verify, meterPsu2Part1Multi,
@@ -4035,7 +4129,7 @@ void curdataconfig::on_pushBtnPsu2Part2PreAdd_clicked()
     command *newCommand = new command(QString("untitled"));
     cmdListPsu2Part2Pre->append(newCommand);
     if(psu2Part2 == NULL){
-        psu2Part2 = new testItem(cmdListPsu2Part2Pre, dataAndAddrListPsu2Part2,
+        psu2Part2 = new testItem(cmdListPsu2Part2Pre, dataAndAddrListPsu2Part2, dataLengthPsu2Part2,
                                  setCmdPsu2Part2Verify, setPsu2Part2Multi,
                                  dmmCmdPsu2Part2Verify, dmmPsu2Part2Multi,
                                  meterCmdPsu2Part2Verify, meterPsu2Part2Multi,
@@ -4264,14 +4358,13 @@ void curdataconfig::on_pushBtnPsu2Part2DataBatchAdd_clicked()
         if(QMessageBox::question(this, tr("询问"), tr("是否保留当前已填数据？"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu2Part2DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
-    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, int, bool)),
-            this, SLOT(handleBatchParamsPsu2Part2(int, double, double, QString, int, bool)));
+    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
+            this, SLOT(handleBatchParamsPsu2Part2(int, double, double, QString, bool)));
     batchdialog->show();
 }
 // 处理接收到的批量添加参数
 void curdataconfig::handleBatchParamsPsu2Part2(int num, double dataStart,
-                                      double dataStep, QString strAddrStart,
-                                      int addrStep, bool isRise)
+                                      double dataStep, QString strAddrStart, bool isRise)
 {
     bool isHex;
     int addrStart;
@@ -4291,13 +4384,23 @@ void curdataconfig::handleBatchParamsPsu2Part2(int num, double dataStart,
         else
             strData = QString("%1").arg(dataStart-dataStep*i);
         if(isHex){
-            strAddr = QString("0x%1").arg(addrStart+addrStep*i, 4, 16, QLatin1Char('0'));
+            strAddr = QString("0x%1").arg(addrStart+dataLengthPsu2Part2*3*i, 4, 16, QLatin1Char('0'));
         }else{
-            strAddr = QString("%1").arg(addrStart+addrStep*i);
+            strAddr = QString("%1").arg(addrStart+dataLengthPsu2Part2*3*i);
         }
         dataLineEditListPsu2Part2Data.at(nowIndexPsu2Part2Data-1)->setText(strData);
         addrLineEditListPsu2Part2Data.at(nowIndexPsu2Part2Data-1)->setText(strAddr);
     }
+}
+// 数据长度编辑
+void curdataconfig::on_lineEditDataLengthPsu2Part2_textEdited()
+{
+    if(ui->lineEditDataLengthPsu2Part2->text().isEmpty()){
+        QMessageBox::information(this, tr("错误"), tr("数据长度不能为空！"), QMessageBox::Ok);
+        ui->lineEditDataLengthPsu2Part2->setText(QString("%1").arg(dataLengthPsu2Part2));
+        return;
+    }
+    dataLengthPsu2Part2 = ui->lineEditDataLengthPsu2Part2->text().toInt();
 }
 // 保存按钮
 void curdataconfig::on_pushBtnPsu2Part2DataSave_clicked()
@@ -4334,7 +4437,7 @@ void curdataconfig::on_pushBtnPsu2Part2DataSave_clicked()
     dataAndAddrListPsu2Part2 = tempList;
     if(!dataAndAddrListPsu2Part2->isEmpty()){
         if(psu2Part2 == NULL){
-            psu2Part2 = new testItem(cmdListPsu2Part2Pre, dataAndAddrListPsu2Part2,
+            psu2Part2 = new testItem(cmdListPsu2Part2Pre, dataAndAddrListPsu2Part2, dataLengthPsu2Part2,
                                      setCmdPsu2Part2Verify, setPsu2Part2Multi,
                                      dmmCmdPsu2Part2Verify, dmmPsu2Part2Multi,
                                      meterCmdPsu2Part2Verify, meterPsu2Part2Multi,
@@ -4405,7 +4508,7 @@ void curdataconfig::on_pushBtnPsu2Part2VerifySave_clicked()
     meterCmdPsu2Part2Verify->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     meterPsu2Part2Multi = meterMulti.toInt();
     if(psu2Part2 == NULL){
-        psu2Part2 = new testItem(cmdListPsu2Part2Pre, dataAndAddrListPsu2Part2,
+        psu2Part2 = new testItem(cmdListPsu2Part2Pre, dataAndAddrListPsu2Part2, dataLengthPsu2Part2,
                                  setCmdPsu2Part2Verify, setPsu2Part2Multi,
                                  dmmCmdPsu2Part2Verify, dmmPsu2Part2Multi,
                                  meterCmdPsu2Part2Verify, meterPsu2Part2Multi,
@@ -4481,7 +4584,7 @@ void curdataconfig::on_pushBtnPsu2Part2TestSave_clicked()
     dmmCmdPsu2Part2Test->setRatio(dmmJudge.toDouble());
     meterCmdPsu2Part2Test->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     if(psu2Part2 == NULL){
-        psu2Part2 = new testItem(cmdListPsu2Part2Pre, dataAndAddrListPsu2Part2,
+        psu2Part2 = new testItem(cmdListPsu2Part2Pre, dataAndAddrListPsu2Part2, dataLengthPsu2Part2,
                                  setCmdPsu2Part2Verify, setPsu2Part2Multi,
                                  dmmCmdPsu2Part2Verify, dmmPsu2Part2Multi,
                                  meterCmdPsu2Part2Verify, meterPsu2Part2Multi,
@@ -4520,7 +4623,7 @@ void curdataconfig::on_pushBtnPsu2Part3PreAdd_clicked()
     command *newCommand = new command(QString("untitled"));
     cmdListPsu2Part3Pre->append(newCommand);
     if(psu2Part3 == NULL){
-        psu2Part3 = new testItem(cmdListPsu2Part3Pre, dataAndAddrListPsu2Part3,
+        psu2Part3 = new testItem(cmdListPsu2Part3Pre, dataAndAddrListPsu2Part3, dataLengthPsu2Part3,
                                  setCmdPsu2Part3Verify, setPsu2Part3Multi,
                                  dmmCmdPsu2Part3Verify, dmmPsu2Part3Multi,
                                  meterCmdPsu2Part3Verify, meterPsu2Part3Multi,
@@ -4749,14 +4852,13 @@ void curdataconfig::on_pushBtnPsu2Part3DataBatchAdd_clicked()
         if(QMessageBox::question(this, tr("询问"), tr("是否保留当前已填数据？"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu2Part3DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
-    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, int, bool)),
-            this, SLOT(handleBatchParamsPsu2Part3(int, double, double, QString, int, bool)));
+    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
+            this, SLOT(handleBatchParamsPsu2Part3(int, double, double, QString, bool)));
     batchdialog->show();
 }
 // 处理接收到的批量添加参数
 void curdataconfig::handleBatchParamsPsu2Part3(int num, double dataStart,
-                                      double dataStep, QString strAddrStart,
-                                      int addrStep, bool isRise)
+                                      double dataStep, QString strAddrStart, bool isRise)
 {
     bool isHex;
     int addrStart;
@@ -4776,13 +4878,23 @@ void curdataconfig::handleBatchParamsPsu2Part3(int num, double dataStart,
         else
             strData = QString("%1").arg(dataStart-dataStep*i);
         if(isHex){
-            strAddr = QString("0x%1").arg(addrStart+addrStep*i, 4, 16, QLatin1Char('0'));
+            strAddr = QString("0x%1").arg(addrStart+dataLengthPsu2Part3*3*i, 4, 16, QLatin1Char('0'));
         }else{
-            strAddr = QString("%1").arg(addrStart+addrStep*i);
+            strAddr = QString("%1").arg(addrStart+dataLengthPsu2Part3*3*i);
         }
         dataLineEditListPsu2Part3Data.at(nowIndexPsu2Part3Data-1)->setText(strData);
         addrLineEditListPsu2Part3Data.at(nowIndexPsu2Part3Data-1)->setText(strAddr);
     }
+}
+// 数据长度编辑
+void curdataconfig::on_lineEditDataLengthPsu2Part3_textEdited()
+{
+    if(ui->lineEditDataLengthPsu2Part3->text().isEmpty()){
+        QMessageBox::information(this, tr("错误"), tr("数据长度不能为空！"), QMessageBox::Ok);
+        ui->lineEditDataLengthPsu2Part3->setText(QString("%1").arg(dataLengthPsu2Part3));
+        return;
+    }
+    dataLengthPsu2Part3 = ui->lineEditDataLengthPsu2Part3->text().toInt();
 }
 // 保存按钮
 void curdataconfig::on_pushBtnPsu2Part3DataSave_clicked()
@@ -4819,7 +4931,7 @@ void curdataconfig::on_pushBtnPsu2Part3DataSave_clicked()
     dataAndAddrListPsu2Part3 = tempList;
     if(!dataAndAddrListPsu2Part3->isEmpty()){
         if(psu2Part3 == NULL){
-            psu2Part3 = new testItem(cmdListPsu2Part3Pre, dataAndAddrListPsu2Part3,
+            psu2Part3 = new testItem(cmdListPsu2Part3Pre, dataAndAddrListPsu2Part3, dataLengthPsu2Part3,
                                      setCmdPsu2Part3Verify, setPsu2Part3Multi,
                                      dmmCmdPsu2Part3Verify, dmmPsu2Part3Multi,
                                      meterCmdPsu2Part3Verify, meterPsu2Part3Multi,
@@ -4890,7 +5002,7 @@ void curdataconfig::on_pushBtnPsu2Part3VerifySave_clicked()
     meterCmdPsu2Part3Verify->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     meterPsu2Part3Multi = meterMulti.toInt();
     if(psu2Part3 == NULL){
-        psu2Part3 = new testItem(cmdListPsu2Part3Pre, dataAndAddrListPsu2Part3,
+        psu2Part3 = new testItem(cmdListPsu2Part3Pre, dataAndAddrListPsu2Part3, dataLengthPsu2Part3,
                                  setCmdPsu2Part3Verify, setPsu2Part3Multi,
                                  dmmCmdPsu2Part3Verify, dmmPsu2Part3Multi,
                                  meterCmdPsu2Part3Verify, meterPsu2Part3Multi,
@@ -4966,7 +5078,7 @@ void curdataconfig::on_pushBtnPsu2Part3TestSave_clicked()
     dmmCmdPsu2Part3Test->setRatio(dmmJudge.toDouble());
     meterCmdPsu2Part3Test->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     if(psu2Part3 == NULL){
-        psu2Part3 = new testItem(cmdListPsu2Part3Pre, dataAndAddrListPsu2Part3,
+        psu2Part3 = new testItem(cmdListPsu2Part3Pre, dataAndAddrListPsu2Part3, dataLengthPsu2Part3,
                                  setCmdPsu2Part3Verify, setPsu2Part3Multi,
                                  dmmCmdPsu2Part3Verify, dmmPsu2Part3Multi,
                                  meterCmdPsu2Part3Verify, meterPsu2Part3Multi,
@@ -5005,7 +5117,7 @@ void curdataconfig::on_pushBtnPsu2Part4PreAdd_clicked()
     command *newCommand = new command(QString("untitled"));
     cmdListPsu2Part4Pre->append(newCommand);
     if(psu2Part4 == NULL){
-        psu2Part4 = new testItem(cmdListPsu2Part4Pre, dataAndAddrListPsu2Part4,
+        psu2Part4 = new testItem(cmdListPsu2Part4Pre, dataAndAddrListPsu2Part4, dataLengthPsu2Part4,
                                  setCmdPsu2Part4Verify, setPsu2Part4Multi,
                                  dmmCmdPsu2Part4Verify, dmmPsu2Part4Multi,
                                  meterCmdPsu2Part4Verify, meterPsu2Part4Multi,
@@ -5234,14 +5346,13 @@ void curdataconfig::on_pushBtnPsu2Part4DataBatchAdd_clicked()
         if(QMessageBox::question(this, tr("询问"), tr("是否保留当前已填数据？"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu2Part4DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
-    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, int, bool)),
-            this, SLOT(handleBatchParamsPsu2Part4(int, double, double, QString, int, bool)));
+    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
+            this, SLOT(handleBatchParamsPsu2Part4(int, double, double, QString, bool)));
     batchdialog->show();
 }
 // 处理接收到的批量添加参数
 void curdataconfig::handleBatchParamsPsu2Part4(int num, double dataStart,
-                                      double dataStep, QString strAddrStart,
-                                      int addrStep, bool isRise)
+                                      double dataStep, QString strAddrStart, bool isRise)
 {
     bool isHex;
     int addrStart;
@@ -5261,13 +5372,23 @@ void curdataconfig::handleBatchParamsPsu2Part4(int num, double dataStart,
         else
             strData = QString("%1").arg(dataStart-dataStep*i);
         if(isHex){
-            strAddr = QString("0x%1").arg(addrStart+addrStep*i, 4, 16, QLatin1Char('0'));
+            strAddr = QString("0x%1").arg(addrStart+dataLengthPsu2Part4*3*i, 4, 16, QLatin1Char('0'));
         }else{
-            strAddr = QString("%1").arg(addrStart+addrStep*i);
+            strAddr = QString("%1").arg(addrStart+dataLengthPsu2Part4*3*i);
         }
         dataLineEditListPsu2Part4Data.at(nowIndexPsu2Part4Data-1)->setText(strData);
         addrLineEditListPsu2Part4Data.at(nowIndexPsu2Part4Data-1)->setText(strAddr);
     }
+}
+// 数据长度编辑
+void curdataconfig::on_lineEditDataLengthPsu2Part4_textEdited()
+{
+    if(ui->lineEditDataLengthPsu2Part4->text().isEmpty()){
+        QMessageBox::information(this, tr("错误"), tr("数据长度不能为空！"), QMessageBox::Ok);
+        ui->lineEditDataLengthPsu2Part4->setText(QString("%1").arg(dataLengthPsu2Part4));
+        return;
+    }
+    dataLengthPsu2Part4 = ui->lineEditDataLengthPsu2Part4->text().toInt();
 }
 // 保存按钮
 void curdataconfig::on_pushBtnPsu2Part4DataSave_clicked()
@@ -5304,7 +5425,7 @@ void curdataconfig::on_pushBtnPsu2Part4DataSave_clicked()
     dataAndAddrListPsu2Part4 = tempList;
     if(!dataAndAddrListPsu2Part4->isEmpty()){
         if(psu2Part4 == NULL){
-            psu2Part4 = new testItem(cmdListPsu2Part4Pre, dataAndAddrListPsu2Part4,
+            psu2Part4 = new testItem(cmdListPsu2Part4Pre, dataAndAddrListPsu2Part4, dataLengthPsu2Part4,
                                      setCmdPsu2Part4Verify, setPsu2Part4Multi,
                                      dmmCmdPsu2Part4Verify, dmmPsu2Part4Multi,
                                      meterCmdPsu2Part4Verify, meterPsu2Part4Multi,
@@ -5375,7 +5496,7 @@ void curdataconfig::on_pushBtnPsu2Part4VerifySave_clicked()
     meterCmdPsu2Part4Verify->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     meterPsu2Part4Multi = meterMulti.toInt();
     if(psu2Part4 == NULL){
-        psu2Part4 = new testItem(cmdListPsu2Part4Pre, dataAndAddrListPsu2Part4,
+        psu2Part4 = new testItem(cmdListPsu2Part4Pre, dataAndAddrListPsu2Part4, dataLengthPsu2Part4,
                                  setCmdPsu2Part4Verify, setPsu2Part4Multi,
                                  dmmCmdPsu2Part4Verify, dmmPsu2Part4Multi,
                                  meterCmdPsu2Part4Verify, meterPsu2Part4Multi,
@@ -5451,7 +5572,7 @@ void curdataconfig::on_pushBtnPsu2Part4TestSave_clicked()
     dmmCmdPsu2Part4Test->setRatio(dmmJudge.toDouble());
     meterCmdPsu2Part4Test->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     if(psu2Part4 == NULL){
-        psu2Part4 = new testItem(cmdListPsu2Part4Pre, dataAndAddrListPsu2Part4,
+        psu2Part4 = new testItem(cmdListPsu2Part4Pre, dataAndAddrListPsu2Part4, dataLengthPsu2Part4,
                                  setCmdPsu2Part4Verify, setPsu2Part4Multi,
                                  dmmCmdPsu2Part4Verify, dmmPsu2Part4Multi,
                                  meterCmdPsu2Part4Verify, meterPsu2Part4Multi,
@@ -5490,7 +5611,7 @@ void curdataconfig::on_pushBtnPsu2Part5PreAdd_clicked()
     command *newCommand = new command(QString("untitled"));
     cmdListPsu2Part5Pre->append(newCommand);
     if(psu2Part5 == NULL){
-        psu2Part5 = new testItem(cmdListPsu2Part5Pre, dataAndAddrListPsu2Part5,
+        psu2Part5 = new testItem(cmdListPsu2Part5Pre, dataAndAddrListPsu2Part5, dataLengthPsu2Part5,
                                  setCmdPsu2Part5Verify, setPsu2Part5Multi,
                                  dmmCmdPsu2Part5Verify, dmmPsu2Part5Multi,
                                  meterCmdPsu2Part5Verify, meterPsu2Part5Multi,
@@ -5719,14 +5840,13 @@ void curdataconfig::on_pushBtnPsu2Part5DataBatchAdd_clicked()
         if(QMessageBox::question(this, tr("询问"), tr("是否保留当前已填数据？"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu2Part5DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
-    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, int, bool)),
-            this, SLOT(handleBatchParamsPsu2Part5(int, double, double, QString, int, bool)));
+    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
+            this, SLOT(handleBatchParamsPsu2Part5(int, double, double, QString, bool)));
     batchdialog->show();
 }
 // 处理接收到的批量添加参数
 void curdataconfig::handleBatchParamsPsu2Part5(int num, double dataStart,
-                                      double dataStep, QString strAddrStart,
-                                      int addrStep, bool isRise)
+                                      double dataStep, QString strAddrStart, bool isRise)
 {
     bool isHex;
     int addrStart;
@@ -5746,13 +5866,23 @@ void curdataconfig::handleBatchParamsPsu2Part5(int num, double dataStart,
         else
             strData = QString("%1").arg(dataStart-dataStep*i);
         if(isHex){
-            strAddr = QString("0x%1").arg(addrStart+addrStep*i, 4, 16, QLatin1Char('0'));
+            strAddr = QString("0x%1").arg(addrStart+dataLengthPsu2Part5*3*i, 4, 16, QLatin1Char('0'));
         }else{
-            strAddr = QString("%1").arg(addrStart+addrStep*i);
+            strAddr = QString("%1").arg(addrStart+dataLengthPsu2Part5*3*i);
         }
         dataLineEditListPsu2Part5Data.at(nowIndexPsu2Part5Data-1)->setText(strData);
         addrLineEditListPsu2Part5Data.at(nowIndexPsu2Part5Data-1)->setText(strAddr);
     }
+}
+// 数据长度编辑
+void curdataconfig::on_lineEditDataLengthPsu2Part5_textEdited()
+{
+    if(ui->lineEditDataLengthPsu2Part5->text().isEmpty()){
+        QMessageBox::information(this, tr("错误"), tr("数据长度不能为空！"), QMessageBox::Ok);
+        ui->lineEditDataLengthPsu2Part5->setText(QString("%1").arg(dataLengthPsu2Part5));
+        return;
+    }
+    dataLengthPsu2Part5 = ui->lineEditDataLengthPsu2Part5->text().toInt();
 }
 // 保存按钮
 void curdataconfig::on_pushBtnPsu2Part5DataSave_clicked()
@@ -5789,7 +5919,7 @@ void curdataconfig::on_pushBtnPsu2Part5DataSave_clicked()
     dataAndAddrListPsu2Part5 = tempList;
     if(!dataAndAddrListPsu2Part5->isEmpty()){
         if(psu2Part5 == NULL){
-            psu2Part5 = new testItem(cmdListPsu2Part5Pre, dataAndAddrListPsu2Part5,
+            psu2Part5 = new testItem(cmdListPsu2Part5Pre, dataAndAddrListPsu2Part5, dataLengthPsu2Part5,
                                      setCmdPsu2Part5Verify, setPsu2Part5Multi,
                                      dmmCmdPsu2Part5Verify, dmmPsu2Part5Multi,
                                      meterCmdPsu2Part5Verify, meterPsu2Part5Multi,
@@ -5861,7 +5991,7 @@ void curdataconfig::on_pushBtnPsu2Part5VerifySave_clicked()
     meterCmdPsu2Part5Verify->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     meterPsu2Part5Multi = meterMulti.toInt();
     if(psu2Part5 == NULL){
-        psu2Part5 = new testItem(cmdListPsu2Part5Pre, dataAndAddrListPsu2Part5,
+        psu2Part5 = new testItem(cmdListPsu2Part5Pre, dataAndAddrListPsu2Part5, dataLengthPsu2Part5,
                                  setCmdPsu2Part5Verify, setPsu2Part5Multi,
                                  dmmCmdPsu2Part5Verify, dmmPsu2Part5Multi,
                                  meterCmdPsu2Part5Verify, meterPsu2Part5Multi,
@@ -5937,7 +6067,7 @@ void curdataconfig::on_pushBtnPsu2Part5TestSave_clicked()
     dmmCmdPsu2Part5Test->setRatio(dmmJudge.toDouble());
     meterCmdPsu2Part5Test->setRatio(meterJudge.toDouble());  // 保存读取万用表命令参数
     if(psu2Part5 == NULL){
-        psu2Part5 = new testItem(cmdListPsu2Part5Pre, dataAndAddrListPsu2Part5,
+        psu2Part5 = new testItem(cmdListPsu2Part5Pre, dataAndAddrListPsu2Part5, dataLengthPsu2Part5,
                                  setCmdPsu2Part5Verify, setPsu2Part5Multi,
                                  dmmCmdPsu2Part5Verify, dmmPsu2Part5Multi,
                                  meterCmdPsu2Part5Verify, meterPsu2Part5Multi,

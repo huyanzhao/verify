@@ -53,7 +53,8 @@ private slots:
     void on_pushBtnPsu1Part1DataBatchDel_clicked();  // 全部删除按钮
     void on_pushBtnPsu1Part1DataClear_clicked();     // 清空数据按钮
     void on_pushBtnPsu1Part1DataBatchAdd_clicked();  // 批量添加按钮
-    void handleBatchParamsPsu1Part1(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void handleBatchParamsPsu1Part1(int, double, double, QString, bool);  // 处理接收到的批量添加参数
+    void on_lineEditDataLengthPsu1Part1_textEdited();  // 数据长度编辑
     void on_pushBtnPsu1Part1DataSave_clicked();      // 保存按钮
     void on_pushBtnPsu1Part1DataUndo_clicked();      // 撤消按钮
     // PSU1 Part1 校准
@@ -79,7 +80,8 @@ private slots:
     void on_pushBtnPsu1Part2DataBatchDel_clicked();  // 全部删除按钮
     void on_pushBtnPsu1Part2DataClear_clicked();     // 清空数据按钮
     void on_pushBtnPsu1Part2DataBatchAdd_clicked();  // 批量添加按钮
-    void handleBatchParamsPsu1Part2(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void handleBatchParamsPsu1Part2(int, double, double, QString, bool);  // 处理接收到的批量添加参数
+    void on_lineEditDataLengthPsu1Part2_textEdited();  // 数据长度编辑
     void on_pushBtnPsu1Part2DataSave_clicked();      // 保存按钮
     void on_pushBtnPsu1Part2DataUndo_clicked();      // 撤消按钮
     // PSU1 Part2 校准
@@ -105,7 +107,8 @@ private slots:
     void on_pushBtnPsu1Part3DataBatchDel_clicked();  // 全部删除按钮
     void on_pushBtnPsu1Part3DataClear_clicked();     // 清空数据按钮
     void on_pushBtnPsu1Part3DataBatchAdd_clicked();  // 批量添加按钮
-    void handleBatchParamsPsu1Part3(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void handleBatchParamsPsu1Part3(int, double, double, QString, bool);  // 处理接收到的批量添加参数
+    void on_lineEditDataLengthPsu1Part3_textEdited();  // 数据长度编辑
     void on_pushBtnPsu1Part3DataSave_clicked();      // 保存按钮
     void on_pushBtnPsu1Part3DataUndo_clicked();      // 撤消按钮
     // PSU1 Part3 校准
@@ -131,7 +134,8 @@ private slots:
     void on_pushBtnPsu1Part4DataBatchDel_clicked();  // 全部删除按钮
     void on_pushBtnPsu1Part4DataClear_clicked();     // 清空数据按钮
     void on_pushBtnPsu1Part4DataBatchAdd_clicked();  // 批量添加按钮
-    void handleBatchParamsPsu1Part4(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void handleBatchParamsPsu1Part4(int, double, double, QString, bool);  // 处理接收到的批量添加参数
+    void on_lineEditDataLengthPsu1Part4_textEdited();  // 数据长度编辑
     void on_pushBtnPsu1Part4DataSave_clicked();      // 保存按钮
     void on_pushBtnPsu1Part4DataUndo_clicked();      // 撤消按钮
     // PSU1 Part4 校准
@@ -157,7 +161,8 @@ private slots:
     void on_pushBtnPsu1Part5DataBatchDel_clicked();  // 全部删除按钮
     void on_pushBtnPsu1Part5DataClear_clicked();     // 清空数据按钮
     void on_pushBtnPsu1Part5DataBatchAdd_clicked();  // 批量添加按钮
-    void handleBatchParamsPsu1Part5(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void handleBatchParamsPsu1Part5(int, double, double, QString, bool);  // 处理接收到的批量添加参数
+    void on_lineEditDataLengthPsu1Part5_textEdited();  // 数据长度编辑
     void on_pushBtnPsu1Part5DataSave_clicked();      // 保存按钮
     void on_pushBtnPsu1Part5DataUndo_clicked();      // 撤消按钮
     // PSU1 Part5 校准
@@ -192,7 +197,8 @@ private slots:
     void on_pushBtnPsu2Part1DataBatchDel_clicked();  // 全部删除按钮
     void on_pushBtnPsu2Part1DataClear_clicked();     // 清空数据按钮
     void on_pushBtnPsu2Part1DataBatchAdd_clicked();  // 批量添加按钮
-    void handleBatchParamsPsu2Part1(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void handleBatchParamsPsu2Part1(int, double, double, QString, bool);  // 处理接收到的批量添加参数
+    void on_lineEditDataLengthPsu2Part1_textEdited();  // 数据长度编辑
     void on_pushBtnPsu2Part1DataSave_clicked();      // 保存按钮
     void on_pushBtnPsu2Part1DataUndo_clicked();      // 撤消按钮
     // PSU2 Part1 校准
@@ -218,7 +224,8 @@ private slots:
     void on_pushBtnPsu2Part2DataBatchDel_clicked();  // 全部删除按钮
     void on_pushBtnPsu2Part2DataClear_clicked();     // 清空数据按钮
     void on_pushBtnPsu2Part2DataBatchAdd_clicked();  // 批量添加按钮
-    void handleBatchParamsPsu2Part2(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void handleBatchParamsPsu2Part2(int, double, double, QString, bool);  // 处理接收到的批量添加参数
+    void on_lineEditDataLengthPsu2Part2_textEdited();  // 数据长度编辑
     void on_pushBtnPsu2Part2DataSave_clicked();      // 保存按钮
     void on_pushBtnPsu2Part2DataUndo_clicked();      // 撤消按钮
     // PSU2 Part2 校准
@@ -244,7 +251,8 @@ private slots:
     void on_pushBtnPsu2Part3DataBatchDel_clicked();  // 全部删除按钮
     void on_pushBtnPsu2Part3DataClear_clicked();     // 清空数据按钮
     void on_pushBtnPsu2Part3DataBatchAdd_clicked();  // 批量添加按钮
-    void handleBatchParamsPsu2Part3(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void handleBatchParamsPsu2Part3(int, double, double, QString, bool);  // 处理接收到的批量添加参数
+    void on_lineEditDataLengthPsu2Part3_textEdited();  // 数据长度编辑
     void on_pushBtnPsu2Part3DataSave_clicked();      // 保存按钮
     void on_pushBtnPsu2Part3DataUndo_clicked();      // 撤消按钮
     // PSU2 Part3 校准
@@ -270,7 +278,8 @@ private slots:
     void on_pushBtnPsu2Part4DataBatchDel_clicked();  // 全部删除按钮
     void on_pushBtnPsu2Part4DataClear_clicked();     // 清空数据按钮
     void on_pushBtnPsu2Part4DataBatchAdd_clicked();  // 批量添加按钮
-    void handleBatchParamsPsu2Part4(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void handleBatchParamsPsu2Part4(int, double, double, QString, bool);  // 处理接收到的批量添加参数
+    void on_lineEditDataLengthPsu2Part4_textEdited();  // 数据长度编辑
     void on_pushBtnPsu2Part4DataSave_clicked();      // 保存按钮
     void on_pushBtnPsu2Part4DataUndo_clicked();      // 撤消按钮
     // PSU2 Part4 校准
@@ -296,7 +305,8 @@ private slots:
     void on_pushBtnPsu2Part5DataBatchDel_clicked();  // 全部删除按钮
     void on_pushBtnPsu2Part5DataClear_clicked();     // 清空数据按钮
     void on_pushBtnPsu2Part5DataBatchAdd_clicked();  // 批量添加按钮
-    void handleBatchParamsPsu2Part5(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void handleBatchParamsPsu2Part5(int, double, double, QString, bool);  // 处理接收到的批量添加参数
+    void on_lineEditDataLengthPsu2Part5_textEdited();  // 数据长度编辑
     void on_pushBtnPsu2Part5DataSave_clicked();      // 保存按钮
     void on_pushBtnPsu2Part5DataUndo_clicked();      // 撤消按钮
     // PSU2 Part5 校准
@@ -343,6 +353,7 @@ private:
     QList<QLineEdit *> dataLineEditListPsu1Part1Data; // 数据框列表
     QList<QLineEdit *> addrLineEditListPsu1Part1Data; // 地址框列表
     QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu1Part1; // 参数列表
+    int dataLengthPsu1Part1;  // 数据长度
     // PSU1  Part1  校准
     command * setCmdPsu1Part1Verify;    // 校准设置电压命令
     int setPsu1Part1Multi;              // 写到eeprom时，设置电压要放大的倍数
@@ -365,6 +376,7 @@ private:
     QList<QLineEdit *> dataLineEditListPsu1Part2Data; // 数据框列表
     QList<QLineEdit *> addrLineEditListPsu1Part2Data; // 地址框列表
     QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu1Part2; // 参数列表
+    int dataLengthPsu1Part2;  // 数据长度
     // PSU1   Part2  校准
     command * setCmdPsu1Part2Verify;    // 校准设置电压命令
     int setPsu1Part2Multi;              // 写到eeprom时，设置电压要放大的倍数
@@ -387,6 +399,7 @@ private:
     QList<QLineEdit *> dataLineEditListPsu1Part3Data; // 数据框列表
     QList<QLineEdit *> addrLineEditListPsu1Part3Data; // 地址框列表
     QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu1Part3; // 参数列表
+    int dataLengthPsu1Part3;  // 数据长度
     // PSU1  Part3  校准
     command * setCmdPsu1Part3Verify;    // 校准设置电压命令
     int setPsu1Part3Multi;              // 写到eeprom时，设置电压要放大的倍数
@@ -409,6 +422,7 @@ private:
     QList<QLineEdit *> dataLineEditListPsu1Part4Data;  // 数据框列表
     QList<QLineEdit *> addrLineEditListPsu1Part4Data;  // 地址框列表
     QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu1Part4; // 参数列表
+    int dataLengthPsu1Part4;  // 数据长度
     // PSU1  Part4  校准
     command * setCmdPsu1Part4Verify;    // 校准设置电压命令
     int setPsu1Part4Multi;              // 写到eeprom时，设置电压要放大的倍数
@@ -431,6 +445,7 @@ private:
     QList<QLineEdit *> dataLineEditListPsu1Part5Data; // 数据框列表
     QList<QLineEdit *> addrLineEditListPsu1Part5Data; // 地址框列表
     QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu1Part5; // 参数列表
+    int dataLengthPsu1Part5;  // 数据长度
     // PSU1  Part5  校准
     command * setCmdPsu1Part5Verify;    // 校准设置电压命令
     int setPsu1Part5Multi;              // 写到eeprom时，设置电压要放大的倍数
@@ -454,6 +469,7 @@ private:
     QList<QLineEdit *> dataLineEditListPsu2Part1Data; // 数据框列表
     QList<QLineEdit *> addrLineEditListPsu2Part1Data; // 地址框列表
     QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu2Part1; // 参数列表
+    int dataLengthPsu2Part1;            // 数据长度
     // PSU2  Part1  校准
     command * setCmdPsu2Part1Verify;    // 校准设置电压命令
     int setPsu2Part1Multi;              // 写到eeprom时，设置电压要放大的倍数
@@ -476,6 +492,7 @@ private:
     QList<QLineEdit *> dataLineEditListPsu2Part2Data; // 数据框列表
     QList<QLineEdit *> addrLineEditListPsu2Part2Data; // 地址框列表
     QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu2Part2; // 参数列表
+    int dataLengthPsu2Part2;            // 数据长度
     // PSU2   Part2  校准
     command * setCmdPsu2Part2Verify;    // 校准设置电压命令
     int setPsu2Part2Multi;              // 写到eeprom时，设置电压要放大的倍数
@@ -498,6 +515,7 @@ private:
     QList<QLineEdit *> dataLineEditListPsu2Part3Data; // 数据框列表
     QList<QLineEdit *> addrLineEditListPsu2Part3Data; // 地址框列表
     QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu2Part3; // 参数列表
+    int dataLengthPsu2Part3;            // 数据长度
     // PSU2  Part3  校准
     command * setCmdPsu2Part3Verify;    // 校准设置电压命令
     int setPsu2Part3Multi;              // 写到eeprom时，设置电压要放大的倍数
@@ -520,6 +538,7 @@ private:
     QList<QLineEdit *> dataLineEditListPsu2Part4Data; // 数据框列表
     QList<QLineEdit *> addrLineEditListPsu2Part4Data; // 地址框列表
     QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu2Part4; // 参数列表
+    int dataLengthPsu2Part4;            // 数据长度
     // PSU2  Part4  校准
     command * setCmdPsu2Part4Verify;    // 校准设置电压命令
     int setPsu2Part4Multi;              // 写到eeprom时，设置电压要放大的倍数
@@ -542,6 +561,7 @@ private:
     QList<QLineEdit *> dataLineEditListPsu2Part5Data; // 数据框列表
     QList<QLineEdit *> addrLineEditListPsu2Part5Data; // 地址框列表
     QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu2Part5; // 参数列表
+    int dataLengthPsu2Part5;            // 数据长度
     // PSU2  Part5  校准
     command * setCmdPsu2Part5Verify;    // 校准设置电压命令
     int setPsu2Part5Multi;              // 写到eeprom时，设置电压要放大的倍数

@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     qjson4/QJsonValueRef.cpp \
     qjson4/QJsonValue.cpp \
     qjson4/QJsonParser.cpp \
-    mythread.cpp
+    mythread.cpp \
+    about.cpp
 
 HEADERS  += mainwindow.h \
     meteraddress.h \
@@ -52,14 +53,16 @@ HEADERS  += mainwindow.h \
     qjson4/QJsonValue.h \
     qjson4/QJsonRoot.h \
     qjson4/QJsonParser.h \
-    mythread.h
+    mythread.h \
+    about.h
 
 FORMS    += mainwindow.ui \
     meteraddress.ui \
     slotsconfig.ui \
     voldataconfig.ui \
     batchadd.ui \
-    curdataconfig.ui
+    curdataconfig.ui \
+    about.ui
 
 RESOURCES += \
     image.qrc

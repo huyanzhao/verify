@@ -22,6 +22,7 @@ volDataConfig::volDataConfig(testItem * ch1, testItem * ch2, QWidget *parent) :
     nowIndexCh1Pre = -1;  // 前置命令框当前选项索引
     nowCommandCh1 = NULL;
     nowIndexCh1Data = 0;  // 当前数据项索引
+    ui->lineEditDataLengthCh1->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditCh1VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditCh1VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditCh1VerifyDMMMulti->setValidator(new QIntValidator(1, 1000000, this));
@@ -32,6 +33,7 @@ volDataConfig::volDataConfig(testItem * ch1, testItem * ch2, QWidget *parent) :
     if(itemCh1 == NULL){
         cmdListCh1Pre = new QList<command *>;
         dataAndAddrListCh1 = new QList<QPair<bool, QPair<QString, QString> * > * >;
+        dataLengthCh1 = 6;
         setCmdCh1Verify = new command(QString("PSU1_V"));
         setCmdCh1Verify->setStart(QString("("));
         setCmdCh1Verify->setEnd(QString(";"));
@@ -59,8 +61,9 @@ volDataConfig::volDataConfig(testItem * ch1, testItem * ch2, QWidget *parent) :
         meterCmdCh1Test->setRatio(0.1);
     }else{
         cmdListCh1Pre = itemCh1->getCmdList();  // 初始化前置命令列表并刷新        
-        dataAndAddrListCh1 = itemCh1->getDataList();  // 初始化并显示数据列表        
-        setCmdCh1Verify = itemCh1->getSetCmdVerify();  // 初始化并显示校准页设置电压命令        
+        dataAndAddrListCh1 = itemCh1->getDataList();  // 初始化并显示数据列表
+        dataLengthCh1 = itemCh1->getDataLength();  // 初始化数据长度
+        setCmdCh1Verify = itemCh1->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
         setCh1Multi = itemCh1->getSetMulti();   // 放大倍数        
         dmmCmdCh1Verify = itemCh1->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令        
         dmmCh1Multi = itemCh1->getDmmMulti();  // 放大倍数
@@ -77,6 +80,7 @@ volDataConfig::volDataConfig(testItem * ch1, testItem * ch2, QWidget *parent) :
         dataLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->second->first);
         addrLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->second->second);
     }
+    ui->lineEditDataLengthCh1->setText(QString("%1").arg(dataLengthCh1));
     ui->lineEditCh1VerifySetCmd->setText(setCmdCh1Verify->getName());
     ui->lineEditCh1VerifySetStart->setText(setCmdCh1Verify->getStart());
     ui->lineEditCh1VerifySetEnd->setText(setCmdCh1Verify->getEnd());
@@ -104,6 +108,7 @@ volDataConfig::volDataConfig(testItem * ch1, testItem * ch2, QWidget *parent) :
     nowIndexCh2Pre = -1;  // 前置命令框当前选项索引
     nowCommandCh2 = NULL;
     nowIndexCh2Data = 0;  // 当前数据项索引
+    ui->lineEditDataLengthCh2->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditCh2VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditCh2VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditCh2VerifyDMMMulti->setValidator(new QIntValidator(1, 1000000, this));
@@ -114,6 +119,7 @@ volDataConfig::volDataConfig(testItem * ch1, testItem * ch2, QWidget *parent) :
     if(itemCh2 == NULL){
         cmdListCh2Pre = new QList<command *>;
         dataAndAddrListCh2 = new QList<QPair<bool, QPair<QString, QString> * > * >;
+        dataLengthCh2 = 6;
         setCmdCh2Verify = new command(QString("PSU2_V"));
         setCmdCh2Verify->setStart(QString("("));
         setCmdCh2Verify->setEnd(QString(";"));
@@ -141,7 +147,8 @@ volDataConfig::volDataConfig(testItem * ch1, testItem * ch2, QWidget *parent) :
         meterCmdCh1Test->setRatio(0.1);
     }else{
         cmdListCh2Pre = itemCh2->getCmdList();  // 初始化前置命令列表并刷新        
-        dataAndAddrListCh2 = itemCh2->getDataList();  // 初始化并显示数据列表        
+        dataAndAddrListCh2 = itemCh2->getDataList();  // 初始化并显示数据列表
+        dataLengthCh2 = itemCh2->getDataLength();  // 初始化数据长度
         setCmdCh2Verify = itemCh2->getSetCmdVerify();  // 初始化并显示校准页设置电压命令        
         setCh2Multi = itemCh2->getSetMulti();   // 放大倍数        
         dmmCmdCh2Verify = itemCh2->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令        
@@ -159,6 +166,7 @@ volDataConfig::volDataConfig(testItem * ch1, testItem * ch2, QWidget *parent) :
         dataLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->second->first);
         addrLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->second->second);
     }
+    ui->lineEditDataLengthCh2->setText(QString("%1").arg(dataLengthCh2));
     ui->lineEditCh2VerifySetCmd->setText(setCmdCh2Verify->getName());
     ui->lineEditCh2VerifySetStart->setText(setCmdCh2Verify->getStart());
     ui->lineEditCh2VerifySetEnd->setText(setCmdCh2Verify->getEnd());
@@ -192,7 +200,7 @@ volDataConfig::~volDataConfig()
 void volDataConfig::closeEvent(QCloseEvent *event)
 {
     if(cmdListCh1Pre->size() != 0 && dataAndAddrListCh1->size() != 0)
-        itemCh1 = new testItem(cmdListCh1Pre, dataAndAddrListCh1,
+        itemCh1 = new testItem(cmdListCh1Pre, dataAndAddrListCh1, dataLengthCh1,
                                setCmdCh1Verify, setCh1Multi,
                                dmmCmdCh1Verify, dmmCh1Multi,
                                meterCmdCh1Verify, meterCh1Multi,
@@ -200,7 +208,7 @@ void volDataConfig::closeEvent(QCloseEvent *event)
     else
         itemCh1 = NULL;
     if(cmdListCh2Pre->size() != 0 && dataAndAddrListCh2 != 0)
-        itemCh2 = new testItem(cmdListCh2Pre, dataAndAddrListCh2,
+        itemCh2 = new testItem(cmdListCh2Pre, dataAndAddrListCh2, dataLengthCh2,
                                setCmdCh2Verify, setCh2Multi,
                                dmmCmdCh2Verify, dmmCh2Multi,
                                meterCmdCh2Verify, meterCh2Multi,
@@ -440,14 +448,13 @@ void volDataConfig::on_pushBtnCh1DataBatchAdd_clicked()
         if(QMessageBox::question(this, tr("询问"), tr("是否保留当前已填数据？"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnCh1DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
-    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, int, bool)),
-            this, SLOT(handleBatchParamsCh1(int, double, double, QString, int, bool)));
+    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
+            this, SLOT(handleBatchParamsCh1(int, double, double, QString, bool)));
     batchdialog->show();
 }
 // 处理接收到的批量添加参数
 void volDataConfig::handleBatchParamsCh1(int num, double dataStart,
-                                      double dataStep, QString strAddrStart,
-                                      int addrStep, bool isRise)
+                                      double dataStep, QString strAddrStart, bool isRise)
 {
     bool isHex;
     int addrStart;
@@ -467,13 +474,24 @@ void volDataConfig::handleBatchParamsCh1(int num, double dataStart,
         else
             strData = QString("%1").arg(dataStart-dataStep*i);
         if(isHex){
-            strAddr = QString("0x%1").arg(addrStart+addrStep*i, 4, 16, QLatin1Char('0'));
+            strAddr = QString("0x%1").arg(addrStart+dataLengthCh1*3*i, 4, 16, QLatin1Char('0'));
         }else{
-            strAddr = QString("%1").arg(addrStart+addrStep*i);
+            strAddr = QString("%1").arg(addrStart+dataLengthCh1*3*i);
         }        
         dataLineEditListCh1Data.at(nowIndexCh1Data-1)->setText(strData);
         addrLineEditListCh1Data.at(nowIndexCh1Data-1)->setText(strAddr);
     }
+}
+// 数据长度编辑
+void volDataConfig::on_lineEditDataLengthCh1_textEdited()
+{
+    qDebug() << ui->lineEditDataLengthCh1->text().length();
+    if(ui->lineEditDataLengthCh1->text().isEmpty()){
+        QMessageBox::information(this, tr("错误"), tr("数据长度不能为空！"), QMessageBox::Ok);
+        ui->lineEditDataLengthCh1->setText(QString("%1").arg(dataLengthCh1));
+        return;
+    }
+    dataLengthCh1 = ui->lineEditDataLengthCh1->text().toInt();
 }
 // 保存按钮
 void volDataConfig::on_pushBtnCh1DataSave_clicked()
@@ -872,14 +890,13 @@ void volDataConfig::on_pushBtnCh2DataBatchAdd_clicked()
         if(QMessageBox::question(this, tr("询问"), tr("是否保留当前已填数据？"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnCh2DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
-    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, int, bool)),
-            this, SLOT(handleBatchParamsCh2(int, double, double, QString, int, bool)));
+    connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
+            this, SLOT(handleBatchParamsCh2(int, double, double, QString, bool)));
     batchdialog->show();
 }
 // 处理接收到的批量添加参数
 void volDataConfig::handleBatchParamsCh2(int num, double dataStart,
-                                      double dataStep, QString strAddrStart,
-                                      int addrStep, bool isRise)
+                                      double dataStep, QString strAddrStart, bool isRise)
 {
     bool isHex;
     int addrStart;
@@ -899,13 +916,23 @@ void volDataConfig::handleBatchParamsCh2(int num, double dataStart,
         else
             strData = QString("%1").arg(dataStart-dataStep*i);
         if(isHex){
-            strAddr = QString("0x%1").arg(addrStart+addrStep*i, 4, 16, QLatin1Char('0'));
+            strAddr = QString("0x%1").arg(addrStart+dataLengthCh2*3*i, 4, 16, QLatin1Char('0'));
         }else{
-            strAddr = QString("%1").arg(addrStart+addrStep*i);
+            strAddr = QString("%1").arg(addrStart+dataLengthCh2*3*i);
         }
         dataLineEditListCh2Data.at(nowIndexCh2Data-1)->setText(strData);
         addrLineEditListCh2Data.at(nowIndexCh2Data-1)->setText(strAddr);
     }
+}
+// 数据长度编辑
+void volDataConfig::on_lineEditDataLengthCh2_textEdited()
+{
+    if(ui->lineEditDataLengthCh2->text().isEmpty()){
+        QMessageBox::information(this, tr("错误"), tr("数据长度不能为空！"), QMessageBox::Ok);
+        ui->lineEditDataLengthCh2->setText(QString("%1").arg(dataLengthCh2));
+        return;
+    }
+    dataLengthCh2 = ui->lineEditDataLengthCh2->text().toInt();
 }
 // 保存按钮
 void volDataConfig::on_pushBtnCh2DataSave_clicked()
@@ -1076,4 +1103,10 @@ void volDataConfig::on_pushBtnCh2TestUndo_clicked()
     ui->lineEditCh2TestDMMJudge->setText(dmmCmdCh2Test->getRatio());
     // 重写读取万用表参数
     ui->lineEditCh2TestMeterJudge->setText(meterCmdCh2Test->getRatio());
+}
+// 用ch1覆盖ch2
+void volDataConfig::on_pushBtnCh1ToCh2_clicked()
+{
+    itemCh2->~testItem();
+    itemCh2 = itemCh1->deepcopy();
 }

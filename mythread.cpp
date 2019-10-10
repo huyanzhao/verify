@@ -137,6 +137,8 @@ verifyVoltageThread::verifyVoltageThread(testItem * ch, QTcpSocket * meterSocket
     meterMulti = ch->getMeterMulti();
 
     cmdDelay = 100;  // 毫秒
+
+    dataLength = ch->getDataLength();
 }
 void verifyVoltageThread::run()
 {
@@ -243,25 +245,25 @@ void verifyVoltageThread::run()
         }else
             addr = QString2int(address);
         QString dacStr = QString("%1").arg(dac);
-        while(dacStr.length() < 6)
+        while(dacStr.length() < dataLength)
             dacStr = "0" + dacStr;
         QString dmmStr = QString("%1").arg(int(dmm));
-        while(dmmStr.length() < 6)
+        while(dmmStr.length() < dataLength)
             dmmStr = "0" + dmmStr;
         QString meterStr = QString("%1").arg(int(meter));
-        while(meterStr.length() < 6)
+        while(meterStr.length() < dataLength)
             meterStr = "0" + meterStr;
         message = QString("[%1]eeprom write string(DMM, at16, %2, %3)").arg(++cmdIndex).arg(int2hexString(addr)).arg(dacStr);
         if(!sendZynq(message))
             judge = false;
         else
             recvZynq();
-        message = QString("[%1]eeprom write string(DMM, at16, %2, %3)").arg(++cmdIndex).arg(int2hexString(addr+6)).arg(dmmStr);
+        message = QString("[%1]eeprom write string(DMM, at16, %2, %3)").arg(++cmdIndex).arg(int2hexString(addr+dataLength)).arg(dmmStr);
         if(!sendZynq(message))
             judge = false;
         else
             recvZynq();
-        message = QString("[%1]eeprom write string(DMM, at16, %2, %3)").arg(++cmdIndex).arg(int2hexString(addr+12)).arg(meterStr);
+        message = QString("[%1]eeprom write string(DMM, at16, %2, %3)").arg(++cmdIndex).arg(int2hexString(addr+dataLength*2)).arg(meterStr);
         if(!sendZynq(message))
             judge = false;
         else
@@ -271,9 +273,9 @@ void verifyVoltageThread::run()
         csvline << QString("%1").arg(set)
                 << QString("%1").arg(addr)
                 << QString("%1").arg(dmm)
-                << QString("%1").arg(addr+6)
+                << QString("%1").arg(addr+dataLength)
                 << QString("%1").arg(meter)
-                << QString("%1").arg(addr+12)
+                << QString("%1").arg(addr+dataLength*2)
                 << QString("%1").arg(dmm-dac)
                 << QString("%1").arg(dmm-meter);
         writeCsv(csvline.join(","));
@@ -354,7 +356,7 @@ void testVoltageThread::run()
         writeLog(tr("初始化CH成功\n"));
     }
 
-    // 开始校准
+    // 开始测试
     QList<QPair<QString, QString> *> * datas = new QList<QPair<QString, QString> *>;
     for(int i = 0; i != dataList->size(); ++i){  // 整理数据
         if(dataList->at(i)->first){
@@ -582,6 +584,7 @@ void verifyCurrentThread::run()
         int setMulti = part->getSetMulti();
         int dmmMulti = part->getDmmMulti();
         int meterMulti = part->getMeterMulti();
+        dataLength = part->getDataLength();
         for(int l = 0; l != datas->size(); ++l){
             paragraph("start");
             judge = true;
@@ -621,25 +624,25 @@ void verifyCurrentThread::run()
             }else
                 addr = QString2int(address);
             QString dacStr = QString("%1").arg(dac);
-            while(dacStr.length() < 6)
+            while(dacStr.length() < dataLength)
                 dacStr = "0" + dacStr;
             QString dmmStr = QString("%1").arg(int(dmm));
-            while(dmmStr.length() < 6)
+            while(dmmStr.length() < dataLength)
                 dmmStr = "0" + dmmStr;
             QString meterStr = QString("%1").arg(int(meter));
-            while(meterStr.length() < 6)
+            while(meterStr.length() < dataLength)
                 meterStr = "0" + meterStr;
             message = QString("[%1]eeprom write string(%2, at16, %3, %4)").arg(++cmdIndex).arg(Str).arg(int2hexString(addr)).arg(dacStr);
             if(!sendZynq(message))
                 judge = false;
             else
                 recvZynq();
-            message = QString("[%1]eeprom write string(%2, at16, %3, %4)").arg(++cmdIndex).arg(Str).arg(int2hexString(addr+6)).arg(dmmStr);
+            message = QString("[%1]eeprom write string(%2, at16, %3, %4)").arg(++cmdIndex).arg(Str).arg(int2hexString(addr+dataLength)).arg(dmmStr);
             if(!sendZynq(message))
                 judge = false;
             else
                 recvZynq();
-            message = QString("[%1]eeprom write string(%2, at16, %3, %4)").arg(++cmdIndex).arg(Str).arg(int2hexString(addr+12)).arg(meterStr);
+            message = QString("[%1]eeprom write string(%2, at16, %3, %4)").arg(++cmdIndex).arg(Str).arg(int2hexString(addr+dataLength*2)).arg(meterStr);
             if(!sendZynq(message))
                 judge = false;
             else
@@ -649,9 +652,9 @@ void verifyCurrentThread::run()
             csvline << QString("%1").arg(set)
                     << QString("%1").arg(addr)
                     << QString("%1").arg(dmm)
-                    << QString("%1").arg(addr+6)
+                    << QString("%1").arg(addr+dataLength)
                     << QString("%1").arg(meter)
-                    << QString("%1").arg(addr+12)
+                    << QString("%1").arg(addr+dataLength*2)
                     << QString("%1").arg(dmm-dac)
                     << QString("%1").arg(dmm-meter);
             writeCsv(csvline.join(","));

@@ -1,7 +1,9 @@
 #include "testitem.h"
+#include "command.h"
+#include <QPair>
 
 testItem::testItem(QList<command *> * cmdListParam,  // 前置命令列表
-                   QList<QPair<bool, QPair<QString, QString> *> *> * dataListParam,  // 数据列表
+                   QList<QPair<bool, QPair<QString, QString> *> *> * dataListParam, int dataLengthParam, // 数据列表和数据长度
                    command * setVerifyParam, int setMultiParam,  // 校准设置命令和倍数
                    command * dmmVerifyParam, int dmmMultiParam,  // 校准读取命令和倍数
                    command * meterVerifyParam, int meterMultiParam,  // 校准读万用表命令和倍数
@@ -10,6 +12,7 @@ testItem::testItem(QList<command *> * cmdListParam,  // 前置命令列表
                    command * meterTestParam):  // 测试读万用表命令
     cmdList(cmdListParam),              // 前置命令列表
     dataList(dataListParam),            // 数据列表
+    dataLength(dataLengthParam),
     setCmdVerify(setVerifyParam),       // 校准设置命令和倍数
     setMulti(setMultiParam),
     dmmCmdVerify(dmmVerifyParam),       // 校准读取命令和倍数
@@ -21,7 +24,6 @@ testItem::testItem(QList<command *> * cmdListParam,  // 前置命令列表
     meterCmdTest(meterTestParam)        // 测试读万用表命令
 {
 }
-
 testItem::~testItem()
 {
     // 清空前置命令列表
@@ -58,6 +60,11 @@ void testItem::setCmdList(QList<command *> * param)
 void testItem::setDataList(QList<QPair<bool, QPair<QString, QString> *> *> * param)
 {
     dataList = param;
+}
+// 设置数据长度
+void testItem::setDatalength(int param)
+{
+    dataLength = param;
 }
 // 设置校准设置命令
 void testItem::setSetCmdVerify(command * param)
@@ -114,6 +121,11 @@ QList<QPair<bool, QPair<QString, QString> *> *> * testItem::getDataList()
 {
     return dataList;
 }
+// 获取数据长度
+int testItem::getDataLength()
+{
+    return dataLength;
+}
 // 获取校准设置命令
 command * testItem::getSetCmdVerify()
 {
@@ -158,4 +170,28 @@ command * testItem::getDmmCmdTest()
 command * testItem::getMeterCmdTest()
 {
     return meterCmdTest;
+}
+testItem * testItem::deepcopy()
+{
+    QList<command *> * newCmdList = new QList<command *>;
+    for(int i =0; i != cmdList->size(); ++i){
+        newCmdList->append(cmdList->at(i)->deepcopy());
+    }
+    QList<QPair<bool, QPair<QString, QString> *> *> * newDataList = new QList<QPair<bool, QPair<QString, QString> *> *>;
+    for(int i=0; i != dataList->size(); ++i)
+        newDataList->append(new QPair<bool, QPair<QString, QString> * >(dataList->at(i)->first,
+                                       new QPair<QString, QString>(dataList->at(i)->second->first,
+                                                     QString("%1").arg(dataList->at(i)->second->second))));
+    int newDataLength = dataLength;
+    command * newSetCmdVerify = setCmdVerify->deepcopy();
+    int newSetMulti = setMulti;
+    command * newDmmCmdVerify = dmmCmdVerify->deepcopy();
+    int newDmmMulti = dmmMulti;
+    command * newMeterCmdVerify = meterCmdVerify->deepcopy();
+    int newMeterMulti = meterMulti;
+    command * newSetCmdTest = setCmdTest->deepcopy();
+    command * newDmmCmdTest = dmmCmdTest->deepcopy();
+    command * newMeterCmdTest = meterCmdTest->deepcopy();
+    return new testItem(newCmdList, newDataList, newDataLength, newSetCmdVerify, newSetMulti, newDmmCmdVerify,
+                    newDmmMulti, newMeterCmdVerify, newMeterMulti, newSetCmdTest, newDmmCmdTest, newMeterCmdTest);
 }

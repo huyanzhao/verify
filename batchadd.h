@@ -16,7 +16,7 @@ public:
     ~BatchAdd();
 
 signals:
-    void returnParams(int, double, double, QString, int, bool);
+    void returnParams(int, double, double, QString, bool);
     
 private slots:
     // Éú³É

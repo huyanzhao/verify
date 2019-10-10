@@ -30,6 +30,8 @@ public:
     QString getFloatResult();      // 获取浮点数结果
     QString getRatio();            // 获取差值比率
 
+    command * deepcopy();          // 尝试复制
+
 private:
     QString name;              // 命令名称
     QStringList param;         // 参数

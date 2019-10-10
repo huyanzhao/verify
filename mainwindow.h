@@ -88,7 +88,7 @@ private slots:
     QVariantList saveDataList(QList<QPair<bool, QPair<QString, QString> *> *> *);  // 保存数据列表
     QVariantMap saveCommand(command *);       // 保存命令
 
-    void on_radioSlot_clicked(int);           // 通道单选框
+    void radioSlot_clicked(int);           // 通道单选框
     void on_radioBtnCur_clicked();            // 电流单选框
     void on_radioBtnVol_clicked();            // 电压单选框
     void on_checkBoxAll_clicked();            // 全选

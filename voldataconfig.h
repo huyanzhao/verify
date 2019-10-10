@@ -44,7 +44,8 @@ private slots:
     void on_pushBtnCh1DataBatchDel_clicked();  // 全部删除按钮
     void on_pushBtnCh1DataClear_clicked();     // 清空数据按钮
     void on_pushBtnCh1DataBatchAdd_clicked();  // 批量添加按钮
-    void handleBatchParamsCh1(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void handleBatchParamsCh1(int, double, double, QString, bool);  // 处理接收到的批量添加参数
+    void on_lineEditDataLengthCh1_textEdited();  // 数据长度编辑
     void on_pushBtnCh1DataSave_clicked();      // 保存按钮
     void on_pushBtnCh1DataUndo_clicked();      // 撤消按钮
     // ch1校准页
@@ -71,7 +72,8 @@ private slots:
     void on_pushBtnCh2DataBatchDel_clicked();  // 全部删除按钮
     void on_pushBtnCh2DataClear_clicked();     // 清空数据按钮
     void on_pushBtnCh2DataBatchAdd_clicked();  // 批量添加按钮
-    void handleBatchParamsCh2(int, double, double, QString, int, bool);  // 处理接收到的批量添加参数
+    void handleBatchParamsCh2(int, double, double, QString, bool);  // 处理接收到的批量添加参数
+    void on_lineEditDataLengthCh2_textEdited();  // 数据长度编辑
     void on_pushBtnCh2DataSave_clicked();      // 保存按钮
     void on_pushBtnCh2DataUndo_clicked();      // 撤消按钮
     // ch2校准页
@@ -82,6 +84,8 @@ private slots:
     void on_pushBtnCh2TestUndo_clicked();      // 撤消按钮
 
     void closeEvent(QCloseEvent *);            // 关闭事件
+
+    void on_pushBtnCh1ToCh2_clicked();
 
 private:
     Ui::volDataConfig *ui;
@@ -98,6 +102,7 @@ private:
     QList<QLineEdit *> dataLineEditListCh1Data;  // 数据框列表
     QList<QLineEdit *> addrLineEditListCh1Data;  // 地址框列表
     QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListCh1; // 参数列表
+    int dataLengthCh1;                           // 数据长度
     // ch1校准页
     command * setCmdCh1Verify;                   // 校准设置电压命令
     int setCh1Multi;                             // 写到eeprom时，设置电压要放大的倍数
@@ -121,6 +126,7 @@ private:
     QList<QLineEdit *> dataLineEditListCh2Data;  // 数据框列表
     QList<QLineEdit *> addrLineEditListCh2Data;  // 地址框列表
     QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListCh2; // 参数列表
+    int dataLengthCh2;                           // 数据长度
     // ch2校准页
     command * setCmdCh2Verify;                   // 校准设置电压命令
     int setCh2Multi;                             // 写到eeprom时，设置电压要放大的倍数

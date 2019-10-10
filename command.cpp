@@ -6,7 +6,6 @@
 command::command(QString nameParam):
     name(nameParam)
 {
-//    judgeEqual = QString("Done");
 }
 // ÉèÖÃÃüÁîÃû³Æ
 void command::setName(QString newName)
@@ -122,4 +121,15 @@ QString command::getFloatResult()
 QString command::getRatio()
 {
     return QString("%1").arg(ratio);
+}
+// ³¢ÊÔ¸´ÖÆ
+command * command::deepcopy()
+{
+    command * newCommand = new command(name);
+    newCommand->setStart(start);
+    newCommand->setParam(param.join(","));
+    newCommand->setEnd(end);
+    newCommand->setJudge(judgeEqual);
+    newCommand->setRatio(ratio);
+    return newCommand;
 }
