@@ -9,6 +9,7 @@
 #include <QPair>
 #include "command.h"
 #include "testitem.h"
+#include "dataitem.h"
 
 namespace Ui {
 class volDataConfig;
@@ -104,8 +105,10 @@ private:
     QList<QFrame *> frameListCh1Data;            // 框列表
     QList<QCheckBox *> checkBoxListCh1Data;      // 复选框列表
     QList<QLineEdit *> dataLineEditListCh1Data;  // 数据框列表
-    QList<QLineEdit *> addrLineEditListCh1Data;  // 地址框列表
-    QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListCh1; // 参数列表
+    QList<QLineEdit *> dacAddrLineEditListCh1Data;  // 地址框列表
+    QList<QLineEdit *> adcAddrLineEditListCh1Data;  // 地址框列表
+    QList<QLineEdit *> refAddrLineEditListCh1Data;  // 地址框列表
+    QList<DataItem *> * dataAndAddrListCh1; // 参数列表
     int dataLengthCh1;                           // 数据长度
     // ch1校准页
     command * setCmdCh1Verify;                   // 校准设置电压命令
@@ -128,8 +131,10 @@ private:
     QList<QFrame *> frameListCh2Data;            // 框列表
     QList<QCheckBox *> checkBoxListCh2Data;      // 复选框列表
     QList<QLineEdit *> dataLineEditListCh2Data;  // 数据框列表
-    QList<QLineEdit *> addrLineEditListCh2Data;  // 地址框列表
-    QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListCh2; // 参数列表
+    QList<QLineEdit *> dacAddrLineEditListCh2Data;  // 地址框列表
+    QList<QLineEdit *> adcAddrLineEditListCh2Data;  // 地址框列表
+    QList<QLineEdit *> refAddrLineEditListCh2Data;  // 地址框列表
+    QList<DataItem *> * dataAndAddrListCh2; // 参数列表
     int dataLengthCh2;                           // 数据长度
     // ch2校准页
     command * setCmdCh2Verify;                   // 校准设置电压命令

@@ -22,9 +22,9 @@
 #include "qjson4/QJsonObject.h"
 #include "qjson4/QJsonParseError.h"
 #include "qjson4/QJsonValue.h"
-//#include "qjson4/QJsonParser.h"
-//#include "qjson4/QJsonRoot.h"
-//#include "qjson4/QJsonValueRef.h"
+#include "qjson4/QJsonParser.h"
+#include "qjson4/QJsonRoot.h"
+#include "qjson4/QJsonValueRef.h"
 #include "meteraddress.h"
 #include "slotsconfig.h"
 #include "voldataconfig.h"
@@ -691,18 +691,17 @@ testItem * MainWindow::parseItem(QJsonObject json)
         }
     }
     // 解析数据列表
-    QList<QPair<bool, QPair<QString, QString> *> *> * dataList = new QList<QPair<bool, QPair<QString, QString> *> *>;
+    QList<DataItem *> * dataList = new QList<DataItem *>;
     if(json.contains("dataList")){
         QJsonArray dataArray = json.value("dataList").toArray();
         for(QJsonArray::iterator it = dataArray.begin(); it != dataArray.end(); ++it){
             QJsonObject dataObj = it->toObject();
-            QPair<bool, QPair<QString, QString> *> * dataPair = new QPair<bool, QPair<QString, QString> *>;
-            dataPair->first = dataObj.value("check").toBool();
-            QString data = dataObj.value("data").toString();
-            QString addr = dataObj.value("addr").toString();
-            QPair<QString, QString> * dataAddr = new QPair<QString, QString>(data, addr);
-            dataPair->second = dataAddr;
-            dataList->append(dataPair);
+            bool check = dataObj.value("check").toBool();
+            double data = dataObj.value("data").toDouble();
+            QString dacAddr = dataObj.value("dacAddr").toString();
+            QString adcAddr = dataObj.value("adcAddr").toString();
+            QString refAddr = dataObj.value("refAddr").toString();
+            dataList->append(new DataItem(check, data, dacAddr, adcAddr, refAddr));
         }
     }
     int dataLength = 6;
@@ -805,14 +804,16 @@ QVariantList MainWindow::saveCommandList(QList<command *> * cmdList)
     return cmdMapList;
 }
 // 保存数据列表
-QVariantList MainWindow::saveDataList(QList<QPair<bool, QPair<QString, QString> *> *> * dataList)
+QVariantList MainWindow::saveDataList(QList<DataItem *> * dataList)
 {
     QVariantList dataPairList;
     for(int i=0; i != dataList->size(); ++i){
         QVariantMap dataPair;
-        dataPair.insert("check", dataList->at(i)->first);
-        dataPair.insert("data", dataList->at(i)->second->first);
-        dataPair.insert("addr", dataList->at(i)->second->second);
+        dataPair.insert("check", dataList->at(i)->check);
+        dataPair.insert("data", dataList->at(i)->data);
+        dataPair.insert("dacAddr", dataList->at(i)->dacAddr);
+        dataPair.insert("dacAddr", dataList->at(i)->adcAddr);
+        dataPair.insert("dacAddr", dataList->at(i)->refAddr);
         dataPairList.append(dataPair);
     }
     return dataPairList;

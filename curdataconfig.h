@@ -9,6 +9,7 @@
 #include <QLineEdit>
 #include "command.h"
 #include "currentitem.h"
+#include "dataitem.h"
 
 namespace Ui {
 class curdataconfig;
@@ -367,8 +368,10 @@ private:
     QList<QFrame *> frameListPsu1Part1Data;  // 框列表
     QList<QCheckBox *> checkBoxListPsu1Part1Data;  // 复选框列表
     QList<QLineEdit *> dataLineEditListPsu1Part1Data; // 数据框列表
-    QList<QLineEdit *> addrLineEditListPsu1Part1Data; // 地址框列表
-    QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu1Part1; // 参数列表
+    QList<QLineEdit *> dacAddrLineEditListPsu1Part1Data; // dac地址框列表
+    QList<QLineEdit *> adcAddrLineEditListPsu1Part1Data; // adc地址框列表
+    QList<QLineEdit *> refAddrLineEditListPsu1Part1Data; // ref地址框列表
+    QList<DataItem *> * dataAndAddrListPsu1Part1; // 参数列表
     int dataLengthPsu1Part1;  // 数据长度
     // PSU1  Part1  校准
     command * setCmdPsu1Part1Verify;    // 校准设置电压命令
@@ -390,8 +393,10 @@ private:
     QList<QFrame *> frameListPsu1Part2Data;  // 框列表
     QList<QCheckBox *> checkBoxListPsu1Part2Data;  // 复选框列表
     QList<QLineEdit *> dataLineEditListPsu1Part2Data; // 数据框列表
-    QList<QLineEdit *> addrLineEditListPsu1Part2Data; // 地址框列表
-    QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu1Part2; // 参数列表
+    QList<QLineEdit *> dacAddrLineEditListPsu1Part2Data; // dac地址框列表
+    QList<QLineEdit *> adcAddrLineEditListPsu1Part2Data; // adc地址框列表
+    QList<QLineEdit *> refAddrLineEditListPsu1Part2Data; // ref地址框列表
+    QList<DataItem *> * dataAndAddrListPsu1Part2; // 参数列表
     int dataLengthPsu1Part2;  // 数据长度
     // PSU1   Part2  校准
     command * setCmdPsu1Part2Verify;    // 校准设置电压命令
@@ -413,8 +418,10 @@ private:
     QList<QFrame *> frameListPsu1Part3Data;  // 框列表
     QList<QCheckBox *> checkBoxListPsu1Part3Data;     // 复选框列表
     QList<QLineEdit *> dataLineEditListPsu1Part3Data; // 数据框列表
-    QList<QLineEdit *> addrLineEditListPsu1Part3Data; // 地址框列表
-    QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu1Part3; // 参数列表
+    QList<QLineEdit *> dacAddrLineEditListPsu1Part3Data; // dac地址框列表
+    QList<QLineEdit *> adcAddrLineEditListPsu1Part3Data; // adc地址框列表
+    QList<QLineEdit *> refAddrLineEditListPsu1Part3Data; // ref地址框列表
+    QList<DataItem *> * dataAndAddrListPsu1Part3; // 参数列表
     int dataLengthPsu1Part3;  // 数据长度
     // PSU1  Part3  校准
     command * setCmdPsu1Part3Verify;    // 校准设置电压命令
@@ -436,8 +443,10 @@ private:
     QList<QFrame *> frameListPsu1Part4Data;  // 框列表
     QList<QCheckBox *> checkBoxListPsu1Part4Data;  // 复选框列表
     QList<QLineEdit *> dataLineEditListPsu1Part4Data;  // 数据框列表
-    QList<QLineEdit *> addrLineEditListPsu1Part4Data;  // 地址框列表
-    QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu1Part4; // 参数列表
+    QList<QLineEdit *> dacAddrLineEditListPsu1Part4Data; // dac地址框列表
+    QList<QLineEdit *> adcAddrLineEditListPsu1Part4Data; // adc地址框列表
+    QList<QLineEdit *> refAddrLineEditListPsu1Part4Data; // ref地址框列表
+    QList<DataItem *> * dataAndAddrListPsu1Part4; // 参数列表
     int dataLengthPsu1Part4;  // 数据长度
     // PSU1  Part4  校准
     command * setCmdPsu1Part4Verify;    // 校准设置电压命令
@@ -459,8 +468,10 @@ private:
     QList<QFrame *> frameListPsu1Part5Data;  // 框列表
     QList<QCheckBox *> checkBoxListPsu1Part5Data;  // 复选框列表
     QList<QLineEdit *> dataLineEditListPsu1Part5Data; // 数据框列表
-    QList<QLineEdit *> addrLineEditListPsu1Part5Data; // 地址框列表
-    QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu1Part5; // 参数列表
+    QList<QLineEdit *> dacAddrLineEditListPsu1Part5Data; // dac地址框列表
+    QList<QLineEdit *> adcAddrLineEditListPsu1Part5Data; // adc地址框列表
+    QList<QLineEdit *> refAddrLineEditListPsu1Part5Data; // ref地址框列表
+    QList<DataItem *> * dataAndAddrListPsu1Part5; // 参数列表
     int dataLengthPsu1Part5;  // 数据长度
     // PSU1  Part5  校准
     command * setCmdPsu1Part5Verify;    // 校准设置电压命令
@@ -483,8 +494,10 @@ private:
     QList<QFrame *> frameListPsu2Part1Data;  // 框列表
     QList<QCheckBox *> checkBoxListPsu2Part1Data; // 复选框列表
     QList<QLineEdit *> dataLineEditListPsu2Part1Data; // 数据框列表
-    QList<QLineEdit *> addrLineEditListPsu2Part1Data; // 地址框列表
-    QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu2Part1; // 参数列表
+    QList<QLineEdit *> dacAddrLineEditListPsu2Part1Data; // dac地址框列表
+    QList<QLineEdit *> adcAddrLineEditListPsu2Part1Data; // adc地址框列表
+    QList<QLineEdit *> refAddrLineEditListPsu2Part1Data; // ref地址框列表
+    QList<DataItem *> * dataAndAddrListPsu2Part1; // 参数列表
     int dataLengthPsu2Part1;            // 数据长度
     // PSU2  Part1  校准
     command * setCmdPsu2Part1Verify;    // 校准设置电压命令
@@ -506,8 +519,10 @@ private:
     QList<QFrame *> frameListPsu2Part2Data;  // 框列表
     QList<QCheckBox *> checkBoxListPsu2Part2Data; // 复选框列表
     QList<QLineEdit *> dataLineEditListPsu2Part2Data; // 数据框列表
-    QList<QLineEdit *> addrLineEditListPsu2Part2Data; // 地址框列表
-    QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu2Part2; // 参数列表
+    QList<QLineEdit *> dacAddrLineEditListPsu2Part2Data; // dac地址框列表
+    QList<QLineEdit *> adcAddrLineEditListPsu2Part2Data; // adc地址框列表
+    QList<QLineEdit *> refAddrLineEditListPsu2Part2Data; // ref地址框列表
+    QList<DataItem *> * dataAndAddrListPsu2Part2; // 参数列表
     int dataLengthPsu2Part2;            // 数据长度
     // PSU2   Part2  校准
     command * setCmdPsu2Part2Verify;    // 校准设置电压命令
@@ -529,8 +544,10 @@ private:
     QList<QFrame *> frameListPsu2Part3Data;  // 框列表
     QList<QCheckBox *> checkBoxListPsu2Part3Data; // 复选框列表
     QList<QLineEdit *> dataLineEditListPsu2Part3Data; // 数据框列表
-    QList<QLineEdit *> addrLineEditListPsu2Part3Data; // 地址框列表
-    QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu2Part3; // 参数列表
+    QList<QLineEdit *> dacAddrLineEditListPsu2Part3Data; // dac地址框列表
+    QList<QLineEdit *> adcAddrLineEditListPsu2Part3Data; // adc地址框列表
+    QList<QLineEdit *> refAddrLineEditListPsu2Part3Data; // ref地址框列表
+    QList<DataItem *> * dataAndAddrListPsu2Part3; // 参数列表
     int dataLengthPsu2Part3;            // 数据长度
     // PSU2  Part3  校准
     command * setCmdPsu2Part3Verify;    // 校准设置电压命令
@@ -552,8 +569,10 @@ private:
     QList<QFrame *> frameListPsu2Part4Data;  // 框列表
     QList<QCheckBox *> checkBoxListPsu2Part4Data; // 复选框列表
     QList<QLineEdit *> dataLineEditListPsu2Part4Data; // 数据框列表
-    QList<QLineEdit *> addrLineEditListPsu2Part4Data; // 地址框列表
-    QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu2Part4; // 参数列表
+    QList<QLineEdit *> dacAddrLineEditListPsu2Part4Data; // dac地址框列表
+    QList<QLineEdit *> adcAddrLineEditListPsu2Part4Data; // adc地址框列表
+    QList<QLineEdit *> refAddrLineEditListPsu2Part4Data; // ref地址框列表
+    QList<DataItem *> * dataAndAddrListPsu2Part4; // 参数列表
     int dataLengthPsu2Part4;            // 数据长度
     // PSU2  Part4  校准
     command * setCmdPsu2Part4Verify;    // 校准设置电压命令
@@ -575,8 +594,10 @@ private:
     QList<QFrame *> frameListPsu2Part5Data;  // 框列表
     QList<QCheckBox *> checkBoxListPsu2Part5Data; // 复选框列表
     QList<QLineEdit *> dataLineEditListPsu2Part5Data; // 数据框列表
-    QList<QLineEdit *> addrLineEditListPsu2Part5Data; // 地址框列表
-    QList<QPair<bool, QPair<QString, QString> *> *> * dataAndAddrListPsu2Part5; // 参数列表
+    QList<QLineEdit *> dacAddrLineEditListPsu2Part5Data; // dac地址框列表
+    QList<QLineEdit *> adcAddrLineEditListPsu2Part5Data; // adc地址框列表
+    QList<QLineEdit *> refAddrLineEditListPsu2Part5Data; // ref地址框列表
+    QList<DataItem *> * dataAndAddrListPsu2Part5; // 参数列表
     int dataLengthPsu2Part5;            // 数据长度
     // PSU2  Part5  校准
     command * setCmdPsu2Part5Verify;    // 校准设置电压命令

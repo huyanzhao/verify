@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     mythread.cpp \
     about.cpp \
     paraminfo.cpp \
-    platformbuild.cpp
+    platformbuild.cpp \
+    dataitem.cpp
 
 HEADERS  += mainwindow.h \
     meteraddress.h \
@@ -58,7 +59,8 @@ HEADERS  += mainwindow.h \
     mythread.h \
     about.h \
     paraminfo.h \
-    platformbuild.h
+    platformbuild.h \
+    dataitem.h
 
 FORMS    += mainwindow.ui \
     meteraddress.ui \

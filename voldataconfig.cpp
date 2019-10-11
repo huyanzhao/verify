@@ -5,11 +5,11 @@
 #include <QMessageBox>
 #include <QLatin1Char>
 #include <QDoubleValidator>
-#include <QPair>
 #include "batchadd.h"
 #include "qstringinthex.h"
 #include "command.h"
 #include "testitem.h"
+#include "dataitem.h"
 
 volDataConfig::volDataConfig(testItem * ch1, testItem * ch2, QWidget *parent) :
     itemCh1(ch1),
@@ -179,7 +179,7 @@ void volDataConfig::on_pushBtnCh1DataAdd_clicked()
     int x, y;
     x = nowIndexCh1Data / 10;
     y = nowIndexCh1Data % 10;
-    ui->scrollAreaWidgetContentsCh1->setFixedWidth((x+1)*180);  // 重置滚动区域大小
+    ui->scrollAreaWidgetContentsCh1->setFixedWidth((x+1)*290);  // 重置滚动区域大小
     QScrollBar *pScrollBar = ui->scrollAreaCh1Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
@@ -188,10 +188,9 @@ void volDataConfig::on_pushBtnCh1DataAdd_clicked()
     }
     // 框
     QFrame* newframe = new QFrame(ui->scrollAreaWidgetContentsCh1);
-    newframe->setGeometry(QRect(x*180, y*30+2, 170, 21));
+    newframe->setGeometry(QRect(x*290, y*30+2, 280, 21));
     newframe->setFrameShape(QFrame::Box);
     newframe->setFrameShadow(QFrame::Raised);
-    newframe->setObjectName(QString("frameCh1Data_%1").arg(nowIndexCh1Data+1));
     frameListCh1Data.append(newframe);
     newframe->show();
     // 复选框
@@ -199,24 +198,33 @@ void volDataConfig::on_pushBtnCh1DataAdd_clicked()
     newcheckbox->setGeometry(QRect(5, 3, 50, 16));
     newcheckbox->setChecked(true);
     newcheckbox->setText(QString("%1").arg(nowIndexCh1Data+1));
-    newcheckbox->setObjectName(QString("checkBoxCh1Data_%1").arg(nowIndexCh1Data+1));
     checkBoxListCh1Data.append(newcheckbox);
     newcheckbox->show();
     // 数据框
     QLineEdit * datalineedit = new QLineEdit(newframe);
-    datalineedit->setGeometry(QRect(60, 2, 51, 17));
+    datalineedit->setGeometry(QRect(60, 2, 50, 17));
     datalineedit->setPlaceholderText(tr("数据"));
     datalineedit->setValidator(new QDoubleValidator(0.0, 65535.0, 2, this));
-    datalineedit->setObjectName(QString("lineEditCh1Data_%1").arg(nowIndexCh1Data+1));
     dataLineEditListCh1Data.append(datalineedit);
     datalineedit->show();
-    // 地址框
-    QLineEdit * addrlineedit = new QLineEdit(newframe);
-    addrlineedit->setGeometry(QRect(117, 2, 51, 17));
-    addrlineedit->setPlaceholderText(tr("地址"));
-    addrlineedit->setObjectName(QString("lineEditCh1Data_%1").arg(nowIndexCh1Data+1));
-    addrLineEditListCh1Data.append(addrlineedit);
-    addrlineedit->show();
+    // dac地址框
+    QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
+    dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
+    dacaddrlineedit->setPlaceholderText(tr("dac"));
+    dacAddrLineEditListCh1Data.append(dacaddrlineedit);
+    dacaddrlineedit->show();
+    // adc地址框
+    QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
+    adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
+    adcaddrlineedit->setPlaceholderText(tr("adc"));
+    adcAddrLineEditListCh1Data.append(adcaddrlineedit);
+    adcaddrlineedit->show();
+    // ref地址框
+    QLineEdit * refaddrlineedit = new QLineEdit(newframe);
+    refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
+    refaddrlineedit->setPlaceholderText(tr("ref"));
+    refAddrLineEditListCh1Data.append(refaddrlineedit);
+    refaddrlineedit->show();
     nowIndexCh1Data++;
 }
 // 判断全选状态
@@ -248,7 +256,9 @@ void volDataConfig::on_pushBtnCh1DataDel_clicked()
         if(checkBoxListCh1Data.at(i)->isChecked()){  // 如果被选中,则删除该数据项
             checkBoxListCh1Data.removeAt(i);
             dataLineEditListCh1Data.removeAt(i);
-            addrLineEditListCh1Data.removeAt(i);
+            dacAddrLineEditListCh1Data.removeAt(i);
+            adcAddrLineEditListCh1Data.removeAt(i);
+            refAddrLineEditListCh1Data.removeAt(i);
             QFrame *tempFrame = frameListCh1Data.at(i);
             frameListCh1Data.removeAt(i);
             delete tempFrame;
@@ -261,7 +271,7 @@ void volDataConfig::on_pushBtnCh1DataDel_clicked()
     for(int i=0; i != frameListCh1Data.size(); ++i){
         x = i / 10;
         y = i % 10;
-        frameListCh1Data.at(i)->setGeometry(QRect(x*180, y*30+2, 170, 21));
+        frameListCh1Data.at(i)->setGeometry(QRect(x*290, y*30+2, 280, 21));
         checkBoxListCh1Data.at(i)->setText(QString("%1").arg(i+1));
     }
     nowIndexCh1Data = checkBoxListCh1Data.size();
@@ -286,7 +296,9 @@ void volDataConfig::on_pushBtnCh1DataClear_clicked()
 {
     for(int i=0; i != nowIndexCh1Data; ++i){
         dataLineEditListCh1Data.at(i)->clear();
-        addrLineEditListCh1Data.at(i)->clear();
+        dacAddrLineEditListCh1Data.at(i)->clear();
+        adcAddrLineEditListCh1Data.at(i)->clear();
+        refAddrLineEditListCh1Data.at(i)->clear();
     }
 }
 // 批量添加按钮
@@ -316,18 +328,24 @@ void volDataConfig::handleBatchParamsCh1(int num, double dataStart,
     }
     for(int i=0; i != num; ++i){
         on_pushBtnCh1DataAdd_clicked();
-        QString strData, strAddr;
+        QString strData, strDacAddr, strAdcAddr, strRefAddr;
         if(isRise)
             strData = QString("%1").arg(dataStart+dataStep*i);
         else
             strData = QString("%1").arg(dataStart-dataStep*i);
         if(isHex){
-            strAddr = QString("0x%1").arg(addrStart+dataLengthCh1*3*i, 4, 16, QLatin1Char('0'));
+            strDacAddr = QString("0x%1").arg(addrStart+dataLengthCh1*3*i, 4, 16, QLatin1Char('0'));
+            strAdcAddr = QString("0x%1").arg(addrStart+dataLengthCh1*3*i+dataLengthCh1, 4, 16, QLatin1Char('0'));
+            strRefAddr = QString("0x%1").arg(addrStart+dataLengthCh1*3*i+dataLengthCh1*2, 4, 16, QLatin1Char('0'));
         }else{
-            strAddr = QString("%1").arg(addrStart+dataLengthCh1*3*i);
-        }        
+            strDacAddr = QString("%1").arg(addrStart+dataLengthCh1*3*i);
+            strAdcAddr = QString("%1").arg(addrStart+dataLengthCh1*3*i+dataLengthCh1);
+            strRefAddr = QString("%1").arg(addrStart+dataLengthCh1*3*i+dataLengthCh1*2);
+        }
         dataLineEditListCh1Data.at(nowIndexCh1Data-1)->setText(strData);
-        addrLineEditListCh1Data.at(nowIndexCh1Data-1)->setText(strAddr);
+        dacAddrLineEditListCh1Data.at(nowIndexCh1Data-1)->setText(strDacAddr);
+        adcAddrLineEditListCh1Data.at(nowIndexCh1Data-1)->setText(strAdcAddr);
+        refAddrLineEditListCh1Data.at(nowIndexCh1Data-1)->setText(strRefAddr);
     }
 }
 // 数据长度编辑
@@ -344,10 +362,10 @@ void volDataConfig::on_lineEditDataLengthCh1_textEdited()
 // 保存按钮
 void volDataConfig::on_pushBtnCh1DataSave_clicked()
 {
-    QList<QPair<bool, QPair<QString, QString>* >* >  *tempList = new QList<QPair<bool, QPair<QString, QString>* >* >;
+    QList<DataItem *> * tempList = new QList<DataItem * >;
     // 保存界面中的数据, 判断里面的参数是否合法
     for(int i=0; i != nowIndexCh1Data; ++i){
-        QString data, addr;
+        QString data, dacAddr, adcAddr, refAddr;
         data = dataLineEditListCh1Data.at(i)->text();
         bool ok;
         data.toDouble(&ok);
@@ -355,23 +373,27 @@ void volDataConfig::on_pushBtnCh1DataSave_clicked()
             QMessageBox::information(this, tr("错误"), tr("第%1项数据不是有效的数据，保存失败！").arg(i+1), QMessageBox::Ok);
             return;
         }
-        addr = addrLineEditListCh1Data.at(i)->text();
-        if(!QStringIsInt(addr)){
-            QMessageBox::information(this, tr("错误"), tr("第%1项地址不是有效的地址，保存失败！").arg(i+1), QMessageBox::Ok);
+        dacAddr = dacAddrLineEditListCh1Data.at(i)->text();
+        if(!QStringIsInt(dacAddr)){
+            QMessageBox::information(this, tr("错误"), tr("第%1项dac地址不是有效的地址，保存失败！").arg(i+1), QMessageBox::Ok);
             return;
         }
-        QPair<QString, QString> * tempPair = new QPair<QString, QString>(data, addr);
-        tempList->append(new QPair<bool, QPair<QString, QString> * >(checkBoxListCh1Data.at(i)->checkState(), tempPair));
+        adcAddr = adcAddrLineEditListCh1Data.at(i)->text();
+        if(!QStringIsInt(adcAddr)){
+            QMessageBox::information(this, tr("错误"), tr("第%1项adc地址不是有效的地址，保存失败！").arg(i+1), QMessageBox::Ok);
+            return;
+        }
+        refAddr = refAddrLineEditListCh1Data.at(i)->text();
+        if(!QStringIsInt(refAddr)){
+            QMessageBox::information(this, tr("错误"), tr("第%1项ref地址不是有效的地址，保存失败！").arg(i+1), QMessageBox::Ok);
+            return;
+        }
+        DataItem * temp = new DataItem(checkBoxListCh1Data.at(i)->checkState(), data.toDouble(), dacAddr, adcAddr, refAddr);
+        tempList->append(temp);
     }
     // 请空当前参数列表
-    for(int i=0; i != dataAndAddrListCh1->size(); ++i){
-        QPair<bool, QPair<QString, QString> *> * tempWithCheck;
-        tempWithCheck = dataAndAddrListCh1->at(i);
-        QPair<QString, QString> * temp;
-        temp = tempWithCheck->second;
-        delete tempWithCheck;
-        delete temp;
-    }
+    for(int i=0; i != dataAndAddrListCh1->size(); ++i)
+        delete dataAndAddrListCh1->at(i);
     dataAndAddrListCh1->clear();
     dataAndAddrListCh1 = tempList;
     if(!dataAndAddrListCh1->isEmpty())
@@ -383,9 +405,11 @@ void volDataConfig::on_pushBtnCh1DataUndo_clicked()
     on_pushBtnCh1DataBatchDel_clicked();  // 清空数据列表框
     for(int i=0; i != dataAndAddrListCh1->size(); ++i){
         on_pushBtnCh1DataAdd_clicked();
-        checkBoxListCh1Data.at(i)->setChecked(dataAndAddrListCh1->at(i)->first);
-        dataLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->second->first);
-        addrLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->second->second);
+        checkBoxListCh1Data.at(i)->setChecked(dataAndAddrListCh1->at(i)->check);
+        dataLineEditListCh1Data.at(i)->setText(QString("%1").arg(dataAndAddrListCh1->at(i)->data));
+        dacAddrLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->dacAddr);
+        adcAddrLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->adcAddr);
+        refAddrLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->refAddr);
     }
 }
 
@@ -621,7 +645,7 @@ void volDataConfig::on_pushBtnCh2DataAdd_clicked()
     int x, y;
     x = nowIndexCh2Data / 10;
     y = nowIndexCh2Data % 10;
-    ui->scrollAreaWidgetContentsCh2->setFixedWidth((x+1)*180);  // 重置滚动区域大小
+    ui->scrollAreaWidgetContentsCh2->setFixedWidth((x+1)*290);  // 重置滚动区域大小
     QScrollBar *pScrollBar = ui->scrollAreaCh2Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
@@ -630,10 +654,9 @@ void volDataConfig::on_pushBtnCh2DataAdd_clicked()
     }
     // 框
     QFrame* newframe = new QFrame(ui->scrollAreaWidgetContentsCh2);
-    newframe->setGeometry(QRect(x*180, y*30+2, 170, 21));
+    newframe->setGeometry(QRect(x*290, y*30+2, 280, 21));
     newframe->setFrameShape(QFrame::Box);
     newframe->setFrameShadow(QFrame::Raised);
-    newframe->setObjectName(QString("frameCh2Data_%1").arg(nowIndexCh2Data+1));
     frameListCh2Data.append(newframe);
     newframe->show();
     // 复选框
@@ -641,24 +664,33 @@ void volDataConfig::on_pushBtnCh2DataAdd_clicked()
     newcheckbox->setGeometry(QRect(5, 3, 50, 16));
     newcheckbox->setChecked(true);
     newcheckbox->setText(QString("%1").arg(nowIndexCh2Data+1));
-    newcheckbox->setObjectName(QString("checkBoxCh2Data_%1").arg(nowIndexCh2Data+1));
     checkBoxListCh2Data.append(newcheckbox);
     newcheckbox->show();
     // 数据框
     QLineEdit * datalineedit = new QLineEdit(newframe);
-    datalineedit->setGeometry(QRect(60, 2, 51, 17));
+    datalineedit->setGeometry(QRect(60, 2, 50, 17));
     datalineedit->setPlaceholderText(tr("数据"));
     datalineedit->setValidator(new QDoubleValidator(0.0, 65535.0, 2, this));
-    datalineedit->setObjectName(QString("lineEditCh2Data_%1").arg(nowIndexCh2Data+1));
     dataLineEditListCh2Data.append(datalineedit);
     datalineedit->show();
-    // 地址框
-    QLineEdit * addrlineedit = new QLineEdit(newframe);
-    addrlineedit->setGeometry(QRect(117, 2, 51, 17));
-    addrlineedit->setPlaceholderText(tr("地址"));
-    addrlineedit->setObjectName(QString("lineEditCh2Data_%1").arg(nowIndexCh2Data+1));
-    addrLineEditListCh2Data.append(addrlineedit);
-    addrlineedit->show();
+    // dac地址框
+    QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
+    dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
+    dacaddrlineedit->setPlaceholderText(tr("地址"));
+    dacAddrLineEditListCh2Data.append(dacaddrlineedit);
+    dacaddrlineedit->show();
+    // adc地址框
+    QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
+    adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
+    adcaddrlineedit->setPlaceholderText(tr("地址"));
+    adcAddrLineEditListCh2Data.append(adcaddrlineedit);
+    adcaddrlineedit->show();
+    // ref地址框
+    QLineEdit * refaddrlineedit = new QLineEdit(newframe);
+    refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
+    refaddrlineedit->setPlaceholderText(tr("地址"));
+    refAddrLineEditListCh2Data.append(refaddrlineedit);
+    refaddrlineedit->show();
     nowIndexCh2Data++;
 }
 // 判断全选状态
@@ -690,7 +722,9 @@ void volDataConfig::on_pushBtnCh2DataDel_clicked()
         if(checkBoxListCh2Data.at(i)->isChecked()){  // 如果被选中,则删除该数据项
             checkBoxListCh2Data.removeAt(i);
             dataLineEditListCh2Data.removeAt(i);
-            addrLineEditListCh2Data.removeAt(i);
+            dacAddrLineEditListCh2Data.removeAt(i);
+            adcAddrLineEditListCh2Data.removeAt(i);
+            refAddrLineEditListCh2Data.removeAt(i);
             QFrame *tempFrame = frameListCh2Data.at(i);
             frameListCh2Data.removeAt(i);
             delete tempFrame;
@@ -702,12 +736,12 @@ void volDataConfig::on_pushBtnCh2DataDel_clicked()
     for(int i=0; i != frameListCh2Data.size(); ++i){
         x = i / 10;
         y = i % 10;
-        frameListCh2Data.at(i)->setGeometry(QRect(x*180, y*30+2, 170, 21));
+        frameListCh2Data.at(i)->setGeometry(QRect(x*290, y*30+2, 280, 21));
         checkBoxListCh2Data.at(i)->setText(QString("%1").arg(i+1));
     }
     nowIndexCh2Data = checkBoxListCh2Data.size();
     int column = nowIndexCh2Data/10 + (nowIndexCh2Data % 10 ? 1 : 0);
-    ui->scrollAreaWidgetContentsCh2->setFixedWidth(column*180);  // 重置滚动区域大小
+    ui->scrollAreaWidgetContentsCh2->setFixedWidth(column*280);  // 重置滚动区域大小
     QScrollBar *pScrollBar = ui->scrollAreaCh2Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
@@ -727,7 +761,9 @@ void volDataConfig::on_pushBtnCh2DataClear_clicked()
 {
     for(int i=0; i != nowIndexCh2Data; ++i){
         dataLineEditListCh2Data.at(i)->clear();
-        addrLineEditListCh2Data.at(i)->clear();
+        dacAddrLineEditListCh2Data.at(i)->clear();
+        adcAddrLineEditListCh2Data.at(i)->clear();
+        refAddrLineEditListCh2Data.at(i)->clear();
     }
 }
 // 批量添加按钮
@@ -757,18 +793,24 @@ void volDataConfig::handleBatchParamsCh2(int num, double dataStart,
     }
     for(int i=0; i != num; ++i){
         on_pushBtnCh2DataAdd_clicked();
-        QString strData, strAddr;
+        QString strData, strDacAddr, strAdcAddr, strRefAddr;
         if(isRise)
             strData = QString("%1").arg(dataStart+dataStep*i);
         else
             strData = QString("%1").arg(dataStart-dataStep*i);
         if(isHex){
-            strAddr = QString("0x%1").arg(addrStart+dataLengthCh2*3*i, 4, 16, QLatin1Char('0'));
+            strDacAddr = QString("0x%1").arg(addrStart+dataLengthCh2*3*i, 4, 16, QLatin1Char('0'));
+            strAdcAddr = QString("0x%1").arg(addrStart+dataLengthCh2*3*i+dataLengthCh2, 4, 16, QLatin1Char('0'));
+            strRefAddr = QString("0x%1").arg(addrStart+dataLengthCh2*3*i+dataLengthCh2*2, 4, 16, QLatin1Char('0'));
         }else{
-            strAddr = QString("%1").arg(addrStart+dataLengthCh2*3*i);
+            strDacAddr = QString("%1").arg(addrStart+dataLengthCh2*3*i);
+            strAdcAddr = QString("%1").arg(addrStart+dataLengthCh2*3*i+dataLengthCh2);
+            strRefAddr = QString("%1").arg(addrStart+dataLengthCh2*3*i+dataLengthCh2*2);
         }
         dataLineEditListCh2Data.at(nowIndexCh2Data-1)->setText(strData);
-        addrLineEditListCh2Data.at(nowIndexCh2Data-1)->setText(strAddr);
+        dacAddrLineEditListCh2Data.at(nowIndexCh2Data-1)->setText(strDacAddr);
+        adcAddrLineEditListCh2Data.at(nowIndexCh2Data-1)->setText(strAdcAddr);
+        refAddrLineEditListCh2Data.at(nowIndexCh2Data-1)->setText(strRefAddr);
     }
 }
 // 数据长度编辑
@@ -784,10 +826,10 @@ void volDataConfig::on_lineEditDataLengthCh2_textEdited()
 // 保存按钮
 void volDataConfig::on_pushBtnCh2DataSave_clicked()
 {
-    QList<QPair<bool, QPair<QString, QString>* >* >  *tempList = new QList<QPair<bool, QPair<QString, QString>* >* >;
+    QList<DataItem * >  *tempList = new QList<DataItem * >;
     // 保存界面中的数据, 判断里面的参数是否合法
     for(int i=0; i != nowIndexCh2Data; ++i){
-        QString data, addr;
+        QString data, dacAddr, adcAddr, refAddr;
         data = dataLineEditListCh2Data.at(i)->text();
         bool ok;
         data.toDouble(&ok);
@@ -795,23 +837,26 @@ void volDataConfig::on_pushBtnCh2DataSave_clicked()
             QMessageBox::information(this, tr("错误"), tr("第%1项数据不是有效的数据，保存失败！").arg(i+1), QMessageBox::Ok);
             return;
         }
-        addr = addrLineEditListCh2Data.at(i)->text();
-        if(!QStringIsInt(addr)){
-            QMessageBox::information(this, tr("错误"), tr("第%1项地址不是有效的地址，保存失败！").arg(i+1), QMessageBox::Ok);
+        dacAddr = dacAddrLineEditListCh2Data.at(i)->text();
+        if(!QStringIsInt(dacAddr)){
+            QMessageBox::information(this, tr("错误"), tr("第%1项dac地址不是有效的地址，保存失败！").arg(i+1), QMessageBox::Ok);
             return;
         }
-        QPair<QString, QString> * tempPair = new QPair<QString, QString>(data, addr);
-        tempList->append(new QPair<bool, QPair<QString, QString> * >(checkBoxListCh2Data.at(i)->checkState(), tempPair));
+        adcAddr = adcAddrLineEditListCh2Data.at(i)->text();
+        if(!QStringIsInt(adcAddr)){
+            QMessageBox::information(this, tr("错误"), tr("第%1项dac地址不是有效的地址，保存失败！").arg(i+1), QMessageBox::Ok);
+            return;
+        }
+        refAddr = refAddrLineEditListCh2Data.at(i)->text();
+        if(!QStringIsInt(refAddr)){
+            QMessageBox::information(this, tr("错误"), tr("第%1项dac地址不是有效的地址，保存失败！").arg(i+1), QMessageBox::Ok);
+            return;
+        }
+        tempList->append(new DataItem(checkBoxListCh2Data.at(i)->checkState(), data.toDouble(), dacAddr, adcAddr, refAddr));
     }
     // 请空当前参数列表
-    for(int i=0; i != dataAndAddrListCh2->size(); ++i){
-        QPair<bool, QPair<QString, QString> *> * tempWithCheck;
-        tempWithCheck = dataAndAddrListCh2->at(i);
-        QPair<QString, QString> * temp;
-        temp = tempWithCheck->second;
-        delete tempWithCheck;
-        delete temp;
-    }
+    for(int i=0; i != dataAndAddrListCh2->size(); ++i)
+        delete dataAndAddrListCh2->at(i);
     dataAndAddrListCh2->clear();
     dataAndAddrListCh2 = tempList;
     if(!dataAndAddrListCh2->isEmpty())
@@ -823,9 +868,11 @@ void volDataConfig::on_pushBtnCh2DataUndo_clicked()
     on_pushBtnCh2DataBatchDel_clicked();  // 清空数据列表框
     for(int i=0; i != dataAndAddrListCh2->size(); ++i){
         on_pushBtnCh2DataAdd_clicked();
-        checkBoxListCh2Data.at(i)->setChecked(dataAndAddrListCh2->at(i)->first);
-        dataLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->second->first);
-        addrLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->second->second);
+        checkBoxListCh2Data.at(i)->setChecked(dataAndAddrListCh2->at(i)->check);
+        dataLineEditListCh2Data.at(i)->setText(QString("%1").arg(dataAndAddrListCh2->at(i)->data));
+        dacAddrLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->dacAddr);
+        adcAddrLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->adcAddr);
+        refAddrLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->refAddr);
     }
 }
 
@@ -959,7 +1006,7 @@ void volDataConfig::repaintCh1()
     nowIndexCh1Data = 0;  // 当前数据项索引
     if(itemCh1 == NULL){
         cmdListCh1Pre = new QList<command *>;
-        dataAndAddrListCh1 = new QList<QPair<bool, QPair<QString, QString> * > * >;
+        dataAndAddrListCh1 = new QList<DataItem * >;
         dataLengthCh1 = 6;
         setCmdCh1Verify = new command(QString("PSU1_V"));
         setCmdCh1Verify->setStart(QString("("));
@@ -1003,9 +1050,11 @@ void volDataConfig::repaintCh1()
     showCh1PreCmdList();
     for(int i=0; i != dataAndAddrListCh1->size(); ++i){
         on_pushBtnCh1DataAdd_clicked();
-        checkBoxListCh1Data.at(i)->setChecked(dataAndAddrListCh1->at(i)->first);
-        dataLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->second->first);
-        addrLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->second->second);
+        checkBoxListCh1Data.at(i)->setChecked(dataAndAddrListCh1->at(i)->check);
+        dataLineEditListCh1Data.at(i)->setText(QString("%1").arg(dataAndAddrListCh1->at(i)->data));
+        dacAddrLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->dacAddr);
+        adcAddrLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->adcAddr);
+        refAddrLineEditListCh1Data.at(i)->setText(dataAndAddrListCh1->at(i)->refAddr);
     }
     ui->lineEditDataLengthCh1->setText(QString("%1").arg(dataLengthCh1));
     ui->lineEditCh1VerifySetCmd->setText(setCmdCh1Verify->getName());
@@ -1040,7 +1089,7 @@ void volDataConfig::repaintCh2()
     nowIndexCh2Data = 0;  // 当前数据项索引
     if(itemCh2 == NULL){
         cmdListCh2Pre = new QList<command *>;
-        dataAndAddrListCh2 = new QList<QPair<bool, QPair<QString, QString> * > * >;
+        dataAndAddrListCh2 = new QList<DataItem * >;
         dataLengthCh2 = 6;
         setCmdCh2Verify = new command(QString("PSU2_V"));
         setCmdCh2Verify->setStart(QString("("));
@@ -1084,9 +1133,11 @@ void volDataConfig::repaintCh2()
     showCh2PreCmdList();
     for(int i=0; i != dataAndAddrListCh2->size(); ++i){
         on_pushBtnCh2DataAdd_clicked();
-        checkBoxListCh2Data.at(i)->setChecked(dataAndAddrListCh2->at(i)->first);
-        dataLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->second->first);
-        addrLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->second->second);
+        checkBoxListCh2Data.at(i)->setChecked(dataAndAddrListCh2->at(i)->check);
+        dataLineEditListCh2Data.at(i)->setText(QString("%1").arg(dataAndAddrListCh2->at(i)->data));
+        dacAddrLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->dacAddr);
+        adcAddrLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->adcAddr);
+        refAddrLineEditListCh2Data.at(i)->setText(dataAndAddrListCh2->at(i)->refAddr);
     }
     ui->lineEditDataLengthCh2->setText(QString("%1").arg(dataLengthCh2));
     ui->lineEditCh2VerifySetCmd->setText(setCmdCh2Verify->getName());

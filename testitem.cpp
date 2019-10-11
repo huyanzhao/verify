@@ -1,10 +1,11 @@
 #include "testitem.h"
 #include "command.h"
+#include "dataitem.h"
 #include <QPair>
 #include <QDebug>
 
 testItem::testItem(QList<command *> * cmdListParam,  // 前置命令列表
-                   QList<QPair<bool, QPair<QString, QString> *> *> * dataListParam, int dataLengthParam, // 数据列表和数据长度
+                   QList<DataItem *> * dataListParam, int dataLengthParam, // 数据列表和数据长度
                    command * setVerifyParam, int setMultiParam,  // 校准设置命令和倍数
                    command * dmmVerifyParam, int dmmMultiParam,  // 校准读取命令和倍数
                    command * meterVerifyParam, int meterMultiParam,  // 校准读万用表命令和倍数
@@ -36,10 +37,8 @@ testItem::~testItem()
     delete cmdList;  // 销毁前置命令列表
     // 清空数据列表
     while(!dataList->isEmpty()){
-        QPair<bool, QPair<QString, QString> *> * tempPair = dataList->at(0);
-        QPair<QString, QString> * temp = tempPair->second;
+        DataItem * temp = dataList->at(0);
         delete temp;  // 销毁数据地址对
-        delete tempPair;  // 销毁数据项,数据项包括标志选中状态的布尔值和数据地址对
         dataList->removeAt(0);
     }
     delete dataList; // 销毁数据列表
@@ -57,7 +56,7 @@ void testItem::setCmdList(QList<command *> * param)
     cmdList = param;
 }
 // 设置数据列表
-void testItem::setDataList(QList<QPair<bool, QPair<QString, QString> *> *> * param)
+void testItem::setDataList(QList<DataItem *> * param)
 {
     dataList = param;
 }
@@ -117,7 +116,7 @@ QList<command *> * testItem::getCmdList()
     return cmdList;
 }
 // 获取数据列表
-QList<QPair<bool, QPair<QString, QString> *> *> * testItem::getDataList()
+QList<DataItem *> * testItem::getDataList()
 {
     return dataList;
 }
@@ -179,11 +178,10 @@ testItem * testItem::deepcopy()
     for(int i =0; i != cmdList->size(); ++i){
         newCmdList->append(cmdList->at(i)->deepcopy());
     }
-    QList<QPair<bool, QPair<QString, QString> *> *> * newDataList = new QList<QPair<bool, QPair<QString, QString> *> *>;
+    QList<DataItem *> * newDataList = new QList<DataItem *>;
     for(int i=0; i != dataList->size(); ++i)
-        newDataList->append(new QPair<bool, QPair<QString, QString> * >(dataList->at(i)->first,
-                                       new QPair<QString, QString>(dataList->at(i)->second->first,
-                                                     QString("%1").arg(dataList->at(i)->second->second))));
+        newDataList->append(new DataItem(dataList->at(i)->check, dataList->at(i)->data,
+                                         dataList->at(i)->dacAddr, dataList->at(i)->adcAddr, dataList->at(i)->refAddr));
     int newDataLength = dataLength;
     command * newSetCmdVerify = setCmdVerify->deepcopy();
     int newSetMulti = setMulti;

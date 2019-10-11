@@ -6,6 +6,7 @@
 #include "command.h"
 #include "testitem.h"
 #include "currentitem.h"
+#include "dataitem.h"
 
 class myThread : public QThread
 {
@@ -55,7 +56,7 @@ public:
     void run();
 private:
     QList<command *> * cmdList;
-    QList<QPair<bool, QPair<QString, QString> *> *> * dataList;  // 数据列表
+    QList<DataItem *> * dataList;  // 数据列表
     command * setCmdVerify;      // 校准设置命令
     int setMulti;                // 校准设置数据写入eeprom时的倍数
     command * dmmCmdVerify;      // 校准读取命令
@@ -72,7 +73,7 @@ public:
     void run();
 private:
     QList<command *> * cmdList;
-    QList<QPair<bool, QPair<QString, QString> *> *> * dataList;  // 数据列表
+    QList<DataItem *> * dataList;  // 数据列表
     command * setCmdTest;      // 校准设置命令
     command * dmmCmdTest;      // 校准读取命令
     command * meterCmdTest;    // 校准读万用表命令

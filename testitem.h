@@ -3,12 +3,13 @@
 
 #include <QPair>
 #include "command.h"
+#include "dataitem.h"
 
 class testItem
 {
 public:
     testItem(QList<command *> *,
-    QList<QPair<bool, QPair<QString, QString> *> *> *, int,
+    QList<DataItem *> *, int,
     command *, int,
     command *, int,
     command *, int,
@@ -18,7 +19,7 @@ public:
     ~testItem();
 
     void setCmdList(QList<command *> *);  // 设置前置命令列表
-    void setDataList(QList<QPair<bool, QPair<QString, QString> *> *> *);  // 设置数据列表
+    void setDataList(QList<DataItem *> *);  // 设置数据列表
     void setDatalength(int);              // 设置数据长度
     void setSetCmdVerify(command *);      // 设置校准设置命令
     void setSetMulti(int);                // 设置校准数据倍数
@@ -31,7 +32,7 @@ public:
     void setMeterCmdTest(command *);      // 设置测试读万用表命令
 
     QList<command *> * getCmdList();      // 获取前置命令列表
-    QList<QPair<bool, QPair<QString, QString> *> *> * getDataList();  // 获取数据列表
+    QList<DataItem *> * getDataList();  // 获取数据列表
     int getDataLength();                  // 获取数据长度
     command * getSetCmdVerify();          // 获取校准设置命令
     int getSetMulti();                    // 获取校准数据倍数
@@ -47,7 +48,7 @@ public:
 
 private:
     QList<command *> * cmdList;  // 前置命令列表
-    QList<QPair<bool, QPair<QString, QString> *> *> * dataList;  // 数据列表
+    QList<DataItem *> * dataList;  // 数据列表
     int dataLength;              // 数据长度
     command * setCmdVerify;      // 校准设置命令
     int setMulti;                // 校准设置数据写入eeprom时的倍数
