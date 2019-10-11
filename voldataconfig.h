@@ -85,7 +85,11 @@ private slots:
 
     void closeEvent(QCloseEvent *);            // 关闭事件
 
-    void on_pushBtnCh1ToCh2_clicked();
+    void repaintCh1();                         // 重画ch1参数配置页面
+    void repaintCh2();                         // 重画ch2参数配置页面
+    void on_pushBtnCh1ToCh2_clicked();         // 用ch1覆盖ch2
+
+    void on_pushBtnCh2ToCh1_clicked();
 
 private:
     Ui::volDataConfig *ui;

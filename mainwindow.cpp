@@ -33,6 +33,8 @@
 #include "currentitem.h"
 #include "mythread.h"
 #include "about.h"
+#include "paraminfo.h"
+#include "platformbuild.h"
 
 // 通道列表
 QMap<QString, QPair<QString, int> > slotsMap;
@@ -298,12 +300,14 @@ void MainWindow::on_actionLogDir_triggered()
 // 帮助里的硬件平台搭建
 void MainWindow::on_actionHardwareBuild_triggered()
 {
-    qDebug() << tr("帮助里的硬件平台搭建");
+    PlatformBuild * platformbuild = new PlatformBuild();
+    platformbuild->show();
 }
 // 帮助里的配置校准数据
 void MainWindow::on_actionDataConfig_triggered()
 {
-    qDebug() << tr("帮助里的配置校准数据");
+    ParamInfo * paraminfo = new ParamInfo();
+    paraminfo->show();
 }
 // 关于
 void MainWindow::on_actionAbout_triggered()
@@ -1179,8 +1183,6 @@ void MainWindow::showTable(QStringList result)
     }
     ui->tableView->scrollToBottom();
     if(result.takeLast() == "fail")
-
-
     curTableLine++;
     if(curTableLine == 10){
         bit = 2;

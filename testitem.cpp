@@ -1,6 +1,7 @@
 #include "testitem.h"
 #include "command.h"
 #include <QPair>
+#include <QDebug>
 
 testItem::testItem(QList<command *> * cmdListParam,  // 前置命令列表
                    QList<QPair<bool, QPair<QString, QString> *> *> * dataListParam, int dataLengthParam, // 数据列表和数据长度
@@ -30,19 +31,18 @@ testItem::~testItem()
     for(int i=0; i != cmdList->size(); ++i){
         command * temp = cmdList->at(i);
         delete temp;
-        cmdList->removeAt(i);
     }
+    dataList->clear();
     delete cmdList;  // 销毁前置命令列表
     // 清空数据列表
-    for(int i=0; i != dataList->size(); ++i){
-        QPair<bool, QPair<QString, QString> *> * tempPair = dataList->at(i);
+    while(!dataList->isEmpty()){
+        QPair<bool, QPair<QString, QString> *> * tempPair = dataList->at(0);
         QPair<QString, QString> * temp = tempPair->second;
         delete temp;  // 销毁数据地址对
         delete tempPair;  // 销毁数据项,数据项包括标志选中状态的布尔值和数据地址对
-        dataList->removeAt(i);
+        dataList->removeAt(0);
     }
     delete dataList; // 销毁数据列表
-
     delete setCmdVerify;  // 销毁校准设置命令
     delete dmmCmdVerify;  // 销毁校准读取命令
     delete meterCmdVerify;  // 销毁校准读万用表命令
@@ -173,6 +173,8 @@ command * testItem::getMeterCmdTest()
 }
 testItem * testItem::deepcopy()
 {
+    if(this == NULL)
+        return NULL;
     QList<command *> * newCmdList = new QList<command *>;
     for(int i =0; i != cmdList->size(); ++i){
         newCmdList->append(cmdList->at(i)->deepcopy());

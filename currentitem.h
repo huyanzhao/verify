@@ -18,11 +18,13 @@ public:
     void setPart5(testItem *);  // 设置part5
 
     QList<command *> * getPreCmdList();  // 获取前置命令
-    testItem * getPart1();  // 获取part1
-    testItem * getPart2();  // 获取part2
-    testItem * getPart3();  // 获取part3
-    testItem * getPart4();  // 获取part4
-    testItem * getPart5();  // 获取part5
+    testItem * getPart1();      // 获取part1
+    testItem * getPart2();      // 获取part2
+    testItem * getPart3();      // 获取part3
+    testItem * getPart4();      // 获取part4
+    testItem * getPart5();      // 获取part5
+
+    currentItem * deepcopy();   // 深度复制
 
 private:
     QList<command *> * preCmdList;  // 前置命令

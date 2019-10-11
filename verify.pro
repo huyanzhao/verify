@@ -33,7 +33,9 @@ SOURCES += main.cpp\
     qjson4/QJsonValue.cpp \
     qjson4/QJsonParser.cpp \
     mythread.cpp \
-    about.cpp
+    about.cpp \
+    paraminfo.cpp \
+    platformbuild.cpp
 
 HEADERS  += mainwindow.h \
     meteraddress.h \
@@ -54,7 +56,9 @@ HEADERS  += mainwindow.h \
     qjson4/QJsonRoot.h \
     qjson4/QJsonParser.h \
     mythread.h \
-    about.h
+    about.h \
+    paraminfo.h \
+    platformbuild.h
 
 FORMS    += mainwindow.ui \
     meteraddress.ui \
@@ -62,7 +66,9 @@ FORMS    += mainwindow.ui \
     voldataconfig.ui \
     batchadd.ui \
     curdataconfig.ui \
-    about.ui
+    about.ui \
+    paraminfo.ui \
+    platformbuild.ui
 
 RESOURCES += \
     image.qrc

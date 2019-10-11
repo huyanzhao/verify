@@ -1,4 +1,5 @@
 #include "currentitem.h"
+#include <QDebug>
 
 currentItem::currentItem(QList<command *> * pList, testItem * p1, testItem * p2,
                          testItem * p3, testItem * p4, testItem * p5):
@@ -9,7 +10,13 @@ currentItem::currentItem(QList<command *> * pList, testItem * p1, testItem * p2,
 // 析构
 currentItem::~currentItem()
 {
-    delete preCmdList;
+    // 清空前置命令列表
+    for(int i=0; i != preCmdList->size(); ++i){
+        command * temp = preCmdList->at(i);
+        delete temp;
+    }
+    preCmdList->clear();
+    delete preCmdList;  // 销毁前置命令列表
     delete part1;
     delete part2;
     delete part3;
@@ -75,4 +82,18 @@ testItem * currentItem::getPart4()
 testItem * currentItem::getPart5()
 {
     return part5;
+}
+// 深度复制
+currentItem * currentItem::deepcopy()
+{
+    QList<command *> * newCmdListPre = new QList<command *>;
+    for(int i =0; i != preCmdList->size(); ++i){
+        newCmdListPre->append(preCmdList->at(i)->deepcopy());
+    }
+    testItem * newPart1 = part1->deepcopy();
+    testItem * newPart2 = part2->deepcopy();
+    testItem * newPart3 = part3->deepcopy();
+    testItem * newPart4 = part4->deepcopy();
+    testItem * newPart5 = part5->deepcopy();
+    return new currentItem(newCmdListPre, newPart1, newPart2, newPart3, newPart4, newPart5);
 }

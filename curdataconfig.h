@@ -318,6 +318,22 @@ private slots:
 
     void closeEvent(QCloseEvent *);                  // 退出事件
 
+    void on_pushBtnPsu1ToPsu2_clicked();             // 用psu1覆盖psu2
+    void on_pushBtnPsu2ToPsu1_clicked();             // 用psu2覆盖psu1
+
+    void repaintPsu1();                              // 重画psu1界面
+    void repaintPsu1Part1();                         // 重画psu1 part1界面
+    void repaintPsu1Part2();                         // 重画psu1 part2界面
+    void repaintPsu1Part3();                         // 重画psu1 part3界面
+    void repaintPsu1Part4();                         // 重画psu1 part4界面
+    void repaintPsu1Part5();                         // 重画psu1 part5界面
+    void repaintPsu2();                              // 重画psu2界面
+    void repaintPsu2Part1();                         // 重画psu2 part1界面
+    void repaintPsu2Part2();                         // 重画psu2 part2界面
+    void repaintPsu2Part3();                         // 重画psu2 part3界面
+    void repaintPsu2Part4();                         // 重画psu2 part4界面
+    void repaintPsu2Part5();                         // 重画psu2 part5界面
+
 private:
     Ui::curdataconfig *ui;
     currentItem * itemPsu1;

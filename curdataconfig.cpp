@@ -16,79 +16,6 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
 {
     ui->setupUi(this);
 
-    if(itemPsu1 == NULL){
-        // PSU1  前置命令
-        cmdListPsu1Pre = new QList<command *>;
-        psu1Part1 = NULL;
-        psu1Part2 = NULL;
-        psu1Part3 = NULL;
-        psu1Part4 = NULL;
-        psu1Part5 = NULL;
-    }else{
-        cmdListPsu1Pre = psu1->getPreCmdList();
-        showPsu1PreCmdList();
-        psu1Part1 = itemPsu1->getPart1();
-        psu1Part2 = itemPsu1->getPart2();
-        psu1Part3 = itemPsu1->getPart3();
-        psu1Part4 = itemPsu1->getPart4();
-        psu1Part5 = itemPsu1->getPart5();
-    }
-    nowIndexPsu1Pre = -1;  // 前置命令框当前选项索引
-    nowCommandPsu1 = NULL;
-    nowIndexPsu1Part1Data = 0;  // 当前数据项索引
-    if(psu1Part1 == NULL){
-        cmdListPsu1Part1Pre = new QList<command *>;
-        dataAndAddrListPsu1Part1 = new QList<QPair<bool, QPair<QString, QString> *> *>;
-        dataLengthPsu1Part1 = 6;
-        setCmdPsu1Part1Verify = new command(QString("PSU1_I"));
-        setCmdPsu1Part1Verify->setStart(QString("("));
-        setCmdPsu1Part1Verify->setEnd(QString(";"));
-        setCmdPsu1Part1Verify->setJudge(QString("DONE"));
-        setCmdPsu1Part1Verify->setRatio(0);
-        setPsu1Part1Multi = 1;
-        dmmCmdPsu1Part1Verify = new command(QString("PSU1_CH1_Current_MEASURE_Real"));
-        dmmCmdPsu1Part1Verify->setParam(QString("AD"));
-        dmmCmdPsu1Part1Verify->setStart(QString("("));
-        dmmCmdPsu1Part1Verify->setEnd(QString(";"));
-        dmmCmdPsu1Part1Verify->setRatio(10);
-        dmmPsu1Part1Multi = 1;
-        meterCmdPsu1Part1Verify = new command(QString("read?"));
-        meterCmdPsu1Part1Verify->setRatio(10);
-        meterPsu1Part1Multi = 1;
-        setCmdPsu1Part1Test = new command(QString("PSU1_I"));
-        setCmdPsu1Part1Test->setStart(QString("("));
-        setCmdPsu1Part1Test->setEnd(QString(";"));
-        setCmdPsu1Part1Test->setJudge(QString("DONE"));
-        setCmdPsu1Part1Test->setRatio(0);
-        dmmCmdPsu1Part1Test = new command(QString("PSU1_CH1_Current_MEASURE_Real"));
-        dmmCmdPsu1Part1Test->setStart(QString("("));
-        dmmCmdPsu1Part1Test->setEnd(QString(";"));
-        dmmCmdPsu1Part1Test->setRatio(0.1);
-        meterCmdPsu1Part1Test = new command(QString("read?"));
-        meterCmdPsu1Part1Test->setRatio(0.1);
-    }else{
-        cmdListPsu1Part1Pre = psu1Part1->getCmdList();        
-        dataAndAddrListPsu1Part1 = psu1Part1->getDataList();
-        dataLengthPsu1Part1 = psu1Part1->getDataLength();
-        setCmdPsu1Part1Verify = psu1Part1->getSetCmdVerify();  // 初始化并显示校准页设置电压命令        
-        setPsu1Part1Multi = psu1Part1->getSetMulti();   // 放大倍数        
-        dmmCmdPsu1Part1Verify = psu1Part1->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令        
-        dmmPsu1Part1Multi = psu1Part1->getDmmMulti();  // 放大倍数        
-        meterCmdPsu1Part1Verify = psu1Part1->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
-        meterPsu1Part1Multi = psu1Part1->getMeterMulti();  // 放大倍数        
-        setCmdPsu1Part1Test = psu1Part1->getSetCmdTest();  // 初始化并显示测试页设置电压命令        
-        dmmCmdPsu1Part1Test = psu1Part1->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令        
-        meterCmdPsu1Part1Test = psu1Part1->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令        
-    }
-    showPsu1Part1PreCmdList();
-    for(int i=0; i != dataAndAddrListPsu1Part1->size(); ++i){
-        on_pushBtnPsu1Part1DataAdd_clicked();
-        checkBoxListPsu1Part1Data.at(i)->setChecked(dataAndAddrListPsu1Part1->at(i)->first);
-        dataLineEditListPsu1Part1Data.at(i)->setText(dataAndAddrListPsu1Part1->at(i)->second->first);
-        addrLineEditListPsu1Part1Data.at(i)->setText(dataAndAddrListPsu1Part1->at(i)->second->second);
-    }
-    nowIndexPsu1Part1Pre = -1;  // 换档命令框当前选项索引
-    nowCommandPsu1Part1 = NULL;    
     ui->lineEditDataLengthPsu1Part1->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu1Part1VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu1Part1VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
@@ -97,86 +24,6 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu1Part1VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu1Part1TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu1Part1TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
-    ui->lineEditDataLengthPsu1Part1->setText(QString("%1").arg(dataLengthPsu1Part1));
-    ui->lineEditPsu1Part1VerifySetCmd->setText(setCmdPsu1Part1Verify->getName());
-    ui->lineEditPsu1Part1VerifySetStart->setText(setCmdPsu1Part1Verify->getStart());
-    ui->lineEditPsu1Part1VerifySetEnd->setText(setCmdPsu1Part1Verify->getEnd());
-    ui->lineEditPsu1Part1VerifySetJudge->setText(setCmdPsu1Part1Verify->getJudge());
-    ui->lineEditPsu1Part1VerifySetMulti->setText(QString("%1").arg(setPsu1Part1Multi));
-    ui->lineEditPsu1Part1VerifyDMMCmd->setText(dmmCmdPsu1Part1Verify->getName());
-    ui->lineEditPsu1Part1VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
-    ui->lineEditPsu1Part1VerifyDMMStart->setText(dmmCmdPsu1Part1Verify->getStart());
-    ui->lineEditPsu1Part1VerifyDMMEnd->setText(dmmCmdPsu1Part1Verify->getEnd());
-    ui->lineEditPsu1Part1VerifyDMMJudge->setText(dmmCmdPsu1Part1Verify->getRatio());
-    ui->lineEditPsu1Part1VerifyDMMMulti->setText(QString("%1").arg(dmmPsu1Part1Multi));
-    ui->lineEditPsu1Part1VerifyMeterCmd->setText(meterCmdPsu1Part1Verify->getName());
-    ui->lineEditPsu1Part1VerifyMeterJudge->setText(meterCmdPsu1Part1Verify->getRatio());
-    ui->lineEditPsu1Part1VerifyMeterMulti->setText(QString("%1").arg(meterPsu1Part1Multi));
-    ui->lineEditPsu1Part1TestSetCmd->setText(setCmdPsu1Part1Test->getName());
-    ui->lineEditPsu1Part1TestSetStart->setText(setCmdPsu1Part1Test->getStart());
-    ui->lineEditPsu1Part1TestSetEnd->setText(setCmdPsu1Part1Test->getEnd());
-    ui->lineEditPsu1Part1TestSetJudge->setText(setCmdPsu1Part1Test->getJudge());
-    ui->lineEditPsu1Part1TestDMMCmd->setText(dmmCmdPsu1Part1Test->getName());
-    ui->lineEditPsu1Part1TestDMMStart->setText(dmmCmdPsu1Part1Test->getStart());
-    ui->lineEditPsu1Part1TestDMMEnd->setText(dmmCmdPsu1Part1Test->getEnd());
-    ui->lineEditPsu1Part1TestDMMJudge->setText(dmmCmdPsu1Part1Test->getRatio());
-    ui->lineEditPsu1Part1TestMeterCmd->setText(meterCmdPsu1Part1Test->getName());
-    ui->lineEditPsu1Part1TestMeterJudge->setText(meterCmdPsu1Part1Test->getRatio());
-
-    nowIndexPsu1Part2Data = 0;  // 当前数据项索引
-    if(psu1Part2 == NULL){
-        cmdListPsu1Part2Pre = new QList<command *>;
-        dataAndAddrListPsu1Part2 = new QList<QPair<bool, QPair<QString, QString> *> *>;
-        dataLengthPsu1Part2 = 6;
-        setCmdPsu1Part2Verify = new command(QString("PSU1_I"));
-        setCmdPsu1Part2Verify->setStart(QString("("));
-        setCmdPsu1Part2Verify->setEnd(QString(";"));
-        setCmdPsu1Part2Verify->setJudge(QString("DONE"));
-        setCmdPsu1Part2Verify->setRatio(0);
-        setPsu1Part2Multi = 1;
-        dmmCmdPsu1Part2Verify = new command(QString("PSU1_CH2_Current_MEASURE_Real"));
-        dmmCmdPsu1Part2Verify->setParam(QString("AD"));
-        dmmCmdPsu1Part2Verify->setStart(QString("("));
-        dmmCmdPsu1Part2Verify->setEnd(QString(";"));
-        dmmCmdPsu1Part2Verify->setRatio(10);
-        dmmPsu1Part2Multi = 1;
-        meterCmdPsu1Part2Verify = new command(QString("read?"));
-        meterCmdPsu1Part2Verify->setRatio(10);
-        meterPsu1Part2Multi = 1;
-        setCmdPsu1Part2Test = new command(QString("PSU1_I"));
-        setCmdPsu1Part2Test->setStart(QString("("));
-        setCmdPsu1Part2Test->setEnd(QString(";"));
-        setCmdPsu1Part2Test->setJudge(QString("DONE"));
-        setCmdPsu1Part2Test->setRatio(0);
-        dmmCmdPsu1Part2Test = new command(QString("PSU1_CH2_Current_MEASURE_Real"));
-        dmmCmdPsu1Part2Test->setStart(QString("("));
-        dmmCmdPsu1Part2Test->setEnd(QString(";"));
-        dmmCmdPsu1Part2Test->setRatio(0.1);
-        meterCmdPsu1Part2Test = new command(QString("read?"));
-        meterCmdPsu1Part2Test->setRatio(0.1);
-    }else{
-        cmdListPsu1Part2Pre = psu1Part2->getCmdList();
-        dataAndAddrListPsu1Part2 = psu1Part2->getDataList();
-        dataLengthPsu1Part2 = psu1Part2->getDataLength();
-        setCmdPsu1Part2Verify = psu1Part2->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
-        setPsu1Part2Multi = psu1Part2->getSetMulti();   // 放大倍数
-        dmmCmdPsu1Part2Verify = psu1Part2->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
-        dmmPsu1Part2Multi = psu1Part2->getDmmMulti();  // 放大倍数
-        meterCmdPsu1Part2Verify = psu1Part2->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
-        meterPsu1Part2Multi = psu1Part2->getMeterMulti();  // 放大倍数
-        setCmdPsu1Part2Test = psu1Part2->getSetCmdTest();  // 初始化并显示测试页设置电压命令
-        dmmCmdPsu1Part2Test = psu1Part2->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
-        meterCmdPsu1Part2Test = psu1Part2->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
-    }
-    showPsu1Part2PreCmdList();
-    for(int i=0; i != dataAndAddrListPsu1Part2->size(); ++i){
-        on_pushBtnPsu1Part2DataAdd_clicked();
-        checkBoxListPsu1Part2Data.at(i)->setChecked(dataAndAddrListPsu1Part2->at(i)->first);
-        dataLineEditListPsu1Part2Data.at(i)->setText(dataAndAddrListPsu1Part2->at(i)->second->first);
-        addrLineEditListPsu1Part2Data.at(i)->setText(dataAndAddrListPsu1Part2->at(i)->second->second);
-    }
-    nowIndexPsu1Part2Pre = -1;  // 换档命令框当前选项索引
-    nowCommandPsu1Part2 = NULL;
     ui->lineEditDataLengthPsu1Part2->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu1Part2VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu1Part2VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
@@ -185,86 +32,6 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu1Part2VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu1Part2TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu1Part2TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
-    ui->lineEditDataLengthPsu1Part2->setText(QString("%1").arg(dataLengthPsu1Part2));
-    ui->lineEditPsu1Part2VerifySetCmd->setText(setCmdPsu1Part2Verify->getName());
-    ui->lineEditPsu1Part2VerifySetStart->setText(setCmdPsu1Part2Verify->getStart());
-    ui->lineEditPsu1Part2VerifySetEnd->setText(setCmdPsu1Part2Verify->getEnd());
-    ui->lineEditPsu1Part2VerifySetJudge->setText(setCmdPsu1Part2Verify->getJudge());
-    ui->lineEditPsu1Part2VerifySetMulti->setText(QString("%1").arg(setPsu1Part2Multi));
-    ui->lineEditPsu1Part2VerifyDMMCmd->setText(dmmCmdPsu1Part2Verify->getName());
-    ui->lineEditPsu1Part2VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
-    ui->lineEditPsu1Part2VerifyDMMStart->setText(dmmCmdPsu1Part2Verify->getStart());
-    ui->lineEditPsu1Part2VerifyDMMEnd->setText(dmmCmdPsu1Part2Verify->getEnd());
-    ui->lineEditPsu1Part2VerifyDMMJudge->setText(dmmCmdPsu1Part2Verify->getRatio());
-    ui->lineEditPsu1Part2VerifyDMMMulti->setText(QString("%1").arg(dmmPsu1Part2Multi));
-    ui->lineEditPsu1Part2VerifyMeterCmd->setText(meterCmdPsu1Part2Verify->getName());
-    ui->lineEditPsu1Part2VerifyMeterJudge->setText(meterCmdPsu1Part2Verify->getRatio());
-    ui->lineEditPsu1Part2VerifyMeterMulti->setText(QString("%1").arg(meterPsu1Part2Multi));
-    ui->lineEditPsu1Part2TestSetCmd->setText(setCmdPsu1Part2Test->getName());
-    ui->lineEditPsu1Part2TestSetStart->setText(setCmdPsu1Part2Test->getStart());
-    ui->lineEditPsu1Part2TestSetEnd->setText(setCmdPsu1Part2Test->getEnd());
-    ui->lineEditPsu1Part2TestSetJudge->setText(setCmdPsu1Part2Test->getJudge());
-    ui->lineEditPsu1Part2TestDMMCmd->setText(dmmCmdPsu1Part2Test->getName());
-    ui->lineEditPsu1Part2TestDMMStart->setText(dmmCmdPsu1Part2Test->getStart());
-    ui->lineEditPsu1Part2TestDMMEnd->setText(dmmCmdPsu1Part2Test->getEnd());
-    ui->lineEditPsu1Part2TestDMMJudge->setText(dmmCmdPsu1Part2Test->getRatio());
-    ui->lineEditPsu1Part2TestMeterCmd->setText(meterCmdPsu1Part2Test->getName());
-    ui->lineEditPsu1Part2TestMeterJudge->setText(meterCmdPsu1Part2Test->getRatio());
-
-    nowIndexPsu1Part3Data = 0;  // 当前数据项索引
-    if(psu1Part3 == NULL){
-        cmdListPsu1Part3Pre = new QList<command *>;
-        dataAndAddrListPsu1Part3 = new QList<QPair<bool, QPair<QString, QString> *> *>;
-        dataLengthPsu1Part3 = 6;
-        setCmdPsu1Part3Verify = new command(QString("PSU1_I"));
-        setCmdPsu1Part3Verify->setStart(QString("("));
-        setCmdPsu1Part3Verify->setEnd(QString(";"));
-        setCmdPsu1Part3Verify->setJudge(QString("DONE"));
-        setCmdPsu1Part3Verify->setRatio(0);
-        setPsu1Part3Multi = 1;
-        dmmCmdPsu1Part3Verify = new command(QString("PSU1_CH3_Current_MEASURE_Real"));
-        dmmCmdPsu1Part3Verify->setParam(QString("AD"));
-        dmmCmdPsu1Part3Verify->setStart(QString("("));
-        dmmCmdPsu1Part3Verify->setEnd(QString(";"));
-        dmmCmdPsu1Part3Verify->setRatio(10);
-        dmmPsu1Part3Multi = 1;
-        meterCmdPsu1Part3Verify = new command(QString("read?"));
-        meterCmdPsu1Part3Verify->setRatio(10);
-        meterPsu1Part3Multi = 1;
-        setCmdPsu1Part3Test = new command(QString("PSU1_I"));
-        setCmdPsu1Part3Test->setStart(QString("("));
-        setCmdPsu1Part3Test->setEnd(QString(";"));
-        setCmdPsu1Part3Test->setJudge(QString("DONE"));
-        setCmdPsu1Part3Test->setRatio(0);
-        dmmCmdPsu1Part3Test = new command(QString("PSU1_CH3_Current_MEASURE_Real"));
-        dmmCmdPsu1Part3Test->setStart(QString("("));
-        dmmCmdPsu1Part3Test->setEnd(QString(";"));
-        dmmCmdPsu1Part3Test->setRatio(0.1);
-        meterCmdPsu1Part3Test = new command(QString("read?"));
-        meterCmdPsu1Part3Test->setRatio(0.1);
-    }else{
-        cmdListPsu1Part3Pre = psu1Part3->getCmdList();
-        dataAndAddrListPsu1Part3 = psu1Part3->getDataList();
-        dataLengthPsu1Part3 = psu1Part3->getDataLength();
-        setCmdPsu1Part3Verify = psu1Part3->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
-        setPsu1Part3Multi = psu1Part3->getSetMulti();   // 放大倍数
-        dmmCmdPsu1Part3Verify = psu1Part3->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
-        dmmPsu1Part3Multi = psu1Part3->getDmmMulti();  // 放大倍数
-        meterCmdPsu1Part3Verify = psu1Part3->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
-        meterPsu1Part3Multi = psu1Part3->getMeterMulti();  // 放大倍数
-        setCmdPsu1Part3Test = psu1Part3->getSetCmdTest();  // 初始化并显示测试页设置电压命令
-        dmmCmdPsu1Part3Test = psu1Part3->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
-        meterCmdPsu1Part3Test = psu1Part3->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
-    }
-    showPsu1Part3PreCmdList();
-    for(int i=0; i != dataAndAddrListPsu1Part3->size(); ++i){
-        on_pushBtnPsu1Part3DataAdd_clicked();
-        checkBoxListPsu1Part3Data.at(i)->setChecked(dataAndAddrListPsu1Part3->at(i)->first);
-        dataLineEditListPsu1Part3Data.at(i)->setText(dataAndAddrListPsu1Part3->at(i)->second->first);
-        addrLineEditListPsu1Part3Data.at(i)->setText(dataAndAddrListPsu1Part3->at(i)->second->second);
-    }
-    nowIndexPsu1Part3Pre = -1;  // 换档命令框当前选项索引
-    nowCommandPsu1Part3 = NULL;
     ui->lineEditDataLengthPsu1Part3->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu1Part3VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu1Part3VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
@@ -273,86 +40,6 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu1Part3VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu1Part3TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu1Part3TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
-    ui->lineEditDataLengthPsu1Part3->setText(QString("%1").arg(dataLengthPsu1Part3));
-    ui->lineEditPsu1Part3VerifySetCmd->setText(setCmdPsu1Part3Verify->getName());
-    ui->lineEditPsu1Part3VerifySetStart->setText(setCmdPsu1Part3Verify->getStart());
-    ui->lineEditPsu1Part3VerifySetEnd->setText(setCmdPsu1Part3Verify->getEnd());
-    ui->lineEditPsu1Part3VerifySetJudge->setText(setCmdPsu1Part3Verify->getJudge());
-    ui->lineEditPsu1Part3VerifySetMulti->setText(QString("%1").arg(setPsu1Part3Multi));
-    ui->lineEditPsu1Part3VerifyDMMCmd->setText(dmmCmdPsu1Part3Verify->getName());
-    ui->lineEditPsu1Part3VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
-    ui->lineEditPsu1Part3VerifyDMMStart->setText(dmmCmdPsu1Part3Verify->getStart());
-    ui->lineEditPsu1Part3VerifyDMMEnd->setText(dmmCmdPsu1Part3Verify->getEnd());
-    ui->lineEditPsu1Part3VerifyDMMJudge->setText(dmmCmdPsu1Part3Verify->getRatio());
-    ui->lineEditPsu1Part3VerifyDMMMulti->setText(QString("%1").arg(dmmPsu1Part3Multi));
-    ui->lineEditPsu1Part3VerifyMeterCmd->setText(meterCmdPsu1Part3Verify->getName());
-    ui->lineEditPsu1Part3VerifyMeterJudge->setText(meterCmdPsu1Part3Verify->getRatio());
-    ui->lineEditPsu1Part3VerifyMeterMulti->setText(QString("%1").arg(meterPsu1Part3Multi));
-    ui->lineEditPsu1Part3TestSetCmd->setText(setCmdPsu1Part3Test->getName());
-    ui->lineEditPsu1Part3TestSetStart->setText(setCmdPsu1Part3Test->getStart());
-    ui->lineEditPsu1Part3TestSetEnd->setText(setCmdPsu1Part3Test->getEnd());
-    ui->lineEditPsu1Part3TestSetJudge->setText(setCmdPsu1Part3Test->getJudge());
-    ui->lineEditPsu1Part3TestDMMCmd->setText(dmmCmdPsu1Part3Test->getName());
-    ui->lineEditPsu1Part3TestDMMStart->setText(dmmCmdPsu1Part3Test->getStart());
-    ui->lineEditPsu1Part3TestDMMEnd->setText(dmmCmdPsu1Part3Test->getEnd());
-    ui->lineEditPsu1Part3TestDMMJudge->setText(dmmCmdPsu1Part3Test->getRatio());
-    ui->lineEditPsu1Part3TestMeterCmd->setText(meterCmdPsu1Part3Test->getName());
-    ui->lineEditPsu1Part3TestMeterJudge->setText(meterCmdPsu1Part3Test->getRatio());
-
-    nowIndexPsu1Part4Data = 0;  // 当前数据项索引
-    if(psu1Part4 == NULL){
-        cmdListPsu1Part4Pre = new QList<command *>;
-        dataAndAddrListPsu1Part4 = new QList<QPair<bool, QPair<QString, QString> *> *>;
-        dataLengthPsu1Part4 = 6;
-        setCmdPsu1Part4Verify = new command(QString("PSU1_I"));
-        setCmdPsu1Part4Verify->setStart(QString("("));
-        setCmdPsu1Part4Verify->setEnd(QString(";"));
-        setCmdPsu1Part4Verify->setJudge(QString("DONE"));
-        setCmdPsu1Part4Verify->setRatio(0);
-        setPsu1Part4Multi = 1;
-        dmmCmdPsu1Part4Verify = new command(QString("PSU1_CH4_Current_MEASURE_Real"));
-        dmmCmdPsu1Part4Verify->setParam(QString("AD"));
-        dmmCmdPsu1Part4Verify->setStart(QString("("));
-        dmmCmdPsu1Part4Verify->setEnd(QString(";"));
-        dmmCmdPsu1Part4Verify->setRatio(10);
-        dmmPsu1Part4Multi = 1;
-        meterCmdPsu1Part4Verify = new command(QString("read?"));
-        meterCmdPsu1Part4Verify->setRatio(10);
-        meterPsu1Part4Multi = 1;
-        setCmdPsu1Part4Test = new command(QString("PSU1_I"));
-        setCmdPsu1Part4Test->setStart(QString("("));
-        setCmdPsu1Part4Test->setEnd(QString(";"));
-        setCmdPsu1Part4Test->setJudge(QString("DONE"));
-        setCmdPsu1Part4Test->setRatio(0);
-        dmmCmdPsu1Part4Test = new command(QString("PSU1_CH4_Current_MEASURE_Real"));
-        dmmCmdPsu1Part4Test->setStart(QString("("));
-        dmmCmdPsu1Part4Test->setEnd(QString(";"));
-        dmmCmdPsu1Part4Test->setRatio(0.1);
-        meterCmdPsu1Part4Test = new command(QString("read?"));
-        meterCmdPsu1Part4Test->setRatio(0.1);
-    }else{
-        cmdListPsu1Part4Pre = psu1Part4->getCmdList();
-        dataAndAddrListPsu1Part4 = psu1Part4->getDataList();
-        dataLengthPsu1Part4 = psu1Part4->getDataLength();
-        setCmdPsu1Part4Verify = psu1Part4->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
-        setPsu1Part4Multi = psu1Part4->getSetMulti();   // 放大倍数
-        dmmCmdPsu1Part4Verify = psu1Part4->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
-        dmmPsu1Part4Multi = psu1Part4->getDmmMulti();  // 放大倍数
-        meterCmdPsu1Part4Verify = psu1Part4->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
-        meterPsu1Part4Multi = psu1Part4->getMeterMulti();  // 放大倍数
-        setCmdPsu1Part4Test = psu1Part4->getSetCmdTest();  // 初始化并显示测试页设置电压命令
-        dmmCmdPsu1Part4Test = psu1Part4->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
-        meterCmdPsu1Part4Test = psu1Part4->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
-    }
-    showPsu1Part4PreCmdList();
-    for(int i=0; i != dataAndAddrListPsu1Part4->size(); ++i){
-        on_pushBtnPsu1Part4DataAdd_clicked();
-        checkBoxListPsu1Part4Data.at(i)->setChecked(dataAndAddrListPsu1Part4->at(i)->first);
-        dataLineEditListPsu1Part4Data.at(i)->setText(dataAndAddrListPsu1Part4->at(i)->second->first);
-        addrLineEditListPsu1Part4Data.at(i)->setText(dataAndAddrListPsu1Part4->at(i)->second->second);
-    }
-    nowIndexPsu1Part4Pre = -1;  // 换档命令框当前选项索引
-    nowCommandPsu1Part4 = NULL;
     ui->lineEditDataLengthPsu1Part4->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu1Part4VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu1Part4VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
@@ -361,86 +48,6 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu1Part4VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu1Part4TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu1Part4TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
-    ui->lineEditDataLengthPsu1Part4->setText(QString("%1").arg(dataLengthPsu1Part4));
-    ui->lineEditPsu1Part4VerifySetCmd->setText(setCmdPsu1Part4Verify->getName());
-    ui->lineEditPsu1Part4VerifySetStart->setText(setCmdPsu1Part4Verify->getStart());
-    ui->lineEditPsu1Part4VerifySetEnd->setText(setCmdPsu1Part4Verify->getEnd());
-    ui->lineEditPsu1Part4VerifySetJudge->setText(setCmdPsu1Part4Verify->getJudge());
-    ui->lineEditPsu1Part4VerifySetMulti->setText(QString("%1").arg(setPsu1Part4Multi));
-    ui->lineEditPsu1Part4VerifyDMMCmd->setText(dmmCmdPsu1Part4Verify->getName());
-    ui->lineEditPsu1Part4VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
-    ui->lineEditPsu1Part4VerifyDMMStart->setText(dmmCmdPsu1Part4Verify->getStart());
-    ui->lineEditPsu1Part4VerifyDMMEnd->setText(dmmCmdPsu1Part4Verify->getEnd());
-    ui->lineEditPsu1Part4VerifyDMMJudge->setText(dmmCmdPsu1Part4Verify->getRatio());
-    ui->lineEditPsu1Part4VerifyDMMMulti->setText(QString("%1").arg(dmmPsu1Part4Multi));
-    ui->lineEditPsu1Part4VerifyMeterCmd->setText(meterCmdPsu1Part4Verify->getName());
-    ui->lineEditPsu1Part4VerifyMeterJudge->setText(meterCmdPsu1Part4Verify->getRatio());
-    ui->lineEditPsu1Part4VerifyMeterMulti->setText(QString("%1").arg(meterPsu1Part4Multi));
-    ui->lineEditPsu1Part4TestSetCmd->setText(setCmdPsu1Part4Test->getName());
-    ui->lineEditPsu1Part4TestSetStart->setText(setCmdPsu1Part4Test->getStart());
-    ui->lineEditPsu1Part4TestSetEnd->setText(setCmdPsu1Part4Test->getEnd());
-    ui->lineEditPsu1Part4TestSetJudge->setText(setCmdPsu1Part4Test->getJudge());
-    ui->lineEditPsu1Part4TestDMMCmd->setText(dmmCmdPsu1Part4Test->getName());
-    ui->lineEditPsu1Part4TestDMMStart->setText(dmmCmdPsu1Part4Test->getStart());
-    ui->lineEditPsu1Part4TestDMMEnd->setText(dmmCmdPsu1Part4Test->getEnd());
-    ui->lineEditPsu1Part4TestDMMJudge->setText(dmmCmdPsu1Part4Test->getRatio());
-    ui->lineEditPsu1Part4TestMeterCmd->setText(meterCmdPsu1Part4Test->getName());
-    ui->lineEditPsu1Part4TestMeterJudge->setText(meterCmdPsu1Part4Test->getRatio());
-
-    nowIndexPsu1Part5Data = 0;  // 当前数据项索引
-    if(psu1Part5 == NULL){
-        cmdListPsu1Part5Pre = new QList<command *>;
-        dataAndAddrListPsu1Part5 = new QList<QPair<bool, QPair<QString, QString> *> *>;
-        dataLengthPsu1Part5 = 6;
-        setCmdPsu1Part5Verify = new command(QString("PSU1_I"));
-        setCmdPsu1Part5Verify->setStart(QString("("));
-        setCmdPsu1Part5Verify->setEnd(QString(";"));
-        setCmdPsu1Part5Verify->setJudge(QString("DONE"));
-        setCmdPsu1Part5Verify->setRatio(0);
-        setPsu1Part5Multi = 1;
-        dmmCmdPsu1Part5Verify = new command(QString("PSU1_CH5_Current_MEASURE_Real"));
-        dmmCmdPsu1Part5Verify->setParam(QString("AD"));
-        dmmCmdPsu1Part5Verify->setStart(QString("("));
-        dmmCmdPsu1Part5Verify->setEnd(QString(";"));
-        dmmCmdPsu1Part5Verify->setRatio(10);
-        dmmPsu1Part5Multi = 1;
-        meterCmdPsu1Part5Verify = new command(QString("read?"));
-        meterCmdPsu1Part5Verify->setRatio(10);
-        meterPsu1Part5Multi = 1;
-        setCmdPsu1Part5Test = new command(QString("PSU1_I"));
-        setCmdPsu1Part5Test->setStart(QString("("));
-        setCmdPsu1Part5Test->setEnd(QString(";"));
-        setCmdPsu1Part5Test->setJudge(QString("DONE"));
-        setCmdPsu1Part5Test->setRatio(0);
-        dmmCmdPsu1Part5Test = new command(QString("PSU1_CH5_Current_MEASURE_Real"));
-        dmmCmdPsu1Part5Test->setStart(QString("("));
-        dmmCmdPsu1Part5Test->setEnd(QString(";"));
-        dmmCmdPsu1Part5Test->setRatio(0.1);
-        meterCmdPsu1Part5Test = new command(QString("read?"));
-        meterCmdPsu1Part5Test->setRatio(0.1);
-    }else{
-        cmdListPsu1Part5Pre = psu1Part5->getCmdList();
-        dataAndAddrListPsu1Part5 = psu1Part5->getDataList();
-        dataLengthPsu1Part5 = psu1Part5->getDataLength();
-        setCmdPsu1Part5Verify = psu1Part5->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
-        setPsu1Part5Multi = psu1Part5->getSetMulti();   // 放大倍数
-        dmmCmdPsu1Part5Verify = psu1Part5->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
-        dmmPsu1Part5Multi = psu1Part5->getDmmMulti();  // 放大倍数
-        meterCmdPsu1Part5Verify = psu1Part5->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
-        meterPsu1Part5Multi = psu1Part5->getMeterMulti();  // 放大倍数
-        setCmdPsu1Part5Test = psu1Part5->getSetCmdTest();  // 初始化并显示测试页设置电压命令
-        dmmCmdPsu1Part5Test = psu1Part5->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
-        meterCmdPsu1Part5Test = psu1Part5->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
-    }
-    showPsu1Part5PreCmdList();
-    for(int i=0; i != dataAndAddrListPsu1Part5->size(); ++i){
-        on_pushBtnPsu1Part5DataAdd_clicked();
-        checkBoxListPsu1Part5Data.at(i)->setChecked(dataAndAddrListPsu1Part5->at(i)->first);
-        dataLineEditListPsu1Part5Data.at(i)->setText(dataAndAddrListPsu1Part5->at(i)->second->first);
-        addrLineEditListPsu1Part5Data.at(i)->setText(dataAndAddrListPsu1Part5->at(i)->second->second);
-    }
-    nowIndexPsu1Part5Pre = -1;  // 换档命令框当前选项索引
-    nowCommandPsu1Part5 = NULL;
     ui->lineEditDataLengthPsu1Part5->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu1Part5VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu1Part5VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
@@ -449,106 +56,8 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu1Part5VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu1Part5TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu1Part5TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
-    ui->lineEditDataLengthPsu1Part5->setText(QString("%1").arg(dataLengthPsu1Part5));
-    ui->lineEditPsu1Part5VerifySetCmd->setText(setCmdPsu1Part5Verify->getName());
-    ui->lineEditPsu1Part5VerifySetStart->setText(setCmdPsu1Part5Verify->getStart());
-    ui->lineEditPsu1Part5VerifySetEnd->setText(setCmdPsu1Part5Verify->getEnd());
-    ui->lineEditPsu1Part5VerifySetJudge->setText(setCmdPsu1Part5Verify->getJudge());
-    ui->lineEditPsu1Part5VerifySetMulti->setText(QString("%1").arg(setPsu1Part5Multi));
-    ui->lineEditPsu1Part5VerifyDMMCmd->setText(dmmCmdPsu1Part5Verify->getName());
-    ui->lineEditPsu1Part5VerifyDMMParam->setText(dmmCmdPsu1Part5Verify->getParam());
-    ui->lineEditPsu1Part5VerifyDMMStart->setText(dmmCmdPsu1Part5Verify->getStart());
-    ui->lineEditPsu1Part5VerifyDMMEnd->setText(dmmCmdPsu1Part5Verify->getEnd());
-    ui->lineEditPsu1Part5VerifyDMMJudge->setText(dmmCmdPsu1Part5Verify->getRatio());
-    ui->lineEditPsu1Part5VerifyDMMMulti->setText(QString("%1").arg(dmmPsu1Part5Multi));
-    ui->lineEditPsu1Part5VerifyMeterCmd->setText(meterCmdPsu1Part5Verify->getName());
-    ui->lineEditPsu1Part5VerifyMeterJudge->setText(meterCmdPsu1Part5Verify->getRatio());
-    ui->lineEditPsu1Part5VerifyMeterMulti->setText(QString("%1").arg(meterPsu1Part5Multi));
-    ui->lineEditPsu1Part5TestSetCmd->setText(setCmdPsu1Part5Test->getName());
-    ui->lineEditPsu1Part5TestSetStart->setText(setCmdPsu1Part5Test->getStart());
-    ui->lineEditPsu1Part5TestSetEnd->setText(setCmdPsu1Part5Test->getEnd());
-    ui->lineEditPsu1Part5TestSetJudge->setText(setCmdPsu1Part5Test->getJudge());
-    ui->lineEditPsu1Part5TestDMMCmd->setText(dmmCmdPsu1Part5Test->getName());
-    ui->lineEditPsu1Part5TestDMMStart->setText(dmmCmdPsu1Part5Test->getStart());
-    ui->lineEditPsu1Part5TestDMMEnd->setText(dmmCmdPsu1Part5Test->getEnd());
-    ui->lineEditPsu1Part5TestDMMJudge->setText(dmmCmdPsu1Part5Test->getRatio());
-    ui->lineEditPsu1Part5TestMeterCmd->setText(meterCmdPsu1Part5Test->getName());
-    ui->lineEditPsu1Part5TestMeterJudge->setText(meterCmdPsu1Part5Test->getRatio());
+    repaintPsu1();
 
-    if(itemPsu2 == NULL){
-        // PSU2  前置命令
-        cmdListPsu2Pre = new QList<command *>;
-        psu2Part1 = NULL;
-        psu2Part2 = NULL;
-        psu2Part3 = NULL;
-        psu2Part4 = NULL;
-        psu2Part5 = NULL;
-    }else{
-        cmdListPsu2Pre = psu2->getPreCmdList();
-        showPsu2PreCmdList();
-        psu2Part1 = itemPsu2->getPart1();
-        psu2Part2 = itemPsu2->getPart2();
-        psu2Part3 = itemPsu2->getPart3();
-        psu2Part4 = itemPsu2->getPart4();
-        psu2Part5 = itemPsu2->getPart5();
-    }
-    nowIndexPsu2Pre = -1;  // 前置命令框当前选项索引
-    nowCommandPsu2 = NULL;
-
-    nowIndexPsu2Part1Data = 0;  // 当前数据项索引
-    if(psu2Part1 == NULL){
-        cmdListPsu2Part1Pre = new QList<command *>;
-        dataAndAddrListPsu2Part1 = new QList<QPair<bool, QPair<QString, QString> *> *>;
-        dataLengthPsu2Part1 = 6;
-        setCmdPsu2Part1Verify = new command(QString("PSU2_I"));
-        setCmdPsu2Part1Verify->setStart(QString("("));
-        setCmdPsu2Part1Verify->setEnd(QString(";"));
-        setCmdPsu2Part1Verify->setJudge(QString("DONE"));
-        setCmdPsu2Part1Verify->setRatio(0);
-        setPsu2Part1Multi = 1;
-        dmmCmdPsu2Part1Verify = new command(QString("PSU2_CH1_Current_MEASURE_Real"));
-        dmmCmdPsu2Part1Verify->setParam(QString("AD"));
-        dmmCmdPsu2Part1Verify->setStart(QString("("));
-        dmmCmdPsu2Part1Verify->setEnd(QString(";"));
-        dmmCmdPsu2Part1Verify->setRatio(10);
-        dmmPsu2Part1Multi = 1;
-        meterCmdPsu2Part1Verify = new command(QString("read?"));
-        meterCmdPsu2Part1Verify->setRatio(10);
-        meterPsu2Part1Multi = 1;
-        setCmdPsu2Part1Test = new command(QString("PSU2_I"));
-        setCmdPsu2Part1Test->setStart(QString("("));
-        setCmdPsu2Part1Test->setEnd(QString(";"));
-        setCmdPsu2Part1Test->setJudge(QString("DONE"));
-        setCmdPsu2Part1Test->setRatio(0);
-        dmmCmdPsu2Part1Test = new command(QString("PSU2_CH1_Current_MEASURE_Real"));
-        dmmCmdPsu2Part1Test->setStart(QString("("));
-        dmmCmdPsu2Part1Test->setEnd(QString(";"));
-        dmmCmdPsu2Part1Test->setRatio(0.1);
-        meterCmdPsu2Part1Test = new command(QString("read?"));
-        meterCmdPsu2Part1Test->setRatio(0.1);
-    }else{
-        cmdListPsu2Part1Pre = psu2Part1->getCmdList();
-        dataAndAddrListPsu2Part1 = psu2Part1->getDataList();
-        dataLengthPsu2Part1 = psu2Part1->getDataLength();
-        setCmdPsu2Part1Verify = psu2Part1->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
-        setPsu2Part1Multi = psu2Part1->getSetMulti();   // 放大倍数
-        dmmCmdPsu2Part1Verify = psu2Part1->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
-        dmmPsu2Part1Multi = psu2Part1->getDmmMulti();  // 放大倍数
-        meterCmdPsu2Part1Verify = psu2Part1->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
-        meterPsu2Part1Multi = psu2Part1->getMeterMulti();  // 放大倍数
-        setCmdPsu2Part1Test = psu2Part1->getSetCmdTest();  // 初始化并显示测试页设置电压命令
-        dmmCmdPsu2Part1Test = psu2Part1->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
-        meterCmdPsu2Part1Test = psu2Part1->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
-    }
-    showPsu2Part1PreCmdList();
-    for(int i=0; i != dataAndAddrListPsu2Part1->size(); ++i){
-        on_pushBtnPsu2Part1DataAdd_clicked();
-        checkBoxListPsu2Part1Data.at(i)->setChecked(dataAndAddrListPsu2Part1->at(i)->first);
-        dataLineEditListPsu2Part1Data.at(i)->setText(dataAndAddrListPsu2Part1->at(i)->second->first);
-        addrLineEditListPsu2Part1Data.at(i)->setText(dataAndAddrListPsu2Part1->at(i)->second->second);
-    }
-    nowIndexPsu2Part1Pre = -1;  // 换档命令框当前选项索引
-    nowCommandPsu2Part1 = NULL;
     ui->lineEditDataLengthPsu2Part1->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu2Part1VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu2Part1VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
@@ -557,86 +66,6 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu2Part1VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu2Part1TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu2Part1TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
-    ui->lineEditDataLengthPsu2Part1->setText(QString("%1").arg(dataLengthPsu2Part1));
-    ui->lineEditPsu2Part1VerifySetCmd->setText(setCmdPsu2Part1Verify->getName());
-    ui->lineEditPsu2Part1VerifySetStart->setText(setCmdPsu2Part1Verify->getStart());
-    ui->lineEditPsu2Part1VerifySetEnd->setText(setCmdPsu2Part1Verify->getEnd());
-    ui->lineEditPsu2Part1VerifySetJudge->setText(setCmdPsu2Part1Verify->getJudge());
-    ui->lineEditPsu2Part1VerifySetMulti->setText(QString("%1").arg(setPsu2Part1Multi));
-    ui->lineEditPsu2Part1VerifyDMMCmd->setText(dmmCmdPsu2Part1Verify->getName());
-    ui->lineEditPsu2Part1VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
-    ui->lineEditPsu2Part1VerifyDMMStart->setText(dmmCmdPsu2Part1Verify->getStart());
-    ui->lineEditPsu2Part1VerifyDMMEnd->setText(dmmCmdPsu2Part1Verify->getEnd());
-    ui->lineEditPsu2Part1VerifyDMMJudge->setText(dmmCmdPsu2Part1Verify->getRatio());
-    ui->lineEditPsu2Part1VerifyDMMMulti->setText(QString("%1").arg(dmmPsu2Part1Multi));
-    ui->lineEditPsu2Part1VerifyMeterCmd->setText(meterCmdPsu2Part1Verify->getName());
-    ui->lineEditPsu2Part1VerifyMeterJudge->setText(meterCmdPsu2Part1Verify->getRatio());
-    ui->lineEditPsu2Part1VerifyMeterMulti->setText(QString("%1").arg(meterPsu2Part1Multi));
-    ui->lineEditPsu2Part1TestSetCmd->setText(setCmdPsu2Part1Test->getName());
-    ui->lineEditPsu2Part1TestSetStart->setText(setCmdPsu2Part1Test->getStart());
-    ui->lineEditPsu2Part1TestSetEnd->setText(setCmdPsu2Part1Test->getEnd());
-    ui->lineEditPsu2Part1TestSetJudge->setText(setCmdPsu2Part1Test->getJudge());
-    ui->lineEditPsu2Part1TestDMMCmd->setText(dmmCmdPsu2Part1Test->getName());
-    ui->lineEditPsu2Part1TestDMMStart->setText(dmmCmdPsu2Part1Test->getStart());
-    ui->lineEditPsu2Part1TestDMMEnd->setText(dmmCmdPsu2Part1Test->getEnd());
-    ui->lineEditPsu2Part1TestDMMJudge->setText(dmmCmdPsu2Part1Test->getRatio());
-    ui->lineEditPsu2Part1TestMeterCmd->setText(meterCmdPsu2Part1Test->getName());
-    ui->lineEditPsu2Part1TestMeterJudge->setText(meterCmdPsu2Part1Test->getRatio());
-
-    nowIndexPsu2Part2Data = 0;  // 当前数据项索引
-    if(psu2Part2 == NULL){
-        cmdListPsu2Part2Pre = new QList<command *>;
-        dataAndAddrListPsu2Part2 = new QList<QPair<bool, QPair<QString, QString> *> *>;
-        dataLengthPsu2Part2 = 6;
-        setCmdPsu2Part2Verify = new command(QString("PSU2_I"));
-        setCmdPsu2Part2Verify->setStart(QString("("));
-        setCmdPsu2Part2Verify->setEnd(QString(";"));
-        setCmdPsu2Part2Verify->setJudge(QString("DONE"));
-        setCmdPsu2Part2Verify->setRatio(0);
-        setPsu2Part2Multi = 1;
-        dmmCmdPsu2Part2Verify = new command(QString("PSU2_CH2_Current_MEASURE_Real"));
-        dmmCmdPsu2Part2Verify->setParam(QString("AD"));
-        dmmCmdPsu2Part2Verify->setStart(QString("("));
-        dmmCmdPsu2Part2Verify->setEnd(QString(";"));
-        dmmCmdPsu2Part2Verify->setRatio(10);
-        dmmPsu2Part2Multi = 1;
-        meterCmdPsu2Part2Verify = new command(QString("read?"));
-        meterCmdPsu2Part2Verify->setRatio(10);
-        meterPsu2Part2Multi = 1;
-        setCmdPsu2Part2Test = new command(QString("PSU2_I"));
-        setCmdPsu2Part2Test->setStart(QString("("));
-        setCmdPsu2Part2Test->setEnd(QString(";"));
-        setCmdPsu2Part2Test->setJudge(QString("DONE"));
-        setCmdPsu2Part2Test->setRatio(0);
-        dmmCmdPsu2Part2Test = new command(QString("PSU2_CH2_Current_MEASURE_Real"));
-        dmmCmdPsu2Part2Test->setStart(QString("("));
-        dmmCmdPsu2Part2Test->setEnd(QString(";"));
-        dmmCmdPsu2Part2Test->setRatio(0.1);
-        meterCmdPsu2Part2Test = new command(QString("read?"));
-        meterCmdPsu2Part2Test->setRatio(0.1);
-    }else{
-        cmdListPsu2Part2Pre = psu2Part2->getCmdList();
-        dataAndAddrListPsu2Part2 = psu2Part2->getDataList();
-        dataLengthPsu2Part2 = psu2Part2->getDataLength();
-        setCmdPsu2Part2Verify = psu2Part2->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
-        setPsu2Part2Multi = psu2Part2->getSetMulti();   // 放大倍数
-        dmmCmdPsu2Part2Verify = psu2Part2->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
-        dmmPsu2Part2Multi = psu2Part2->getDmmMulti();  // 放大倍数
-        meterCmdPsu2Part2Verify = psu2Part2->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
-        meterPsu2Part2Multi = psu2Part2->getMeterMulti();  // 放大倍数
-        setCmdPsu2Part2Test = psu2Part2->getSetCmdTest();  // 初始化并显示测试页设置电压命令
-        dmmCmdPsu2Part2Test = psu2Part2->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
-        meterCmdPsu2Part2Test = psu2Part2->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
-    }
-    showPsu2Part2PreCmdList();
-    for(int i=0; i != dataAndAddrListPsu2Part2->size(); ++i){
-        on_pushBtnPsu2Part2DataAdd_clicked();
-        checkBoxListPsu2Part2Data.at(i)->setChecked(dataAndAddrListPsu2Part2->at(i)->first);
-        dataLineEditListPsu2Part2Data.at(i)->setText(dataAndAddrListPsu2Part2->at(i)->second->first);
-        addrLineEditListPsu2Part2Data.at(i)->setText(dataAndAddrListPsu2Part2->at(i)->second->second);
-    }
-    nowIndexPsu2Part2Pre = -1;  // 换档命令框当前选项索引
-    nowCommandPsu2Part2 = NULL;
     ui->lineEditDataLengthPsu2Part2->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu2Part2VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu2Part2VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
@@ -645,86 +74,6 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu2Part2VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu2Part2TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu2Part2TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
-    ui->lineEditDataLengthPsu2Part2->setText(QString("%1").arg(dataLengthPsu2Part2));
-    ui->lineEditPsu2Part2VerifySetCmd->setText(setCmdPsu2Part2Verify->getName());
-    ui->lineEditPsu2Part2VerifySetStart->setText(setCmdPsu2Part2Verify->getStart());
-    ui->lineEditPsu2Part2VerifySetEnd->setText(setCmdPsu2Part2Verify->getEnd());
-    ui->lineEditPsu2Part2VerifySetJudge->setText(setCmdPsu2Part2Verify->getJudge());
-    ui->lineEditPsu2Part2VerifySetMulti->setText(QString("%1").arg(setPsu2Part2Multi));
-    ui->lineEditPsu2Part2VerifyDMMCmd->setText(dmmCmdPsu2Part2Verify->getName());
-    ui->lineEditPsu2Part2VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
-    ui->lineEditPsu2Part2VerifyDMMStart->setText(dmmCmdPsu2Part2Verify->getStart());
-    ui->lineEditPsu2Part2VerifyDMMEnd->setText(dmmCmdPsu2Part2Verify->getEnd());
-    ui->lineEditPsu2Part2VerifyDMMJudge->setText(dmmCmdPsu2Part2Verify->getRatio());
-    ui->lineEditPsu2Part2VerifyDMMMulti->setText(QString("%1").arg(dmmPsu2Part2Multi));
-    ui->lineEditPsu2Part2VerifyMeterCmd->setText(meterCmdPsu2Part2Verify->getName());
-    ui->lineEditPsu2Part2VerifyMeterJudge->setText(meterCmdPsu2Part2Verify->getRatio());
-    ui->lineEditPsu2Part2VerifyMeterMulti->setText(QString("%1").arg(meterPsu2Part2Multi));
-    ui->lineEditPsu2Part2TestSetCmd->setText(setCmdPsu2Part2Test->getName());
-    ui->lineEditPsu2Part2TestSetStart->setText(setCmdPsu2Part2Test->getStart());
-    ui->lineEditPsu2Part2TestSetEnd->setText(setCmdPsu2Part2Test->getEnd());
-    ui->lineEditPsu2Part2TestSetJudge->setText(setCmdPsu2Part2Test->getJudge());
-    ui->lineEditPsu2Part2TestDMMCmd->setText(dmmCmdPsu2Part2Test->getName());
-    ui->lineEditPsu2Part2TestDMMStart->setText(dmmCmdPsu2Part2Test->getStart());
-    ui->lineEditPsu2Part2TestDMMEnd->setText(dmmCmdPsu2Part2Test->getEnd());
-    ui->lineEditPsu2Part2TestDMMJudge->setText(dmmCmdPsu2Part2Test->getRatio());
-    ui->lineEditPsu2Part2TestMeterCmd->setText(meterCmdPsu2Part2Test->getName());
-    ui->lineEditPsu2Part2TestMeterJudge->setText(meterCmdPsu2Part2Test->getRatio());
-
-    nowIndexPsu2Part3Data = 0;  // 当前数据项索引
-    if(psu2Part3 == NULL){
-        cmdListPsu2Part3Pre = new QList<command *>;
-        dataAndAddrListPsu2Part3 = new QList<QPair<bool, QPair<QString, QString> *> *>;
-        dataLengthPsu2Part3 = 6;
-        setCmdPsu2Part3Verify = new command(QString("PSU2_I"));
-        setCmdPsu2Part3Verify->setStart(QString("("));
-        setCmdPsu2Part3Verify->setEnd(QString(";"));
-        setCmdPsu2Part3Verify->setJudge(QString("DONE"));
-        setCmdPsu2Part3Verify->setRatio(0);
-        setPsu2Part3Multi = 1;
-        dmmCmdPsu2Part3Verify = new command(QString("PSU2_CH3_Current_MEASURE_Real"));
-        dmmCmdPsu2Part3Verify->setParam(QString("AD"));
-        dmmCmdPsu2Part3Verify->setStart(QString("("));
-        dmmCmdPsu2Part3Verify->setEnd(QString(";"));
-        dmmCmdPsu2Part3Verify->setRatio(10);
-        dmmPsu2Part3Multi = 1;
-        meterCmdPsu2Part3Verify = new command(QString("read?"));
-        meterCmdPsu2Part3Verify->setRatio(10);
-        meterPsu2Part3Multi = 1;
-        setCmdPsu2Part3Test = new command(QString("PSU2_I"));
-        setCmdPsu2Part3Test->setStart(QString("("));
-        setCmdPsu2Part3Test->setEnd(QString(";"));
-        setCmdPsu2Part3Test->setJudge(QString("DONE"));
-        setCmdPsu2Part3Test->setRatio(0);
-        dmmCmdPsu2Part3Test = new command(QString("PSU2_CH3_Current_MEASURE_Real"));
-        dmmCmdPsu2Part3Test->setStart(QString("("));
-        dmmCmdPsu2Part3Test->setEnd(QString(";"));
-        dmmCmdPsu2Part3Test->setRatio(0.1);
-        meterCmdPsu2Part3Test = new command(QString("read?"));
-        meterCmdPsu2Part3Test->setRatio(0.1);
-    }else{
-        cmdListPsu2Part3Pre = psu2Part3->getCmdList();
-        dataAndAddrListPsu2Part3 = psu2Part3->getDataList();
-        dataLengthPsu2Part3 = psu2Part3->getDataLength();
-        setCmdPsu2Part3Verify = psu2Part3->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
-        setPsu2Part3Multi = psu2Part3->getSetMulti();   // 放大倍数
-        dmmCmdPsu2Part3Verify = psu2Part3->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
-        dmmPsu2Part3Multi = psu2Part3->getDmmMulti();  // 放大倍数
-        meterCmdPsu2Part3Verify = psu2Part3->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
-        meterPsu2Part3Multi = psu2Part3->getMeterMulti();  // 放大倍数
-        setCmdPsu2Part3Test = psu2Part3->getSetCmdTest();  // 初始化并显示测试页设置电压命令
-        dmmCmdPsu2Part3Test = psu2Part3->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
-        meterCmdPsu2Part3Test = psu2Part3->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
-    }
-    showPsu2Part3PreCmdList();
-    for(int i=0; i != dataAndAddrListPsu2Part3->size(); ++i){
-        on_pushBtnPsu2Part3DataAdd_clicked();
-        checkBoxListPsu2Part3Data.at(i)->setChecked(dataAndAddrListPsu2Part3->at(i)->first);
-        dataLineEditListPsu2Part3Data.at(i)->setText(dataAndAddrListPsu2Part3->at(i)->second->first);
-        addrLineEditListPsu2Part3Data.at(i)->setText(dataAndAddrListPsu2Part3->at(i)->second->second);
-    }
-    nowIndexPsu2Part3Pre = -1;  // 换档命令框当前选项索引
-    nowCommandPsu2Part3 = NULL;
     ui->lineEditDataLengthPsu2Part3->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu2Part3VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu2Part3VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
@@ -733,86 +82,6 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu2Part3VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu2Part3TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu2Part3TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
-    ui->lineEditDataLengthPsu2Part3->setText(QString("%1").arg(dataLengthPsu2Part3));
-    ui->lineEditPsu2Part3VerifySetCmd->setText(setCmdPsu2Part3Verify->getName());
-    ui->lineEditPsu2Part3VerifySetStart->setText(setCmdPsu2Part3Verify->getStart());
-    ui->lineEditPsu2Part3VerifySetEnd->setText(setCmdPsu2Part3Verify->getEnd());
-    ui->lineEditPsu2Part3VerifySetJudge->setText(setCmdPsu2Part3Verify->getJudge());
-    ui->lineEditPsu2Part3VerifySetMulti->setText(QString("%1").arg(setPsu2Part3Multi));
-    ui->lineEditPsu2Part3VerifyDMMCmd->setText(dmmCmdPsu2Part3Verify->getName());
-    ui->lineEditPsu2Part3VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
-    ui->lineEditPsu2Part3VerifyDMMStart->setText(dmmCmdPsu2Part3Verify->getStart());
-    ui->lineEditPsu2Part3VerifyDMMEnd->setText(dmmCmdPsu2Part3Verify->getEnd());
-    ui->lineEditPsu2Part3VerifyDMMJudge->setText(dmmCmdPsu2Part3Verify->getRatio());
-    ui->lineEditPsu2Part3VerifyDMMMulti->setText(QString("%1").arg(dmmPsu2Part3Multi));
-    ui->lineEditPsu2Part3VerifyMeterCmd->setText(meterCmdPsu2Part3Verify->getName());
-    ui->lineEditPsu2Part3VerifyMeterJudge->setText(meterCmdPsu2Part3Verify->getRatio());
-    ui->lineEditPsu2Part3VerifyMeterMulti->setText(QString("%1").arg(meterPsu2Part3Multi));
-    ui->lineEditPsu2Part3TestSetCmd->setText(setCmdPsu2Part3Test->getName());
-    ui->lineEditPsu2Part3TestSetStart->setText(setCmdPsu2Part3Test->getStart());
-    ui->lineEditPsu2Part3TestSetEnd->setText(setCmdPsu2Part3Test->getEnd());
-    ui->lineEditPsu2Part3TestSetJudge->setText(setCmdPsu2Part3Test->getJudge());
-    ui->lineEditPsu2Part3TestDMMCmd->setText(dmmCmdPsu2Part3Test->getName());
-    ui->lineEditPsu2Part3TestDMMStart->setText(dmmCmdPsu2Part3Test->getStart());
-    ui->lineEditPsu2Part3TestDMMEnd->setText(dmmCmdPsu2Part3Test->getEnd());
-    ui->lineEditPsu2Part3TestDMMJudge->setText(dmmCmdPsu2Part3Test->getRatio());
-    ui->lineEditPsu2Part3TestMeterCmd->setText(meterCmdPsu2Part3Test->getName());
-    ui->lineEditPsu2Part3TestMeterJudge->setText(meterCmdPsu2Part3Test->getRatio());
-
-    nowIndexPsu2Part4Data = 0;  // 当前数据项索引
-    if(psu2Part4 == NULL){
-        cmdListPsu2Part4Pre = new QList<command *>;
-        dataAndAddrListPsu2Part4 = new QList<QPair<bool, QPair<QString, QString> *> *>;
-        dataLengthPsu2Part4 = 6;
-        setCmdPsu2Part4Verify = new command(QString("PSU2_I"));
-        setCmdPsu2Part4Verify->setStart(QString("("));
-        setCmdPsu2Part4Verify->setEnd(QString(";"));
-        setCmdPsu2Part4Verify->setJudge(QString("DONE"));
-        setCmdPsu2Part4Verify->setRatio(0);
-        setPsu2Part4Multi = 1;
-        dmmCmdPsu2Part4Verify = new command(QString("PSU2_CH4_Current_MEASURE_Real"));
-        dmmCmdPsu2Part4Verify->setParam(QString("AD"));
-        dmmCmdPsu2Part4Verify->setStart(QString("("));
-        dmmCmdPsu2Part4Verify->setEnd(QString(";"));
-        dmmCmdPsu2Part4Verify->setRatio(10);
-        dmmPsu2Part4Multi = 1;
-        meterCmdPsu2Part4Verify = new command(QString("read?"));
-        meterCmdPsu2Part4Verify->setRatio(10);
-        meterPsu2Part4Multi = 1;
-        setCmdPsu2Part4Test = new command(QString("PSU2_I"));
-        setCmdPsu2Part4Test->setStart(QString("("));
-        setCmdPsu2Part4Test->setEnd(QString(";"));
-        setCmdPsu2Part4Test->setJudge(QString("DONE"));
-        setCmdPsu2Part4Test->setRatio(0);
-        dmmCmdPsu2Part4Test = new command(QString("PSU2_CH4_Current_MEASURE_Real"));
-        dmmCmdPsu2Part4Test->setStart(QString("("));
-        dmmCmdPsu2Part4Test->setEnd(QString(";"));
-        dmmCmdPsu2Part4Test->setRatio(0.1);
-        meterCmdPsu2Part4Test = new command(QString("read?"));
-        meterCmdPsu2Part4Test->setRatio(0.1);
-    }else{
-        cmdListPsu2Part4Pre = psu2Part4->getCmdList();
-        dataAndAddrListPsu2Part4 = psu2Part4->getDataList();
-        dataLengthPsu2Part4 = psu2Part4->getDataLength();
-        setCmdPsu2Part4Verify = psu2Part4->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
-        setPsu2Part4Multi = psu2Part4->getSetMulti();   // 放大倍数
-        dmmCmdPsu2Part4Verify = psu2Part4->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
-        dmmPsu2Part4Multi = psu2Part4->getDmmMulti();  // 放大倍数
-        meterCmdPsu2Part4Verify = psu2Part4->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
-        meterPsu2Part4Multi = psu2Part4->getMeterMulti();  // 放大倍数
-        setCmdPsu2Part4Test = psu2Part4->getSetCmdTest();  // 初始化并显示测试页设置电压命令
-        dmmCmdPsu2Part4Test = psu2Part4->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
-        meterCmdPsu2Part4Test = psu2Part4->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
-    }
-    showPsu2Part4PreCmdList();
-    for(int i=0; i != dataAndAddrListPsu2Part4->size(); ++i){
-        on_pushBtnPsu2Part4DataAdd_clicked();
-        checkBoxListPsu2Part4Data.at(i)->setChecked(dataAndAddrListPsu2Part4->at(i)->first);
-        dataLineEditListPsu2Part4Data.at(i)->setText(dataAndAddrListPsu2Part4->at(i)->second->first);
-        addrLineEditListPsu2Part4Data.at(i)->setText(dataAndAddrListPsu2Part4->at(i)->second->second);
-    }
-    nowIndexPsu2Part4Pre = -1;  // 换档命令框当前选项索引
-    nowCommandPsu2Part4 = NULL;
     ui->lineEditDataLengthPsu2Part4->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu2Part4VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu2Part4VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
@@ -821,86 +90,6 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu2Part4VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu2Part4TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu2Part4TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
-    ui->lineEditDataLengthPsu2Part4->setText(QString("%1").arg(dataLengthPsu2Part1));
-    ui->lineEditPsu2Part4VerifySetCmd->setText(setCmdPsu2Part4Verify->getName());
-    ui->lineEditPsu2Part4VerifySetStart->setText(setCmdPsu2Part4Verify->getStart());
-    ui->lineEditPsu2Part4VerifySetEnd->setText(setCmdPsu2Part4Verify->getEnd());
-    ui->lineEditPsu2Part4VerifySetJudge->setText(setCmdPsu2Part4Verify->getJudge());
-    ui->lineEditPsu2Part4VerifySetMulti->setText(QString("%1").arg(setPsu2Part4Multi));
-    ui->lineEditPsu2Part4VerifyDMMCmd->setText(dmmCmdPsu2Part4Verify->getName());
-    ui->lineEditPsu2Part4VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
-    ui->lineEditPsu2Part4VerifyDMMStart->setText(dmmCmdPsu2Part4Verify->getStart());
-    ui->lineEditPsu2Part4VerifyDMMEnd->setText(dmmCmdPsu2Part4Verify->getEnd());
-    ui->lineEditPsu2Part4VerifyDMMJudge->setText(dmmCmdPsu2Part4Verify->getRatio());
-    ui->lineEditPsu2Part4VerifyDMMMulti->setText(QString("%1").arg(dmmPsu2Part4Multi));
-    ui->lineEditPsu2Part4VerifyMeterCmd->setText(meterCmdPsu2Part4Verify->getName());
-    ui->lineEditPsu2Part4VerifyMeterJudge->setText(meterCmdPsu2Part4Verify->getRatio());
-    ui->lineEditPsu2Part4VerifyMeterMulti->setText(QString("%1").arg(meterPsu2Part4Multi));
-    ui->lineEditPsu2Part4TestSetCmd->setText(setCmdPsu2Part4Test->getName());
-    ui->lineEditPsu2Part4TestSetStart->setText(setCmdPsu2Part4Test->getStart());
-    ui->lineEditPsu2Part4TestSetEnd->setText(setCmdPsu2Part4Test->getEnd());
-    ui->lineEditPsu2Part4TestSetJudge->setText(setCmdPsu2Part4Test->getJudge());
-    ui->lineEditPsu2Part4TestDMMCmd->setText(dmmCmdPsu2Part4Test->getName());
-    ui->lineEditPsu2Part4TestDMMStart->setText(dmmCmdPsu2Part4Test->getStart());
-    ui->lineEditPsu2Part4TestDMMEnd->setText(dmmCmdPsu2Part4Test->getEnd());
-    ui->lineEditPsu2Part4TestDMMJudge->setText(dmmCmdPsu2Part4Test->getRatio());
-    ui->lineEditPsu2Part4TestMeterCmd->setText(meterCmdPsu2Part4Test->getName());
-    ui->lineEditPsu2Part4TestMeterJudge->setText(meterCmdPsu2Part4Test->getRatio());
-
-    nowIndexPsu2Part5Data = 0;  // 当前数据项索引
-    if(psu2Part5 == NULL){
-        cmdListPsu2Part5Pre = new QList<command *>;
-        dataAndAddrListPsu2Part5 = new QList<QPair<bool, QPair<QString, QString> *> *>;
-        dataLengthPsu2Part5 = 6;
-        setCmdPsu2Part5Verify = new command(QString("PSU2_I"));
-        setCmdPsu2Part5Verify->setStart(QString("("));
-        setCmdPsu2Part5Verify->setEnd(QString(";"));
-        setCmdPsu2Part5Verify->setJudge(QString("DONE"));
-        setCmdPsu2Part5Verify->setRatio(0);
-        setPsu2Part5Multi = 1;
-        dmmCmdPsu2Part5Verify = new command(QString("PSU2_CH5_Current_MEASURE_Real"));
-        dmmCmdPsu2Part5Verify->setParam(QString("AD"));
-        dmmCmdPsu2Part5Verify->setStart(QString("("));
-        dmmCmdPsu2Part5Verify->setEnd(QString(";"));
-        dmmCmdPsu2Part5Verify->setRatio(10);
-        dmmPsu2Part5Multi = 1;
-        meterCmdPsu2Part5Verify = new command(QString("read?"));
-        meterCmdPsu2Part5Verify->setRatio(10);
-        meterPsu2Part5Multi = 1;
-        setCmdPsu2Part5Test = new command(QString("PSU2_I"));
-        setCmdPsu2Part5Test->setStart(QString("("));
-        setCmdPsu2Part5Test->setEnd(QString(";"));
-        setCmdPsu2Part5Test->setJudge(QString("DONE"));
-        setCmdPsu2Part5Test->setRatio(0);
-        dmmCmdPsu2Part5Test = new command(QString("PSU2_CH5_Current_MEASURE_Real"));
-        dmmCmdPsu2Part5Test->setStart(QString("("));
-        dmmCmdPsu2Part5Test->setEnd(QString(";"));
-        dmmCmdPsu2Part5Test->setRatio(0.1);
-        meterCmdPsu2Part5Test = new command(QString("read?"));
-        meterCmdPsu2Part5Test->setRatio(0.1);
-    }else{
-        cmdListPsu2Part5Pre = psu2Part5->getCmdList();
-        dataAndAddrListPsu2Part5 = psu2Part5->getDataList();
-        dataLengthPsu2Part5 = psu2Part5->getDataLength();
-        setCmdPsu2Part5Verify = psu2Part5->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
-        setPsu2Part5Multi = psu2Part5->getSetMulti();   // 放大倍数
-        dmmCmdPsu2Part5Verify = psu2Part5->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
-        dmmPsu2Part5Multi = psu2Part5->getDmmMulti();  // 放大倍数
-        meterCmdPsu2Part5Verify = psu2Part5->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
-        meterPsu2Part5Multi = psu2Part5->getMeterMulti();  // 放大倍数
-        setCmdPsu2Part5Test = psu2Part5->getSetCmdTest();  // 初始化并显示测试页设置电压命令
-        dmmCmdPsu2Part5Test = psu2Part5->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
-        meterCmdPsu2Part5Test = psu2Part5->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
-    }
-    showPsu2Part5PreCmdList();
-    for(int i=0; i != dataAndAddrListPsu2Part5->size(); ++i){
-        on_pushBtnPsu2Part5DataAdd_clicked();
-        checkBoxListPsu2Part5Data.at(i)->setChecked(dataAndAddrListPsu2Part5->at(i)->first);
-        dataLineEditListPsu2Part5Data.at(i)->setText(dataAndAddrListPsu2Part5->at(i)->second->first);
-        addrLineEditListPsu2Part5Data.at(i)->setText(dataAndAddrListPsu2Part5->at(i)->second->second);
-    }
-    nowIndexPsu2Part5Pre = -1;  // 换档命令框当前选项索引
-    nowCommandPsu2Part5 = NULL;
     ui->lineEditDataLengthPsu2Part5->setValidator(new QIntValidator(1, 100, this));
     ui->lineEditPsu2Part5VerifySetMulti->setValidator(new QIntValidator(1, 1000000, this));
     ui->lineEditPsu2Part5VerifyDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
@@ -909,31 +98,7 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu2Part5VerifyMeterMulti->setValidator(new QIntValidator(1, 1000000000, this));
     ui->lineEditPsu2Part5TestDMMJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     ui->lineEditPsu2Part5TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
-    ui->lineEditDataLengthPsu2Part5->setText(QString("%1").arg(dataLengthPsu2Part5));
-    ui->lineEditPsu2Part5VerifySetCmd->setText(setCmdPsu2Part5Verify->getName());
-    ui->lineEditPsu2Part5VerifySetStart->setText(setCmdPsu2Part5Verify->getStart());
-    ui->lineEditPsu2Part5VerifySetEnd->setText(setCmdPsu2Part5Verify->getEnd());
-    ui->lineEditPsu2Part5VerifySetJudge->setText(setCmdPsu2Part5Verify->getJudge());
-    ui->lineEditPsu2Part5VerifySetMulti->setText(QString("%1").arg(setPsu2Part5Multi));
-    ui->lineEditPsu2Part5VerifyDMMCmd->setText(dmmCmdPsu2Part5Verify->getName());
-    ui->lineEditPsu2Part5VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
-    ui->lineEditPsu2Part5VerifyDMMStart->setText(dmmCmdPsu2Part5Verify->getStart());
-    ui->lineEditPsu2Part5VerifyDMMEnd->setText(dmmCmdPsu2Part5Verify->getEnd());
-    ui->lineEditPsu2Part5VerifyDMMJudge->setText(dmmCmdPsu2Part5Verify->getRatio());
-    ui->lineEditPsu2Part5VerifyDMMMulti->setText(QString("%1").arg(dmmPsu2Part5Multi));
-    ui->lineEditPsu2Part5VerifyMeterCmd->setText(meterCmdPsu2Part5Verify->getName());
-    ui->lineEditPsu2Part5VerifyMeterJudge->setText(meterCmdPsu2Part5Verify->getRatio());
-    ui->lineEditPsu2Part5VerifyMeterMulti->setText(QString("%1").arg(meterPsu2Part5Multi));
-    ui->lineEditPsu2Part5TestSetCmd->setText(setCmdPsu2Part5Test->getName());
-    ui->lineEditPsu2Part5TestSetStart->setText(setCmdPsu2Part5Test->getStart());
-    ui->lineEditPsu2Part5TestSetEnd->setText(setCmdPsu2Part5Test->getEnd());
-    ui->lineEditPsu2Part5TestSetJudge->setText(setCmdPsu2Part5Test->getJudge());
-    ui->lineEditPsu2Part5TestDMMCmd->setText(dmmCmdPsu2Part5Test->getName());
-    ui->lineEditPsu2Part5TestDMMStart->setText(dmmCmdPsu2Part5Test->getStart());
-    ui->lineEditPsu2Part5TestDMMEnd->setText(dmmCmdPsu2Part5Test->getEnd());
-    ui->lineEditPsu2Part5TestDMMJudge->setText(dmmCmdPsu2Part5Test->getRatio());
-    ui->lineEditPsu2Part5TestMeterCmd->setText(meterCmdPsu2Part5Test->getName());
-    ui->lineEditPsu2Part5TestMeterJudge->setText(meterCmdPsu2Part5Test->getRatio());
+    repaintPsu2();
 }
 // 析构
 curdataconfig::~curdataconfig()
@@ -1246,9 +411,8 @@ void curdataconfig::on_pushBtnPsu1Part1DataDel_clicked()
             QFrame *tempFrame = frameListPsu1Part1Data.at(i);
             frameListPsu1Part1Data.removeAt(i);
             delete tempFrame;
-        }else{
+        }else
             ++i;
-        }
     }
     // 重新排列框
     int x, y;
@@ -6097,5 +5261,916 @@ void curdataconfig::on_pushBtnPsu2Part5TestUndo_clicked()
     ui->lineEditPsu2Part5TestDMMEnd->setText(dmmCmdPsu2Part5Test->getEnd());
     ui->lineEditPsu2Part5TestDMMJudge->setText(dmmCmdPsu2Part5Test->getRatio());
     // 重写读取万用表参数
+    ui->lineEditPsu2Part5TestMeterJudge->setText(meterCmdPsu2Part5Test->getRatio());
+}
+// 复制PSU1覆盖PSU2
+void curdataconfig::on_pushBtnPsu1ToPsu2_clicked()
+{
+    delete itemPsu2;
+    itemPsu2 = itemPsu1->deepcopy();
+    repaintPsu2();
+}
+// 复制PSU2覆盖PSU1
+void curdataconfig::on_pushBtnPsu2ToPsu1_clicked()
+{
+    delete itemPsu1;
+    itemPsu1 = itemPsu2->deepcopy();
+    repaintPsu1();
+}
+// 重画PSU1界面
+void curdataconfig::repaintPsu1()
+{
+    if(itemPsu1 == NULL){
+        // PSU1  前置命令
+        cmdListPsu1Pre = new QList<command *>;
+        psu1Part1 = NULL;
+        psu1Part2 = NULL;
+        psu1Part3 = NULL;
+        psu1Part4 = NULL;
+        psu1Part5 = NULL;
+    }else{
+        cmdListPsu1Pre = itemPsu1->getPreCmdList();
+        showPsu1PreCmdList();
+        psu1Part1 = itemPsu1->getPart1();
+        psu1Part2 = itemPsu1->getPart2();
+        psu1Part3 = itemPsu1->getPart3();
+        psu1Part4 = itemPsu1->getPart4();
+        psu1Part5 = itemPsu1->getPart5();
+    }
+    nowIndexPsu1Pre = -1;  // 前置命令框当前选项索引
+    nowCommandPsu1 = NULL;
+    on_pushBtnPsu1Part1DataBatchDel_clicked();
+    repaintPsu1Part1();
+    on_pushBtnPsu1Part2DataBatchDel_clicked();
+    repaintPsu1Part2();
+    on_pushBtnPsu1Part3DataBatchDel_clicked();
+    repaintPsu1Part3();
+    on_pushBtnPsu1Part4DataBatchDel_clicked();
+    repaintPsu1Part4();
+    on_pushBtnPsu1Part5DataBatchDel_clicked();
+    repaintPsu1Part5();
+}
+// 重画PSU1 Part1界面
+void curdataconfig::repaintPsu1Part1()
+{
+    nowIndexPsu1Part1Data = 0;  // 当前数据项索引
+    if(psu1Part1 == NULL){
+        cmdListPsu1Part1Pre = new QList<command *>;
+        dataAndAddrListPsu1Part1 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu1Part1 = 6;
+        setCmdPsu1Part1Verify = new command(QString("PSU1_I"));
+        setCmdPsu1Part1Verify->setStart(QString("("));
+        setCmdPsu1Part1Verify->setEnd(QString(";"));
+        setCmdPsu1Part1Verify->setJudge(QString("DONE"));
+        setCmdPsu1Part1Verify->setRatio(0);
+        setPsu1Part1Multi = 1;
+        dmmCmdPsu1Part1Verify = new command(QString("PSU1_CH1_Current_MEASURE_Real"));
+        dmmCmdPsu1Part1Verify->setParam(QString("AD"));
+        dmmCmdPsu1Part1Verify->setStart(QString("("));
+        dmmCmdPsu1Part1Verify->setEnd(QString(";"));
+        dmmCmdPsu1Part1Verify->setRatio(10);
+        dmmPsu1Part1Multi = 1;
+        meterCmdPsu1Part1Verify = new command(QString("read?"));
+        meterCmdPsu1Part1Verify->setRatio(10);
+        meterPsu1Part1Multi = 1;
+        setCmdPsu1Part1Test = new command(QString("PSU1_I"));
+        setCmdPsu1Part1Test->setStart(QString("("));
+        setCmdPsu1Part1Test->setEnd(QString(";"));
+        setCmdPsu1Part1Test->setJudge(QString("DONE"));
+        setCmdPsu1Part1Test->setRatio(0);
+        dmmCmdPsu1Part1Test = new command(QString("PSU1_CH1_Current_MEASURE_Real"));
+        dmmCmdPsu1Part1Test->setStart(QString("("));
+        dmmCmdPsu1Part1Test->setEnd(QString(";"));
+        dmmCmdPsu1Part1Test->setRatio(0.1);
+        meterCmdPsu1Part1Test = new command(QString("read?"));
+        meterCmdPsu1Part1Test->setRatio(0.1);
+    }else{
+        cmdListPsu1Part1Pre = psu1Part1->getCmdList();
+        dataAndAddrListPsu1Part1 = psu1Part1->getDataList();
+        dataLengthPsu1Part1 = psu1Part1->getDataLength();
+        setCmdPsu1Part1Verify = psu1Part1->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
+        setPsu1Part1Multi = psu1Part1->getSetMulti();   // 放大倍数
+        dmmCmdPsu1Part1Verify = psu1Part1->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
+        dmmPsu1Part1Multi = psu1Part1->getDmmMulti();  // 放大倍数
+        meterCmdPsu1Part1Verify = psu1Part1->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
+        meterPsu1Part1Multi = psu1Part1->getMeterMulti();  // 放大倍数
+        setCmdPsu1Part1Test = psu1Part1->getSetCmdTest();  // 初始化并显示测试页设置电压命令
+        dmmCmdPsu1Part1Test = psu1Part1->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
+        meterCmdPsu1Part1Test = psu1Part1->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
+    }
+    showPsu1Part1PreCmdList();
+    for(int i=0; i != dataAndAddrListPsu1Part1->size(); ++i){
+        on_pushBtnPsu1Part1DataAdd_clicked();
+        checkBoxListPsu1Part1Data.at(i)->setChecked(dataAndAddrListPsu1Part1->at(i)->first);
+        dataLineEditListPsu1Part1Data.at(i)->setText(dataAndAddrListPsu1Part1->at(i)->second->first);
+        addrLineEditListPsu1Part1Data.at(i)->setText(dataAndAddrListPsu1Part1->at(i)->second->second);
+    }
+    nowIndexPsu1Part1Pre = -1;  // 换档命令框当前选项索引
+    nowCommandPsu1Part1 = NULL;
+    ui->lineEditDataLengthPsu1Part1->setText(QString("%1").arg(dataLengthPsu1Part1));
+    ui->lineEditPsu1Part1VerifySetCmd->setText(setCmdPsu1Part1Verify->getName());
+    ui->lineEditPsu1Part1VerifySetStart->setText(setCmdPsu1Part1Verify->getStart());
+    ui->lineEditPsu1Part1VerifySetEnd->setText(setCmdPsu1Part1Verify->getEnd());
+    ui->lineEditPsu1Part1VerifySetJudge->setText(setCmdPsu1Part1Verify->getJudge());
+    ui->lineEditPsu1Part1VerifySetMulti->setText(QString("%1").arg(setPsu1Part1Multi));
+    ui->lineEditPsu1Part1VerifyDMMCmd->setText(dmmCmdPsu1Part1Verify->getName());
+    ui->lineEditPsu1Part1VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
+    ui->lineEditPsu1Part1VerifyDMMStart->setText(dmmCmdPsu1Part1Verify->getStart());
+    ui->lineEditPsu1Part1VerifyDMMEnd->setText(dmmCmdPsu1Part1Verify->getEnd());
+    ui->lineEditPsu1Part1VerifyDMMJudge->setText(dmmCmdPsu1Part1Verify->getRatio());
+    ui->lineEditPsu1Part1VerifyDMMMulti->setText(QString("%1").arg(dmmPsu1Part1Multi));
+    ui->lineEditPsu1Part1VerifyMeterCmd->setText(meterCmdPsu1Part1Verify->getName());
+    ui->lineEditPsu1Part1VerifyMeterJudge->setText(meterCmdPsu1Part1Verify->getRatio());
+    ui->lineEditPsu1Part1VerifyMeterMulti->setText(QString("%1").arg(meterPsu1Part1Multi));
+    ui->lineEditPsu1Part1TestSetCmd->setText(setCmdPsu1Part1Test->getName());
+    ui->lineEditPsu1Part1TestSetStart->setText(setCmdPsu1Part1Test->getStart());
+    ui->lineEditPsu1Part1TestSetEnd->setText(setCmdPsu1Part1Test->getEnd());
+    ui->lineEditPsu1Part1TestSetJudge->setText(setCmdPsu1Part1Test->getJudge());
+    ui->lineEditPsu1Part1TestDMMCmd->setText(dmmCmdPsu1Part1Test->getName());
+    ui->lineEditPsu1Part1TestDMMStart->setText(dmmCmdPsu1Part1Test->getStart());
+    ui->lineEditPsu1Part1TestDMMEnd->setText(dmmCmdPsu1Part1Test->getEnd());
+    ui->lineEditPsu1Part1TestDMMJudge->setText(dmmCmdPsu1Part1Test->getRatio());
+    ui->lineEditPsu1Part1TestMeterCmd->setText(meterCmdPsu1Part1Test->getName());
+    ui->lineEditPsu1Part1TestMeterJudge->setText(meterCmdPsu1Part1Test->getRatio());
+}
+// 重画PSU1 Part2界面
+void curdataconfig::repaintPsu1Part2()
+{
+    nowIndexPsu1Part2Data = 0;  // 当前数据项索引
+    if(psu1Part2 == NULL){
+        cmdListPsu1Part2Pre = new QList<command *>;
+        dataAndAddrListPsu1Part2 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu1Part2 = 6;
+        setCmdPsu1Part2Verify = new command(QString("PSU1_I"));
+        setCmdPsu1Part2Verify->setStart(QString("("));
+        setCmdPsu1Part2Verify->setEnd(QString(";"));
+        setCmdPsu1Part2Verify->setJudge(QString("DONE"));
+        setCmdPsu1Part2Verify->setRatio(0);
+        setPsu1Part2Multi = 1;
+        dmmCmdPsu1Part2Verify = new command(QString("PSU1_CH2_Current_MEASURE_Real"));
+        dmmCmdPsu1Part2Verify->setParam(QString("AD"));
+        dmmCmdPsu1Part2Verify->setStart(QString("("));
+        dmmCmdPsu1Part2Verify->setEnd(QString(";"));
+        dmmCmdPsu1Part2Verify->setRatio(10);
+        dmmPsu1Part2Multi = 1;
+        meterCmdPsu1Part2Verify = new command(QString("read?"));
+        meterCmdPsu1Part2Verify->setRatio(10);
+        meterPsu1Part2Multi = 1;
+        setCmdPsu1Part2Test = new command(QString("PSU1_I"));
+        setCmdPsu1Part2Test->setStart(QString("("));
+        setCmdPsu1Part2Test->setEnd(QString(";"));
+        setCmdPsu1Part2Test->setJudge(QString("DONE"));
+        setCmdPsu1Part2Test->setRatio(0);
+        dmmCmdPsu1Part2Test = new command(QString("PSU1_CH2_Current_MEASURE_Real"));
+        dmmCmdPsu1Part2Test->setStart(QString("("));
+        dmmCmdPsu1Part2Test->setEnd(QString(";"));
+        dmmCmdPsu1Part2Test->setRatio(0.1);
+        meterCmdPsu1Part2Test = new command(QString("read?"));
+        meterCmdPsu1Part2Test->setRatio(0.1);
+    }else{
+        cmdListPsu1Part2Pre = psu1Part2->getCmdList();
+        dataAndAddrListPsu1Part2 = psu1Part2->getDataList();
+        dataLengthPsu1Part2 = psu1Part2->getDataLength();
+        setCmdPsu1Part2Verify = psu1Part2->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
+        setPsu1Part2Multi = psu1Part2->getSetMulti();   // 放大倍数
+        dmmCmdPsu1Part2Verify = psu1Part2->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
+        dmmPsu1Part2Multi = psu1Part2->getDmmMulti();  // 放大倍数
+        meterCmdPsu1Part2Verify = psu1Part2->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
+        meterPsu1Part2Multi = psu1Part2->getMeterMulti();  // 放大倍数
+        setCmdPsu1Part2Test = psu1Part2->getSetCmdTest();  // 初始化并显示测试页设置电压命令
+        dmmCmdPsu1Part2Test = psu1Part2->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
+        meterCmdPsu1Part2Test = psu1Part2->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
+    }
+    showPsu1Part2PreCmdList();
+    for(int i=0; i != dataAndAddrListPsu1Part2->size(); ++i){
+        on_pushBtnPsu1Part2DataAdd_clicked();
+        checkBoxListPsu1Part2Data.at(i)->setChecked(dataAndAddrListPsu1Part2->at(i)->first);
+        dataLineEditListPsu1Part2Data.at(i)->setText(dataAndAddrListPsu1Part2->at(i)->second->first);
+        addrLineEditListPsu1Part2Data.at(i)->setText(dataAndAddrListPsu1Part2->at(i)->second->second);
+    }
+    nowIndexPsu1Part2Pre = -1;  // 换档命令框当前选项索引
+    nowCommandPsu1Part2 = NULL;
+    ui->lineEditDataLengthPsu1Part2->setText(QString("%1").arg(dataLengthPsu1Part2));
+    ui->lineEditPsu1Part2VerifySetCmd->setText(setCmdPsu1Part2Verify->getName());
+    ui->lineEditPsu1Part2VerifySetStart->setText(setCmdPsu1Part2Verify->getStart());
+    ui->lineEditPsu1Part2VerifySetEnd->setText(setCmdPsu1Part2Verify->getEnd());
+    ui->lineEditPsu1Part2VerifySetJudge->setText(setCmdPsu1Part2Verify->getJudge());
+    ui->lineEditPsu1Part2VerifySetMulti->setText(QString("%1").arg(setPsu1Part2Multi));
+    ui->lineEditPsu1Part2VerifyDMMCmd->setText(dmmCmdPsu1Part2Verify->getName());
+    ui->lineEditPsu1Part2VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
+    ui->lineEditPsu1Part2VerifyDMMStart->setText(dmmCmdPsu1Part2Verify->getStart());
+    ui->lineEditPsu1Part2VerifyDMMEnd->setText(dmmCmdPsu1Part2Verify->getEnd());
+    ui->lineEditPsu1Part2VerifyDMMJudge->setText(dmmCmdPsu1Part2Verify->getRatio());
+    ui->lineEditPsu1Part2VerifyDMMMulti->setText(QString("%1").arg(dmmPsu1Part2Multi));
+    ui->lineEditPsu1Part2VerifyMeterCmd->setText(meterCmdPsu1Part2Verify->getName());
+    ui->lineEditPsu1Part2VerifyMeterJudge->setText(meterCmdPsu1Part2Verify->getRatio());
+    ui->lineEditPsu1Part2VerifyMeterMulti->setText(QString("%1").arg(meterPsu1Part2Multi));
+    ui->lineEditPsu1Part2TestSetCmd->setText(setCmdPsu1Part2Test->getName());
+    ui->lineEditPsu1Part2TestSetStart->setText(setCmdPsu1Part2Test->getStart());
+    ui->lineEditPsu1Part2TestSetEnd->setText(setCmdPsu1Part2Test->getEnd());
+    ui->lineEditPsu1Part2TestSetJudge->setText(setCmdPsu1Part2Test->getJudge());
+    ui->lineEditPsu1Part2TestDMMCmd->setText(dmmCmdPsu1Part2Test->getName());
+    ui->lineEditPsu1Part2TestDMMStart->setText(dmmCmdPsu1Part2Test->getStart());
+    ui->lineEditPsu1Part2TestDMMEnd->setText(dmmCmdPsu1Part2Test->getEnd());
+    ui->lineEditPsu1Part2TestDMMJudge->setText(dmmCmdPsu1Part2Test->getRatio());
+    ui->lineEditPsu1Part2TestMeterCmd->setText(meterCmdPsu1Part2Test->getName());
+    ui->lineEditPsu1Part2TestMeterJudge->setText(meterCmdPsu1Part2Test->getRatio());
+}
+// 重画PSU1 Part3界面
+void curdataconfig::repaintPsu1Part3()
+{
+    nowIndexPsu1Part3Data = 0;  // 当前数据项索引
+    if(psu1Part3 == NULL){
+        cmdListPsu1Part3Pre = new QList<command *>;
+        dataAndAddrListPsu1Part3 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu1Part3 = 6;
+        setCmdPsu1Part3Verify = new command(QString("PSU1_I"));
+        setCmdPsu1Part3Verify->setStart(QString("("));
+        setCmdPsu1Part3Verify->setEnd(QString(";"));
+        setCmdPsu1Part3Verify->setJudge(QString("DONE"));
+        setCmdPsu1Part3Verify->setRatio(0);
+        setPsu1Part3Multi = 1;
+        dmmCmdPsu1Part3Verify = new command(QString("PSU1_CH3_Current_MEASURE_Real"));
+        dmmCmdPsu1Part3Verify->setParam(QString("AD"));
+        dmmCmdPsu1Part3Verify->setStart(QString("("));
+        dmmCmdPsu1Part3Verify->setEnd(QString(";"));
+        dmmCmdPsu1Part3Verify->setRatio(10);
+        dmmPsu1Part3Multi = 1;
+        meterCmdPsu1Part3Verify = new command(QString("read?"));
+        meterCmdPsu1Part3Verify->setRatio(10);
+        meterPsu1Part3Multi = 1;
+        setCmdPsu1Part3Test = new command(QString("PSU1_I"));
+        setCmdPsu1Part3Test->setStart(QString("("));
+        setCmdPsu1Part3Test->setEnd(QString(";"));
+        setCmdPsu1Part3Test->setJudge(QString("DONE"));
+        setCmdPsu1Part3Test->setRatio(0);
+        dmmCmdPsu1Part3Test = new command(QString("PSU1_CH3_Current_MEASURE_Real"));
+        dmmCmdPsu1Part3Test->setStart(QString("("));
+        dmmCmdPsu1Part3Test->setEnd(QString(";"));
+        dmmCmdPsu1Part3Test->setRatio(0.1);
+        meterCmdPsu1Part3Test = new command(QString("read?"));
+        meterCmdPsu1Part3Test->setRatio(0.1);
+    }else{
+        cmdListPsu1Part3Pre = psu1Part3->getCmdList();
+        dataAndAddrListPsu1Part3 = psu1Part3->getDataList();
+        dataLengthPsu1Part3 = psu1Part3->getDataLength();
+        setCmdPsu1Part3Verify = psu1Part3->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
+        setPsu1Part3Multi = psu1Part3->getSetMulti();   // 放大倍数
+        dmmCmdPsu1Part3Verify = psu1Part3->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
+        dmmPsu1Part3Multi = psu1Part3->getDmmMulti();  // 放大倍数
+        meterCmdPsu1Part3Verify = psu1Part3->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
+        meterPsu1Part3Multi = psu1Part3->getMeterMulti();  // 放大倍数
+        setCmdPsu1Part3Test = psu1Part3->getSetCmdTest();  // 初始化并显示测试页设置电压命令
+        dmmCmdPsu1Part3Test = psu1Part3->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
+        meterCmdPsu1Part3Test = psu1Part3->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
+    }
+    showPsu1Part3PreCmdList();
+    for(int i=0; i != dataAndAddrListPsu1Part3->size(); ++i){
+        on_pushBtnPsu1Part3DataAdd_clicked();
+        checkBoxListPsu1Part3Data.at(i)->setChecked(dataAndAddrListPsu1Part3->at(i)->first);
+        dataLineEditListPsu1Part3Data.at(i)->setText(dataAndAddrListPsu1Part3->at(i)->second->first);
+        addrLineEditListPsu1Part3Data.at(i)->setText(dataAndAddrListPsu1Part3->at(i)->second->second);
+    }
+    nowIndexPsu1Part3Pre = -1;  // 换档命令框当前选项索引
+    nowCommandPsu1Part3 = NULL;
+    ui->lineEditDataLengthPsu1Part3->setText(QString("%1").arg(dataLengthPsu1Part3));
+    ui->lineEditPsu1Part3VerifySetCmd->setText(setCmdPsu1Part3Verify->getName());
+    ui->lineEditPsu1Part3VerifySetStart->setText(setCmdPsu1Part3Verify->getStart());
+    ui->lineEditPsu1Part3VerifySetEnd->setText(setCmdPsu1Part3Verify->getEnd());
+    ui->lineEditPsu1Part3VerifySetJudge->setText(setCmdPsu1Part3Verify->getJudge());
+    ui->lineEditPsu1Part3VerifySetMulti->setText(QString("%1").arg(setPsu1Part3Multi));
+    ui->lineEditPsu1Part3VerifyDMMCmd->setText(dmmCmdPsu1Part3Verify->getName());
+    ui->lineEditPsu1Part3VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
+    ui->lineEditPsu1Part3VerifyDMMStart->setText(dmmCmdPsu1Part3Verify->getStart());
+    ui->lineEditPsu1Part3VerifyDMMEnd->setText(dmmCmdPsu1Part3Verify->getEnd());
+    ui->lineEditPsu1Part3VerifyDMMJudge->setText(dmmCmdPsu1Part3Verify->getRatio());
+    ui->lineEditPsu1Part3VerifyDMMMulti->setText(QString("%1").arg(dmmPsu1Part3Multi));
+    ui->lineEditPsu1Part3VerifyMeterCmd->setText(meterCmdPsu1Part3Verify->getName());
+    ui->lineEditPsu1Part3VerifyMeterJudge->setText(meterCmdPsu1Part3Verify->getRatio());
+    ui->lineEditPsu1Part3VerifyMeterMulti->setText(QString("%1").arg(meterPsu1Part3Multi));
+    ui->lineEditPsu1Part3TestSetCmd->setText(setCmdPsu1Part3Test->getName());
+    ui->lineEditPsu1Part3TestSetStart->setText(setCmdPsu1Part3Test->getStart());
+    ui->lineEditPsu1Part3TestSetEnd->setText(setCmdPsu1Part3Test->getEnd());
+    ui->lineEditPsu1Part3TestSetJudge->setText(setCmdPsu1Part3Test->getJudge());
+    ui->lineEditPsu1Part3TestDMMCmd->setText(dmmCmdPsu1Part3Test->getName());
+    ui->lineEditPsu1Part3TestDMMStart->setText(dmmCmdPsu1Part3Test->getStart());
+    ui->lineEditPsu1Part3TestDMMEnd->setText(dmmCmdPsu1Part3Test->getEnd());
+    ui->lineEditPsu1Part3TestDMMJudge->setText(dmmCmdPsu1Part3Test->getRatio());
+    ui->lineEditPsu1Part3TestMeterCmd->setText(meterCmdPsu1Part3Test->getName());
+    ui->lineEditPsu1Part3TestMeterJudge->setText(meterCmdPsu1Part3Test->getRatio());
+}
+// 重画PSU1 Part4界面
+void curdataconfig::repaintPsu1Part4()
+{
+    nowIndexPsu1Part4Data = 0;  // 当前数据项索引
+    if(psu1Part4 == NULL){
+        cmdListPsu1Part4Pre = new QList<command *>;
+        dataAndAddrListPsu1Part4 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu1Part4 = 6;
+        setCmdPsu1Part4Verify = new command(QString("PSU1_I"));
+        setCmdPsu1Part4Verify->setStart(QString("("));
+        setCmdPsu1Part4Verify->setEnd(QString(";"));
+        setCmdPsu1Part4Verify->setJudge(QString("DONE"));
+        setCmdPsu1Part4Verify->setRatio(0);
+        setPsu1Part4Multi = 1;
+        dmmCmdPsu1Part4Verify = new command(QString("PSU1_CH4_Current_MEASURE_Real"));
+        dmmCmdPsu1Part4Verify->setParam(QString("AD"));
+        dmmCmdPsu1Part4Verify->setStart(QString("("));
+        dmmCmdPsu1Part4Verify->setEnd(QString(";"));
+        dmmCmdPsu1Part4Verify->setRatio(10);
+        dmmPsu1Part4Multi = 1;
+        meterCmdPsu1Part4Verify = new command(QString("read?"));
+        meterCmdPsu1Part4Verify->setRatio(10);
+        meterPsu1Part4Multi = 1;
+        setCmdPsu1Part4Test = new command(QString("PSU1_I"));
+        setCmdPsu1Part4Test->setStart(QString("("));
+        setCmdPsu1Part4Test->setEnd(QString(";"));
+        setCmdPsu1Part4Test->setJudge(QString("DONE"));
+        setCmdPsu1Part4Test->setRatio(0);
+        dmmCmdPsu1Part4Test = new command(QString("PSU1_CH4_Current_MEASURE_Real"));
+        dmmCmdPsu1Part4Test->setStart(QString("("));
+        dmmCmdPsu1Part4Test->setEnd(QString(";"));
+        dmmCmdPsu1Part4Test->setRatio(0.1);
+        meterCmdPsu1Part4Test = new command(QString("read?"));
+        meterCmdPsu1Part4Test->setRatio(0.1);
+    }else{
+        cmdListPsu1Part4Pre = psu1Part4->getCmdList();
+        dataAndAddrListPsu1Part4 = psu1Part4->getDataList();
+        dataLengthPsu1Part4 = psu1Part4->getDataLength();
+        setCmdPsu1Part4Verify = psu1Part4->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
+        setPsu1Part4Multi = psu1Part4->getSetMulti();   // 放大倍数
+        dmmCmdPsu1Part4Verify = psu1Part4->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
+        dmmPsu1Part4Multi = psu1Part4->getDmmMulti();  // 放大倍数
+        meterCmdPsu1Part4Verify = psu1Part4->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
+        meterPsu1Part4Multi = psu1Part4->getMeterMulti();  // 放大倍数
+        setCmdPsu1Part4Test = psu1Part4->getSetCmdTest();  // 初始化并显示测试页设置电压命令
+        dmmCmdPsu1Part4Test = psu1Part4->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
+        meterCmdPsu1Part4Test = psu1Part4->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
+    }
+    showPsu1Part4PreCmdList();
+    for(int i=0; i != dataAndAddrListPsu1Part4->size(); ++i){
+        on_pushBtnPsu1Part4DataAdd_clicked();
+        checkBoxListPsu1Part4Data.at(i)->setChecked(dataAndAddrListPsu1Part4->at(i)->first);
+        dataLineEditListPsu1Part4Data.at(i)->setText(dataAndAddrListPsu1Part4->at(i)->second->first);
+        addrLineEditListPsu1Part4Data.at(i)->setText(dataAndAddrListPsu1Part4->at(i)->second->second);
+    }
+    nowIndexPsu1Part4Pre = -1;  // 换档命令框当前选项索引
+    nowCommandPsu1Part4 = NULL;
+    ui->lineEditDataLengthPsu1Part4->setText(QString("%1").arg(dataLengthPsu1Part4));
+    ui->lineEditPsu1Part4VerifySetCmd->setText(setCmdPsu1Part4Verify->getName());
+    ui->lineEditPsu1Part4VerifySetStart->setText(setCmdPsu1Part4Verify->getStart());
+    ui->lineEditPsu1Part4VerifySetEnd->setText(setCmdPsu1Part4Verify->getEnd());
+    ui->lineEditPsu1Part4VerifySetJudge->setText(setCmdPsu1Part4Verify->getJudge());
+    ui->lineEditPsu1Part4VerifySetMulti->setText(QString("%1").arg(setPsu1Part4Multi));
+    ui->lineEditPsu1Part4VerifyDMMCmd->setText(dmmCmdPsu1Part4Verify->getName());
+    ui->lineEditPsu1Part4VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
+    ui->lineEditPsu1Part4VerifyDMMStart->setText(dmmCmdPsu1Part4Verify->getStart());
+    ui->lineEditPsu1Part4VerifyDMMEnd->setText(dmmCmdPsu1Part4Verify->getEnd());
+    ui->lineEditPsu1Part4VerifyDMMJudge->setText(dmmCmdPsu1Part4Verify->getRatio());
+    ui->lineEditPsu1Part4VerifyDMMMulti->setText(QString("%1").arg(dmmPsu1Part4Multi));
+    ui->lineEditPsu1Part4VerifyMeterCmd->setText(meterCmdPsu1Part4Verify->getName());
+    ui->lineEditPsu1Part4VerifyMeterJudge->setText(meterCmdPsu1Part4Verify->getRatio());
+    ui->lineEditPsu1Part4VerifyMeterMulti->setText(QString("%1").arg(meterPsu1Part4Multi));
+    ui->lineEditPsu1Part4TestSetCmd->setText(setCmdPsu1Part4Test->getName());
+    ui->lineEditPsu1Part4TestSetStart->setText(setCmdPsu1Part4Test->getStart());
+    ui->lineEditPsu1Part4TestSetEnd->setText(setCmdPsu1Part4Test->getEnd());
+    ui->lineEditPsu1Part4TestSetJudge->setText(setCmdPsu1Part4Test->getJudge());
+    ui->lineEditPsu1Part4TestDMMCmd->setText(dmmCmdPsu1Part4Test->getName());
+    ui->lineEditPsu1Part4TestDMMStart->setText(dmmCmdPsu1Part4Test->getStart());
+    ui->lineEditPsu1Part4TestDMMEnd->setText(dmmCmdPsu1Part4Test->getEnd());
+    ui->lineEditPsu1Part4TestDMMJudge->setText(dmmCmdPsu1Part4Test->getRatio());
+    ui->lineEditPsu1Part4TestMeterCmd->setText(meterCmdPsu1Part4Test->getName());
+    ui->lineEditPsu1Part4TestMeterJudge->setText(meterCmdPsu1Part4Test->getRatio());
+}
+// 重画PSU1 Part5界面
+void curdataconfig::repaintPsu1Part5()
+{
+    nowIndexPsu1Part5Data = 0;  // 当前数据项索引
+    if(psu1Part5 == NULL){
+        cmdListPsu1Part5Pre = new QList<command *>;
+        dataAndAddrListPsu1Part5 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu1Part5 = 6;
+        setCmdPsu1Part5Verify = new command(QString("PSU1_I"));
+        setCmdPsu1Part5Verify->setStart(QString("("));
+        setCmdPsu1Part5Verify->setEnd(QString(";"));
+        setCmdPsu1Part5Verify->setJudge(QString("DONE"));
+        setCmdPsu1Part5Verify->setRatio(0);
+        setPsu1Part5Multi = 1;
+        dmmCmdPsu1Part5Verify = new command(QString("PSU1_CH5_Current_MEASURE_Real"));
+        dmmCmdPsu1Part5Verify->setParam(QString("AD"));
+        dmmCmdPsu1Part5Verify->setStart(QString("("));
+        dmmCmdPsu1Part5Verify->setEnd(QString(";"));
+        dmmCmdPsu1Part5Verify->setRatio(10);
+        dmmPsu1Part5Multi = 1;
+        meterCmdPsu1Part5Verify = new command(QString("read?"));
+        meterCmdPsu1Part5Verify->setRatio(10);
+        meterPsu1Part5Multi = 1;
+        setCmdPsu1Part5Test = new command(QString("PSU1_I"));
+        setCmdPsu1Part5Test->setStart(QString("("));
+        setCmdPsu1Part5Test->setEnd(QString(";"));
+        setCmdPsu1Part5Test->setJudge(QString("DONE"));
+        setCmdPsu1Part5Test->setRatio(0);
+        dmmCmdPsu1Part5Test = new command(QString("PSU1_CH5_Current_MEASURE_Real"));
+        dmmCmdPsu1Part5Test->setStart(QString("("));
+        dmmCmdPsu1Part5Test->setEnd(QString(";"));
+        dmmCmdPsu1Part5Test->setRatio(0.1);
+        meterCmdPsu1Part5Test = new command(QString("read?"));
+        meterCmdPsu1Part5Test->setRatio(0.1);
+    }else{
+        cmdListPsu1Part5Pre = psu1Part5->getCmdList();
+        dataAndAddrListPsu1Part5 = psu1Part5->getDataList();
+        dataLengthPsu1Part5 = psu1Part5->getDataLength();
+        setCmdPsu1Part5Verify = psu1Part5->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
+        setPsu1Part5Multi = psu1Part5->getSetMulti();   // 放大倍数
+        dmmCmdPsu1Part5Verify = psu1Part5->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
+        dmmPsu1Part5Multi = psu1Part5->getDmmMulti();  // 放大倍数
+        meterCmdPsu1Part5Verify = psu1Part5->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
+        meterPsu1Part5Multi = psu1Part5->getMeterMulti();  // 放大倍数
+        setCmdPsu1Part5Test = psu1Part5->getSetCmdTest();  // 初始化并显示测试页设置电压命令
+        dmmCmdPsu1Part5Test = psu1Part5->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
+        meterCmdPsu1Part5Test = psu1Part5->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
+    }
+    showPsu1Part5PreCmdList();
+    for(int i=0; i != dataAndAddrListPsu1Part5->size(); ++i){
+        on_pushBtnPsu1Part5DataAdd_clicked();
+        checkBoxListPsu1Part5Data.at(i)->setChecked(dataAndAddrListPsu1Part5->at(i)->first);
+        dataLineEditListPsu1Part5Data.at(i)->setText(dataAndAddrListPsu1Part5->at(i)->second->first);
+        addrLineEditListPsu1Part5Data.at(i)->setText(dataAndAddrListPsu1Part5->at(i)->second->second);
+    }
+    nowIndexPsu1Part5Pre = -1;  // 换档命令框当前选项索引
+    nowCommandPsu1Part5 = NULL;
+    ui->lineEditDataLengthPsu1Part5->setText(QString("%1").arg(dataLengthPsu1Part5));
+    ui->lineEditPsu1Part5VerifySetCmd->setText(setCmdPsu1Part5Verify->getName());
+    ui->lineEditPsu1Part5VerifySetStart->setText(setCmdPsu1Part5Verify->getStart());
+    ui->lineEditPsu1Part5VerifySetEnd->setText(setCmdPsu1Part5Verify->getEnd());
+    ui->lineEditPsu1Part5VerifySetJudge->setText(setCmdPsu1Part5Verify->getJudge());
+    ui->lineEditPsu1Part5VerifySetMulti->setText(QString("%1").arg(setPsu1Part5Multi));
+    ui->lineEditPsu1Part5VerifyDMMCmd->setText(dmmCmdPsu1Part5Verify->getName());
+    ui->lineEditPsu1Part5VerifyDMMParam->setText(dmmCmdPsu1Part5Verify->getParam());
+    ui->lineEditPsu1Part5VerifyDMMStart->setText(dmmCmdPsu1Part5Verify->getStart());
+    ui->lineEditPsu1Part5VerifyDMMEnd->setText(dmmCmdPsu1Part5Verify->getEnd());
+    ui->lineEditPsu1Part5VerifyDMMJudge->setText(dmmCmdPsu1Part5Verify->getRatio());
+    ui->lineEditPsu1Part5VerifyDMMMulti->setText(QString("%1").arg(dmmPsu1Part5Multi));
+    ui->lineEditPsu1Part5VerifyMeterCmd->setText(meterCmdPsu1Part5Verify->getName());
+    ui->lineEditPsu1Part5VerifyMeterJudge->setText(meterCmdPsu1Part5Verify->getRatio());
+    ui->lineEditPsu1Part5VerifyMeterMulti->setText(QString("%1").arg(meterPsu1Part5Multi));
+    ui->lineEditPsu1Part5TestSetCmd->setText(setCmdPsu1Part5Test->getName());
+    ui->lineEditPsu1Part5TestSetStart->setText(setCmdPsu1Part5Test->getStart());
+    ui->lineEditPsu1Part5TestSetEnd->setText(setCmdPsu1Part5Test->getEnd());
+    ui->lineEditPsu1Part5TestSetJudge->setText(setCmdPsu1Part5Test->getJudge());
+    ui->lineEditPsu1Part5TestDMMCmd->setText(dmmCmdPsu1Part5Test->getName());
+    ui->lineEditPsu1Part5TestDMMStart->setText(dmmCmdPsu1Part5Test->getStart());
+    ui->lineEditPsu1Part5TestDMMEnd->setText(dmmCmdPsu1Part5Test->getEnd());
+    ui->lineEditPsu1Part5TestDMMJudge->setText(dmmCmdPsu1Part5Test->getRatio());
+    ui->lineEditPsu1Part5TestMeterCmd->setText(meterCmdPsu1Part5Test->getName());
+    ui->lineEditPsu1Part5TestMeterJudge->setText(meterCmdPsu1Part5Test->getRatio());
+}
+// 重画PSU2界面
+void curdataconfig::repaintPsu2()
+{
+    if(itemPsu2 == NULL){
+        // PSU2  前置命令
+        cmdListPsu2Pre = new QList<command *>;
+        psu2Part1 = NULL;
+        psu2Part2 = NULL;
+        psu2Part3 = NULL;
+        psu2Part4 = NULL;
+        psu2Part5 = NULL;
+    }else{
+        cmdListPsu2Pre = itemPsu2->getPreCmdList();
+        showPsu2PreCmdList();
+        psu2Part1 = itemPsu2->getPart1();
+        psu2Part2 = itemPsu2->getPart2();
+        psu2Part3 = itemPsu2->getPart3();
+        psu2Part4 = itemPsu2->getPart4();
+        psu2Part5 = itemPsu2->getPart5();
+    }
+    nowIndexPsu2Pre = -1;  // 前置命令框当前选项索引
+    nowCommandPsu2 = NULL;
+    on_pushBtnPsu2Part1DataBatchDel_clicked();
+    repaintPsu2Part1();
+    on_pushBtnPsu2Part2DataBatchDel_clicked();
+    repaintPsu2Part2();
+    on_pushBtnPsu2Part3DataBatchDel_clicked();
+    repaintPsu2Part3();
+    on_pushBtnPsu2Part4DataBatchDel_clicked();
+    repaintPsu2Part4();
+    on_pushBtnPsu2Part5DataBatchDel_clicked();
+    repaintPsu2Part5();
+}
+// 重画PSU2 Part1界面
+void curdataconfig::repaintPsu2Part1()
+{
+    nowIndexPsu2Part1Data = 0;  // 当前数据项索引
+    if(psu2Part1 == NULL){
+        cmdListPsu2Part1Pre = new QList<command *>;
+        dataAndAddrListPsu2Part1 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu2Part1 = 6;
+        setCmdPsu2Part1Verify = new command(QString("PSU2_I"));
+        setCmdPsu2Part1Verify->setStart(QString("("));
+        setCmdPsu2Part1Verify->setEnd(QString(";"));
+        setCmdPsu2Part1Verify->setJudge(QString("DONE"));
+        setCmdPsu2Part1Verify->setRatio(0);
+        setPsu2Part1Multi = 1;
+        dmmCmdPsu2Part1Verify = new command(QString("PSU2_CH1_Current_MEASURE_Real"));
+        dmmCmdPsu2Part1Verify->setParam(QString("AD"));
+        dmmCmdPsu2Part1Verify->setStart(QString("("));
+        dmmCmdPsu2Part1Verify->setEnd(QString(";"));
+        dmmCmdPsu2Part1Verify->setRatio(10);
+        dmmPsu2Part1Multi = 1;
+        meterCmdPsu2Part1Verify = new command(QString("read?"));
+        meterCmdPsu2Part1Verify->setRatio(10);
+        meterPsu2Part1Multi = 1;
+        setCmdPsu2Part1Test = new command(QString("PSU2_I"));
+        setCmdPsu2Part1Test->setStart(QString("("));
+        setCmdPsu2Part1Test->setEnd(QString(";"));
+        setCmdPsu2Part1Test->setJudge(QString("DONE"));
+        setCmdPsu2Part1Test->setRatio(0);
+        dmmCmdPsu2Part1Test = new command(QString("PSU2_CH1_Current_MEASURE_Real"));
+        dmmCmdPsu2Part1Test->setStart(QString("("));
+        dmmCmdPsu2Part1Test->setEnd(QString(";"));
+        dmmCmdPsu2Part1Test->setRatio(0.1);
+        meterCmdPsu2Part1Test = new command(QString("read?"));
+        meterCmdPsu2Part1Test->setRatio(0.1);
+    }else{
+        cmdListPsu2Part1Pre = psu2Part1->getCmdList();
+        dataAndAddrListPsu2Part1 = psu2Part1->getDataList();
+        dataLengthPsu2Part1 = psu2Part1->getDataLength();
+        setCmdPsu2Part1Verify = psu2Part1->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
+        setPsu2Part1Multi = psu2Part1->getSetMulti();   // 放大倍数
+        dmmCmdPsu2Part1Verify = psu2Part1->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
+        dmmPsu2Part1Multi = psu2Part1->getDmmMulti();  // 放大倍数
+        meterCmdPsu2Part1Verify = psu2Part1->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
+        meterPsu2Part1Multi = psu2Part1->getMeterMulti();  // 放大倍数
+        setCmdPsu2Part1Test = psu2Part1->getSetCmdTest();  // 初始化并显示测试页设置电压命令
+        dmmCmdPsu2Part1Test = psu2Part1->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
+        meterCmdPsu2Part1Test = psu2Part1->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
+    }
+    showPsu2Part1PreCmdList();
+    for(int i=0; i != dataAndAddrListPsu2Part1->size(); ++i){
+        on_pushBtnPsu2Part1DataAdd_clicked();
+        checkBoxListPsu2Part1Data.at(i)->setChecked(dataAndAddrListPsu2Part1->at(i)->first);
+        dataLineEditListPsu2Part1Data.at(i)->setText(dataAndAddrListPsu2Part1->at(i)->second->first);
+        addrLineEditListPsu2Part1Data.at(i)->setText(dataAndAddrListPsu2Part1->at(i)->second->second);
+    }
+    nowIndexPsu2Part1Pre = -1;  // 换档命令框当前选项索引
+    nowCommandPsu2Part1 = NULL;
+    ui->lineEditDataLengthPsu2Part1->setText(QString("%1").arg(dataLengthPsu2Part1));
+    ui->lineEditPsu2Part1VerifySetCmd->setText(setCmdPsu2Part1Verify->getName());
+    ui->lineEditPsu2Part1VerifySetStart->setText(setCmdPsu2Part1Verify->getStart());
+    ui->lineEditPsu2Part1VerifySetEnd->setText(setCmdPsu2Part1Verify->getEnd());
+    ui->lineEditPsu2Part1VerifySetJudge->setText(setCmdPsu2Part1Verify->getJudge());
+    ui->lineEditPsu2Part1VerifySetMulti->setText(QString("%1").arg(setPsu2Part1Multi));
+    ui->lineEditPsu2Part1VerifyDMMCmd->setText(dmmCmdPsu2Part1Verify->getName());
+    ui->lineEditPsu2Part1VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
+    ui->lineEditPsu2Part1VerifyDMMStart->setText(dmmCmdPsu2Part1Verify->getStart());
+    ui->lineEditPsu2Part1VerifyDMMEnd->setText(dmmCmdPsu2Part1Verify->getEnd());
+    ui->lineEditPsu2Part1VerifyDMMJudge->setText(dmmCmdPsu2Part1Verify->getRatio());
+    ui->lineEditPsu2Part1VerifyDMMMulti->setText(QString("%1").arg(dmmPsu2Part1Multi));
+    ui->lineEditPsu2Part1VerifyMeterCmd->setText(meterCmdPsu2Part1Verify->getName());
+    ui->lineEditPsu2Part1VerifyMeterJudge->setText(meterCmdPsu2Part1Verify->getRatio());
+    ui->lineEditPsu2Part1VerifyMeterMulti->setText(QString("%1").arg(meterPsu2Part1Multi));
+    ui->lineEditPsu2Part1TestSetCmd->setText(setCmdPsu2Part1Test->getName());
+    ui->lineEditPsu2Part1TestSetStart->setText(setCmdPsu2Part1Test->getStart());
+    ui->lineEditPsu2Part1TestSetEnd->setText(setCmdPsu2Part1Test->getEnd());
+    ui->lineEditPsu2Part1TestSetJudge->setText(setCmdPsu2Part1Test->getJudge());
+    ui->lineEditPsu2Part1TestDMMCmd->setText(dmmCmdPsu2Part1Test->getName());
+    ui->lineEditPsu2Part1TestDMMStart->setText(dmmCmdPsu2Part1Test->getStart());
+    ui->lineEditPsu2Part1TestDMMEnd->setText(dmmCmdPsu2Part1Test->getEnd());
+    ui->lineEditPsu2Part1TestDMMJudge->setText(dmmCmdPsu2Part1Test->getRatio());
+    ui->lineEditPsu2Part1TestMeterCmd->setText(meterCmdPsu2Part1Test->getName());
+    ui->lineEditPsu2Part1TestMeterJudge->setText(meterCmdPsu2Part1Test->getRatio());
+}
+// 重画PSU2 Part2界面
+void curdataconfig::repaintPsu2Part2()
+{
+    nowIndexPsu2Part2Data = 0;  // 当前数据项索引
+    if(psu2Part2 == NULL){
+        cmdListPsu2Part2Pre = new QList<command *>;
+        dataAndAddrListPsu2Part2 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu2Part2 = 6;
+        setCmdPsu2Part2Verify = new command(QString("PSU2_I"));
+        setCmdPsu2Part2Verify->setStart(QString("("));
+        setCmdPsu2Part2Verify->setEnd(QString(";"));
+        setCmdPsu2Part2Verify->setJudge(QString("DONE"));
+        setCmdPsu2Part2Verify->setRatio(0);
+        setPsu2Part2Multi = 1;
+        dmmCmdPsu2Part2Verify = new command(QString("PSU2_CH2_Current_MEASURE_Real"));
+        dmmCmdPsu2Part2Verify->setParam(QString("AD"));
+        dmmCmdPsu2Part2Verify->setStart(QString("("));
+        dmmCmdPsu2Part2Verify->setEnd(QString(";"));
+        dmmCmdPsu2Part2Verify->setRatio(10);
+        dmmPsu2Part2Multi = 1;
+        meterCmdPsu2Part2Verify = new command(QString("read?"));
+        meterCmdPsu2Part2Verify->setRatio(10);
+        meterPsu2Part2Multi = 1;
+        setCmdPsu2Part2Test = new command(QString("PSU2_I"));
+        setCmdPsu2Part2Test->setStart(QString("("));
+        setCmdPsu2Part2Test->setEnd(QString(";"));
+        setCmdPsu2Part2Test->setJudge(QString("DONE"));
+        setCmdPsu2Part2Test->setRatio(0);
+        dmmCmdPsu2Part2Test = new command(QString("PSU2_CH2_Current_MEASURE_Real"));
+        dmmCmdPsu2Part2Test->setStart(QString("("));
+        dmmCmdPsu2Part2Test->setEnd(QString(";"));
+        dmmCmdPsu2Part2Test->setRatio(0.1);
+        meterCmdPsu2Part2Test = new command(QString("read?"));
+        meterCmdPsu2Part2Test->setRatio(0.1);
+    }else{
+        cmdListPsu2Part2Pre = psu2Part2->getCmdList();
+        dataAndAddrListPsu2Part2 = psu2Part2->getDataList();
+        dataLengthPsu2Part2 = psu2Part2->getDataLength();
+        setCmdPsu2Part2Verify = psu2Part2->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
+        setPsu2Part2Multi = psu2Part2->getSetMulti();   // 放大倍数
+        dmmCmdPsu2Part2Verify = psu2Part2->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
+        dmmPsu2Part2Multi = psu2Part2->getDmmMulti();  // 放大倍数
+        meterCmdPsu2Part2Verify = psu2Part2->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
+        meterPsu2Part2Multi = psu2Part2->getMeterMulti();  // 放大倍数
+        setCmdPsu2Part2Test = psu2Part2->getSetCmdTest();  // 初始化并显示测试页设置电压命令
+        dmmCmdPsu2Part2Test = psu2Part2->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
+        meterCmdPsu2Part2Test = psu2Part2->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
+    }
+    showPsu2Part2PreCmdList();
+    for(int i=0; i != dataAndAddrListPsu2Part2->size(); ++i){
+        on_pushBtnPsu2Part2DataAdd_clicked();
+        checkBoxListPsu2Part2Data.at(i)->setChecked(dataAndAddrListPsu2Part2->at(i)->first);
+        dataLineEditListPsu2Part2Data.at(i)->setText(dataAndAddrListPsu2Part2->at(i)->second->first);
+        addrLineEditListPsu2Part2Data.at(i)->setText(dataAndAddrListPsu2Part2->at(i)->second->second);
+    }
+    nowIndexPsu2Part2Pre = -1;  // 换档命令框当前选项索引
+    nowCommandPsu2Part2 = NULL;
+    ui->lineEditDataLengthPsu2Part2->setText(QString("%1").arg(dataLengthPsu2Part2));
+    ui->lineEditPsu2Part2VerifySetCmd->setText(setCmdPsu2Part2Verify->getName());
+    ui->lineEditPsu2Part2VerifySetStart->setText(setCmdPsu2Part2Verify->getStart());
+    ui->lineEditPsu2Part2VerifySetEnd->setText(setCmdPsu2Part2Verify->getEnd());
+    ui->lineEditPsu2Part2VerifySetJudge->setText(setCmdPsu2Part2Verify->getJudge());
+    ui->lineEditPsu2Part2VerifySetMulti->setText(QString("%1").arg(setPsu2Part2Multi));
+    ui->lineEditPsu2Part2VerifyDMMCmd->setText(dmmCmdPsu2Part2Verify->getName());
+    ui->lineEditPsu2Part2VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
+    ui->lineEditPsu2Part2VerifyDMMStart->setText(dmmCmdPsu2Part2Verify->getStart());
+    ui->lineEditPsu2Part2VerifyDMMEnd->setText(dmmCmdPsu2Part2Verify->getEnd());
+    ui->lineEditPsu2Part2VerifyDMMJudge->setText(dmmCmdPsu2Part2Verify->getRatio());
+    ui->lineEditPsu2Part2VerifyDMMMulti->setText(QString("%1").arg(dmmPsu2Part2Multi));
+    ui->lineEditPsu2Part2VerifyMeterCmd->setText(meterCmdPsu2Part2Verify->getName());
+    ui->lineEditPsu2Part2VerifyMeterJudge->setText(meterCmdPsu2Part2Verify->getRatio());
+    ui->lineEditPsu2Part2VerifyMeterMulti->setText(QString("%1").arg(meterPsu2Part2Multi));
+    ui->lineEditPsu2Part2TestSetCmd->setText(setCmdPsu2Part2Test->getName());
+    ui->lineEditPsu2Part2TestSetStart->setText(setCmdPsu2Part2Test->getStart());
+    ui->lineEditPsu2Part2TestSetEnd->setText(setCmdPsu2Part2Test->getEnd());
+    ui->lineEditPsu2Part2TestSetJudge->setText(setCmdPsu2Part2Test->getJudge());
+    ui->lineEditPsu2Part2TestDMMCmd->setText(dmmCmdPsu2Part2Test->getName());
+    ui->lineEditPsu2Part2TestDMMStart->setText(dmmCmdPsu2Part2Test->getStart());
+    ui->lineEditPsu2Part2TestDMMEnd->setText(dmmCmdPsu2Part2Test->getEnd());
+    ui->lineEditPsu2Part2TestDMMJudge->setText(dmmCmdPsu2Part2Test->getRatio());
+    ui->lineEditPsu2Part2TestMeterCmd->setText(meterCmdPsu2Part2Test->getName());
+    ui->lineEditPsu2Part2TestMeterJudge->setText(meterCmdPsu2Part2Test->getRatio());
+
+}
+// 重画PSU2 Part3界面
+void curdataconfig::repaintPsu2Part3()
+{
+    nowIndexPsu2Part3Data = 0;  // 当前数据项索引
+    if(psu2Part3 == NULL){
+        cmdListPsu2Part3Pre = new QList<command *>;
+        dataAndAddrListPsu2Part3 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu2Part3 = 6;
+        setCmdPsu2Part3Verify = new command(QString("PSU2_I"));
+        setCmdPsu2Part3Verify->setStart(QString("("));
+        setCmdPsu2Part3Verify->setEnd(QString(";"));
+        setCmdPsu2Part3Verify->setJudge(QString("DONE"));
+        setCmdPsu2Part3Verify->setRatio(0);
+        setPsu2Part3Multi = 1;
+        dmmCmdPsu2Part3Verify = new command(QString("PSU2_CH3_Current_MEASURE_Real"));
+        dmmCmdPsu2Part3Verify->setParam(QString("AD"));
+        dmmCmdPsu2Part3Verify->setStart(QString("("));
+        dmmCmdPsu2Part3Verify->setEnd(QString(";"));
+        dmmCmdPsu2Part3Verify->setRatio(10);
+        dmmPsu2Part3Multi = 1;
+        meterCmdPsu2Part3Verify = new command(QString("read?"));
+        meterCmdPsu2Part3Verify->setRatio(10);
+        meterPsu2Part3Multi = 1;
+        setCmdPsu2Part3Test = new command(QString("PSU2_I"));
+        setCmdPsu2Part3Test->setStart(QString("("));
+        setCmdPsu2Part3Test->setEnd(QString(";"));
+        setCmdPsu2Part3Test->setJudge(QString("DONE"));
+        setCmdPsu2Part3Test->setRatio(0);
+        dmmCmdPsu2Part3Test = new command(QString("PSU2_CH3_Current_MEASURE_Real"));
+        dmmCmdPsu2Part3Test->setStart(QString("("));
+        dmmCmdPsu2Part3Test->setEnd(QString(";"));
+        dmmCmdPsu2Part3Test->setRatio(0.1);
+        meterCmdPsu2Part3Test = new command(QString("read?"));
+        meterCmdPsu2Part3Test->setRatio(0.1);
+    }else{
+        cmdListPsu2Part3Pre = psu2Part3->getCmdList();
+        dataAndAddrListPsu2Part3 = psu2Part3->getDataList();
+        dataLengthPsu2Part3 = psu2Part3->getDataLength();
+        setCmdPsu2Part3Verify = psu2Part3->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
+        setPsu2Part3Multi = psu2Part3->getSetMulti();   // 放大倍数
+        dmmCmdPsu2Part3Verify = psu2Part3->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
+        dmmPsu2Part3Multi = psu2Part3->getDmmMulti();  // 放大倍数
+        meterCmdPsu2Part3Verify = psu2Part3->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
+        meterPsu2Part3Multi = psu2Part3->getMeterMulti();  // 放大倍数
+        setCmdPsu2Part3Test = psu2Part3->getSetCmdTest();  // 初始化并显示测试页设置电压命令
+        dmmCmdPsu2Part3Test = psu2Part3->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
+        meterCmdPsu2Part3Test = psu2Part3->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
+    }
+    showPsu2Part3PreCmdList();
+    for(int i=0; i != dataAndAddrListPsu2Part3->size(); ++i){
+        on_pushBtnPsu2Part3DataAdd_clicked();
+        checkBoxListPsu2Part3Data.at(i)->setChecked(dataAndAddrListPsu2Part3->at(i)->first);
+        dataLineEditListPsu2Part3Data.at(i)->setText(dataAndAddrListPsu2Part3->at(i)->second->first);
+        addrLineEditListPsu2Part3Data.at(i)->setText(dataAndAddrListPsu2Part3->at(i)->second->second);
+    }
+    nowIndexPsu2Part3Pre = -1;  // 换档命令框当前选项索引
+    nowCommandPsu2Part3 = NULL;
+    ui->lineEditDataLengthPsu2Part3->setText(QString("%1").arg(dataLengthPsu2Part3));
+    ui->lineEditPsu2Part3VerifySetCmd->setText(setCmdPsu2Part3Verify->getName());
+    ui->lineEditPsu2Part3VerifySetStart->setText(setCmdPsu2Part3Verify->getStart());
+    ui->lineEditPsu2Part3VerifySetEnd->setText(setCmdPsu2Part3Verify->getEnd());
+    ui->lineEditPsu2Part3VerifySetJudge->setText(setCmdPsu2Part3Verify->getJudge());
+    ui->lineEditPsu2Part3VerifySetMulti->setText(QString("%1").arg(setPsu2Part3Multi));
+    ui->lineEditPsu2Part3VerifyDMMCmd->setText(dmmCmdPsu2Part3Verify->getName());
+    ui->lineEditPsu2Part3VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
+    ui->lineEditPsu2Part3VerifyDMMStart->setText(dmmCmdPsu2Part3Verify->getStart());
+    ui->lineEditPsu2Part3VerifyDMMEnd->setText(dmmCmdPsu2Part3Verify->getEnd());
+    ui->lineEditPsu2Part3VerifyDMMJudge->setText(dmmCmdPsu2Part3Verify->getRatio());
+    ui->lineEditPsu2Part3VerifyDMMMulti->setText(QString("%1").arg(dmmPsu2Part3Multi));
+    ui->lineEditPsu2Part3VerifyMeterCmd->setText(meterCmdPsu2Part3Verify->getName());
+    ui->lineEditPsu2Part3VerifyMeterJudge->setText(meterCmdPsu2Part3Verify->getRatio());
+    ui->lineEditPsu2Part3VerifyMeterMulti->setText(QString("%1").arg(meterPsu2Part3Multi));
+    ui->lineEditPsu2Part3TestSetCmd->setText(setCmdPsu2Part3Test->getName());
+    ui->lineEditPsu2Part3TestSetStart->setText(setCmdPsu2Part3Test->getStart());
+    ui->lineEditPsu2Part3TestSetEnd->setText(setCmdPsu2Part3Test->getEnd());
+    ui->lineEditPsu2Part3TestSetJudge->setText(setCmdPsu2Part3Test->getJudge());
+    ui->lineEditPsu2Part3TestDMMCmd->setText(dmmCmdPsu2Part3Test->getName());
+    ui->lineEditPsu2Part3TestDMMStart->setText(dmmCmdPsu2Part3Test->getStart());
+    ui->lineEditPsu2Part3TestDMMEnd->setText(dmmCmdPsu2Part3Test->getEnd());
+    ui->lineEditPsu2Part3TestDMMJudge->setText(dmmCmdPsu2Part3Test->getRatio());
+    ui->lineEditPsu2Part3TestMeterCmd->setText(meterCmdPsu2Part3Test->getName());
+    ui->lineEditPsu2Part3TestMeterJudge->setText(meterCmdPsu2Part3Test->getRatio());
+}
+// 重画PSU2 Part4界面
+void curdataconfig::repaintPsu2Part4()
+{
+    nowIndexPsu2Part4Data = 0;  // 当前数据项索引
+    if(psu2Part4 == NULL){
+        cmdListPsu2Part4Pre = new QList<command *>;
+        dataAndAddrListPsu2Part4 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu2Part4 = 6;
+        setCmdPsu2Part4Verify = new command(QString("PSU2_I"));
+        setCmdPsu2Part4Verify->setStart(QString("("));
+        setCmdPsu2Part4Verify->setEnd(QString(";"));
+        setCmdPsu2Part4Verify->setJudge(QString("DONE"));
+        setCmdPsu2Part4Verify->setRatio(0);
+        setPsu2Part4Multi = 1;
+        dmmCmdPsu2Part4Verify = new command(QString("PSU2_CH4_Current_MEASURE_Real"));
+        dmmCmdPsu2Part4Verify->setParam(QString("AD"));
+        dmmCmdPsu2Part4Verify->setStart(QString("("));
+        dmmCmdPsu2Part4Verify->setEnd(QString(";"));
+        dmmCmdPsu2Part4Verify->setRatio(10);
+        dmmPsu2Part4Multi = 1;
+        meterCmdPsu2Part4Verify = new command(QString("read?"));
+        meterCmdPsu2Part4Verify->setRatio(10);
+        meterPsu2Part4Multi = 1;
+        setCmdPsu2Part4Test = new command(QString("PSU2_I"));
+        setCmdPsu2Part4Test->setStart(QString("("));
+        setCmdPsu2Part4Test->setEnd(QString(";"));
+        setCmdPsu2Part4Test->setJudge(QString("DONE"));
+        setCmdPsu2Part4Test->setRatio(0);
+        dmmCmdPsu2Part4Test = new command(QString("PSU2_CH4_Current_MEASURE_Real"));
+        dmmCmdPsu2Part4Test->setStart(QString("("));
+        dmmCmdPsu2Part4Test->setEnd(QString(";"));
+        dmmCmdPsu2Part4Test->setRatio(0.1);
+        meterCmdPsu2Part4Test = new command(QString("read?"));
+        meterCmdPsu2Part4Test->setRatio(0.1);
+    }else{
+        cmdListPsu2Part4Pre = psu2Part4->getCmdList();
+        dataAndAddrListPsu2Part4 = psu2Part4->getDataList();
+        dataLengthPsu2Part4 = psu2Part4->getDataLength();
+        setCmdPsu2Part4Verify = psu2Part4->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
+        setPsu2Part4Multi = psu2Part4->getSetMulti();   // 放大倍数
+        dmmCmdPsu2Part4Verify = psu2Part4->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
+        dmmPsu2Part4Multi = psu2Part4->getDmmMulti();  // 放大倍数
+        meterCmdPsu2Part4Verify = psu2Part4->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
+        meterPsu2Part4Multi = psu2Part4->getMeterMulti();  // 放大倍数
+        setCmdPsu2Part4Test = psu2Part4->getSetCmdTest();  // 初始化并显示测试页设置电压命令
+        dmmCmdPsu2Part4Test = psu2Part4->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
+        meterCmdPsu2Part4Test = psu2Part4->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
+    }
+    showPsu2Part4PreCmdList();
+    for(int i=0; i != dataAndAddrListPsu2Part4->size(); ++i){
+        on_pushBtnPsu2Part4DataAdd_clicked();
+        checkBoxListPsu2Part4Data.at(i)->setChecked(dataAndAddrListPsu2Part4->at(i)->first);
+        dataLineEditListPsu2Part4Data.at(i)->setText(dataAndAddrListPsu2Part4->at(i)->second->first);
+        addrLineEditListPsu2Part4Data.at(i)->setText(dataAndAddrListPsu2Part4->at(i)->second->second);
+    }
+    nowIndexPsu2Part4Pre = -1;  // 换档命令框当前选项索引
+    nowCommandPsu2Part4 = NULL;
+    ui->lineEditDataLengthPsu2Part4->setText(QString("%1").arg(dataLengthPsu2Part1));
+    ui->lineEditPsu2Part4VerifySetCmd->setText(setCmdPsu2Part4Verify->getName());
+    ui->lineEditPsu2Part4VerifySetStart->setText(setCmdPsu2Part4Verify->getStart());
+    ui->lineEditPsu2Part4VerifySetEnd->setText(setCmdPsu2Part4Verify->getEnd());
+    ui->lineEditPsu2Part4VerifySetJudge->setText(setCmdPsu2Part4Verify->getJudge());
+    ui->lineEditPsu2Part4VerifySetMulti->setText(QString("%1").arg(setPsu2Part4Multi));
+    ui->lineEditPsu2Part4VerifyDMMCmd->setText(dmmCmdPsu2Part4Verify->getName());
+    ui->lineEditPsu2Part4VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
+    ui->lineEditPsu2Part4VerifyDMMStart->setText(dmmCmdPsu2Part4Verify->getStart());
+    ui->lineEditPsu2Part4VerifyDMMEnd->setText(dmmCmdPsu2Part4Verify->getEnd());
+    ui->lineEditPsu2Part4VerifyDMMJudge->setText(dmmCmdPsu2Part4Verify->getRatio());
+    ui->lineEditPsu2Part4VerifyDMMMulti->setText(QString("%1").arg(dmmPsu2Part4Multi));
+    ui->lineEditPsu2Part4VerifyMeterCmd->setText(meterCmdPsu2Part4Verify->getName());
+    ui->lineEditPsu2Part4VerifyMeterJudge->setText(meterCmdPsu2Part4Verify->getRatio());
+    ui->lineEditPsu2Part4VerifyMeterMulti->setText(QString("%1").arg(meterPsu2Part4Multi));
+    ui->lineEditPsu2Part4TestSetCmd->setText(setCmdPsu2Part4Test->getName());
+    ui->lineEditPsu2Part4TestSetStart->setText(setCmdPsu2Part4Test->getStart());
+    ui->lineEditPsu2Part4TestSetEnd->setText(setCmdPsu2Part4Test->getEnd());
+    ui->lineEditPsu2Part4TestSetJudge->setText(setCmdPsu2Part4Test->getJudge());
+    ui->lineEditPsu2Part4TestDMMCmd->setText(dmmCmdPsu2Part4Test->getName());
+    ui->lineEditPsu2Part4TestDMMStart->setText(dmmCmdPsu2Part4Test->getStart());
+    ui->lineEditPsu2Part4TestDMMEnd->setText(dmmCmdPsu2Part4Test->getEnd());
+    ui->lineEditPsu2Part4TestDMMJudge->setText(dmmCmdPsu2Part4Test->getRatio());
+    ui->lineEditPsu2Part4TestMeterCmd->setText(meterCmdPsu2Part4Test->getName());
+    ui->lineEditPsu2Part4TestMeterJudge->setText(meterCmdPsu2Part4Test->getRatio());
+}
+// 重画PSU2 Part5界面
+void curdataconfig::repaintPsu2Part5()
+{
+    nowIndexPsu2Part5Data = 0;  // 当前数据项索引
+    if(psu2Part5 == NULL){
+        cmdListPsu2Part5Pre = new QList<command *>;
+        dataAndAddrListPsu2Part5 = new QList<QPair<bool, QPair<QString, QString> *> *>;
+        dataLengthPsu2Part5 = 6;
+        setCmdPsu2Part5Verify = new command(QString("PSU2_I"));
+        setCmdPsu2Part5Verify->setStart(QString("("));
+        setCmdPsu2Part5Verify->setEnd(QString(";"));
+        setCmdPsu2Part5Verify->setJudge(QString("DONE"));
+        setCmdPsu2Part5Verify->setRatio(0);
+        setPsu2Part5Multi = 1;
+        dmmCmdPsu2Part5Verify = new command(QString("PSU2_CH5_Current_MEASURE_Real"));
+        dmmCmdPsu2Part5Verify->setParam(QString("AD"));
+        dmmCmdPsu2Part5Verify->setStart(QString("("));
+        dmmCmdPsu2Part5Verify->setEnd(QString(";"));
+        dmmCmdPsu2Part5Verify->setRatio(10);
+        dmmPsu2Part5Multi = 1;
+        meterCmdPsu2Part5Verify = new command(QString("read?"));
+        meterCmdPsu2Part5Verify->setRatio(10);
+        meterPsu2Part5Multi = 1;
+        setCmdPsu2Part5Test = new command(QString("PSU2_I"));
+        setCmdPsu2Part5Test->setStart(QString("("));
+        setCmdPsu2Part5Test->setEnd(QString(";"));
+        setCmdPsu2Part5Test->setJudge(QString("DONE"));
+        setCmdPsu2Part5Test->setRatio(0);
+        dmmCmdPsu2Part5Test = new command(QString("PSU2_CH5_Current_MEASURE_Real"));
+        dmmCmdPsu2Part5Test->setStart(QString("("));
+        dmmCmdPsu2Part5Test->setEnd(QString(";"));
+        dmmCmdPsu2Part5Test->setRatio(0.1);
+        meterCmdPsu2Part5Test = new command(QString("read?"));
+        meterCmdPsu2Part5Test->setRatio(0.1);
+    }else{
+        cmdListPsu2Part5Pre = psu2Part5->getCmdList();
+        dataAndAddrListPsu2Part5 = psu2Part5->getDataList();
+        dataLengthPsu2Part5 = psu2Part5->getDataLength();
+        setCmdPsu2Part5Verify = psu2Part5->getSetCmdVerify();  // 初始化并显示校准页设置电压命令
+        setPsu2Part5Multi = psu2Part5->getSetMulti();   // 放大倍数
+        dmmCmdPsu2Part5Verify = psu2Part5->getDmmCmdVerify();  // 初始化并显示校准页DMM读取电压命令
+        dmmPsu2Part5Multi = psu2Part5->getDmmMulti();  // 放大倍数
+        meterCmdPsu2Part5Verify = psu2Part5->getMeterCmdVerify();  // 初始化并显示校准页万用表读电压命令
+        meterPsu2Part5Multi = psu2Part5->getMeterMulti();  // 放大倍数
+        setCmdPsu2Part5Test = psu2Part5->getSetCmdTest();  // 初始化并显示测试页设置电压命令
+        dmmCmdPsu2Part5Test = psu2Part5->getDmmCmdTest();  // 初始化并显示测试页DMM读取电压命令
+        meterCmdPsu2Part5Test = psu2Part5->getMeterCmdTest();  // 初始化并显示测试页万用表读电压命令
+    }
+    showPsu2Part5PreCmdList();
+    for(int i=0; i != dataAndAddrListPsu2Part5->size(); ++i){
+        on_pushBtnPsu2Part5DataAdd_clicked();
+        checkBoxListPsu2Part5Data.at(i)->setChecked(dataAndAddrListPsu2Part5->at(i)->first);
+        dataLineEditListPsu2Part5Data.at(i)->setText(dataAndAddrListPsu2Part5->at(i)->second->first);
+        addrLineEditListPsu2Part5Data.at(i)->setText(dataAndAddrListPsu2Part5->at(i)->second->second);
+    }
+    nowIndexPsu2Part5Pre = -1;  // 换档命令框当前选项索引
+    nowCommandPsu2Part5 = NULL;
+    ui->lineEditDataLengthPsu2Part5->setText(QString("%1").arg(dataLengthPsu2Part5));
+    ui->lineEditPsu2Part5VerifySetCmd->setText(setCmdPsu2Part5Verify->getName());
+    ui->lineEditPsu2Part5VerifySetStart->setText(setCmdPsu2Part5Verify->getStart());
+    ui->lineEditPsu2Part5VerifySetEnd->setText(setCmdPsu2Part5Verify->getEnd());
+    ui->lineEditPsu2Part5VerifySetJudge->setText(setCmdPsu2Part5Verify->getJudge());
+    ui->lineEditPsu2Part5VerifySetMulti->setText(QString("%1").arg(setPsu2Part5Multi));
+    ui->lineEditPsu2Part5VerifyDMMCmd->setText(dmmCmdPsu2Part5Verify->getName());
+    ui->lineEditPsu2Part5VerifyDMMParam->setText(dmmCmdPsu1Part1Verify->getParam());
+    ui->lineEditPsu2Part5VerifyDMMStart->setText(dmmCmdPsu2Part5Verify->getStart());
+    ui->lineEditPsu2Part5VerifyDMMEnd->setText(dmmCmdPsu2Part5Verify->getEnd());
+    ui->lineEditPsu2Part5VerifyDMMJudge->setText(dmmCmdPsu2Part5Verify->getRatio());
+    ui->lineEditPsu2Part5VerifyDMMMulti->setText(QString("%1").arg(dmmPsu2Part5Multi));
+    ui->lineEditPsu2Part5VerifyMeterCmd->setText(meterCmdPsu2Part5Verify->getName());
+    ui->lineEditPsu2Part5VerifyMeterJudge->setText(meterCmdPsu2Part5Verify->getRatio());
+    ui->lineEditPsu2Part5VerifyMeterMulti->setText(QString("%1").arg(meterPsu2Part5Multi));
+    ui->lineEditPsu2Part5TestSetCmd->setText(setCmdPsu2Part5Test->getName());
+    ui->lineEditPsu2Part5TestSetStart->setText(setCmdPsu2Part5Test->getStart());
+    ui->lineEditPsu2Part5TestSetEnd->setText(setCmdPsu2Part5Test->getEnd());
+    ui->lineEditPsu2Part5TestSetJudge->setText(setCmdPsu2Part5Test->getJudge());
+    ui->lineEditPsu2Part5TestDMMCmd->setText(dmmCmdPsu2Part5Test->getName());
+    ui->lineEditPsu2Part5TestDMMStart->setText(dmmCmdPsu2Part5Test->getStart());
+    ui->lineEditPsu2Part5TestDMMEnd->setText(dmmCmdPsu2Part5Test->getEnd());
+    ui->lineEditPsu2Part5TestDMMJudge->setText(dmmCmdPsu2Part5Test->getRatio());
+    ui->lineEditPsu2Part5TestMeterCmd->setText(meterCmdPsu2Part5Test->getName());
     ui->lineEditPsu2Part5TestMeterJudge->setText(meterCmdPsu2Part5Test->getRatio());
 }
