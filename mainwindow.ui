@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>B&amp;P通用校准测试平台</string>
+   <string>B&amp;P通用电压电流校准测试平台</string>
   </property>
   <property name="windowIcon">
    <iconset resource="image.qrc">

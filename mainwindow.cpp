@@ -97,7 +97,7 @@ MainWindow::MainWindow(QWidget *parent):
     readConfFile();  // 读取配置文件
     recviceSlots(&slotsMap);
 
-    this->setWindowTitle(QString(tr("B&P通用校准测试平台 - %1").arg(currentConf)));
+    this->setWindowTitle(QString(tr("B&P通用电压电流校准测试平台 - %1").arg(currentConf)));
 
     thread = NULL;
     bit = 1;
@@ -134,7 +134,7 @@ void MainWindow::on_actionNew_triggered()
     currentConf = fileFullName.mid(fileFullName.lastIndexOf("/")+1);
     on_actionSave_triggered();
     ui->statusBar->showMessage(tr("请依次配置硬件通道、电压校准数据和电流校准数据"));
-    this->setWindowTitle(QString(tr("B&P通用校准测试平台 - %1").arg(currentConf)));
+    this->setWindowTitle(QString(tr("B&P通用电压电流校准测试平台 - %1").arg(currentConf)));
 }
 // 打开配置文件
 void MainWindow::on_actionOpen_triggered()
@@ -154,7 +154,7 @@ void MainWindow::on_actionOpen_triggered()
     qDeleteAll(ui->frameSlot->children());
     qDeleteAll(slotGroup->children());
     readConfFile();
-    this->setWindowTitle(QString(tr("B&P通用校准测试平台 - %1").arg(currentConf)));
+    this->setWindowTitle(QString(tr("B&P通用电压电流校准测试平台 - %1").arg(currentConf)));
 }
 // 保存
 void MainWindow::on_actionSave_triggered()
@@ -203,7 +203,7 @@ void MainWindow::on_actionSaveAs_triggered()
         return;
     }
     currentConf = fileFullName.mid(fileFullName.lastIndexOf("/")+1);
-    this->setWindowTitle(QString(tr("B&P通用校准测试平台 - %1").arg(currentConf)));
+    this->setWindowTitle(QString(tr("B&P通用电压电流校准测试平台 - %1").arg(currentConf)));
     on_actionSave_triggered();
 }
 // 重命名配置文件
@@ -224,7 +224,7 @@ void MainWindow::on_actionRename_triggered()
     QFile f(confPath + "/" + oldConf);
     f.rename(confPath + "/" + oldConf, fileFullName);
     QMessageBox::information(this, tr("重命名"), QString(tr("重命令成功。新文件名：%1").arg(currentConf)), QMessageBox::Ok);
-    this->setWindowTitle(QString(tr("B&P通用校准测试平台 - %1").arg(currentConf)));
+    this->setWindowTitle(QString(tr("B&P通用电压电流校准测试平台 - %1").arg(currentConf)));
 }
 // 退出应用程序
 void MainWindow::on_actionExit_triggered()
