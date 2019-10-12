@@ -74,3 +74,6 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     image.qrc
+
+RC_FILE += \
+    myico.rc
