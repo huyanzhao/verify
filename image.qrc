@@ -12,6 +12,6 @@
         <file>img/battery_current_64px_1067674_easyicon.net.ico</file>
         <file>img/Cart_add_128px_1198145_easyicon.net.ico</file>
         <file>img/BPlogo.png</file>
-        <file>img/param_info.png</file>
+        <file>img/datainfo.png</file>
     </qresource>
 </RCC>

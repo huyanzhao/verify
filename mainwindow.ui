@@ -37,9 +37,9 @@
      <property name="geometry">
       <rect>
        <x>5</x>
-       <y>0</y>
-       <width>156</width>
-       <height>100</height>
+       <y>1</y>
+       <width>151</width>
+       <height>98</height>
       </rect>
      </property>
      <property name="statusTip">
@@ -55,9 +55,9 @@
     <widget class="QLabel" name="labelSecond">
      <property name="geometry">
       <rect>
-       <x>165</x>
+       <x>160</x>
        <y>0</y>
-       <width>244</width>
+       <width>249</width>
        <height>100</height>
       </rect>
      </property>

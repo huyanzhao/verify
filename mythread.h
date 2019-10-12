@@ -46,6 +46,9 @@ protected:
 
     QString log;
     QString csv;
+
+
+    QRegExp rx;
 };
 
 class verifyVoltageThread: public myThread

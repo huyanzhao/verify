@@ -6,6 +6,7 @@
 command::command(QString nameParam):
     name(nameParam)
 {
+    ratio = 0;
 }
 // ÉèÖÃÃüÁîÃû³Æ
 void command::setName(QString newName)

@@ -210,19 +210,19 @@ void volDataConfig::on_pushBtnCh1DataAdd_clicked()
     // dac地址框
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
-    dacaddrlineedit->setPlaceholderText(tr("dac"));
+    dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListCh1Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
     // adc地址框
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
-    adcaddrlineedit->setPlaceholderText(tr("adc"));
+    adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListCh1Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
     // ref地址框
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
-    refaddrlineedit->setPlaceholderText(tr("ref"));
+    refaddrlineedit->setPlaceholderText(tr("refAddr"));
     refAddrLineEditListCh1Data.append(refaddrlineedit);
     refaddrlineedit->show();
     nowIndexCh1Data++;
@@ -676,19 +676,19 @@ void volDataConfig::on_pushBtnCh2DataAdd_clicked()
     // dac地址框
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
-    dacaddrlineedit->setPlaceholderText(tr("地址"));
+    dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListCh2Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
     // adc地址框
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
-    adcaddrlineedit->setPlaceholderText(tr("地址"));
+    adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListCh2Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
     // ref地址框
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
-    refaddrlineedit->setPlaceholderText(tr("地址"));
+    refaddrlineedit->setPlaceholderText(tr("refAddr"));
     refAddrLineEditListCh2Data.append(refaddrlineedit);
     refaddrlineedit->show();
     nowIndexCh2Data++;
@@ -1115,7 +1115,7 @@ void volDataConfig::repaintCh2()
         dmmCmdCh2Test->setEnd(QString(";"));
         dmmCmdCh2Test->setRatio(0.1);
         meterCmdCh2Test = new command(QString("read?"));
-        meterCmdCh1Test->setRatio(0.1);
+        meterCmdCh2Test->setRatio(0.1);
     }else{
         cmdListCh2Pre = itemCh2->getCmdList();  // 初始化前置命令列表并刷新
         dataAndAddrListCh2 = itemCh2->getDataList();  // 初始化并显示数据列表
@@ -1171,6 +1171,7 @@ void volDataConfig::on_pushBtnCh1ToCh2_clicked()
     itemCh2 = itemCh1->deepcopy();
     on_pushBtnCh2DataBatchDel_clicked();
     repaintCh2();
+    QMessageBox::information(this, tr("复制成功"), tr("复制CH1覆盖CH2成功！"),QMessageBox::Ok);
 }
 // 用ch2覆盖ch1
 void volDataConfig::on_pushBtnCh2ToCh1_clicked()
@@ -1179,4 +1180,5 @@ void volDataConfig::on_pushBtnCh2ToCh1_clicked()
     itemCh1 = itemCh2->deepcopy();
     on_pushBtnCh1DataBatchDel_clicked();
     repaintCh1();
+    QMessageBox::information(this, tr("复制成功"), tr("复制CH2覆盖CH1成功！"),QMessageBox::Ok);
 }

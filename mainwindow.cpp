@@ -8,6 +8,7 @@
 #include <QTimer>
 #include <QDebug>
 #include <utility>
+#include <windows.h>
 #include <QButtonGroup>
 #include <QResizeEvent>
 #include <QByteArray>
@@ -22,9 +23,6 @@
 #include "qjson4/QJsonObject.h"
 #include "qjson4/QJsonParseError.h"
 #include "qjson4/QJsonValue.h"
-#include "qjson4/QJsonParser.h"
-#include "qjson4/QJsonRoot.h"
-#include "qjson4/QJsonValueRef.h"
 #include "meteraddress.h"
 #include "slotsconfig.h"
 #include "voldataconfig.h"
@@ -185,7 +183,7 @@ void MainWindow::on_actionSave_triggered()
         QTextStream textStream(&file);
         QString str = jsonDocument.toJson();
         textStream << str;
-        QMessageBox::warning(this, tr("保存成功"),tr("保存配置文件成功!"));
+        QMessageBox::information(this, tr("保存成功"),tr("保存配置文件成功!"), QMessageBox::Ok);
         file.close();
     }
 }
@@ -338,7 +336,7 @@ void MainWindow::resizeEvent(QResizeEvent * event)
     ui->frameTop->resize(width, 100);
     ui->frameBtn->move(QPoint(width-190, 0));
     ui->frameOptionAll->move(QPoint(width-790, 0));
-    ui->labelSecond->resize(width-790-168, 100);
+    ui->labelSecond->resize(width-790-163, 100);
     // 进度条
     ui->frameProgress->resize(width, 30);
     ui->progressBar->resize(width-10, 20);
@@ -812,8 +810,8 @@ QVariantList MainWindow::saveDataList(QList<DataItem *> * dataList)
         dataPair.insert("check", dataList->at(i)->check);
         dataPair.insert("data", dataList->at(i)->data);
         dataPair.insert("dacAddr", dataList->at(i)->dacAddr);
-        dataPair.insert("dacAddr", dataList->at(i)->adcAddr);
-        dataPair.insert("dacAddr", dataList->at(i)->refAddr);
+        dataPair.insert("adcAddr", dataList->at(i)->adcAddr);
+        dataPair.insert("refAddr", dataList->at(i)->refAddr);
         dataPairList.append(dataPair);
     }
     return dataPairList;
@@ -848,7 +846,13 @@ void MainWindow::radioSlot_clicked(int id)
 void MainWindow::on_radioBtnVol_clicked()
 {
     ui->radioBtnPSU0->setChecked(true);
+    ui->checkBoxPart1->setChecked(false);
+    ui->checkBoxPart2->setChecked(false);
+    ui->checkBoxPart3->setChecked(false);
+    ui->checkBoxPart4->setChecked(false);
+    ui->checkBoxPart5->setChecked(false);
     ui->checkBoxPart5->setEnabled(false);
+    ui->checkBoxAll->setChecked(false);
     ui->frameChannel->setEnabled(false);
     ui->frameChannel->setFrameShape(QFrame::WinPanel);
     ui->frameCur->setEnabled(false);
@@ -883,6 +887,11 @@ void MainWindow::on_radioBtnCur_clicked()
     ui->checkBoxPart4->setStatusTip(tr("Part 4"));
     ui->checkBoxPart5->setStatusTip(tr("Part 5"));
     ui->checkBoxAll->setStatusTip(tr("全选"));
+    ui->checkBoxPart1->setChecked(true);
+    ui->checkBoxPart2->setChecked(true);
+    ui->checkBoxPart3->setChecked(true);
+    ui->checkBoxPart4->setChecked(true);
+    ui->checkBoxAll->setChecked(true);
 }
 // 全选
 void MainWindow::on_checkBoxAll_clicked()
@@ -971,6 +980,8 @@ void MainWindow::on_pushBtnStart_clicked()
     logPath = currentPath + "/log/" + date;
     csvPath = currentPath + "/data/" + date;
     QString Str;
+    newMeterConnect();
+    newZynqConnect();
     if(voc == voltage){
         testItem * ch;
         if(ui->radioBtnCH1->isChecked()){

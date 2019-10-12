@@ -19,6 +19,9 @@ myThread::myThread(QTcpSocket * meterSocket, QTcpSocket *zynqSocket, QString log
 {
     meterTimeOut = 1000;  // 毫秒
     zynqTimeOut = 3000;  // 毫秒
+
+
+    rx.setPattern("(\\.){0,1}0+$");
 }
 // 记录Log
 void myThread::writeLog(QString message)
@@ -263,14 +266,14 @@ void verifyVoltageThread::run()
             recvZynq();
         // 保存数据到csv
         QStringList csvline;
-        csvline << QString("%1").arg(set)
+        csvline << QString("%1").arg(set,0,'f',-1).replace(rx,"")
                 << QString("%1").arg(datas->at(i)->dacAddr)
-                << QString("%1").arg(dmm)
+                << QString("%1").arg(dmm,0,'f',-1).replace(rx,"")
                 << QString("%1").arg(datas->at(i)->adcAddr)
-                << QString("%1").arg(meter)
+                << QString("%1").arg(meter,0,'f',-1).replace(rx,"")
                 << QString("%1").arg(datas->at(i)->refAddr)
-                << QString("%1").arg(dmm-dac)
-                << QString("%1").arg(dmm-meter);
+                << QString("%1").arg(dmm-dac,0,'f',-1).replace(rx,"")
+                << QString("%1").arg(dmm-meter,0,'f',-1).replace(rx,"");
         writeCsv(csvline.join(","));
         // 表格表示
         QString passOrFail;
@@ -280,7 +283,7 @@ void verifyVoltageThread::run()
             passOrFail = "fail";
         QStringList tableline = csvline;
         tableline << passOrFail;
-        tableline.insert(tableline.begin(), QString("set valtage %1").arg(set));
+        tableline.insert(tableline.begin(), QString("set valtage %1").arg(set,0,'f',-1).replace(rx,""));
         emit showTable(tableline);
         emit setProgressCurSize(i+1);
         paragraph("end");
@@ -405,13 +408,13 @@ void testVoltageThread::run()
 
         // 保存数据到csv
         QStringList csvline;
-        csvline << QString::number(set, 'f', 4)
-                << QString::number(dmm, 'f', 2)
-                << QString::number(meter, 'f', 2)
-                << QString::number(sub1, 'f', 2)
-                << QString::number(ratio1, 'f', 2)
-                << QString::number(sub2, 'f', 2)
-                << QString::number(ratio2, 'f', 2);
+        csvline << QString("%1").arg(set,0,'f',-1).replace(rx,"")
+                << QString("%1").arg(dmm,0,'f',-1).replace(rx,"")
+                << QString("%1").arg(meter,0,'f',-1).replace(rx,"")
+                << QString("%1").arg(sub1,0,'f',-1).replace(rx,"")
+                << QString("%1").arg(ratio1,0,'f',-1).replace(rx,"")
+                << QString("%1").arg(sub2,0,'f',-1).replace(rx,"")
+                << QString("%1").arg(ratio2,0,'f',-1).replace(rx,"");
         writeCsv(csvline.join(","));
         // 表格表示
         QString passOrFail;
@@ -421,7 +424,7 @@ void testVoltageThread::run()
             passOrFail = "fail";
         QStringList tableline = csvline;
         tableline << passOrFail;
-        tableline.insert(tableline.begin(), QString("set valtage %1").arg(set));
+        tableline.insert(tableline.begin(), QString("set valtage %1").arg(set,0,'f',-1).replace(rx,""));
         emit showTable(tableline);
         emit setProgressCurSize(i+1);
         paragraph("end");
@@ -618,31 +621,31 @@ void verifyCurrentThread::run()
             QString meterStr = QString("%1").arg(int(meter));
             while(meterStr.length() < dataLength)
                 meterStr = "0" + meterStr;
-            message = QString("[%1]eeprom write string(%2, at16, %3, %4)").arg(++cmdIndex).arg(Str).arg(datas->at(i)->dacAddr).arg(dacStr);
+            message = QString("[%1]eeprom write string(%2, at16, %3, %4)").arg(++cmdIndex).arg(Str).arg(datas->at(l)->dacAddr).arg(dacStr);
             if(!sendZynq(message))
                 judge = false;
             else
                 recvZynq();
-            message = QString("[%1]eeprom write string(%2, at16, %3, %4)").arg(++cmdIndex).arg(Str).arg(datas->at(i)->adcAddr).arg(dmmStr);
+            message = QString("[%1]eeprom write string(%2, at16, %3, %4)").arg(++cmdIndex).arg(Str).arg(datas->at(l)->adcAddr).arg(dmmStr);
             if(!sendZynq(message))
                 judge = false;
             else
                 recvZynq();
-            message = QString("[%1]eeprom write string(%2, at16, %3, %4)").arg(++cmdIndex).arg(Str).arg(datas->at(i)->refAddr).arg(meterStr);
+            message = QString("[%1]eeprom write string(%2, at16, %3, %4)").arg(++cmdIndex).arg(Str).arg(datas->at(l)->refAddr).arg(meterStr);
             if(!sendZynq(message))
                 judge = false;
             else
                 recvZynq();
             // 保存数据到csv
             QStringList csvline;
-            csvline << QString("%1").arg(set)
-                    << QString("%1").arg(datas->at(i)->dacAddr)
-                    << QString("%1").arg(dmm)
-                    << QString("%1").arg(datas->at(i)->adcAddr)
-                    << QString("%1").arg(meter)
-                    << QString("%1").arg(datas->at(i)->refAddr)
-                    << QString("%1").arg(dmm-dac)
-                    << QString("%1").arg(dmm-meter);
+            csvline << QString("%1").arg(set,0,'f',-1).replace(rx,"")
+                    << QString("%1").arg(datas->at(l)->dacAddr)
+                    << QString("%1").arg(dmm,0,'f',-1).replace(rx,"")
+                    << QString("%1").arg(datas->at(l)->adcAddr)
+                    << QString("%1").arg(meter,0,'f',-1).replace(rx,"")
+                    << QString("%1").arg(datas->at(l)->refAddr)
+                    << QString("%1").arg(dmm-dac,0,'f',-1).replace(rx,"")
+                    << QString("%1").arg(dmm-meter,0,'f',-1).replace(rx,"");
             writeCsv(csvline.join(","));
             // 表格表示
             QString passOrFail;
@@ -652,7 +655,7 @@ void verifyCurrentThread::run()
                 passOrFail = "fail";
             QStringList tableline = csvline;
             tableline << passOrFail;
-            tableline.insert(tableline.begin(), QString("set part%1 current %2").arg(partList->at(i)).arg(set));
+            tableline.insert(tableline.begin(), QString("set part%1 current %2").arg(partList->at(i)).arg(set,0,'f',-1).replace(rx,""));
             emit showTable(tableline);
             emit setProgressCurSize(++indexTable);
             paragraph("end");
@@ -844,13 +847,13 @@ void testCurrentThread::run()
 
             // 保存数据到csv
             QStringList csvline;
-            csvline << QString::number(set, 'f', 4)
-                    << QString::number(dmm, 'f', 2)
-                    << QString::number(meter, 'f', 2)
-                    << QString::number(sub1, 'f', 2)
-                    << QString::number(ratio1, 'f', 2)
-                    << QString::number(sub2, 'f', 2)
-                    << QString::number(ratio2, 'f', 2);
+            csvline << QString("%1").arg(set,0,'f',-1).replace(rx,"")
+                    << QString("%1").arg(dmm,0,'f',-1).replace(rx,"")
+                    << QString("%1").arg(meter,0,'f',-1).replace(rx,"")
+                    << QString("%1").arg(sub1,0,'f',-1).replace(rx,"")
+                    << QString("%1").arg(ratio1,0,'f',-1).replace(rx,"")
+                    << QString("%1").arg(sub2,0,'f',-1).replace(rx,"")
+                    << QString("%1").arg(ratio2,0,'f',-1).replace(rx,"");
             writeCsv(csvline.join(","));
             // 表格表示
             QString passOrFail;
@@ -860,7 +863,7 @@ void testCurrentThread::run()
                 passOrFail = "fail";
             QStringList tableline = csvline;
             tableline << passOrFail;
-            tableline.insert(tableline.begin(), QString("set part%1 current %2").arg(partList->at(i)).arg(set));
+            tableline.insert(tableline.begin(), QString("set part%1 current %2").arg(partList->at(i)).arg(set,0,'f',-1).replace(rx,""));
             emit showTable(tableline);
             emit setProgressCurSize(++indexTable);
             paragraph("end");

@@ -338,7 +338,7 @@ void curdataconfig::on_pushBtnPsu1Part1DataAdd_clicked()
     int x, y;
     x = nowIndexPsu1Part1Data / 10;
     y = nowIndexPsu1Part1Data % 10;
-    ui->scrollAreaWidgetContentsPsu1Part1->setFixedWidth((x+1)*180);  // 重置滚动区域大小
+    ui->scrollAreaWidgetContentsPsu1Part1->setFixedWidth((x+1)*290);  // 重置滚动区域大小
     QScrollBar *pScrollBar = ui->scrollAreaPsu1Part1Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
@@ -347,7 +347,7 @@ void curdataconfig::on_pushBtnPsu1Part1DataAdd_clicked()
     }
     // 框
     QFrame* newframe = new QFrame(ui->scrollAreaWidgetContentsPsu1Part1);
-    newframe->setGeometry(QRect(x*180, y*30, 170, 21));
+    newframe->setGeometry(QRect(x*290, y*30, 280, 21));
     newframe->setFrameShape(QFrame::Box);
     newframe->setFrameShadow(QFrame::Raised);
     frameListPsu1Part1Data.append(newframe);
@@ -369,19 +369,19 @@ void curdataconfig::on_pushBtnPsu1Part1DataAdd_clicked()
     // dac地址框
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
-    dacaddrlineedit->setPlaceholderText(tr("dac"));
+    dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu1Part1Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
     // adc地址框
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
-    adcaddrlineedit->setPlaceholderText(tr("dac"));
+    adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu1Part1Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
     // ref地址框
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
-    refaddrlineedit->setPlaceholderText(tr("dac"));
+    refaddrlineedit->setPlaceholderText(tr("refAddr"));
     refAddrLineEditListPsu1Part1Data.append(refaddrlineedit);
     refaddrlineedit->show();
     nowIndexPsu1Part1Data++;    
@@ -885,19 +885,19 @@ void curdataconfig::on_pushBtnPsu1Part2DataAdd_clicked()
     // dac地址框
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
-    dacaddrlineedit->setPlaceholderText(tr("地址"));
+    dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu1Part2Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
     // adc地址框
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
-    adcaddrlineedit->setPlaceholderText(tr("地址"));
+    adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu1Part2Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
     // ref地址框
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
-    refaddrlineedit->setPlaceholderText(tr("地址"));
+    refaddrlineedit->setPlaceholderText(tr("refAddr"));
     refAddrLineEditListPsu1Part2Data.append(refaddrlineedit);
     refaddrlineedit->show();
     nowIndexPsu1Part2Data++;
@@ -1401,19 +1401,19 @@ void curdataconfig::on_pushBtnPsu1Part3DataAdd_clicked()
     // dac地址框
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
-    dacaddrlineedit->setPlaceholderText(tr("地址"));
+    dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu1Part3Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
     // adc地址框
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
-    adcaddrlineedit->setPlaceholderText(tr("地址"));
+    adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu1Part3Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
     // ref地址框
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
-    refaddrlineedit->setPlaceholderText(tr("地址"));
+    refaddrlineedit->setPlaceholderText(tr("refAddr"));
     refAddrLineEditListPsu1Part3Data.append(refaddrlineedit);
     refaddrlineedit->show();
     nowIndexPsu1Part3Data++;    
@@ -1918,19 +1918,19 @@ void curdataconfig::on_pushBtnPsu1Part4DataAdd_clicked()
     // dac地址框
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
-    dacaddrlineedit->setPlaceholderText(tr("dac"));
+    dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu1Part4Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
     // adc地址框
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
-    adcaddrlineedit->setPlaceholderText(tr("adc"));
+    adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu1Part4Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
     // ref地址框
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
-    refaddrlineedit->setPlaceholderText(tr("ref"));
+    refaddrlineedit->setPlaceholderText(tr("refAddr"));
     refAddrLineEditListPsu1Part4Data.append(refaddrlineedit);
     refaddrlineedit->show();
     nowIndexPsu1Part4Data++;    
@@ -2435,19 +2435,19 @@ void curdataconfig::on_pushBtnPsu1Part5DataAdd_clicked()
     // dac地址框
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
-    dacaddrlineedit->setPlaceholderText(tr("dac"));
+    dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu1Part5Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
     // adc地址框
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
-    adcaddrlineedit->setPlaceholderText(tr("adc"));
+    adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu1Part5Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
     // ref地址框
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
-    refaddrlineedit->setPlaceholderText(tr("ref"));
+    refaddrlineedit->setPlaceholderText(tr("refAddr"));
     refAddrLineEditListPsu1Part5Data.append(refaddrlineedit);
     refaddrlineedit->show();
     nowIndexPsu1Part5Data++;    
@@ -3056,19 +3056,19 @@ void curdataconfig::on_pushBtnPsu2Part1DataAdd_clicked()
     // dac地址框
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
-    dacaddrlineedit->setPlaceholderText(tr("dac"));
+    dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu2Part1Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
     // adc地址框
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
-    adcaddrlineedit->setPlaceholderText(tr("adc"));
+    adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu2Part1Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
     // ref地址框
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
-    refaddrlineedit->setPlaceholderText(tr("ref"));
+    refaddrlineedit->setPlaceholderText(tr("refAddr"));
     refAddrLineEditListPsu2Part1Data.append(refaddrlineedit);
     refaddrlineedit->show();
     nowIndexPsu2Part1Data++;    
@@ -3574,19 +3574,19 @@ void curdataconfig::on_pushBtnPsu2Part2DataAdd_clicked()
     // dac地址框
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
-    dacaddrlineedit->setPlaceholderText(tr("dac"));
+    dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu2Part2Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
     // adc地址框
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
-    adcaddrlineedit->setPlaceholderText(tr("adc"));
+    adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu2Part2Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
     // ref地址框
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
-    refaddrlineedit->setPlaceholderText(tr("ref"));
+    refaddrlineedit->setPlaceholderText(tr("refAddr"));
     refAddrLineEditListPsu2Part2Data.append(refaddrlineedit);
     refaddrlineedit->show();
     nowIndexPsu2Part2Data++;    
@@ -4090,19 +4090,19 @@ void curdataconfig::on_pushBtnPsu2Part3DataAdd_clicked()
     // dac地址框
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
-    dacaddrlineedit->setPlaceholderText(tr("dac"));
+    dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu2Part3Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
     // adc地址框
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
-    adcaddrlineedit->setPlaceholderText(tr("adc"));
+    adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu2Part3Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
     // ref地址框
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
-    refaddrlineedit->setPlaceholderText(tr("ref"));
+    refaddrlineedit->setPlaceholderText(tr("refAddr"));
     refAddrLineEditListPsu2Part3Data.append(refaddrlineedit);
     refaddrlineedit->show();
     nowIndexPsu2Part3Data++;
@@ -4607,19 +4607,19 @@ void curdataconfig::on_pushBtnPsu2Part4DataAdd_clicked()
     // dac地址框
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
-    dacaddrlineedit->setPlaceholderText(tr("dac"));
+    dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu2Part4Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
     // adc地址框
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
-    adcaddrlineedit->setPlaceholderText(tr("adc"));
+    adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu2Part4Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
     // ref地址框
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
-    refaddrlineedit->setPlaceholderText(tr("ref"));
+    refaddrlineedit->setPlaceholderText(tr("refAddr"));
     refAddrLineEditListPsu2Part4Data.append(refaddrlineedit);
     refaddrlineedit->show();
     nowIndexPsu2Part4Data++;
@@ -5123,19 +5123,19 @@ void curdataconfig::on_pushBtnPsu2Part5DataAdd_clicked()
     // dac地址框
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
-    dacaddrlineedit->setPlaceholderText(tr("dac"));
+    dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu2Part5Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
     // adc地址框
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
-    adcaddrlineedit->setPlaceholderText(tr("adc"));
+    adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu2Part5Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
     // ref地址框
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
-    refaddrlineedit->setPlaceholderText(tr("ref"));
+    refaddrlineedit->setPlaceholderText(tr("refAddr"));
     refAddrLineEditListPsu2Part5Data.append(refaddrlineedit);
     refaddrlineedit->show();
     nowIndexPsu2Part5Data++;
@@ -5497,6 +5497,7 @@ void curdataconfig::on_pushBtnPsu1ToPsu2_clicked()
     delete itemPsu2;
     itemPsu2 = itemPsu1->deepcopy();
     repaintPsu2();
+    QMessageBox::information(this, tr("复制成功"), tr("复制PSU1覆盖PSU2成功！"),QMessageBox::Ok);
 }
 // 复制PSU2覆盖PSU1
 void curdataconfig::on_pushBtnPsu2ToPsu1_clicked()
@@ -5504,6 +5505,7 @@ void curdataconfig::on_pushBtnPsu2ToPsu1_clicked()
     delete itemPsu1;
     itemPsu1 = itemPsu2->deepcopy();
     repaintPsu1();
+    QMessageBox::information(this, tr("复制成功"), tr("复制PSU2覆盖PSU1成功！"),QMessageBox::Ok);
 }
 // 重画PSU1界面
 void curdataconfig::repaintPsu1()
