@@ -2085,12 +2085,12 @@ void curdataconfig::on_pushBtnPsu1Part4DataSave_clicked()
             QMessageBox::information(this, tr("错误"), tr("第%1项dac地址不是有效的地址，保存失败！").arg(i+1), QMessageBox::Ok);
             return;
         }
-        adcAddr = dacAddrLineEditListPsu1Part4Data.at(i)->text();
+        adcAddr = adcAddrLineEditListPsu1Part4Data.at(i)->text();
         if(!QStringIsInt(adcAddr)){
             QMessageBox::information(this, tr("错误"), tr("第%1项adc地址不是有效的地址，保存失败！").arg(i+1), QMessageBox::Ok);
             return;
         }
-        refAddr = dacAddrLineEditListPsu1Part4Data.at(i)->text();
+        refAddr = refAddrLineEditListPsu1Part4Data.at(i)->text();
         if(!QStringIsInt(refAddr)){
             QMessageBox::information(this, tr("错误"), tr("第%1项ref地址不是有效的地址，保存失败！").arg(i+1), QMessageBox::Ok);
             return;
@@ -3223,12 +3223,12 @@ void curdataconfig::on_pushBtnPsu2Part1DataSave_clicked()
             QMessageBox::information(this, tr("错误"), tr("第%1项dac地址不是有效的地址，保存失败！").arg(i+1), QMessageBox::Ok);
             return;
         }
-        adcAddr = dacAddrLineEditListPsu2Part1Data.at(i)->text();
+        adcAddr = adcAddrLineEditListPsu2Part1Data.at(i)->text();
         if(!QStringIsInt(adcAddr)){
             QMessageBox::information(this, tr("错误"), tr("第%1项adc地址不是有效的地址，保存失败！").arg(i+1), QMessageBox::Ok);
             return;
         }
-        refAddr = dacAddrLineEditListPsu2Part1Data.at(i)->text();
+        refAddr = refAddrLineEditListPsu2Part1Data.at(i)->text();
         if(!QStringIsInt(refAddr)){
             QMessageBox::information(this, tr("错误"), tr("第%1项ref地址不是有效的地址，保存失败！").arg(i+1), QMessageBox::Ok);
             return;
