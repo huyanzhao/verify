@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QDateTime>
 #include <windows.h>
+//#include <sys/stat.h>
 #include <QMessageBox>
 #include <math.h>
 #include "testitem.h"
