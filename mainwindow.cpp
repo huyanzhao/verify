@@ -34,6 +34,7 @@
 #include "about.h"
 #include "paraminfo.h"
 #include "platformbuild.h"
+#include "math.h"
 
 // 通道列表
 QMap<QString, QPair<QString, int> > slotsMap;
@@ -416,14 +417,14 @@ void MainWindow::repaintTable()
             model->setHeaderData(8, Qt::Horizontal, tr("结果"));
         }
         ui->tableView->setModel(model);
-        int width = totalWidth / 42;
-        int surplus = totalWidth - width * 42;
+        int width = totalWidth / 43;
+        int surplus = totalWidth - width * 43;
         ui->tableView->setColumnWidth(0, width*8+surplus);
         ui->tableView->setColumnWidth(1, width*3);
         ui->tableView->setColumnWidth(2, width*3);
         ui->tableView->setColumnWidth(3, width*3);
         ui->tableView->setColumnWidth(4, width*6);
-        ui->tableView->setColumnWidth(5, width*5);
+        ui->tableView->setColumnWidth(5, width*6);
         ui->tableView->setColumnWidth(6, width*6);
         ui->tableView->setColumnWidth(7, width*6);
         ui->tableView->setColumnWidth(8, width*2);
@@ -1198,23 +1199,11 @@ void MainWindow::showTable(QStringList result)
     ui->tableView->scrollToBottom();
     if(result.takeLast() == "fail")
     curTableLine++;
-    if(curTableLine == 10){
-        bit = 2;
-        repaintTable();
-    }else if(curTableLine == 100){
-        bit = 3;
-        repaintTable();
-    }else if(curTableLine == 1000){
-        bit = 4;
-        repaintTable();
-    }else if(curTableLine == 10000){
-        bit = 5;
-        repaintTable();
-    }else if(curTableLine == 100000){
-        bit = 6;
-        repaintTable();
-    }else if(curTableLine == 1000000){
-        bit = 7;
+    int col = log10(curTableLine);
+    if(col == int(col)){
+        bit = 1 + log10(curTableLine);
         repaintTable();
     }
+
+
 }

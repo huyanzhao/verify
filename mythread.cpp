@@ -273,8 +273,8 @@ void verifyVoltageThread::run()
                 << QString("%1").arg(datas->at(i)->adcAddr)
                 << QString("%1").arg(meter,0,'f',-1).replace(rx,"")
                 << QString("%1").arg(datas->at(i)->refAddr)
-                << QString("%1").arg(dmm-dac,0,'f',-1).replace(rx,"")
-                << QString("%1").arg(dmm-meter,0,'f',-1).replace(rx,"");
+                << QString("%1").arg(set-dmm/dmmMulti,0,'f',-1).replace(rx,"")
+                << QString("%1").arg(meter/meterMulti-dmm/dmmMulti,0,'f',-1).replace(rx,"");
         writeCsv(csvline.join(","));
         // 表格表示
         QString passOrFail;
@@ -402,9 +402,9 @@ void testVoltageThread::run()
         judge = meterCmdTest->judgeRatio(dmmCmdTest->getFloatResult().toFloat(), float(set));
         float meter = meterMessage.toFloat();
 
-        float sub1 = dmm-set;
+        float sub1 = set-dmm;
         float ratio1 = sub1 / set * 100;
-        float sub2 = dmm-meter;
+        float sub2 = meter-dmm;
         float ratio2 = sub2 / set * 100;
 
         // 保存数据到csv
@@ -413,9 +413,9 @@ void testVoltageThread::run()
                 << QString("%1").arg(dmm,0,'f',-1).replace(rx,"")
                 << QString("%1").arg(meter,0,'f',-1).replace(rx,"")
                 << QString("%1").arg(sub1,0,'f',-1).replace(rx,"")
-                << QString("%1").arg(ratio1,0,'f',-1).replace(rx,"")
+                << QString("%1").arg(ratio1,0,'f',-1).replace(rx,"")+"\%"
                 << QString("%1").arg(sub2,0,'f',-1).replace(rx,"")
-                << QString("%1").arg(ratio2,0,'f',-1).replace(rx,"");
+                << QString("%1").arg(ratio2,0,'f',-1).replace(rx,"")+"\%";
         writeCsv(csvline.join(","));
         // 表格表示
         QString passOrFail;
@@ -645,8 +645,8 @@ void verifyCurrentThread::run()
                     << QString("%1").arg(datas->at(l)->adcAddr)
                     << QString("%1").arg(meter,0,'f',-1).replace(rx,"")
                     << QString("%1").arg(datas->at(l)->refAddr)
-                    << QString("%1").arg(dmm-dac,0,'f',-1).replace(rx,"")
-                    << QString("%1").arg(dmm-meter,0,'f',-1).replace(rx,"");
+                    << QString("%1").arg(set-dmm/dmmMulti,0,'f',-1).replace(rx,"")
+                    << QString("%1").arg(meter/meterMulti-dmm/dmmMulti,0,'f',-1).replace(rx,"");
             writeCsv(csvline.join(","));
             // 表格表示
             QString passOrFail;
@@ -841,9 +841,9 @@ void testCurrentThread::run()
             judge = meterCmdTest->judgeRatio(dmmCmdTest->getFloatResult().toFloat(), float(set));
             float meter = meterMessage.toFloat();
 
-            float sub1 = dmm-set;
+            float sub1 = set-dmm;
             float ratio1 = sub1 / set * 100;
-            float sub2 = dmm-meter;
+            float sub2 = meter-dmm;
             float ratio2 = sub2 / set * 100;
 
             // 保存数据到csv
@@ -852,9 +852,9 @@ void testCurrentThread::run()
                     << QString("%1").arg(dmm,0,'f',-1).replace(rx,"")
                     << QString("%1").arg(meter,0,'f',-1).replace(rx,"")
                     << QString("%1").arg(sub1,0,'f',-1).replace(rx,"")
-                    << QString("%1").arg(ratio1,0,'f',-1).replace(rx,"")
+                    << QString("%1").arg(ratio1,0,'f',-1).replace(rx,"")+"\%"
                     << QString("%1").arg(sub2,0,'f',-1).replace(rx,"")
-                    << QString("%1").arg(ratio2,0,'f',-1).replace(rx,"");
+                    << QString("%1").arg(ratio2,0,'f',-1).replace(rx,"")+"\%";
             writeCsv(csvline.join(","));
             // 表格表示
             QString passOrFail;
