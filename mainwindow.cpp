@@ -1023,8 +1023,8 @@ void MainWindow::on_pushBtnStart_clicked()
             connect(thread, SIGNAL(showTable(QStringList)), this, SLOT(showTable(QStringList)));
             thread->start();
         } else if(vot == test){
-            logFile = logPath + '/' + time + '-' + Str + '-test.log';
-            csvFile = csvPath + '/' + time + '-' + Str + '-test.csv';
+            logFile = logPath + '/' + time + '-' + Str + "-test.log";
+            csvFile = csvPath + '/' + time + '-' + Str + "-test.csv";
             thread = new testVoltageThread(ch, meterSocket, zynqSocket, logFile, csvFile);
             connect(thread, SIGNAL(statusBarShow(QString)), this, SLOT(statusBarShow(QString)));
             connect(thread, SIGNAL(setProgressMaxSize(int)), this, SLOT(setProGressMax(int)));
@@ -1071,8 +1071,8 @@ void MainWindow::on_pushBtnStart_clicked()
             connect(thread, SIGNAL(showTable(QStringList)), this, SLOT(showTable(QStringList)));
             thread->start();
         } else if(vot == test){
-            logFile = logPath + '/' + time + '-' + Str + '-test.log';
-            csvFile = csvPath + '/' + time + '-' + Str + '-test.csv';
+            logFile = logPath + '/' + time + '-' + Str + "-test.log";
+            csvFile = csvPath + '/' + time + '-' + Str + "-test.csv";
             thread = new testCurrentThread(psu, partList, Str, meterSocket, zynqSocket, logFile, csvFile);
             connect(thread, SIGNAL(statusBarShow(QString)), this, SLOT(statusBarShow(QString)));
             connect(thread, SIGNAL(setProgressMaxSize(int)), this, SLOT(setProGressMax(int)));
