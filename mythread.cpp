@@ -2,8 +2,8 @@
 #include <QTcpSocket>
 #include <QFile>
 #include <QDateTime>
-#include <windows.h>
-//#include <sys/stat.h>
+//#include <windows.h>
+#include <sys/stat.h>
 #include <QMessageBox>
 #include <math.h>
 #include "testitem.h"
@@ -89,7 +89,7 @@ bool myThread::recvMeter()
 {
     qint64 start = QDateTime::currentDateTime().toMSecsSinceEpoch(); // 获取当前时间, 毫秒
     while(1){
-        Sleep(10);
+        sleep(10);
         if(meter->bytesAvailable() > 0)
             break;
         qint64 end = QDateTime::currentDateTime().toMSecsSinceEpoch(); // 获取当前时间, 毫秒
@@ -108,7 +108,7 @@ bool myThread::recvZynq()
 {
     qint64 start = QDateTime::currentDateTime().toMSecsSinceEpoch(); // 获取当前时间, 毫秒
     while(1){
-        Sleep(10);
+        sleep(10);
         if(zynq->bytesAvailable() > 0)
             break;
         qint64 end = QDateTime::currentDateTime().toMSecsSinceEpoch(); // 获取当前时间, 毫秒
@@ -221,7 +221,7 @@ void verifyVoltageThread::run()
         else
             recvZynq();
         int dac = int(set * setMulti);
-        Sleep(cmdDelay);
+        sleep(cmdDelay);
         // 读取电压
         message = QString("[%1]%2()").arg(++cmdIndex).arg(dmmCmdVerify->getName());
         if(!sendZynq(message))
@@ -382,7 +382,7 @@ void testVoltageThread::run()
             judge = false;
         else
             recvZynq();
-        Sleep(cmdDelay);
+        sleep(cmdDelay);
         // 读取电压
         message = QString("[%1]%2()").arg(++cmdIndex).arg(dmmCmdTest->getName());
         if(!sendZynq(message))
@@ -593,7 +593,7 @@ void verifyCurrentThread::run()
             else
                 recvZynq();
             int dac = int(set * setMulti);
-            Sleep(cmdDelay);
+            sleep(cmdDelay);
             // 读取电压
             message = QString("[%1]%2()").arg(++cmdIndex).arg(dmmCmdVerify->getName());
             if(!sendZynq(message))
@@ -821,7 +821,7 @@ void testCurrentThread::run()
                 judge = false;
             else
                 recvZynq();
-            Sleep(cmdDelay);
+            sleep(cmdDelay);
             // 读取电压
             message = QString("[%1]%2()").arg(++cmdIndex).arg(dmmCmdTest->getName());
             if(!sendZynq(message))

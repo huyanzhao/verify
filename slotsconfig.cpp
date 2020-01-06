@@ -2,6 +2,7 @@
 #include "ui_slotsconfig.h"
 #include <QLabel>
 #include <QLineEdit>
+#include <QIntValidator>
 
 QMap<QString, QPair<QString, int> > hostMap;
 QList<QLineEdit * > IPList;

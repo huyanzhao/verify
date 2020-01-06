@@ -8,8 +8,8 @@
 #include <QTimer>
 #include <QDebug>
 #include <utility>
-#include <windows.h>
-//#include <sys/stat.h>
+//#include <windows.h>
+#include <sys/stat.h>
 #include <QButtonGroup>
 #include <QResizeEvent>
 #include <QByteArray>
@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent):
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    settings =new QSettings("setting.ini", QSettings::IniFormat);
+
     model = new QStandardItemModel(this);
     myTimer = new QTimer(this);
     connect(myTimer, SIGNAL(timeout()), this, SLOT(updateConsume()));
@@ -85,9 +85,12 @@ MainWindow::MainWindow(QWidget *parent):
     ui->radioBtnPSU0->setHidden(true);  // 隐藏多的单选按钮,用来显示PSU1和PSU2未被选中的状态
 
     currentPath = QCoreApplication::applicationDirPath();  //获取程序当前运行目录
-    qDebug() << currentPath;
+    int index;
+    index = currentPath.indexOf("/build");
+    currentPath = currentPath.mid(0, index) + "/verify";
     confPath = currentPath + "/conf";
     createFolder(confPath);
+    settings =new QSettings(currentPath + "/setting.ini", QSettings::IniFormat);
     settings->beginGroup("METER");
     meterHost = settings->value("IP").toString();
     meterPort = settings->value("PORT").toInt();
@@ -106,6 +109,7 @@ MainWindow::MainWindow(QWidget *parent):
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);  // 设置选择行为，以行为单位
     ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);  // 设置选择模式，选择单行
     ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers );  // 禁止编辑
+
 }
 // 析构
 MainWindow::~MainWindow()
@@ -117,7 +121,7 @@ void MainWindow::on_actionNew_triggered()
 {
     QString fileFullName = QFileDialog::getSaveFileName(this,
             QString::fromLocal8Bit("新建配置文件"),
-            "./conf/Untitled.json",
+            confPath + "/Untitled.json",
             tr("Json Files (*.json)"));
     if(fileFullName == NULL)
         return;
@@ -142,7 +146,7 @@ void MainWindow::on_actionOpen_triggered()
 {
     QString fileFullName = QFileDialog::getOpenFileName(this,
             QString::fromLocal8Bit("打开配置文件"),
-            "./conf/default.json",
+            confPath + "/default.json",
             tr("Json Files (*.json)"));
     if(fileFullName == NULL)
         return;
@@ -195,7 +199,7 @@ void MainWindow::on_actionSaveAs_triggered()
 {
     QString fileFullName = QFileDialog::getSaveFileName(this,
             QString::fromLocal8Bit("另存为"),
-            "./conf/Untitled.json",
+            confPath + "/Untitled.json",
             tr("Json Files (*.json)"));
     if(fileFullName == NULL)
         return;
@@ -213,7 +217,7 @@ void MainWindow::on_actionRename_triggered()
     QString oldConf = currentConf;
     QString fileFullName = QFileDialog::getSaveFileName(this,
             QString::fromLocal8Bit("重命名"),
-            QString("./conf/%1").arg(currentConf),
+            QString(confPath + "/%1").arg(currentConf),
             tr("Json Files (*.json)"));
     if(fileFullName == NULL)
         return;
@@ -317,7 +321,8 @@ void MainWindow::on_actionAbout_triggered()
     about->show();
 }
 // 退出事件
-void MainWindow::closeEvent(QCloseEvent * event)
+
+void MainWindow::closeEvent(QCloseEvent * )
 {
     // 清空配置文件
     settings->clear();
@@ -1204,6 +1209,4 @@ void MainWindow::showTable(QStringList result)
         bit = 1 + log10(curTableLine);
         repaintTable();
     }
-
-
 }
