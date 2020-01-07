@@ -36,7 +36,7 @@
 #include "platformbuild.h"
 #include "math.h"
 
-// Í¨µÀÁĞ±í
+// é€šé“åˆ—è¡¨
 QMap<QString, QPair<QString, int> > slotsMap;
 
 MainWindow::MainWindow(QWidget *parent):
@@ -50,9 +50,9 @@ MainWindow::MainWindow(QWidget *parent):
     connect(myTimer, SIGNAL(timeout()), this, SLOT(updateConsume()));
     QTime t = QTime::currentTime();
     qsrand(t.msec()+t.second()*1000);
-    // ³õÊ¼»¯ÍòÓÃ±íµØÖ·¶ËÆ·
+    // åˆå§‹åŒ–ä¸‡ç”¨è¡¨åœ°å€ç«¯å“
     meterStatus = new QLabel(this);
-    meterStatus->installEventFilter(this);  //°²×°ÊÂ¼ş¹ıÂËÆ÷
+    meterStatus->installEventFilter(this);  //å®‰è£…äº‹ä»¶è¿‡æ»¤å™¨
     meterStatus->setFrameStyle(QFrame::Box | QFrame::Sunken);
     ui->statusBar->addPermanentWidget(meterStatus);
     meterSocket = new QTcpSocket(this);
@@ -61,11 +61,11 @@ MainWindow::MainWindow(QWidget *parent):
             this, SLOT(displayMeterError(QAbstractSocket::SocketError)));
     newMeterConnect();
 
-    // ³õÊ¼»¯ZYNQÁ¬½Ó
+    // åˆå§‹åŒ–ZYNQè¿æ¥
     zynqStatus = new QLabel(this);
-    zynqStatus->installEventFilter(this);  // °²×°ÊÂ¼ş¹ıÂËÆ÷
+    zynqStatus->installEventFilter(this);  // å®‰è£…äº‹ä»¶è¿‡æ»¤å™¨
     zynqStatus->setFrameStyle(QFrame::Box | QFrame::Sunken);
-    zynqStatus->setText(tr("ZYNQÎ´Á¬½Ó"));
+    zynqStatus->setText(tr("ZYNQæœªè¿æ¥"));
     ui->statusBar->addPermanentWidget(zynqStatus);
     zynqSocket = new QTcpSocket(this);
 
@@ -81,16 +81,13 @@ MainWindow::MainWindow(QWidget *parent):
     currentPsu = nonePsu;
     partList = new QList<int>;
 
-    ui->radioBtnCH0->setHidden(true);  // Òş²Ø¶àµÄµ¥Ñ¡°´Å¥,ÓÃÀ´ÏÔÊ¾CH1ºÍCH2Î´±»Ñ¡ÖĞµÄ×´Ì¬
-    ui->radioBtnPSU0->setHidden(true);  // Òş²Ø¶àµÄµ¥Ñ¡°´Å¥,ÓÃÀ´ÏÔÊ¾PSU1ºÍPSU2Î´±»Ñ¡ÖĞµÄ×´Ì¬
+    ui->radioBtnCH0->setHidden(true);  // éšè—å¤šçš„å•é€‰æŒ‰é’®,ç”¨æ¥æ˜¾ç¤ºCH1å’ŒCH2æœªè¢«é€‰ä¸­çš„çŠ¶æ€
+    ui->radioBtnPSU0->setHidden(true);  // éšè—å¤šçš„å•é€‰æŒ‰é’®,ç”¨æ¥æ˜¾ç¤ºPSU1å’ŒPSU2æœªè¢«é€‰ä¸­çš„çŠ¶æ€
 
-    currentPath = QCoreApplication::applicationDirPath();  //»ñÈ¡³ÌĞòµ±Ç°ÔËĞĞÄ¿Â¼
-    int index;
-    index = currentPath.indexOf("/build");
-    currentPath = currentPath.mid(0, index) + "/verify";
+    currentPath = QCoreApplication::applicationDirPath();  //è·å–ç¨‹åºå½“å‰è¿è¡Œç›®å½•
     confPath = currentPath + "/conf";
     createFolder(confPath);
-    settings =new QSettings(currentPath + "/setting.ini", QSettings::IniFormat);
+    settings =new QSettings("setting.ini", QSettings::IniFormat);
     settings->beginGroup("METER");
     meterHost = settings->value("IP").toString();
     meterPort = settings->value("PORT").toInt();
@@ -98,35 +95,35 @@ MainWindow::MainWindow(QWidget *parent):
     settings->beginGroup("CONFIG FILE");
     currentConf = settings->value("FILE NAME").toString();
     settings->endGroup();
-    readConfFile();  // ¶ÁÈ¡ÅäÖÃÎÄ¼ş
+    readConfFile();  // è¯»å–é…ç½®æ–‡ä»¶
     recviceSlots(&slotsMap);
 
-    this->setWindowTitle(QString(tr("B&PÍ¨ÓÃµçÑ¹µçÁ÷Ğ£×¼²âÊÔÆ½Ì¨ - %1").arg(currentConf)));
+    this->setWindowTitle(QString(tr("B&Pé€šç”¨ç”µå‹ç”µæµæ ¡å‡†æµ‹è¯•å¹³å° - %1").arg(currentConf)));
 
     thread = NULL;
     bit = 1;
 
-    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);  // ÉèÖÃÑ¡ÔñĞĞÎª£¬ÒÔĞĞÎªµ¥Î»
-    ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);  // ÉèÖÃÑ¡ÔñÄ£Ê½£¬Ñ¡Ôñµ¥ĞĞ
-    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers );  // ½ûÖ¹±à¼­
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);  // è®¾ç½®é€‰æ‹©è¡Œä¸ºï¼Œä»¥è¡Œä¸ºå•ä½
+    ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);  // è®¾ç½®é€‰æ‹©æ¨¡å¼ï¼Œé€‰æ‹©å•è¡Œ
+    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers );  // ç¦æ­¢ç¼–è¾‘
 
 }
-// Îö¹¹
+// ææ„
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-// ĞÂ½¨ÅäÖÃÎÄ¼ş
+// æ–°å»ºé…ç½®æ–‡ä»¶
 void MainWindow::on_actionNew_triggered()
 {
     QString fileFullName = QFileDialog::getSaveFileName(this,
-            QString::fromLocal8Bit("ĞÂ½¨ÅäÖÃÎÄ¼ş"),
-            confPath + "/Untitled.json",
+            QString::fromLocal8Bit("æ–°å»ºé…ç½®æ–‡ä»¶"),
+            "./conf/Untitled.json",
             tr("Json Files (*.json)"));
     if(fileFullName == NULL)
         return;
     if(!fileFullName.endsWith(".json")){
-        QMessageBox::warning(this, tr("ĞÂ½¨ÅäÖÃÎÄ¼ş´íÎó"), tr("ĞÂ½¨µÄÎÄ¼ş±ØĞëÊÇjsonÎÄ¼ş"), QMessageBox::Ok);
+        QMessageBox::warning(this, tr("æ–°å»ºé…ç½®æ–‡ä»¶é”™è¯¯"), tr("æ–°å»ºçš„æ–‡ä»¶å¿…é¡»æ˜¯jsonæ–‡ä»¶"), QMessageBox::Ok);
         return;
     }
     itemCh1 = NULL;
@@ -138,20 +135,20 @@ void MainWindow::on_actionNew_triggered()
     itemPsu2 = NULL;
     currentConf = fileFullName.mid(fileFullName.lastIndexOf("/")+1);
     on_actionSave_triggered();
-    ui->statusBar->showMessage(tr("ÇëÒÀ´ÎÅäÖÃÓ²¼şÍ¨µÀ¡¢µçÑ¹Ğ£×¼Êı¾İºÍµçÁ÷Ğ£×¼Êı¾İ"));
-    this->setWindowTitle(QString(tr("B&PÍ¨ÓÃµçÑ¹µçÁ÷Ğ£×¼²âÊÔÆ½Ì¨ - %1").arg(currentConf)));
+    ui->statusBar->showMessage(tr("è¯·ä¾æ¬¡é…ç½®ç¡¬ä»¶é€šé“ã€ç”µå‹æ ¡å‡†æ•°æ®å’Œç”µæµæ ¡å‡†æ•°æ®"));
+    this->setWindowTitle(QString(tr("B&Pé€šç”¨ç”µå‹ç”µæµæ ¡å‡†æµ‹è¯•å¹³å° - %1").arg(currentConf)));
 }
-// ´ò¿ªÅäÖÃÎÄ¼ş
+// æ‰“å¼€é…ç½®æ–‡ä»¶
 void MainWindow::on_actionOpen_triggered()
 {
     QString fileFullName = QFileDialog::getOpenFileName(this,
-            QString::fromLocal8Bit("´ò¿ªÅäÖÃÎÄ¼ş"),
-            confPath + "/default.json",
+            QString::fromLocal8Bit("æ‰“å¼€é…ç½®æ–‡ä»¶"),
+            "./conf/default.json",
             tr("Json Files (*.json)"));
     if(fileFullName == NULL)
         return;
     if(!fileFullName.endsWith(".json")){
-        QMessageBox::warning(this, tr("´ò¿ªÅäÖÃÎÄ¼ş´íÎó"), tr("´ò¿ªµÄÎÄ¼ş±ØĞëÊÇjsonÎÄ¼ş"), QMessageBox::Ok);
+        QMessageBox::warning(this, tr("æ‰“å¼€é…ç½®æ–‡ä»¶é”™è¯¯"), tr("æ‰“å¼€çš„æ–‡ä»¶å¿…é¡»æ˜¯jsonæ–‡ä»¶"), QMessageBox::Ok);
         return;
     }
     currentConf = fileFullName.mid(fileFullName.lastIndexOf("/")+1);
@@ -159,9 +156,9 @@ void MainWindow::on_actionOpen_triggered()
     qDeleteAll(ui->frameSlot->children());
     qDeleteAll(slotGroup->children());
     readConfFile();
-    this->setWindowTitle(QString(tr("B&PÍ¨ÓÃµçÑ¹µçÁ÷Ğ£×¼²âÊÔÆ½Ì¨ - %1").arg(currentConf)));
+    this->setWindowTitle(QString(tr("B&Pé€šç”¨ç”µå‹ç”µæµæ ¡å‡†æµ‹è¯•å¹³å° - %1").arg(currentConf)));
 }
-// ±£´æ
+// ä¿å­˜
 void MainWindow::on_actionSave_triggered()
 {
     QVariantMap conf;
@@ -185,58 +182,58 @@ void MainWindow::on_actionSave_triggered()
     QFile file(fileName);
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        QMessageBox::warning(this, "error", tr("´ò¿ªÅäÖÃÎÄ¼şÊ§°Ü!\n±£´æÊ§°Ü"));
+        QMessageBox::warning(this, "error", tr("æ‰“å¼€é…ç½®æ–‡ä»¶å¤±è´¥!\nä¿å­˜å¤±è´¥"));
     } else{
         QTextStream textStream(&file);
         QString str = jsonDocument.toJson();
         textStream << str;
-        QMessageBox::information(this, tr("±£´æ³É¹¦"),tr("±£´æÅäÖÃÎÄ¼ş³É¹¦!"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"),tr("ä¿å­˜é…ç½®æ–‡ä»¶æˆåŠŸ!"), QMessageBox::Ok);
         file.close();
     }
 }
-// Áí´æÎª
+// å¦å­˜ä¸º
 void MainWindow::on_actionSaveAs_triggered()
 {
     QString fileFullName = QFileDialog::getSaveFileName(this,
-            QString::fromLocal8Bit("Áí´æÎª"),
-            confPath + "/Untitled.json",
+            QString::fromLocal8Bit("å¦å­˜ä¸º"),
+            "./conf/Untitled.json",
             tr("Json Files (*.json)"));
     if(fileFullName == NULL)
         return;
     if(!fileFullName.endsWith(".json")){
-        QMessageBox::warning(this, tr("Áí´æÎªÅäÖÃÎÄ¼ş´íÎó"), tr("ĞÂ½¨µÄÎÄ¼ş±ØĞëÊÇjsonÎÄ¼ş"), QMessageBox::Ok);
+        QMessageBox::warning(this, tr("å¦å­˜ä¸ºé…ç½®æ–‡ä»¶é”™è¯¯"), tr("æ–°å»ºçš„æ–‡ä»¶å¿…é¡»æ˜¯jsonæ–‡ä»¶"), QMessageBox::Ok);
         return;
     }
     currentConf = fileFullName.mid(fileFullName.lastIndexOf("/")+1);
-    this->setWindowTitle(QString(tr("B&PÍ¨ÓÃµçÑ¹µçÁ÷Ğ£×¼²âÊÔÆ½Ì¨ - %1").arg(currentConf)));
+    this->setWindowTitle(QString(tr("B&Pé€šç”¨ç”µå‹ç”µæµæ ¡å‡†æµ‹è¯•å¹³å° - %1").arg(currentConf)));
     on_actionSave_triggered();
 }
-// ÖØÃüÃûÅäÖÃÎÄ¼ş
+// é‡å‘½åé…ç½®æ–‡ä»¶
 void MainWindow::on_actionRename_triggered()
 {
     QString oldConf = currentConf;
     QString fileFullName = QFileDialog::getSaveFileName(this,
-            QString::fromLocal8Bit("ÖØÃüÃû"),
-            QString(confPath + "/%1").arg(currentConf),
+            QString::fromLocal8Bit("é‡å‘½å"),
+            QString("./conf/%1").arg(currentConf),
             tr("Json Files (*.json)"));
     if(fileFullName == NULL)
         return;
     if(!fileFullName.endsWith(".json")){
-        QMessageBox::warning(this, tr("ÖØÃüÁîÅäÖÃÎÄ¼ş´íÎó"), tr("ĞÂ½¨µÄÎÄ¼ş±ØĞëÊÇjsonÎÄ¼ş"), QMessageBox::Ok);
+        QMessageBox::warning(this, tr("é‡å‘½ä»¤é…ç½®æ–‡ä»¶é”™è¯¯"), tr("æ–°å»ºçš„æ–‡ä»¶å¿…é¡»æ˜¯jsonæ–‡ä»¶"), QMessageBox::Ok);
         return;
     }
     currentConf = fileFullName.mid(fileFullName.lastIndexOf("/")+1);
     QFile f(confPath + "/" + oldConf);
     f.rename(confPath + "/" + oldConf, fileFullName);
-    QMessageBox::information(this, tr("ÖØÃüÃû"), QString(tr("ÖØÃüÁî³É¹¦¡£ĞÂÎÄ¼şÃû£º%1").arg(currentConf)), QMessageBox::Ok);
-    this->setWindowTitle(QString(tr("B&PÍ¨ÓÃµçÑ¹µçÁ÷Ğ£×¼²âÊÔÆ½Ì¨ - %1").arg(currentConf)));
+    QMessageBox::information(this, tr("é‡å‘½å"), QString(tr("é‡å‘½ä»¤æˆåŠŸã€‚æ–°æ–‡ä»¶åï¼š%1").arg(currentConf)), QMessageBox::Ok);
+    this->setWindowTitle(QString(tr("B&Pé€šç”¨ç”µå‹ç”µæµæ ¡å‡†æµ‹è¯•å¹³å° - %1").arg(currentConf)));
 }
-// ÍË³öÓ¦ÓÃ³ÌĞò
+// é€€å‡ºåº”ç”¨ç¨‹åº
 void MainWindow::on_actionExit_triggered()
 {
     this->close();
 }
-// ÅäÖÃÍòÓÃ±íµØÖ·¶Ë¿Ú
+// é…ç½®ä¸‡ç”¨è¡¨åœ°å€ç«¯å£
 void MainWindow::on_actionMeter_triggered()
 {
     meterAddress *meterdialog;
@@ -244,7 +241,7 @@ void MainWindow::on_actionMeter_triggered()
     connect(meterdialog, SIGNAL(meterConfigDone(QString, int)), this, SLOT(recviceMeter(QString,int)));
     meterdialog->show();
 }
-// ÅäÖÃÍ¨µÀµÄµØÖ·¶Ë¿Ú
+// é…ç½®é€šé“çš„åœ°å€ç«¯å£
 void MainWindow::on_actionSlot_triggered()
 {
     slotsconfig * slotsdialog;
@@ -253,7 +250,7 @@ void MainWindow::on_actionSlot_triggered()
             this, SLOT(recviceSlots(QMap<QString,QPair<QString,int> >*)));
     slotsdialog->show();
 }
-// µçÑ¹Ğ£×¼Êı¾İ
+// ç”µå‹æ ¡å‡†æ•°æ®
 void MainWindow::on_actionVoltageData_triggered()
 {
     volDataConfig * voldatadialog;
@@ -261,7 +258,7 @@ void MainWindow::on_actionVoltageData_triggered()
     connect(voldatadialog, SIGNAL(returnTestItem(testItem*,testItem*)), this, SLOT(recviceVolParam(testItem*,testItem*)));
     voldatadialog->show();
 }
-// µçÁ÷Ğ£×¼Êı¾İ
+// ç”µæµæ ¡å‡†æ•°æ®
 void MainWindow::on_actionCurrentData_triggered()
 {
     curdataconfig * curdatadialog;
@@ -269,7 +266,7 @@ void MainWindow::on_actionCurrentData_triggered()
     connect(curdatadialog, SIGNAL(returnTestItem(currentItem*,currentItem*)), this, SLOT(recviceCurParam(currentItem*,currentItem*)));
     curdatadialog->show();
 }
-// ´ò¿ªµ±Ç°Êı¾İÎÄ¼ş
+// æ‰“å¼€å½“å‰æ•°æ®æ–‡ä»¶
 void MainWindow::on_actionDataFile_triggered()
 {
     QFile bfilePath(csvFile);
@@ -277,7 +274,7 @@ void MainWindow::on_actionDataFile_triggered()
         return;
     QDesktopServices::openUrl(QUrl::fromLocalFile("file:///" + csvFile));
 }
-// ´ò¿ªµ±Ç°Êı¾İÎÄ¼ş¼Ğ
+// æ‰“å¼€å½“å‰æ•°æ®æ–‡ä»¶å¤¹
 void MainWindow::on_actionDataDir_triggered()
 {
     QDir bfilePath(csvPath);
@@ -285,7 +282,7 @@ void MainWindow::on_actionDataDir_triggered()
         return;
     QDesktopServices::openUrl(QUrl::fromLocalFile("file:///" + csvPath));
 }
-// ´ò¿ªµ±Ç°logÎÄ¼ş
+// æ‰“å¼€å½“å‰logæ–‡ä»¶
 void MainWindow::on_actionLogFile_triggered()
 {
     QFile bfilePath(logFile);
@@ -293,7 +290,7 @@ void MainWindow::on_actionLogFile_triggered()
         return;
     QDesktopServices::openUrl(QUrl::fromLocalFile("file:///" + logFile));
 }
-// ´ò¿ªlogÎÄ¼ş¼Ğ
+// æ‰“å¼€logæ–‡ä»¶å¤¹
 void MainWindow::on_actionLogDir_triggered()
 {
     QDir bfilePath(logPath);
@@ -301,59 +298,59 @@ void MainWindow::on_actionLogDir_triggered()
         return;
     QDesktopServices::openUrl(QUrl::fromLocalFile("file:///" + logPath));
 }
-// ¹ØÓÚ²Ëµ¥
-// °ïÖúÀïµÄÓ²¼şÆ½Ì¨´î½¨
+// å…³äºèœå•
+// å¸®åŠ©é‡Œçš„ç¡¬ä»¶å¹³å°æ­å»º
 void MainWindow::on_actionHardwareBuild_triggered()
 {
     PlatformBuild * platformbuild = new PlatformBuild();
     platformbuild->show();
 }
-// °ïÖúÀïµÄÅäÖÃĞ£×¼Êı¾İ
+// å¸®åŠ©é‡Œçš„é…ç½®æ ¡å‡†æ•°æ®
 void MainWindow::on_actionDataConfig_triggered()
 {
     ParamInfo * paraminfo = new ParamInfo();
     paraminfo->show();
 }
-// ¹ØÓÚ
+// å…³äº
 void MainWindow::on_actionAbout_triggered()
 {
     About * about = new About();
     about->show();
 }
-// ÍË³öÊÂ¼ş
+// é€€å‡ºäº‹ä»¶
 
 void MainWindow::closeEvent(QCloseEvent * )
 {
-    // Çå¿ÕÅäÖÃÎÄ¼ş
+    // æ¸…ç©ºé…ç½®æ–‡ä»¶
     settings->clear();
     settings->beginGroup("METER");
-    settings->setValue("IP", meterHost); //µ÷ÓÃsetValueÖĞ¼üÃû°´×ÖÃæ½âÎö
+    settings->setValue("IP", meterHost); //è°ƒç”¨setValueä¸­é”®åæŒ‰å­—é¢è§£æ
     settings->setValue("PORT", QString("%1").arg(meterPort));
     settings->endGroup();
     settings->beginGroup("CONFIG FILE");
     settings->setValue("FILE NAME", currentConf);
     settings->endGroup();
 }
-// ´óĞ¡¸Ä±ä
+// å¤§å°æ”¹å˜
 void MainWindow::resizeEvent(QResizeEvent * event)
 {
     int width, height;
     width = event->size().width();
     height = event->size().height();
-    // ¶¥²¿¿ò
+    // é¡¶éƒ¨æ¡†
     ui->frameTop->resize(width, 100);
     ui->frameBtn->move(QPoint(width-190, 0));
     ui->frameOptionAll->move(QPoint(width-790, 0));
     ui->labelSecond->resize(width-790-163, 100);
-    // ½ø¶ÈÌõ
+    // è¿›åº¦æ¡
     ui->frameProgress->resize(width, 30);
     ui->progressBar->resize(width-10, 20);
-    // ±í¸ñ
+    // è¡¨æ ¼
     ui->frameTable->resize(width, height-175);
     ui->tableView->resize(width-10, height-180);
     repaintTable();
 }
-// ÖØ»­±íÍ·
+// é‡ç”»è¡¨å¤´
 void MainWindow::repaintTable()
 {
     int verticalWidth = 8 + bit*7;
@@ -363,27 +360,27 @@ void MainWindow::repaintTable()
     if(vot == verify){
         model->setColumnCount(10);
         if(voc == voltage){
-            model->setHeaderData(0,Qt::Horizontal, tr("²âÊÔÏî"));
-            model->setHeaderData(1,Qt::Horizontal, tr("ÉèÖÃµçÑ¹"));
-            model->setHeaderData(2,Qt::Horizontal, tr("µØÖ·"));
-            model->setHeaderData(3,Qt::Horizontal, tr("DMMµçÑ¹"));
-            model->setHeaderData(4,Qt::Horizontal, tr("µØÖ·"));
-            model->setHeaderData(5,Qt::Horizontal, tr("ÍòÓÃ±íµçÑ¹"));
-            model->setHeaderData(6,Qt::Horizontal, tr("µØÖ·"));
-            model->setHeaderData(7,Qt::Horizontal, tr("ÉèÖÃµçÑ¹ - DMMµçÑ¹"));
-            model->setHeaderData(8,Qt::Horizontal, tr("ÍòÓÃ±íµçÑ¹ - DMMµçÑ¹"));
-            model->setHeaderData(9,Qt::Horizontal, tr("½á¹û"));
+            model->setHeaderData(0,Qt::Horizontal, tr("æµ‹è¯•é¡¹"));
+            model->setHeaderData(1,Qt::Horizontal, tr("è®¾ç½®ç”µå‹"));
+            model->setHeaderData(2,Qt::Horizontal, tr("åœ°å€"));
+            model->setHeaderData(3,Qt::Horizontal, tr("DMMç”µå‹"));
+            model->setHeaderData(4,Qt::Horizontal, tr("åœ°å€"));
+            model->setHeaderData(5,Qt::Horizontal, tr("ä¸‡ç”¨è¡¨ç”µå‹"));
+            model->setHeaderData(6,Qt::Horizontal, tr("åœ°å€"));
+            model->setHeaderData(7,Qt::Horizontal, tr("è®¾ç½®ç”µå‹ - DMMç”µå‹"));
+            model->setHeaderData(8,Qt::Horizontal, tr("ä¸‡ç”¨è¡¨ç”µå‹ - DMMç”µå‹"));
+            model->setHeaderData(9,Qt::Horizontal, tr("ç»“æœ"));
         } else if(voc == current){
-            model->setHeaderData(0,Qt::Horizontal, tr("²âÊÔÏî"));
-            model->setHeaderData(1,Qt::Horizontal, tr("ÉèÖÃµçÁ÷"));
-            model->setHeaderData(2,Qt::Horizontal, tr("µØÖ·"));
-            model->setHeaderData(3,Qt::Horizontal, tr("PSUµçÁ÷"));
-            model->setHeaderData(4,Qt::Horizontal, tr("µØÖ·"));
-            model->setHeaderData(5,Qt::Horizontal, tr("ÍòÓÃ±íµçÁ÷"));
-            model->setHeaderData(6,Qt::Horizontal, tr("µØÖ·"));
-            model->setHeaderData(7,Qt::Horizontal, tr("ÉèÖÃµçÁ÷ - PSUµçÁ÷"));
-            model->setHeaderData(8,Qt::Horizontal, tr("ÍòÓÃ±íµçÁ÷ - PSUµçÁ÷"));
-            model->setHeaderData(9,Qt::Horizontal, tr("½á¹û"));
+            model->setHeaderData(0,Qt::Horizontal, tr("æµ‹è¯•é¡¹"));
+            model->setHeaderData(1,Qt::Horizontal, tr("è®¾ç½®ç”µæµ"));
+            model->setHeaderData(2,Qt::Horizontal, tr("åœ°å€"));
+            model->setHeaderData(3,Qt::Horizontal, tr("PSUç”µæµ"));
+            model->setHeaderData(4,Qt::Horizontal, tr("åœ°å€"));
+            model->setHeaderData(5,Qt::Horizontal, tr("ä¸‡ç”¨è¡¨ç”µæµ"));
+            model->setHeaderData(6,Qt::Horizontal, tr("åœ°å€"));
+            model->setHeaderData(7,Qt::Horizontal, tr("è®¾ç½®ç”µæµ - PSUç”µæµ"));
+            model->setHeaderData(8,Qt::Horizontal, tr("ä¸‡ç”¨è¡¨ç”µæµ - PSUç”µæµ"));
+            model->setHeaderData(9,Qt::Horizontal, tr("ç»“æœ"));
         }
         ui->tableView->setModel(model);
         int width = totalWidth / 40;
@@ -401,25 +398,25 @@ void MainWindow::repaintTable()
     } else if(vot == test){
         model->setColumnCount(9);
         if(voc == voltage){
-            model->setHeaderData(0, Qt::Horizontal, tr("²âÊÔÏî"));
-            model->setHeaderData(1, Qt::Horizontal, tr("ÉèÖÃµçÑ¹"));
-            model->setHeaderData(2, Qt::Horizontal, tr("DMMµçÑ¹"));
-            model->setHeaderData(3, Qt::Horizontal, tr("ÍòÓÃ±íµçÑ¹"));
-            model->setHeaderData(4, Qt::Horizontal, tr("ÉèÖÃµçÑ¹ - DMMµçÑ¹"));
-            model->setHeaderData(5, Qt::Horizontal, tr("²îÖµÓëÉèÖÃµçÑ¹±ÈÂÊ"));
-            model->setHeaderData(6, Qt::Horizontal, tr("ÍòÓÃ±íµçÑ¹ - DMMµçÑ¹"));
-            model->setHeaderData(7, Qt::Horizontal, tr("²îÖµÓëÉèÖÃµçÑ¹±ÈÂÊ"));
-            model->setHeaderData(8, Qt::Horizontal, tr("½á¹û"));
+            model->setHeaderData(0, Qt::Horizontal, tr("æµ‹è¯•é¡¹"));
+            model->setHeaderData(1, Qt::Horizontal, tr("è®¾ç½®ç”µå‹"));
+            model->setHeaderData(2, Qt::Horizontal, tr("DMMç”µå‹"));
+            model->setHeaderData(3, Qt::Horizontal, tr("ä¸‡ç”¨è¡¨ç”µå‹"));
+            model->setHeaderData(4, Qt::Horizontal, tr("è®¾ç½®ç”µå‹ - DMMç”µå‹"));
+            model->setHeaderData(5, Qt::Horizontal, tr("å·®å€¼ä¸è®¾ç½®ç”µå‹æ¯”ç‡"));
+            model->setHeaderData(6, Qt::Horizontal, tr("ä¸‡ç”¨è¡¨ç”µå‹ - DMMç”µå‹"));
+            model->setHeaderData(7, Qt::Horizontal, tr("å·®å€¼ä¸è®¾ç½®ç”µå‹æ¯”ç‡"));
+            model->setHeaderData(8, Qt::Horizontal, tr("ç»“æœ"));
         } else if(vot == test && voc == current){
-            model->setHeaderData(0, Qt::Horizontal, tr("²âÊÔÏî"));
-            model->setHeaderData(1, Qt::Horizontal, tr("ÉèÖÃµçÁ÷"));
-            model->setHeaderData(2, Qt::Horizontal, tr("PSUµçÁ÷"));
-            model->setHeaderData(3, Qt::Horizontal, tr("ÍòÓÃ±íµçÁ÷"));
-            model->setHeaderData(4, Qt::Horizontal, tr("ÉèÖÃµçÁ÷ - PSUµçÁ÷"));
-            model->setHeaderData(5, Qt::Horizontal, tr("²îÖµÓëÉèÖÃµçÑ¹±ÈÂÊ"));
-            model->setHeaderData(6, Qt::Horizontal, tr("ÍòÓÃ±íµçÁ÷ - PSUµçÁ÷"));
-            model->setHeaderData(7, Qt::Horizontal, tr("²îÖµÓëÉèÖÃµçÑ¹±ÈÂÊ"));
-            model->setHeaderData(8, Qt::Horizontal, tr("½á¹û"));
+            model->setHeaderData(0, Qt::Horizontal, tr("æµ‹è¯•é¡¹"));
+            model->setHeaderData(1, Qt::Horizontal, tr("è®¾ç½®ç”µæµ"));
+            model->setHeaderData(2, Qt::Horizontal, tr("PSUç”µæµ"));
+            model->setHeaderData(3, Qt::Horizontal, tr("ä¸‡ç”¨è¡¨ç”µæµ"));
+            model->setHeaderData(4, Qt::Horizontal, tr("è®¾ç½®ç”µæµ - PSUç”µæµ"));
+            model->setHeaderData(5, Qt::Horizontal, tr("å·®å€¼ä¸è®¾ç½®ç”µå‹æ¯”ç‡"));
+            model->setHeaderData(6, Qt::Horizontal, tr("ä¸‡ç”¨è¡¨ç”µæµ - PSUç”µæµ"));
+            model->setHeaderData(7, Qt::Horizontal, tr("å·®å€¼ä¸è®¾ç½®ç”µå‹æ¯”ç‡"));
+            model->setHeaderData(8, Qt::Horizontal, tr("ç»“æœ"));
         }
         ui->tableView->setModel(model);
         int width = totalWidth / 43;
@@ -435,7 +432,7 @@ void MainWindow::repaintTable()
         ui->tableView->setColumnWidth(8, width*2);
     }
 }
-// ¸üĞÂºÄÊ±
+// æ›´æ–°è€—æ—¶
 void MainWindow::updateConsume()
 {
     consume += 0.1;
@@ -450,24 +447,24 @@ void MainWindow::updateConsume()
         ui->labelSecond->setPalette(palette);
     }
 }
-// µã»÷ÊÂ¼ş
+// ç‚¹å‡»äº‹ä»¶
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
-    if (obj == meterStatus)  // ÍòÓÃ±í×´Ì¬Ö¸Ê¾±êÇ©
+    if (obj == meterStatus)  // ä¸‡ç”¨è¡¨çŠ¶æ€æŒ‡ç¤ºæ ‡ç­¾
     {
-        if (event->type() == QEvent::MouseButtonPress){  // Êó±ê°´Å¥±»°´ÏÂ
+        if (event->type() == QEvent::MouseButtonPress){  // é¼ æ ‡æŒ‰é’®è¢«æŒ‰ä¸‹
             QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
-            if(mouseEvent->button() == Qt::LeftButton){  // ×ó¼ü
+            if(mouseEvent->button() == Qt::LeftButton){  // å·¦é”®
                 newMeterConnect();
                 return true;
             } else
                 return false;
         } else
             return false;
-    } else if (obj == zynqStatus){  // ZYNQ×´Ì¬Ö¸Ê¾±êÇ©
-        if (event->type() == QEvent::MouseButtonPress){  // Êó±ê°´Å¥±»°´ÏÂ
+    } else if (obj == zynqStatus){  // ZYNQçŠ¶æ€æŒ‡ç¤ºæ ‡ç­¾
+        if (event->type() == QEvent::MouseButtonPress){  // é¼ æ ‡æŒ‰é’®è¢«æŒ‰ä¸‹
             QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
-            if(mouseEvent->button() == Qt::LeftButton){  // ×ó¼ü
+            if(mouseEvent->button() == Qt::LeftButton){  // å·¦é”®
                 newZynqConnect();
                 return true;
             } else
@@ -475,49 +472,49 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         } else
             return false;
     } else{
-        // Ö÷´°¿Úµã»÷ÊÂ¼ş
+        // ä¸»çª—å£ç‚¹å‡»äº‹ä»¶
         return QMainWindow::eventFilter(obj, event);
     }
 }
-// ½ÓÊÕÓÃ»§Ñ¡¶¨µÄÍòÓÃ±íµØÖ·ºÍ¶Ë¿Ú
+// æ¥æ”¶ç”¨æˆ·é€‰å®šçš„ä¸‡ç”¨è¡¨åœ°å€å’Œç«¯å£
 void MainWindow::recviceMeter(QString host, int port)
 {
     meterHost = host;
     meterPort = port;
     newMeterConnect();
 }
-// ĞÂ½¨ÍòÓÃ±íÁ¬½Ó
+// æ–°å»ºä¸‡ç”¨è¡¨è¿æ¥
 void MainWindow::newMeterConnect()
 {
-    // È¡ÏûÒÑÓĞµÄÁ¬½Ó
+    // å–æ¶ˆå·²æœ‰çš„è¿æ¥
     meterSocket->abort();
-    meterStatus->setText(tr("ÍòÓÃ±íÎ´Á¬½Ó"));
+    meterStatus->setText(tr("ä¸‡ç”¨è¡¨æœªè¿æ¥"));
     QPalette pe;
     pe.setColor(QPalette::WindowText,Qt::black);
     meterStatus->setPalette(pe);
     meterSocket->connectToHost(meterHost, meterPort);
 }
-// ÍòÓÃ±íÁ¬½Ó³É¹¦
+// ä¸‡ç”¨è¡¨è¿æ¥æˆåŠŸ
 void MainWindow::meterConnected()
 {
-    ui->statusBar->showMessage(tr("ÍòÓÃ±íÁ¬½Ó³É¹¦"));
-    meterStatus->setText(tr("ÍòÓÃ±íÒÑÁ¬½Ó"));
+    ui->statusBar->showMessage(tr("ä¸‡ç”¨è¡¨è¿æ¥æˆåŠŸ"));
+    meterStatus->setText(tr("ä¸‡ç”¨è¡¨å·²è¿æ¥"));
     QPalette pe;
     pe.setColor(QPalette::WindowText,Qt::blue);
     meterStatus->setPalette(pe);
 }
-// ÍòÓÃ±íÁ¬½Ó´íÎó
+// ä¸‡ç”¨è¡¨è¿æ¥é”™è¯¯
 void MainWindow::displayMeterError(QAbstractSocket::SocketError)
 {
     ui->statusBar->showMessage(tr("Meter: ") + meterSocket->errorString());
-    if(meterSocket->error() == QAbstractSocket::RemoteHostClosedError){ // ¶Ï¿ªÁ¬½Ó
-        meterStatus->setText(tr("ÍòÓÃ±íÒÑ¶Ï¿ªÁ¬½Ó£¡"));
+    if(meterSocket->error() == QAbstractSocket::RemoteHostClosedError){ // æ–­å¼€è¿æ¥
+        meterStatus->setText(tr("ä¸‡ç”¨è¡¨å·²æ–­å¼€è¿æ¥ï¼"));
         QPalette pe;
         pe.setColor(QPalette::WindowText,Qt::red);
         meterStatus->setPalette(pe);
     }
 }
-// ½ÓÊÕÓÃ»§ÉèÖÃµÄÍ¨µÀÊı¾İ
+// æ¥æ”¶ç”¨æˆ·è®¾ç½®çš„é€šé“æ•°æ®
 void MainWindow::recviceSlots(QMap<QString, QPair<QString, int> > *hosts)
 {
     qDeleteAll(ui->frameSlot->children());
@@ -542,60 +539,60 @@ void MainWindow::recviceSlots(QMap<QString, QPair<QString, int> > *hosts)
     }
     connect(slotGroup, SIGNAL(buttonClicked(int)), this, SLOT(radioSlot_clicked(int)));
 }
-// ĞÂ½¨ZYNQÁ¬½Ó
+// æ–°å»ºZYNQè¿æ¥
 void MainWindow::newZynqConnect()
 {
-    // È¡ÏûÒÑÓĞµÄÁ¬½Ó
+    // å–æ¶ˆå·²æœ‰çš„è¿æ¥
     zynqSocket->abort();
-    zynqStatus->setText(tr("ZYNQÎ´Á¬½Ó"));
+    zynqStatus->setText(tr("ZYNQæœªè¿æ¥"));
     QPalette pe;
     pe.setColor(QPalette::WindowText,Qt::black);
     zynqStatus->setPalette(pe);
     zynqSocket->connectToHost(zynqHost, zynqPort);
 }
-// ZTNQÁ¬½Ó³É¹¦
+// ZTNQè¿æ¥æˆåŠŸ
 void MainWindow::zynqConnected()
 {
-    ui->statusBar->showMessage(tr("ZYNQÁ¬½Ó³É¹¦"));
-    zynqStatus->setText(tr("ZYNQÒÑÁ¬½Ó"));
+    ui->statusBar->showMessage(tr("ZYNQè¿æ¥æˆåŠŸ"));
+    zynqStatus->setText(tr("ZYNQå·²è¿æ¥"));
     QPalette pe;
     pe.setColor(QPalette::WindowText,Qt::blue);
     zynqStatus->setPalette(pe);
 }
-// ZYNQÁ¬½Ó´íÎó
+// ZYNQè¿æ¥é”™è¯¯
 void MainWindow::displayZynqError(QAbstractSocket::SocketError)
 {
     ui->statusBar->showMessage(tr("ZYNQ: ") + zynqSocket->errorString());
-    if(zynqSocket->error() == QAbstractSocket::RemoteHostClosedError){ // ¶Ï¿ªÁ¬½Ó
-        zynqStatus->setText(tr("ZYNQÒÑ¶Ï¿ªÁ¬½Ó£¡"));
+    if(zynqSocket->error() == QAbstractSocket::RemoteHostClosedError){ // æ–­å¼€è¿æ¥
+        zynqStatus->setText(tr("ZYNQå·²æ–­å¼€è¿æ¥ï¼"));
         QPalette pe;
         pe.setColor(QPalette::WindowText,Qt::red);
         zynqStatus->setPalette(pe);
     }
 }
-// ½ÓÊÕµçÑ¹ÉèÖÃ²ÎÊı
+// æ¥æ”¶ç”µå‹è®¾ç½®å‚æ•°
 void MainWindow::recviceVolParam(testItem * ch1, testItem * ch2)
 {
     itemCh1 = ch1;
     itemCh2 = ch2;
 }
-// ½ÓÊÕµçÁ÷ÉèÖÃ²ÎÊı
+// æ¥æ”¶ç”µæµè®¾ç½®å‚æ•°
 void MainWindow::recviceCurParam(currentItem * psu1, currentItem * psu2)
 {
     itemPsu1 = psu1;
     itemPsu2 = psu2;
 }
-// ¶ÁÈ¡ÅäÖÃÎÄ¼ş
+// è¯»å–é…ç½®æ–‡ä»¶
 void MainWindow::readConfFile()
 {
     QString fileName = confPath + "/" + currentConf;
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
-        QMessageBox::warning(this,"error", tr("´ò¿ªÎÄ¼ş´íÎó!"));
+        QMessageBox::warning(this,"error", tr("æ‰“å¼€æ–‡ä»¶é”™è¯¯!"));
         return;
     }
     if(!file.isReadable()){
-        QMessageBox::warning(this,"error",tr("ÎÄ¼ş²»¿É¶ÁÈ¡!"));
+        QMessageBox::warning(this,"error",tr("æ–‡ä»¶ä¸å¯è¯»å–!"));
         return;
     }
     const QByteArray array = file.readAll();
@@ -610,7 +607,7 @@ void MainWindow::readConfFile()
     QJsonObject conf = jsonDocument.object();
     initConfig(conf);
 }
-// ³õÊ¼»¯ÅäÖÃ
+// åˆå§‹åŒ–é…ç½®
 void MainWindow::initConfig(QJsonObject conf)
 {
     if(conf.contains("ch1"))
@@ -634,7 +631,7 @@ void MainWindow::initConfig(QJsonObject conf)
     else
         itemPsu2 = NULL;
 }
-// ½«json¶ÔÏó½âÎö³ÉÍ¨µÀÁĞ±í
+// å°†jsonå¯¹è±¡è§£ææˆé€šé“åˆ—è¡¨
 void MainWindow::parseSlots(QJsonObject json)
 {
     slotsMap.clear();
@@ -648,11 +645,11 @@ void MainWindow::parseSlots(QJsonObject json)
     }
     recviceSlots(&slotsMap);
 }
-// ½«json¶ÔÏó½âÎö³ÉµçÁ÷²âÊÔÏî
+// å°†jsonå¯¹è±¡è§£ææˆç”µæµæµ‹è¯•é¡¹
 currentItem * MainWindow::parseCurItem(QJsonObject json)
 {
-    // ½âÎöÇ°ÖÃÃüÁî
-    // ½âÎöÇ°ÖÃÃüÁîÁĞ±í
+    // è§£æå‰ç½®å‘½ä»¤
+    // è§£æå‰ç½®å‘½ä»¤åˆ—è¡¨
     QList<command *> * preCmdList = new QList<command *>;
     if(json.contains("preCmdList")){
         QJsonArray cmdArray = json.value("preCmdList").toArray();
@@ -683,12 +680,12 @@ currentItem * MainWindow::parseCurItem(QJsonObject json)
     }
     return new currentItem(preCmdList, part1, part2, part3, part4, part5);
 }
-// ½«json¶ÔÏó½âÎö³É²âÊÔÏî
+// å°†jsonå¯¹è±¡è§£ææˆæµ‹è¯•é¡¹
 testItem * MainWindow::parseItem(QJsonObject json)
 {
     if(json.isEmpty())
         return NULL;
-    // ½âÎöÇ°ÖÃÃüÁîÁĞ±í
+    // è§£æå‰ç½®å‘½ä»¤åˆ—è¡¨
     QList<command *> * cmdList = new QList<command *>;
     if(json.contains("cmdList")){
         QJsonArray cmdArray = json.value("cmdList").toArray();
@@ -696,7 +693,7 @@ testItem * MainWindow::parseItem(QJsonObject json)
             cmdList->append(parseCmd(it->toObject()));
         }
     }
-    // ½âÎöÊı¾İÁĞ±í
+    // è§£ææ•°æ®åˆ—è¡¨
     QList<DataItem *> * dataList = new QList<DataItem *>;
     if(json.contains("dataList")){
         QJsonArray dataArray = json.value("dataList").toArray();
@@ -713,7 +710,7 @@ testItem * MainWindow::parseItem(QJsonObject json)
     int dataLength = 6;
     if(json.contains("dataLength"))
         dataLength = json.value("dataLength").toInt();
-    // ½âÎöĞ£×¼Ïî
+    // è§£ææ ¡å‡†é¡¹
     command * setCmdVerify = parseCmd(json.value("setCmdVerify").toObject());
     int setMulti = json.value("setMulti").toInt();
     command * dmmCmdVerify = parseCmd(json.value("dmmCmdVerify").toObject());
@@ -726,7 +723,7 @@ testItem * MainWindow::parseItem(QJsonObject json)
     return new testItem(cmdList, dataList, dataLength, setCmdVerify, setMulti, dmmCmdVerify, dmmMulti,
                         meterCmdVerify, meterMulti, setCmdTest, dmmCmdTest, meterCmdTest);
 }
-// ½«json¶ÔÏó½âÎöÎªÃüÁî
+// å°†jsonå¯¹è±¡è§£æä¸ºå‘½ä»¤
 command * MainWindow::parseCmd(QJsonObject cmdObj)
 {
     QString name = cmdObj.value("name").toString();
@@ -744,7 +741,7 @@ command * MainWindow::parseCmd(QJsonObject cmdObj)
     cmd->setRatio(cmdObj.value("ratio").toString().toDouble());
     return cmd;
 }
-// ±£´æÍ¨µÀÁĞ±í
+// ä¿å­˜é€šé“åˆ—è¡¨
 QVariantMap MainWindow::saveSlots()
 {
     if(slotsMap.size() == 0)
@@ -758,7 +755,7 @@ QVariantMap MainWindow::saveSlots()
     }
     return slotMap;
 }
-// ±£´æµçÁ÷²âÊÔÏî
+// ä¿å­˜ç”µæµæµ‹è¯•é¡¹
 QVariantMap MainWindow::saveCurTestItem(currentItem * item)
 {
     if(item == NULL){
@@ -778,7 +775,7 @@ QVariantMap MainWindow::saveCurTestItem(currentItem * item)
         psuItem.insert("part5", saveTestItem(item->getPart5()));
     return psuItem;
 }
-// ±£´æµçÑ¹²âÊÔÏî
+// ä¿å­˜ç”µå‹æµ‹è¯•é¡¹
 QVariantMap MainWindow::saveTestItem(testItem * item)
 {
     if(item == NULL){
@@ -799,7 +796,7 @@ QVariantMap MainWindow::saveTestItem(testItem * item)
     chOrPart.insert("meterCmdTest", saveCommand(item->getMeterCmdTest()));
     return chOrPart;
 }
-// ±£´æÃüÁîÁĞ±í
+// ä¿å­˜å‘½ä»¤åˆ—è¡¨
 QVariantList MainWindow::saveCommandList(QList<command *> * cmdList)
 {
     QVariantList cmdMapList;
@@ -809,7 +806,7 @@ QVariantList MainWindow::saveCommandList(QList<command *> * cmdList)
     }
     return cmdMapList;
 }
-// ±£´æÊı¾İÁĞ±í
+// ä¿å­˜æ•°æ®åˆ—è¡¨
 QVariantList MainWindow::saveDataList(QList<DataItem *> * dataList)
 {
     QVariantList dataPairList;
@@ -824,7 +821,7 @@ QVariantList MainWindow::saveDataList(QList<DataItem *> * dataList)
     }
     return dataPairList;
 }
-// ±£´æÃüÁî
+// ä¿å­˜å‘½ä»¤
 QVariantMap MainWindow::saveCommand(command * cmd)
 {
     QVariantMap cmdMap;
@@ -841,7 +838,7 @@ QVariantMap MainWindow::saveCommand(command * cmd)
     cmdMap.insert("ratio", cmd->getRatio());
     return cmdMap;
 }
-// Í¨µÀµ¥Ñ¡¿ò
+// é€šé“å•é€‰æ¡†
 void MainWindow::radioSlot_clicked(int id)
 {
     QString key = QString("slot%1").arg(id+1);
@@ -850,7 +847,7 @@ void MainWindow::radioSlot_clicked(int id)
     zynqPort = hostPort.second;
     newZynqConnect();
 }
-// µçÑ¹µ¥Ñ¡°´Å¥
+// ç”µå‹å•é€‰æŒ‰é’®
 void MainWindow::on_radioBtnVol_clicked()
 {
     ui->radioBtnPSU0->setChecked(true);
@@ -868,7 +865,7 @@ void MainWindow::on_radioBtnVol_clicked()
     ui->radioBtnCH1->setEnabled(true);
     ui->radioBtnCH1->setChecked(true);
     ui->radioBtnCH2->setEnabled(true);
-    ui->frameChannel->setStatusTip(tr("Ö»ÓĞÑ¡ÔñÁËµçÁ÷ºÍPSUºó²Å¿ÉÑ¡"));
+    ui->frameChannel->setStatusTip(tr("åªæœ‰é€‰æ‹©äº†ç”µæµå’ŒPSUåæ‰å¯é€‰"));
     ui->checkBoxPart1->setStatusTip(tr(""));
     ui->checkBoxPart2->setStatusTip(tr(""));
     ui->checkBoxPart3->setStatusTip(tr(""));
@@ -876,7 +873,7 @@ void MainWindow::on_radioBtnVol_clicked()
     ui->checkBoxPart5->setStatusTip(tr(""));
     ui->checkBoxAll->setStatusTip(tr(""));
 }
-// µçÁ÷µ¥Ñ¡°´Å¥
+// ç”µæµå•é€‰æŒ‰é’®
 void MainWindow::on_radioBtnCur_clicked()
 {
     ui->radioBtnCH0->setChecked(true);
@@ -888,20 +885,20 @@ void MainWindow::on_radioBtnCur_clicked()
     ui->frameChannel->setEnabled(true);
     ui->checkBoxPart5->setEnabled(false);
     ui->frameChannel->setFrameShape(QFrame::NoFrame);
-    ui->frameChannel->setStatusTip(tr("µçÁ÷µµÎ»Ñ¡Ôñ"));
+    ui->frameChannel->setStatusTip(tr("ç”µæµæ¡£ä½é€‰æ‹©"));
     ui->checkBoxPart1->setStatusTip(tr("Part 1"));
     ui->checkBoxPart2->setStatusTip(tr("Part 2"));
     ui->checkBoxPart3->setStatusTip(tr("Part 3"));
     ui->checkBoxPart4->setStatusTip(tr("Part 4"));
     ui->checkBoxPart5->setStatusTip(tr("Part 5"));
-    ui->checkBoxAll->setStatusTip(tr("È«Ñ¡"));
+    ui->checkBoxAll->setStatusTip(tr("å…¨é€‰"));
     ui->checkBoxPart1->setChecked(true);
     ui->checkBoxPart2->setChecked(true);
     ui->checkBoxPart3->setChecked(true);
     ui->checkBoxPart4->setChecked(true);
     ui->checkBoxAll->setChecked(true);
 }
-// È«Ñ¡
+// å…¨é€‰
 void MainWindow::on_checkBoxAll_clicked()
 {
     if(ui->checkBoxAll->checkState()){
@@ -972,7 +969,7 @@ void MainWindow::on_checkBoxPart5_clicked()
     else if(!ui->checkBoxPart5->checkState())
         ui->checkBoxAll->setChecked(false);
 }
-// ¿ªÊ¼°´Å¥
+// å¼€å§‹æŒ‰é’®
 void MainWindow::on_pushBtnStart_clicked()
 {
     getParameters();
@@ -994,7 +991,7 @@ void MainWindow::on_pushBtnStart_clicked()
         testItem * ch;
         if(ui->radioBtnCH1->isChecked()){
             if(itemCh1 == NULL){
-                ui->statusBar->showMessage(tr("Ã»ÓĞCH1µÄĞ£×¼²âÊÔÊı¾İ"));
+                ui->statusBar->showMessage(tr("æ²¡æœ‰CH1çš„æ ¡å‡†æµ‹è¯•æ•°æ®"));
                 return;
             } else{
                 ch = itemCh1;
@@ -1002,7 +999,7 @@ void MainWindow::on_pushBtnStart_clicked()
             }
         } else if(ui->radioBtnCH2->isChecked()){
             if(itemCh2 == NULL){
-                ui->statusBar->showMessage(tr("Ã»ÓĞCH2µÄĞ£×¼²âÊÔÊı¾İ"));
+                ui->statusBar->showMessage(tr("æ²¡æœ‰CH2çš„æ ¡å‡†æµ‹è¯•æ•°æ®"));
                 return;
             } else{
                 ch = itemCh2;
@@ -1042,7 +1039,7 @@ void MainWindow::on_pushBtnStart_clicked()
         currentItem * psu;
         if(ui->radioBtnPSU1->isChecked()){
             if(itemPsu1 == NULL){
-                ui->statusBar->showMessage(tr("Ã»ÓĞPSU1µÄĞ£×¼²âÊÔÊı¾İ"));
+                ui->statusBar->showMessage(tr("æ²¡æœ‰PSU1çš„æ ¡å‡†æµ‹è¯•æ•°æ®"));
                 return;
             } else{
                 psu = itemPsu1;
@@ -1050,7 +1047,7 @@ void MainWindow::on_pushBtnStart_clicked()
             }
         } else if(ui->radioBtnPSU2->isChecked()){
             if(itemPsu2 == NULL){
-                ui->statusBar->showMessage(tr("Ã»ÓĞPSU2µÄĞ£×¼²âÊÔÊı¾İ"));
+                ui->statusBar->showMessage(tr("æ²¡æœ‰PSU2çš„æ ¡å‡†æµ‹è¯•æ•°æ®"));
                 return;
             } else{
                 psu = itemPsu2;
@@ -1090,7 +1087,7 @@ void MainWindow::on_pushBtnStart_clicked()
     ui->pushBtnStart->setEnabled(false);
     ui->pushBtnStop->setEnabled(true);
 }
-// »ñÈ¡²ÎÊı
+// è·å–å‚æ•°
 void MainWindow::getParameters()
 {
     currentSlot = slotGroup->checkedId();
@@ -1139,7 +1136,7 @@ void MainWindow::getParameters()
         partList->append(5);
     }
 }
-// Í£Ö¹°´Å¥
+// åœæ­¢æŒ‰é’®
 void MainWindow::on_pushBtnStop_clicked()
 {
     runCompleted();
@@ -1148,7 +1145,7 @@ void MainWindow::on_pushBtnStop_clicked()
         thread->wait();
     }
 }
-// Ïß³ÌÔËĞĞ½áÊø
+// çº¿ç¨‹è¿è¡Œç»“æŸ
 void MainWindow::runCompleted()
 {
     myTimer->stop();
@@ -1166,31 +1163,31 @@ void MainWindow::runCompleted()
     ui->pushBtnStop->setEnabled(false);
     ui->tableView->scrollToTop();
 }
-// ´´½¨Ä¿Â¼
+// åˆ›å»ºç›®å½•
 bool MainWindow::createFolder(QString path)
 {
-    // ¼ì²éÄ¿Â¼ÊÇ·ñ´æÔÚ£¬Èô²»´æÔÚÔòĞÂ½¨
+    // æ£€æŸ¥ç›®å½•æ˜¯å¦å­˜åœ¨ï¼Œè‹¥ä¸å­˜åœ¨åˆ™æ–°å»º
     QDir dir;
     if (!dir.exists(path))
         return dir.mkpath(path);
     return true;
 }
-// ×´Ì¬À¸ÏÔÊ¾
+// çŠ¶æ€æ æ˜¾ç¤º
 void MainWindow::statusBarShow(QString message)
 {
     ui->statusBar->showMessage(message);
 }
-// ÉèÖÃ¹ö¶¯Ìõ×î´óÖµ
+// è®¾ç½®æ»šåŠ¨æ¡æœ€å¤§å€¼
 void MainWindow::setProGressMax(int max)
 {
     ui->progressBar->setMaximum(max);
 }
-// ÉèÖÃ¹ö¶¯Ìõ
+// è®¾ç½®æ»šåŠ¨æ¡
 void MainWindow::setProGress(int value)
 {
     ui->progressBar->setValue(value);
 }
-// ±í¸ñÖĞÏÔÊ¾½á¹û
+// è¡¨æ ¼ä¸­æ˜¾ç¤ºç»“æœ
 void MainWindow::showTable(QStringList result)
 {
     bool pass = (result.last() == "pass");
@@ -1202,7 +1199,7 @@ void MainWindow::showTable(QStringList result)
             model->item(curTableLine,i)->setBackground(QBrush(QColor("red")));
     }
     ui->tableView->scrollToBottom();
-    if(result.takeLast() == "fail")
+//    if(result.takeLast() == "fail")
     curTableLine++;
     int col = log10(curTableLine);
     if(col == int(col)){

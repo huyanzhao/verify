@@ -7,83 +7,83 @@ currentItem::currentItem(QList<command *> * pList, testItem * p1, testItem * p2,
     part1(p1), part2(p2), part3(p3), part4(p4), part5(p5)
 {
 }
-// Îö¹¹
+// ææ„
 currentItem::~currentItem()
 {
-    // Çå¿ÕÇ°ÖÃÃüÁîÁĞ±í
+    // æ¸…ç©ºå‰ç½®å‘½ä»¤åˆ—è¡¨
     for(int i=0; i != preCmdList->size(); ++i){
         command * temp = preCmdList->at(i);
         delete temp;
     }
     preCmdList->clear();
-    delete preCmdList;  // Ïú»ÙÇ°ÖÃÃüÁîÁĞ±í
+    delete preCmdList;  // é”€æ¯å‰ç½®å‘½ä»¤åˆ—è¡¨
     delete part1;
     delete part2;
     delete part3;
     delete part4;
     delete part5;
 }
-// ÉèÖÃÇ°ÖÃÃüÁîÁĞ±í
+// è®¾ç½®å‰ç½®å‘½ä»¤åˆ—è¡¨
 void currentItem::setPreCmdList(QList<command *> * param)
 {
     preCmdList = param;
 }
-// ÉèÖÃpart 1
+// è®¾ç½®part 1
 void currentItem::setPart1(testItem * param)
 {
     part1 = param;
 }
-// ÉèÖÃpart 2
+// è®¾ç½®part 2
 void currentItem::setPart2(testItem * param)
 {
     part2 = param;
 }
-// ÉèÖÃpart 3
+// è®¾ç½®part 3
 void currentItem::setPart3(testItem * param)
 {
     part3 = param;
 }
-// ÉèÖÃpart 4
+// è®¾ç½®part 4
 void currentItem::setPart4(testItem * param)
 {
     part4 = param;
 }
-// ÉèÖÃpart 5
+// è®¾ç½®part 5
 void currentItem::setPart5(testItem * param)
 {
     part5 = param;
 }
-// »ñÈ¡Ç°ÖÃÃüÁîÁĞ±í
+// è·å–å‰ç½®å‘½ä»¤åˆ—è¡¨
 QList<command *> * currentItem::getPreCmdList()
 {
     return preCmdList;
 }
-// »ñÈ¡part1
+// è·å–part1
 testItem * currentItem::getPart1()
 {
     return part1;
 }
-// »ñÈ¡part2
+// è·å–part2
 testItem * currentItem::getPart2()
 {
     return part2;
 }
-// »ñÈ¡part3
+// è·å–part3
 testItem * currentItem::getPart3()
 {
     return part3;
 }
-// »ñÈ¡part4
+// è·å–part4
 testItem * currentItem::getPart4()
 {
     return part4;
 }
-// »ñÈ¡part5
+// è·å–part5
 testItem * currentItem::getPart5()
 {
     return part5;
 }
-// Éî¶È¸´ÖÆ
+// æ·±åº¦å¤åˆ¶
 currentItem * currentItem::deepcopy()
 {
     QList<command *> * newCmdListPre = new QList<command *>;

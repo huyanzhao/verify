@@ -8,37 +8,37 @@ command::command(QString nameParam):
 {
     ratio = 0;
 }
-// ÉèÖÃÃüÁîÃû³Æ
+// è®¾ç½®å‘½ä»¤åç§°
 void command::setName(QString newName)
 {
     name = newName;
 }
-// ÉèÖÃÃüÁî²ÎÊı
+// è®¾ç½®å‘½ä»¤å‚æ•°
 void command::setParam(QString newParam)
 {
     param = newParam.split(",");
 }
-// ±£´æ·µ»Ø½á¹û
+// ä¿å­˜è¿”å›ç»“æœ
 void command::setResult(QString response)
 {
     result = response;
 }
-// ÉèÖÃ½ØÈ¡Í·
+// è®¾ç½®æˆªå–å¤´
 void command::setStart(QString strStart)
 {
     start = strStart;
 }
-// ÉèÖÃ½ØÈ¡Î²
+// è®¾ç½®æˆªå–å°¾
 void command::setEnd(QString strEnd)
 {
     end = strEnd;
 }
-// ÉèÖÃ¸¡µãÊı½á¹û
+// è®¾ç½®æµ®ç‚¹æ•°ç»“æœ
 void command::setFloatResult(float result)
 {
     floatResult = result;
 }
-// ½ØÈ¡½á¹û
+// æˆªå–ç»“æœ
 void command::intercept()
 {
     int startIndex, endIndex;
@@ -46,84 +46,84 @@ void command::intercept()
     endIndex = result.indexOf(QRegExp(end));
     interceptedResult = result.mid(startIndex, endIndex-startIndex);
 }
-// ÉèÖÃÅĞµÈÌõ¼ş
+// è®¾ç½®åˆ¤ç­‰æ¡ä»¶
 void command::setJudge(QString strJudge)
 {
     judgeEqual = strJudge;
 }
-// ÅĞµÈ
+// åˆ¤ç­‰
 bool command::equalJudge()
 {
     intercept();
     return judgeEqual == interceptedResult;
 }
-// ×ª»»½ØÈ¡ºóµÄ½á¹ûÎªfloat
+// è½¬æ¢æˆªå–åçš„ç»“æœä¸ºfloat
 void command::computeFloatResult()
 {
     intercept();
     floatResult = interceptedResult.toFloat();
 }
-// ÉèÖÃÎó²î·¶Î§
+// è®¾ç½®è¯¯å·®èŒƒå›´
 void command::setRatio(float fRatio)
 {
     ratio = fRatio;
 }
-// ÅĞ¶ÏÎó²î
+// åˆ¤æ–­è¯¯å·®
 bool command::judgeRatio(float compreValue, float setValue)
 {
     if(!floatResult)
         computeFloatResult();
     return (fabsf(floatResult-compreValue))/setValue >= ratio;
 }
-// »ñÈ¡ÃüÁîÃû³Æ
+// è·å–å‘½ä»¤åç§°
 QString command::getName()
 {
     return name;
 }
-// »ñÈ¡ÃüÁî²ÎÊı
+// è·å–å‘½ä»¤å‚æ•°
 QString command::getParam()
 {
     return param.join(",");
 }
-// »ñÈ¡´ø²ÎÊıµÄÃüÁîÈ«³Æ
+// è·å–å¸¦å‚æ•°çš„å‘½ä»¤å…¨ç§°
 QString command::getFullName()
 {
     QString paramString = getParam();
     return name + QString("("+paramString+")");
 }
-// »ñÈ¡½á¹û
+// è·å–ç»“æœ
 QString command::getResult()
 {
     return result;
 }
-// »ñÈ¡½ØÈ¡Í·Ìõ¼ş
+// è·å–æˆªå–å¤´æ¡ä»¶
 QString command::getStart()
 {
     return start;
 }
-// »ñÈ¡½ØÈ¡Î²Ìõ¼ş
+// è·å–æˆªå–å°¾æ¡ä»¶
 QString command::getEnd()
 {
     return end;
 }
-// »ñÈ¡ÅĞµÈÌõ¼ş
+// è·å–åˆ¤ç­‰æ¡ä»¶
 QString command::getJudge()
 {
     return judgeEqual;
 }
-// »ñÈ¡¸¡µãÊı½á¹û
+// è·å–æµ®ç‚¹æ•°ç»“æœ
 QString command::getFloatResult()
 {
     if(!floatResult)
         computeFloatResult();
     return QString("%1").arg(floatResult);
 }
-// »ñÈ¡Îó²îÂÊ
+// è·å–è¯¯å·®ç‡
 QString command::getRatio()
 {
     return QString("%1").arg(ratio);
 }
-// ³¢ÊÔ¸´ÖÆ
+// å°è¯•å¤åˆ¶
 command * command::deepcopy()
 {
     command * newCommand = new command(name);

@@ -17,22 +17,22 @@ slotsconfig::slotsconfig(QMap<QString, QPair<QString, int> > * remoteHosts, QWid
     hosts = &hostMap;
     rePaint();
 }
-// ÖØ»­Í¨µÀÁĞ±í
+// é‡ç”»é€šé“åˆ—è¡¨
 void slotsconfig::rePaint()
 {
     qDeleteAll(ui->groupBox->children());
     IPList.clear();
     PortList.clear();
-    // ÖØÖÃÖ÷´°¿Ú´óĞ¡
+    // é‡ç½®ä¸»çª—å£å¤§å°
     this->resize(380, 80+hosts->count()*40);
-    // ÖØÖÃ°´Å¥¿òÎ»ÖÃ
+    // é‡ç½®æŒ‰é’®æ¡†ä½ç½®
     ui->frameBtn->setGeometry(QRect(10, 10+hosts->count()*40+20+10, 361, 30));
-    // ÖØÖÃgroupBoxÎ»ÖÃ´óĞ¡
+    // é‡ç½®groupBoxä½ç½®å¤§å°
     ui->groupBox->setGeometry(QRect(10, 10, 361, hosts->count()*40+20));
     for(int i=0; i != hosts->count(); ++i){
         QPair<QString, int> host;
         host = hosts->value(QString("slot%1").arg(i+1));
-        // ĞÂ½¨Í¨µÀ¿ò
+        // æ–°å»ºé€šé“æ¡†
         QFrame * slot = new QFrame(ui->groupBox);
         slot->setGeometry(10, i*40+20, 341, 30);
         slot->setFrameShape(QFrame::Box);
@@ -76,17 +76,17 @@ void slotsconfig::rePaint()
         lineEditPort->show();
     }
 }
-// Îö¹¹
+// ææ„
 slotsconfig::~slotsconfig()
 {
     delete ui;
 }
-// È¡Ïû
+// å–æ¶ˆ
 void slotsconfig::on_pushBtnCancel_clicked()
 {
     this->close();
 }
-// Ìí¼Ó
+// æ·»åŠ 
 void slotsconfig::on_pushBtnAdd_clicked()
 {
     if(hosts->count() < 8){
@@ -94,13 +94,13 @@ void slotsconfig::on_pushBtnAdd_clicked()
         rePaint();
     }
 }
-// É¾³ı
+// åˆ é™¤
 void slotsconfig::on_pushBtnDel_clicked()
 {
     hosts->remove(QString("slot%1").arg(hosts->count()));
     rePaint();
 }
-// È·¶¨
+// ç¡®å®š
 void slotsconfig::on_pushBtnOk_clicked()
 {
     for(QMap<QString, QPair<QString, int> >::Iterator it = hosts->begin(); it != hosts->end(); it++){
@@ -115,7 +115,7 @@ void slotsconfig::on_pushBtnOk_clicked()
     emit slotsConfigDone(hosts);
     this->close();
 }
-// ±£´æĞŞ¸ÄµÄ¶Ë¿Ú
+// ä¿å­˜ä¿®æ”¹çš„ç«¯å£
 void slotsconfig::port_lineedit_modify(QString port)
 {
     QLineEdit *plineEdit = qobject_cast<QLineEdit*>(sender());
@@ -123,7 +123,7 @@ void slotsconfig::port_lineedit_modify(QString port)
     index = plineEdit->objectName().right(1).toInt();
     hostMap[QString("slot%1").arg(index)] = qMakePair(IPList.at(index-1)->text(), port.toInt());
 }
-// ±£´æĞŞ¸ÄµÄip
+// ä¿å­˜ä¿®æ”¹çš„ip
 void slotsconfig::ip_lineedit_modify(QString ip)
 {
     QLineEdit *plineEdit = qobject_cast<QLineEdit*>(sender());

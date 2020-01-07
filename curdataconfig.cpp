@@ -100,23 +100,23 @@ curdataconfig::curdataconfig(currentItem * psu1, currentItem *psu2, QWidget *par
     ui->lineEditPsu2Part5TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     repaintPsu2();
 }
-// Îö¹¹
+// ææ„
 curdataconfig::~curdataconfig()
 {
     delete ui;
 }
-// ÍË³öÊÂ¼ş
+// é€€å‡ºäº‹ä»¶
 void curdataconfig::closeEvent(QCloseEvent * event)
 {
     emit returnTestItem(itemPsu1, itemPsu2);
 }
-// ÍË³ö
+// é€€å‡º
 void curdataconfig::on_pushBtnExit_clicked()
 {
     this->close();
 }
-// PSU1  Ç°ÖÃÃüÁî
-// Ìí¼Ó°´Å¥
+// PSU1  å‰ç½®å‘½ä»¤
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
@@ -127,7 +127,7 @@ void curdataconfig::on_pushBtnPsu1PreAdd_clicked()
         itemPsu1->setPreCmdList(cmdListPsu1Pre);
     showPsu1PreCmdList();
 }
-// Ë¢ĞÂÃüÁî¿ò
+// åˆ·æ–°å‘½ä»¤æ¡†
 void curdataconfig::showPsu1PreCmdList()
 {
     ui->psu1PreCmdList->clear();
@@ -136,14 +136,14 @@ void curdataconfig::showPsu1PreCmdList()
         ui->psu1PreCmdList->addItem(curCommand->getFullName());
     }
 }
-// ÃüÁî¿òµã»÷ÊÂ¼ş
+// å‘½ä»¤æ¡†ç‚¹å‡»äº‹ä»¶
 void curdataconfig::on_psu1PreCmdList_clicked(const QModelIndex &index)
 {
-    nowIndexPsu1Pre = index.row();  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîÔÚÁĞ±íÖĞµÄË÷Òı
-    nowCommandPsu1 = cmdListPsu1Pre->at(nowIndexPsu1Pre);  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîµÄÖ¸Õë
+    nowIndexPsu1Pre = index.row();  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤åœ¨åˆ—è¡¨ä¸­çš„ç´¢å¼•
+    nowCommandPsu1 = cmdListPsu1Pre->at(nowIndexPsu1Pre);  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤çš„æŒ‡é’ˆ
     on_pushBtnPsu1PreUndo_clicked();
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1PreDel_clicked()
 {
     if(nowIndexPsu1Pre == -1){
@@ -154,14 +154,14 @@ void curdataconfig::on_pushBtnPsu1PreDel_clicked()
     if(nowIndexPsu1Pre != -1)
         nowCommandPsu1 = cmdListPsu1Pre->at(nowIndexPsu1Pre);
     showPsu1PreCmdList();
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu1PreCmdName->clear();
     ui->lineEditPsu1PreParam->clear();
     ui->lineEditPsu1PreStart->clear();
     ui->lineEditPsu1PreEnd->clear();
     ui->lineEditPsu1PreJudge->clear();
 }
-// ÏòÉÏ°´Å¥
+// å‘ä¸ŠæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1PreUp_clicked()
 {
     if(nowIndexPsu1Pre < 1)
@@ -170,7 +170,7 @@ void curdataconfig::on_pushBtnPsu1PreUp_clicked()
     nowIndexPsu1Pre--;
     showPsu1PreCmdList();
 }
-// ÏòÏÂ°´Å¥
+// å‘ä¸‹æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1PreDown_clicked()
 {
     if((nowIndexPsu1Pre == -1)||(nowIndexPsu1Pre >= cmdListPsu1Pre->size()-1))
@@ -179,7 +179,7 @@ void curdataconfig::on_pushBtnPsu1PreDown_clicked()
     nowIndexPsu1Pre++;
     showPsu1PreCmdList();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1PreSave_clicked()
 {
     if(ui->lineEditPsu1PreCmdName->text().size() == 0 &&
@@ -197,30 +197,30 @@ void curdataconfig::on_pushBtnPsu1PreSave_clicked()
         showPsu1PreCmdList();
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1PreUndo_clicked()
 {
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu1PreCmdName->clear();
     ui->lineEditPsu1PreParam->clear();
     ui->lineEditPsu1PreStart->clear();
     ui->lineEditPsu1PreEnd->clear();
     ui->lineEditPsu1PreJudge->clear();
-    // ÏÔÊ¾ÃüÁîÃû³Æ
-    ui->lineEditPsu1PreCmdName->setPlaceholderText(tr("ÃüÁîÃû³Æ"));
+    // æ˜¾ç¤ºå‘½ä»¤åç§°
+    ui->lineEditPsu1PreCmdName->setPlaceholderText(tr("å‘½ä»¤åç§°"));
     ui->lineEditPsu1PreCmdName->setText(nowCommandPsu1->getName());
-    // ÏÔÊ¾ÃüÁî²ÎÊı
-    ui->lineEditPsu1PreParam->setPlaceholderText(tr("²ÎÊı"));
+    // æ˜¾ç¤ºå‘½ä»¤å‚æ•°
+    ui->lineEditPsu1PreParam->setPlaceholderText(tr("å‚æ•°"));
     ui->lineEditPsu1PreParam->setText(nowCommandPsu1->getParam());
 
-    // ÏÔÊ¾½ØÈ¡²ÎÊı
+    // æ˜¾ç¤ºæˆªå–å‚æ•°
     ui->lineEditPsu1PreStart->setText(nowCommandPsu1->getStart());
     ui->lineEditPsu1PreEnd->setText(nowCommandPsu1->getEnd());
-    // ÏÔÊ¾ÅĞµÈ²ÎÊı
+    // æ˜¾ç¤ºåˆ¤ç­‰å‚æ•°
     ui->lineEditPsu1PreJudge->setText(nowCommandPsu1->getJudge());
 }
-// PSU1  Part1  »»µµÃüÁî
-// Ìí¼Ó°´Å¥
+// PSU1  Part1  æ¢æ¡£å‘½ä»¤
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part1PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
@@ -239,7 +239,7 @@ void curdataconfig::on_pushBtnPsu1Part1PreAdd_clicked()
         itemPsu1->setPart1(psu1Part1);
     showPsu1Part1PreCmdList();
 }
-// Ë¢ĞÂÃüÁî¿ò
+// åˆ·æ–°å‘½ä»¤æ¡†
 void curdataconfig::showPsu1Part1PreCmdList()
 {
     ui->psu1Part1PreCmdList->clear();
@@ -248,14 +248,14 @@ void curdataconfig::showPsu1Part1PreCmdList()
         ui->psu1Part1PreCmdList->addItem(curCommand->getFullName());
     }
 }
-// ÃüÁî¿òµã»÷ÊÂ¼ş
+// å‘½ä»¤æ¡†ç‚¹å‡»äº‹ä»¶
 void curdataconfig::on_psu1Part1PreCmdList_clicked(const QModelIndex &index)
 {
-    nowIndexPsu1Part1Pre = index.row();  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîÔÚÁĞ±íÖĞµÄË÷Òı
-    nowCommandPsu1Part1 = cmdListPsu1Part1Pre->at(nowIndexPsu1Part1Pre);  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîµÄÖ¸Õë
+    nowIndexPsu1Part1Pre = index.row();  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤åœ¨åˆ—è¡¨ä¸­çš„ç´¢å¼•
+    nowCommandPsu1Part1 = cmdListPsu1Part1Pre->at(nowIndexPsu1Part1Pre);  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤çš„æŒ‡é’ˆ
     on_pushBtnPsu1Part1PreUndo_clicked();
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part1PreDel_clicked()
 {
     if(nowIndexPsu1Part1Pre == -1){
@@ -266,14 +266,14 @@ void curdataconfig::on_pushBtnPsu1Part1PreDel_clicked()
     if(nowIndexPsu1Part1Pre != -1)
         nowCommandPsu1Part1 = cmdListPsu1Part1Pre->at(nowIndexPsu1Part1Pre);
     showPsu1Part1PreCmdList();
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu1Part1PreName->clear();
     ui->lineEditPsu1Part1PreParam->clear();
     ui->lineEditPsu1Part1PreStart->clear();
     ui->lineEditPsu1Part1PreEnd->clear();
     ui->lineEditPsu1Part1PreJudge->clear();
 }
-// ÏòÉÏ°´Å¥
+// å‘ä¸ŠæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part1PreUp_clicked()
 {
     if(nowIndexPsu1Part1Pre < 1)
@@ -282,7 +282,7 @@ void curdataconfig::on_pushBtnPsu1Part1PreUp_clicked()
     nowIndexPsu1Part1Pre--;
     showPsu1Part1PreCmdList();
 }
-// ÏòÏÂ°´Å¥
+// å‘ä¸‹æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part1PreDown_clicked()
 {
     if((nowIndexPsu1Part1Pre == -1)||(nowIndexPsu1Part1Pre >= cmdListPsu1Part1Pre->size()-1))
@@ -291,7 +291,7 @@ void curdataconfig::on_pushBtnPsu1Part1PreDown_clicked()
     nowIndexPsu1Part1Pre++;
     showPsu1Part1PreCmdList();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part1PreSave_clicked()
 {
     if(ui->lineEditPsu1Part1PreName->text().size() == 0 &&
@@ -309,76 +309,76 @@ void curdataconfig::on_pushBtnPsu1Part1PreSave_clicked()
         showPsu1Part1PreCmdList();
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part1PreUndo_clicked()
 {
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu1Part1PreName->clear();
     ui->lineEditPsu1Part1PreParam->clear();
     ui->lineEditPsu1Part1PreStart->clear();
     ui->lineEditPsu1Part1PreEnd->clear();
     ui->lineEditPsu1Part1PreJudge->clear();
-    // ÏÔÊ¾ÃüÁîÃû³Æ
-    ui->lineEditPsu1Part1PreName->setPlaceholderText(tr("ÃüÁîÃû³Æ"));
+    // æ˜¾ç¤ºå‘½ä»¤åç§°
+    ui->lineEditPsu1Part1PreName->setPlaceholderText(tr("å‘½ä»¤åç§°"));
     ui->lineEditPsu1Part1PreName->setText(nowCommandPsu1Part1->getName());
-    // ÏÔÊ¾ÃüÁî²ÎÊı
-    ui->lineEditPsu1Part1PreParam->setPlaceholderText(tr("²ÎÊı"));
+    // æ˜¾ç¤ºå‘½ä»¤å‚æ•°
+    ui->lineEditPsu1Part1PreParam->setPlaceholderText(tr("å‚æ•°"));
     ui->lineEditPsu1Part1PreParam->setText(nowCommandPsu1Part1->getParam());
 
-    // ÏÔÊ¾½ØÈ¡²ÎÊı
+    // æ˜¾ç¤ºæˆªå–å‚æ•°
     ui->lineEditPsu1Part1PreStart->setText(nowCommandPsu1Part1->getStart());
     ui->lineEditPsu1Part1PreEnd->setText(nowCommandPsu1Part1->getEnd());
-    // ÏÔÊ¾ÅĞµÈ²ÎÊı
+    // æ˜¾ç¤ºåˆ¤ç­‰å‚æ•°
     ui->lineEditPsu1Part1PreJudge->setText(nowCommandPsu1Part1->getJudge());
 }
-// PSU1  Part1  Êı¾İ
-// Ìí¼Ó°´Å¥
+// PSU1  Part1  æ•°æ®
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part1DataAdd_clicked()
 {
     int x, y;
     x = nowIndexPsu1Part1Data / 10;
     y = nowIndexPsu1Part1Data % 10;
-    ui->scrollAreaWidgetContentsPsu1Part1->setFixedWidth((x+1)*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu1Part1->setFixedWidth((x+1)*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu1Part1Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
-    // ¿ò
+    // æ¡†
     QFrame* newframe = new QFrame(ui->scrollAreaWidgetContentsPsu1Part1);
     newframe->setGeometry(QRect(x*290, y*30, 280, 21));
     newframe->setFrameShape(QFrame::Box);
     newframe->setFrameShadow(QFrame::Raised);
     frameListPsu1Part1Data.append(newframe);
     newframe->show();
-    // ¸´Ñ¡¿ò
+    // å¤é€‰æ¡†
     QCheckBox * newcheckbox = new QCheckBox(newframe);
     newcheckbox->setGeometry(QRect(5, 3, 50, 16));
     newcheckbox->setChecked(true);
     newcheckbox->setText(QString("%1").arg(nowIndexPsu1Part1Data+1));
     checkBoxListPsu1Part1Data.append(newcheckbox);
     newcheckbox->show();
-    // Êı¾İ¿ò
+    // æ•°æ®æ¡†
     QLineEdit * datalineedit = new QLineEdit(newframe);
     datalineedit->setGeometry(QRect(60, 2, 50, 17));
-    datalineedit->setPlaceholderText(tr("Êı¾İ"));
+    datalineedit->setPlaceholderText(tr("æ•°æ®"));
     datalineedit->setValidator(new QDoubleValidator(0.0, 65535.0, 2, this));
     dataLineEditListPsu1Part1Data.append(datalineedit);
     datalineedit->show();
-    // dacµØÖ·¿ò
+    // dacåœ°å€æ¡†
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
     dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu1Part1Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
-    // adcµØÖ·¿ò
+    // adcåœ°å€æ¡†
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
     adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu1Part1Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
-    // refµØÖ·¿ò
+    // refåœ°å€æ¡†
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
     refaddrlineedit->setPlaceholderText(tr("refAddr"));
@@ -386,7 +386,7 @@ void curdataconfig::on_pushBtnPsu1Part1DataAdd_clicked()
     refaddrlineedit->show();
     nowIndexPsu1Part1Data++;    
 }
-// ÅĞ¶ÏÈ«Ñ¡×´Ì¬
+// åˆ¤æ–­å…¨é€‰çŠ¶æ€
 bool curdataconfig::checkBoxAllSelectPsu1Part1()
 {
     for(int i=0; i != checkBoxListPsu1Part1Data.size(); ++i){
@@ -395,24 +395,24 @@ bool curdataconfig::checkBoxAllSelectPsu1Part1()
     }
     return true;
 }
-// È«Ñ¡°´Å¥
+// å…¨é€‰æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part1DataAll_clicked()
 {
-    if(checkBoxAllSelectPsu1Part1()){  // ÒÑ¾­È«Ñ¡, ÉèÖÃÎªÈ«²»Ñ¡
+    if(checkBoxAllSelectPsu1Part1()){  // å·²ç»å…¨é€‰, è®¾ç½®ä¸ºå…¨ä¸é€‰
         for(int i=0; i != checkBoxListPsu1Part1Data.size(); ++i){
             checkBoxListPsu1Part1Data.at(i)->setChecked(false);
         }
-    }else { // Î´È«Ñ¡,ÉèÖÃÎªÈ«Ñ¡
+    }else { // æœªå…¨é€‰,è®¾ç½®ä¸ºå…¨é€‰
         for(int i=0; i != checkBoxListPsu1Part1Data.size(); ++i){
             checkBoxListPsu1Part1Data.at(i)->setChecked(true);
         }
     }
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part1DataDel_clicked()
 {
     for(int i=0; i != checkBoxListPsu1Part1Data.size();){
-        if(checkBoxListPsu1Part1Data.at(i)->isChecked()){  // Èç¹û±»Ñ¡ÖĞ,ÔòÉ¾³ı¸ÃÊı¾İÏî
+        if(checkBoxListPsu1Part1Data.at(i)->isChecked()){  // å¦‚æœè¢«é€‰ä¸­,åˆ™åˆ é™¤è¯¥æ•°æ®é¡¹
             checkBoxListPsu1Part1Data.removeAt(i);
             dataLineEditListPsu1Part1Data.removeAt(i);
             dacAddrLineEditListPsu1Part1Data.removeAt(i);
@@ -424,7 +424,7 @@ void curdataconfig::on_pushBtnPsu1Part1DataDel_clicked()
         }else
             ++i;
     }
-    // ÖØĞÂÅÅÁĞ¿ò
+    // é‡æ–°æ’åˆ—æ¡†
     int x, y;
     for(int i=0; i != frameListPsu1Part1Data.size(); ++i){
         x = i / 10;
@@ -434,22 +434,22 @@ void curdataconfig::on_pushBtnPsu1Part1DataDel_clicked()
     }
     nowIndexPsu1Part1Data = checkBoxListPsu1Part1Data.size();
     int column = nowIndexPsu1Part1Data/10 + (nowIndexPsu1Part1Data % 10 ? 1 : 0);
-    ui->scrollAreaWidgetContentsPsu1Part1->setFixedWidth(column*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu1Part1->setFixedWidth(column*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu1Part1Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
 }
-// È«²¿É¾³ı°´Å¥
+// å…¨éƒ¨åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part1DataBatchDel_clicked()
 {
-    if(!checkBoxAllSelectPsu1Part1())  // Ã»ÓĞÈ«Ñ¡,ÔòÈ«Ñ¡
+    if(!checkBoxAllSelectPsu1Part1())  // æ²¡æœ‰å…¨é€‰,åˆ™å…¨é€‰
         on_pushBtnPsu1Part1DataAll_clicked();
-    on_pushBtnPsu1Part1DataDel_clicked(); // É¾³ı
+    on_pushBtnPsu1Part1DataDel_clicked(); // åˆ é™¤
 }
-// Çå¿ÕÊı¾İ°´Å¥
+// æ¸…ç©ºæ•°æ®æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part1DataClear_clicked()
 {
     for(int i=0; i != nowIndexPsu1Part1Data; ++i){
@@ -459,18 +459,18 @@ void curdataconfig::on_pushBtnPsu1Part1DataClear_clicked()
         refAddrLineEditListPsu1Part1Data.at(i)->clear();
     }
 }
-// ÅúÁ¿Ìí¼Ó°´Å¥
+// æ‰¹é‡æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part1DataBatchAdd_clicked()
 {
     if(nowIndexPsu1Part1Data)
-        if(QMessageBox::question(this, tr("Ñ¯ÎÊ"), tr("ÊÇ·ñ±£Áôµ±Ç°ÒÑÌîÊı¾İ£¿"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
+        if(QMessageBox::question(this, tr("è¯¢é—®"), tr("æ˜¯å¦ä¿ç•™å½“å‰å·²å¡«æ•°æ®ï¼Ÿ"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu1Part1DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
     connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
             this, SLOT(handleBatchParamsPsu1Part1(int, double, double, QString, bool)));
     batchdialog->show();
 }
-// ´¦Àí½ÓÊÕµ½µÄÅúÁ¿Ìí¼Ó²ÎÊı
+// å¤„ç†æ¥æ”¶åˆ°çš„æ‰¹é‡æ·»åŠ å‚æ•°
 void curdataconfig::handleBatchParamsPsu1Part1(int num, double dataStart,
                                       double dataStep, QString strAddrStart, bool isRise)
 {
@@ -506,48 +506,48 @@ void curdataconfig::handleBatchParamsPsu1Part1(int num, double dataStart,
         refAddrLineEditListPsu1Part1Data.at(nowIndexPsu1Part1Data-1)->setText(strRefAddr);
     }
 }
-// Êı¾İ³¤¶È±à¼­
+// æ•°æ®é•¿åº¦ç¼–è¾‘
 void curdataconfig::on_lineEditDataLengthPsu1Part1_textEdited()
 {
     if(ui->lineEditDataLengthPsu1Part1->text().isEmpty()){
-        QMessageBox::information(this, tr("´íÎó"), tr("Êı¾İ³¤¶È²»ÄÜÎª¿Õ£¡"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("é”™è¯¯"), tr("æ•°æ®é•¿åº¦ä¸èƒ½ä¸ºç©ºï¼"), QMessageBox::Ok);
         ui->lineEditDataLengthPsu1Part1->setText(QString("%1").arg(dataLengthPsu1Part1));
         return;
     }
     dataLengthPsu1Part1 = ui->lineEditDataLengthPsu1Part1->text().toInt();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part1DataSave_clicked()
 {
     QList<DataItem *>  *tempList = new QList<DataItem *>;
-    // ±£´æ½çÃæÖĞµÄÊı¾İ, ÅĞ¶ÏÀïÃæµÄ²ÎÊıÊÇ·ñºÏ·¨
+    // ä¿å­˜ç•Œé¢ä¸­çš„æ•°æ®, åˆ¤æ–­é‡Œé¢çš„å‚æ•°æ˜¯å¦åˆæ³•
     for(int i=0; i != nowIndexPsu1Part1Data; ++i){
         QString data, dacAddr, adcAddr, refAddr;
         data = dataLineEditListPsu1Part1Data.at(i)->text();
         bool ok;
         data.toDouble(&ok);
         if(!ok){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîÊı¾İ²»ÊÇÓĞĞ§µÄÊı¾İ£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹æ•°æ®ä¸æ˜¯æœ‰æ•ˆçš„æ•°æ®ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         dacAddr = dacAddrLineEditListPsu1Part1Data.at(i)->text();
         if(!QStringIsInt(dacAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîdacµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹dacåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         adcAddr = adcAddrLineEditListPsu1Part1Data.at(i)->text();
         if(!QStringIsInt(adcAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîadcµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹adcåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         refAddr = refAddrLineEditListPsu1Part1Data.at(i)->text();
         if(!QStringIsInt(refAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîrefµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹refåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         tempList->append(new DataItem(checkBoxListPsu1Part1Data.at(i)->checkState(), data.toDouble(), dacAddr, adcAddr, refAddr));
     }
-    // Çë¿Õµ±Ç°²ÎÊıÁĞ±í
+    // è¯·ç©ºå½“å‰å‚æ•°åˆ—è¡¨
     for(int i=0; i != dataAndAddrListPsu1Part1->size(); ++i)
         delete dataAndAddrListPsu1Part1->at(i);
     dataAndAddrListPsu1Part1->clear();
@@ -565,13 +565,13 @@ void curdataconfig::on_pushBtnPsu1Part1DataSave_clicked()
             itemPsu1 = new currentItem(cmdListPsu1Pre, psu1Part1, psu1Part2, psu1Part3, psu1Part4, psu1Part5);
         else
             itemPsu1->setPart1(psu1Part1);
-        QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part1DataUndo_clicked()
 {
-    on_pushBtnPsu1Part1DataBatchDel_clicked();  // Çå¿ÕÊı¾İÁĞ±í¿ò
+    on_pushBtnPsu1Part1DataBatchDel_clicked();  // æ¸…ç©ºæ•°æ®åˆ—è¡¨æ¡†
     for(int i=0; i != dataAndAddrListPsu1Part1->size(); ++i){
         on_pushBtnPsu1Part1DataAdd_clicked();
         checkBoxListPsu1Part1Data.at(i)->setChecked(dataAndAddrListPsu1Part1->at(i)->check);
@@ -581,21 +581,21 @@ void curdataconfig::on_pushBtnPsu1Part1DataUndo_clicked()
         refAddrLineEditListPsu1Part1Data.at(i)->setText(dataAndAddrListPsu1Part1->at(i)->refAddr);
     }
 }
-// PSU1  Part1 Ğ£×¼
-// ±£´æ°´Å¥
+// PSU1  Part1 æ ¡å‡†
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part1VerifySave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge, setMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge, setMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu1Part1VerifySetCmd->text();
     setStart = ui->lineEditPsu1Part1VerifySetStart->text();
     setEnd = ui->lineEditPsu1Part1VerifySetEnd->text();
     setJudge = ui->lineEditPsu1Part1VerifySetJudge->text();
     setMulti = ui->lineEditPsu1Part1VerifySetMulti->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0 || setMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu1Part1VerifyDMMCmd->text();
     dmmParam = ui->lineEditPsu1Part1VerifyDMMParam->text();
     dmmStart = ui->lineEditPsu1Part1VerifyDMMStart->text();
@@ -603,28 +603,28 @@ void curdataconfig::on_pushBtnPsu1Part1VerifySave_clicked()
     dmmJudge = ui->lineEditPsu1Part1VerifyDMMJudge->text();
     dmmMulti = ui->lineEditPsu1Part1VerifyDMMMulti->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0 || dmmMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge, meterMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge, meterMulti;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu1Part1VerifyMeterJudge->text();
     meterMulti = ui->lineEditPsu1Part1VerifyMeterMulti->text();
     if(meterJudge.size()==0 || meterMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡ÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu1Part1Verify->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu1Part1Verify->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu1Part1Verify->setStart(setStart);
     setCmdPsu1Part1Verify->setEnd(setEnd);
     setCmdPsu1Part1Verify->setJudge(setJudge);
     setPsu1Part1Multi = setMulti.toInt();
-    dmmCmdPsu1Part1Verify->setName(dmmName); // ±£´æ¶ÁÈ¡µçÑ¹ÃüÁî²ÎÊı
+    dmmCmdPsu1Part1Verify->setName(dmmName); // ä¿å­˜è¯»å–ç”µå‹å‘½ä»¤å‚æ•°
     dmmCmdPsu1Part1Verify->setParam(dmmParam);
     dmmCmdPsu1Part1Verify->setStart(dmmStart);
     dmmCmdPsu1Part1Verify->setEnd(dmmEnd);
     dmmCmdPsu1Part1Verify->setRatio(dmmJudge.toDouble());
     dmmPsu1Part1Multi = dmmMulti.toInt();
-    meterCmdPsu1Part1Verify->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu1Part1Verify->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     meterPsu1Part1Multi = meterMulti.toInt();
     if(psu1Part1 == NULL){
         psu1Part1 = new testItem(cmdListPsu1Part1Pre, dataAndAddrListPsu1Part1, dataLengthPsu1Part1,
@@ -644,64 +644,64 @@ void curdataconfig::on_pushBtnPsu1Part1VerifySave_clicked()
         itemPsu1 = new currentItem(cmdListPsu1Pre, psu1Part1, psu1Part2, psu1Part3, psu1Part4, psu1Part5);
     else
         itemPsu1->setPart1(psu1Part1);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part1VerifyUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu1Part1VerifySetCmd->setText(setCmdPsu1Part1Verify->getName());
     ui->lineEditPsu1Part1VerifySetStart->setText(setCmdPsu1Part1Verify->getStart());
     ui->lineEditPsu1Part1VerifySetEnd->setText(setCmdPsu1Part1Verify->getEnd());
     ui->lineEditPsu1Part1VerifySetJudge->setText(setCmdPsu1Part1Verify->getJudge());
     ui->lineEditPsu1Part1VerifySetMulti->setText(QString("%1").arg(setPsu1Part1Multi));
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu1Part1VerifyDMMCmd->setText(dmmCmdPsu1Part1Verify->getName());
     ui->lineEditPsu1Part1VerifyDMMStart->setText(dmmCmdPsu1Part1Verify->getStart());
     ui->lineEditPsu1Part1VerifyDMMEnd->setText(dmmCmdPsu1Part1Verify->getEnd());
     ui->lineEditPsu1Part1VerifyDMMJudge->setText(dmmCmdPsu1Part1Verify->getRatio());
     ui->lineEditPsu1Part1VerifyDMMMulti->setText(QString("%1").arg(dmmPsu1Part1Multi));
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu1Part1VerifyMeterJudge->setText(meterCmdPsu1Part1Verify->getRatio());
     ui->lineEditPsu1Part1VerifyMeterMulti->setText(QString("%1").arg(meterPsu1Part1Multi));
 }
-// PSU1  Part1  ²âÊÔ
-// ±£´æ°´Å¥
+// PSU1  Part1  æµ‹è¯•
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part1TestSave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu1Part1TestSetCmd->text();
     setStart = ui->lineEditPsu1Part1TestSetStart->text();
     setEnd = ui->lineEditPsu1Part1TestSetEnd->text();
     setJudge = ui->lineEditPsu1Part1TestSetJudge->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu1Part1TestDMMCmd->text();
     dmmStart = ui->lineEditPsu1Part1TestDMMStart->text();
     dmmEnd = ui->lineEditPsu1Part1TestDMMEnd->text();
     dmmJudge = ui->lineEditPsu1Part1TestDMMJudge->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu1Part1TestMeterJudge->text();
     if(meterJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡¶ÁÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–è¯»ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu1Part1Test->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu1Part1Test->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu1Part1Test->setStart(setStart);
     setCmdPsu1Part1Test->setEnd(setEnd);
     setCmdPsu1Part1Test->setJudge(setJudge);
-    dmmCmdPsu1Part1Test->setName(dmmName);  // ±£´æ¶ÁÈ¡µçÁ÷ÃüÁî²ÎÊı
+    dmmCmdPsu1Part1Test->setName(dmmName);  // ä¿å­˜è¯»å–ç”µæµå‘½ä»¤å‚æ•°
     dmmCmdPsu1Part1Test->setStart(dmmStart);
     dmmCmdPsu1Part1Test->setEnd(dmmEnd);
     dmmCmdPsu1Part1Test->setRatio(dmmJudge.toDouble());
-    meterCmdPsu1Part1Test->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu1Part1Test->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     if(psu1Part1 == NULL){
         psu1Part1 = new testItem(cmdListPsu1Part1Pre, dataAndAddrListPsu1Part1, dataLengthPsu1Part1,
                                  setCmdPsu1Part1Verify, setPsu1Part1Multi,
@@ -717,26 +717,26 @@ void curdataconfig::on_pushBtnPsu1Part1TestSave_clicked()
         itemPsu1 = new currentItem(cmdListPsu1Pre, psu1Part1, psu1Part2, psu1Part3, psu1Part4, psu1Part5);
     else
         itemPsu1->setPart1(psu1Part1);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part1TestUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu1Part1TestSetCmd->setText(setCmdPsu1Part1Test->getName());
     ui->lineEditPsu1Part1TestSetStart->setText(setCmdPsu1Part1Test->getStart());
     ui->lineEditPsu1Part1TestSetEnd->setText(setCmdPsu1Part1Test->getEnd());
     ui->lineEditPsu1Part1TestSetJudge->setText(setCmdPsu1Part1Test->getJudge());
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu1Part1TestDMMCmd->setText(dmmCmdPsu1Part1Test->getName());
     ui->lineEditPsu1Part1TestDMMStart->setText(dmmCmdPsu1Part1Test->getStart());
     ui->lineEditPsu1Part1TestDMMEnd->setText(dmmCmdPsu1Part1Test->getEnd());
     ui->lineEditPsu1Part1TestDMMJudge->setText(dmmCmdPsu1Part1Test->getRatio());
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu1Part1TestMeterJudge->setText(meterCmdPsu1Part1Test->getRatio());
 }
-// PSU1  Part2  »»µµÃüÁî
-// Ìí¼Ó°´Å¥
+// PSU1  Part2  æ¢æ¡£å‘½ä»¤
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part2PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
@@ -755,7 +755,7 @@ void curdataconfig::on_pushBtnPsu1Part2PreAdd_clicked()
         itemPsu1->setPart2(psu1Part2);
     showPsu1Part2PreCmdList();
 }
-// Ë¢ĞÂÃüÁî¿ò
+// åˆ·æ–°å‘½ä»¤æ¡†
 void curdataconfig::showPsu1Part2PreCmdList()
 {
     ui->psu1Part2PreCmdList->clear();
@@ -764,14 +764,14 @@ void curdataconfig::showPsu1Part2PreCmdList()
         ui->psu1Part2PreCmdList->addItem(curCommand->getFullName());
     }
 }
-// ÃüÁî¿òµã»÷ÊÂ¼ş
+// å‘½ä»¤æ¡†ç‚¹å‡»äº‹ä»¶
 void curdataconfig::on_psu1Part2PreCmdList_clicked(const QModelIndex &index)
 {
-    nowIndexPsu1Part2Pre = index.row();  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîÔÚÁĞ±íÖĞµÄË÷Òı
-    nowCommandPsu1Part2 = cmdListPsu1Part2Pre->at(nowIndexPsu1Part2Pre);  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîµÄÖ¸Õë
+    nowIndexPsu1Part2Pre = index.row();  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤åœ¨åˆ—è¡¨ä¸­çš„ç´¢å¼•
+    nowCommandPsu1Part2 = cmdListPsu1Part2Pre->at(nowIndexPsu1Part2Pre);  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤çš„æŒ‡é’ˆ
     on_pushBtnPsu1Part2PreUndo_clicked();
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part2PreDel_clicked()
 {
     if(nowIndexPsu1Part2Pre == -1){
@@ -782,14 +782,14 @@ void curdataconfig::on_pushBtnPsu1Part2PreDel_clicked()
     if(nowIndexPsu1Part2Pre != -1)
         nowCommandPsu1Part2 = cmdListPsu1Part2Pre->at(nowIndexPsu1Part2Pre);
     showPsu1Part2PreCmdList();
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu1Part2PreName->clear();
     ui->lineEditPsu1Part2PreParam->clear();
     ui->lineEditPsu1Part2PreStart->clear();
     ui->lineEditPsu1Part2PreEnd->clear();
     ui->lineEditPsu1Part2PreJudge->clear();
 }
-// ÏòÉÏ°´Å¥
+// å‘ä¸ŠæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part2PreUp_clicked()
 {
     if(nowIndexPsu1Part2Pre < 1)
@@ -798,7 +798,7 @@ void curdataconfig::on_pushBtnPsu1Part2PreUp_clicked()
     nowIndexPsu1Part2Pre--;
     showPsu1Part2PreCmdList();
 }
-// ÏòÏÂ°´Å¥
+// å‘ä¸‹æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part2PreDown_clicked()
 {
     if((nowIndexPsu1Part2Pre == -1)||(nowIndexPsu1Part2Pre >= cmdListPsu1Part2Pre->size()-1))
@@ -807,7 +807,7 @@ void curdataconfig::on_pushBtnPsu1Part2PreDown_clicked()
     nowIndexPsu1Part2Pre++;
     showPsu1Part2PreCmdList();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part2PreSave_clicked()
 {
     if(ui->lineEditPsu1Part2PreName->text().size() == 0 &&
@@ -825,76 +825,76 @@ void curdataconfig::on_pushBtnPsu1Part2PreSave_clicked()
         showPsu1Part2PreCmdList();
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part2PreUndo_clicked()
 {
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu1Part2PreName->clear();
     ui->lineEditPsu1Part2PreParam->clear();
     ui->lineEditPsu1Part2PreStart->clear();
     ui->lineEditPsu1Part2PreEnd->clear();
     ui->lineEditPsu1Part2PreJudge->clear();
-    // ÏÔÊ¾ÃüÁîÃû³Æ
-    ui->lineEditPsu1Part2PreName->setPlaceholderText(tr("ÃüÁîÃû³Æ"));
+    // æ˜¾ç¤ºå‘½ä»¤åç§°
+    ui->lineEditPsu1Part2PreName->setPlaceholderText(tr("å‘½ä»¤åç§°"));
     ui->lineEditPsu1Part2PreName->setText(nowCommandPsu1Part2->getName());
-    // ÏÔÊ¾ÃüÁî²ÎÊı
-    ui->lineEditPsu1Part2PreParam->setPlaceholderText(tr("²ÎÊı"));
+    // æ˜¾ç¤ºå‘½ä»¤å‚æ•°
+    ui->lineEditPsu1Part2PreParam->setPlaceholderText(tr("å‚æ•°"));
     ui->lineEditPsu1Part2PreParam->setText(nowCommandPsu1Part2->getParam());
 
-    // ÏÔÊ¾½ØÈ¡²ÎÊı
+    // æ˜¾ç¤ºæˆªå–å‚æ•°
     ui->lineEditPsu1Part2PreStart->setText(nowCommandPsu1Part2->getStart());
     ui->lineEditPsu1Part2PreEnd->setText(nowCommandPsu1Part2->getEnd());
-    // ÏÔÊ¾ÅĞµÈ²ÎÊı
+    // æ˜¾ç¤ºåˆ¤ç­‰å‚æ•°
     ui->lineEditPsu1Part2PreJudge->setText(nowCommandPsu1Part2->getJudge());
 }
-// PSU1  Part2  Êı¾İ
-// Ìí¼Ó°´Å¥
+// PSU1  Part2  æ•°æ®
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part2DataAdd_clicked()
 {
     int x, y;
     x = nowIndexPsu1Part2Data / 10;
     y = nowIndexPsu1Part2Data % 10;
-    ui->scrollAreaWidgetContentsPsu1Part2->setFixedWidth((x+1)*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu1Part2->setFixedWidth((x+1)*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu1Part2Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
-    // ¿ò
+    // æ¡†
     QFrame* newframe = new QFrame(ui->scrollAreaWidgetContentsPsu1Part2);
     newframe->setGeometry(QRect(x*290, y*30, 280, 21));
     newframe->setFrameShape(QFrame::Box);
     newframe->setFrameShadow(QFrame::Raised);
     frameListPsu1Part2Data.append(newframe);
     newframe->show();
-    // ¸´Ñ¡¿ò
+    // å¤é€‰æ¡†
     QCheckBox * newcheckbox = new QCheckBox(newframe);
     newcheckbox->setGeometry(QRect(5, 3, 50, 16));
     newcheckbox->setChecked(true);
     newcheckbox->setText(QString("%1").arg(nowIndexPsu1Part2Data+1));
     checkBoxListPsu1Part2Data.append(newcheckbox);
     newcheckbox->show();
-    // Êı¾İ¿ò
+    // æ•°æ®æ¡†
     QLineEdit * datalineedit = new QLineEdit(newframe);
     datalineedit->setGeometry(QRect(60, 2, 50, 17));
-    datalineedit->setPlaceholderText(tr("Êı¾İ"));
+    datalineedit->setPlaceholderText(tr("æ•°æ®"));
     datalineedit->setValidator(new QDoubleValidator(0.0, 65535.0, 2, this));
     dataLineEditListPsu1Part2Data.append(datalineedit);
     datalineedit->show();
-    // dacµØÖ·¿ò
+    // dacåœ°å€æ¡†
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
     dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu1Part2Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
-    // adcµØÖ·¿ò
+    // adcåœ°å€æ¡†
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
     adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu1Part2Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
-    // refµØÖ·¿ò
+    // refåœ°å€æ¡†
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
     refaddrlineedit->setPlaceholderText(tr("refAddr"));
@@ -902,7 +902,7 @@ void curdataconfig::on_pushBtnPsu1Part2DataAdd_clicked()
     refaddrlineedit->show();
     nowIndexPsu1Part2Data++;
 }
-// ÅĞ¶ÏÈ«Ñ¡×´Ì¬
+// åˆ¤æ–­å…¨é€‰çŠ¶æ€
 bool curdataconfig::checkBoxAllSelectPsu1Part2()
 {
     for(int i=0; i != checkBoxListPsu1Part2Data.size(); ++i){
@@ -911,24 +911,24 @@ bool curdataconfig::checkBoxAllSelectPsu1Part2()
     }
     return true;
 }
-// È«Ñ¡°´Å¥
+// å…¨é€‰æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part2DataAll_clicked()
 {
-    if(checkBoxAllSelectPsu1Part2()){  // ÒÑ¾­È«Ñ¡, ÉèÖÃÎªÈ«²»Ñ¡
+    if(checkBoxAllSelectPsu1Part2()){  // å·²ç»å…¨é€‰, è®¾ç½®ä¸ºå…¨ä¸é€‰
         for(int i=0; i != checkBoxListPsu1Part2Data.size(); ++i){
             checkBoxListPsu1Part2Data.at(i)->setChecked(false);
         }
-    }else { // Î´È«Ñ¡,ÉèÖÃÎªÈ«Ñ¡
+    }else { // æœªå…¨é€‰,è®¾ç½®ä¸ºå…¨é€‰
         for(int i=0; i != checkBoxListPsu1Part2Data.size(); ++i){
             checkBoxListPsu1Part2Data.at(i)->setChecked(true);
         }
     }
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part2DataDel_clicked()
 {
     for(int i=0; i != checkBoxListPsu1Part2Data.size();){
-        if(checkBoxListPsu1Part2Data.at(i)->isChecked()){  // Èç¹û±»Ñ¡ÖĞ,ÔòÉ¾³ı¸ÃÊı¾İÏî
+        if(checkBoxListPsu1Part2Data.at(i)->isChecked()){  // å¦‚æœè¢«é€‰ä¸­,åˆ™åˆ é™¤è¯¥æ•°æ®é¡¹
             checkBoxListPsu1Part2Data.removeAt(i);
             dataLineEditListPsu1Part2Data.removeAt(i);
             dacAddrLineEditListPsu1Part2Data.removeAt(i);
@@ -940,7 +940,7 @@ void curdataconfig::on_pushBtnPsu1Part2DataDel_clicked()
         }else
             ++i;
     }
-    // ÖØĞÂÅÅÁĞ¿ò
+    // é‡æ–°æ’åˆ—æ¡†
     int x, y;
     for(int i=0; i != frameListPsu1Part2Data.size(); ++i){
         x = i / 10;
@@ -950,22 +950,22 @@ void curdataconfig::on_pushBtnPsu1Part2DataDel_clicked()
     }
     nowIndexPsu1Part2Data = checkBoxListPsu1Part2Data.size();
     int column = nowIndexPsu1Part2Data/10 + (nowIndexPsu1Part2Data % 10 ? 1 : 0);
-    ui->scrollAreaWidgetContentsPsu1Part2->setFixedWidth(column*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu1Part2->setFixedWidth(column*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu1Part2Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
 }
-// È«²¿É¾³ı°´Å¥
+// å…¨éƒ¨åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part2DataBatchDel_clicked()
 {
-    if(!checkBoxAllSelectPsu1Part2())  // Ã»ÓĞÈ«Ñ¡,ÔòÈ«Ñ¡
+    if(!checkBoxAllSelectPsu1Part2())  // æ²¡æœ‰å…¨é€‰,åˆ™å…¨é€‰
         on_pushBtnPsu1Part2DataAll_clicked();
-    on_pushBtnPsu1Part2DataDel_clicked(); // É¾³ı
+    on_pushBtnPsu1Part2DataDel_clicked(); // åˆ é™¤
 }
-// Çå¿ÕÊı¾İ°´Å¥
+// æ¸…ç©ºæ•°æ®æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part2DataClear_clicked()
 {
     for(int i=0; i != nowIndexPsu1Part2Data; ++i){
@@ -975,18 +975,18 @@ void curdataconfig::on_pushBtnPsu1Part2DataClear_clicked()
         refAddrLineEditListPsu1Part2Data.at(i)->clear();
     }
 }
-// ÅúÁ¿Ìí¼Ó°´Å¥
+// æ‰¹é‡æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part2DataBatchAdd_clicked()
 {
     if(nowIndexPsu1Part2Data)
-        if(QMessageBox::question(this, tr("Ñ¯ÎÊ"), tr("ÊÇ·ñ±£Áôµ±Ç°ÒÑÌîÊı¾İ£¿"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
+        if(QMessageBox::question(this, tr("è¯¢é—®"), tr("æ˜¯å¦ä¿ç•™å½“å‰å·²å¡«æ•°æ®ï¼Ÿ"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu1Part2DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
     connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
             this, SLOT(handleBatchParamsPsu1Part2(int, double, double, QString, bool)));
     batchdialog->show();
 }
-// ´¦Àí½ÓÊÕµ½µÄÅúÁ¿Ìí¼Ó²ÎÊı
+// å¤„ç†æ¥æ”¶åˆ°çš„æ‰¹é‡æ·»åŠ å‚æ•°
 void curdataconfig::handleBatchParamsPsu1Part2(int num, double dataStart,
                                       double dataStep, QString strAddrStart, bool isRise)
 {
@@ -1022,48 +1022,48 @@ void curdataconfig::handleBatchParamsPsu1Part2(int num, double dataStart,
         refAddrLineEditListPsu1Part2Data.at(nowIndexPsu1Part2Data-1)->setText(strRefAddr);
     }
 }
-// Êı¾İ³¤¶È±à¼­
+// æ•°æ®é•¿åº¦ç¼–è¾‘
 void curdataconfig::on_lineEditDataLengthPsu1Part2_textEdited()
 {
     if(ui->lineEditDataLengthPsu1Part2->text().isEmpty()){
-        QMessageBox::information(this, tr("´íÎó"), tr("Êı¾İ³¤¶È²»ÄÜÎª¿Õ£¡"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("é”™è¯¯"), tr("æ•°æ®é•¿åº¦ä¸èƒ½ä¸ºç©ºï¼"), QMessageBox::Ok);
         ui->lineEditDataLengthPsu1Part2->setText(QString("%1").arg(dataLengthPsu1Part2));
         return;
     }
     dataLengthPsu1Part2 = ui->lineEditDataLengthPsu1Part2->text().toInt();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part2DataSave_clicked()
 {
     QList<DataItem *> * tempList = new QList<DataItem *>;
-    // ±£´æ½çÃæÖĞµÄÊı¾İ, ÅĞ¶ÏÀïÃæµÄ²ÎÊıÊÇ·ñºÏ·¨
+    // ä¿å­˜ç•Œé¢ä¸­çš„æ•°æ®, åˆ¤æ–­é‡Œé¢çš„å‚æ•°æ˜¯å¦åˆæ³•
     for(int i=0; i != nowIndexPsu1Part2Data; ++i){
         QString data, dacAddr, adcAddr, refAddr;
         data = dataLineEditListPsu1Part2Data.at(i)->text();
         bool ok;
         data.toDouble(&ok);
         if(!ok){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîÊı¾İ²»ÊÇÓĞĞ§µÄÊı¾İ£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹æ•°æ®ä¸æ˜¯æœ‰æ•ˆçš„æ•°æ®ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         dacAddr = dacAddrLineEditListPsu1Part2Data.at(i)->text();
         if(!QStringIsInt(dacAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîdacµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹dacåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         adcAddr = adcAddrLineEditListPsu1Part2Data.at(i)->text();
         if(!QStringIsInt(adcAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîadcµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹adcåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         refAddr = refAddrLineEditListPsu1Part2Data.at(i)->text();
         if(!QStringIsInt(refAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîrefµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹refåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         tempList->append(new DataItem(checkBoxListPsu1Part2Data.at(i)->checkState(), data.toDouble(), dacAddr, adcAddr, refAddr));
     }
-    // Çë¿Õµ±Ç°²ÎÊıÁĞ±í
+    // è¯·ç©ºå½“å‰å‚æ•°åˆ—è¡¨
     for(int i=0; i != dataAndAddrListPsu1Part2->size(); ++i)
         delete dataAndAddrListPsu1Part2->at(i);
     dataAndAddrListPsu1Part2->clear();
@@ -1081,13 +1081,13 @@ void curdataconfig::on_pushBtnPsu1Part2DataSave_clicked()
             itemPsu1 = new currentItem(cmdListPsu1Pre, psu1Part1, psu1Part2, psu1Part3, psu1Part4, psu1Part5);
         else
             itemPsu1->setPart2(psu1Part2);
-        QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part2DataUndo_clicked()
 {
-    on_pushBtnPsu1Part2DataBatchDel_clicked();  // Çå¿ÕÊı¾İÁĞ±í¿ò
+    on_pushBtnPsu1Part2DataBatchDel_clicked();  // æ¸…ç©ºæ•°æ®åˆ—è¡¨æ¡†
     for(int i=0; i != dataAndAddrListPsu1Part2->size(); ++i){
         on_pushBtnPsu1Part2DataAdd_clicked();
         checkBoxListPsu1Part2Data.at(i)->setChecked(dataAndAddrListPsu1Part2->at(i)->check);
@@ -1097,21 +1097,21 @@ void curdataconfig::on_pushBtnPsu1Part2DataUndo_clicked()
         refAddrLineEditListPsu1Part2Data.at(i)->setText(dataAndAddrListPsu1Part2->at(i)->refAddr);
     }
 }
-// PSU1  Part2 Ğ£×¼
-// ±£´æ°´Å¥
+// PSU1  Part2 æ ¡å‡†
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part2VerifySave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge, setMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge, setMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu1Part2VerifySetCmd->text();
     setStart = ui->lineEditPsu1Part2VerifySetStart->text();
     setEnd = ui->lineEditPsu1Part2VerifySetEnd->text();
     setJudge = ui->lineEditPsu1Part2VerifySetJudge->text();
     setMulti = ui->lineEditPsu1Part2VerifySetMulti->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0 || setMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu1Part2VerifyDMMCmd->text();
     dmmParam = ui->lineEditPsu1Part2VerifyDMMParam->text();
     dmmStart = ui->lineEditPsu1Part2VerifyDMMStart->text();
@@ -1119,28 +1119,28 @@ void curdataconfig::on_pushBtnPsu1Part2VerifySave_clicked()
     dmmJudge = ui->lineEditPsu1Part2VerifyDMMJudge->text();
     dmmMulti = ui->lineEditPsu1Part2VerifyDMMMulti->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0 || dmmMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge, meterMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge, meterMulti;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu1Part2VerifyMeterJudge->text();
     meterMulti = ui->lineEditPsu1Part2VerifyMeterMulti->text();
     if(meterJudge.size()==0 || meterMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡ÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu1Part2Verify->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu1Part2Verify->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu1Part2Verify->setStart(setStart);
     setCmdPsu1Part2Verify->setEnd(setEnd);
     setCmdPsu1Part2Verify->setJudge(setJudge);
     setPsu1Part2Multi = setMulti.toInt();
-    dmmCmdPsu1Part2Verify->setName(dmmName); // ±£´æ¶ÁÈ¡µçÑ¹ÃüÁî²ÎÊı
+    dmmCmdPsu1Part2Verify->setName(dmmName); // ä¿å­˜è¯»å–ç”µå‹å‘½ä»¤å‚æ•°
     dmmCmdPsu1Part2Verify->setParam(dmmParam);
     dmmCmdPsu1Part2Verify->setStart(dmmStart);
     dmmCmdPsu1Part2Verify->setEnd(dmmEnd);
     dmmCmdPsu1Part2Verify->setRatio(dmmJudge.toDouble());
     dmmPsu1Part2Multi = dmmMulti.toInt();
-    meterCmdPsu1Part2Verify->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu1Part2Verify->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     meterPsu1Part2Multi = meterMulti.toInt();
     if(psu1Part2 == NULL){
         psu1Part2 = new testItem(cmdListPsu1Part2Pre, dataAndAddrListPsu1Part2, dataLengthPsu1Part2,
@@ -1160,64 +1160,64 @@ void curdataconfig::on_pushBtnPsu1Part2VerifySave_clicked()
         itemPsu1 = new currentItem(cmdListPsu1Pre, psu1Part1, psu1Part2, psu1Part3, psu1Part4, psu1Part5);
     else
         itemPsu1->setPart2(psu1Part2);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part2VerifyUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu1Part2VerifySetCmd->setText(setCmdPsu1Part2Verify->getName());
     ui->lineEditPsu1Part2VerifySetStart->setText(setCmdPsu1Part2Verify->getStart());
     ui->lineEditPsu1Part2VerifySetEnd->setText(setCmdPsu1Part2Verify->getEnd());
     ui->lineEditPsu1Part2VerifySetJudge->setText(setCmdPsu1Part2Verify->getJudge());
     ui->lineEditPsu1Part2VerifySetMulti->setText(QString("%1").arg(setPsu1Part2Multi));
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu1Part2VerifyDMMCmd->setText(dmmCmdPsu1Part2Verify->getName());
     ui->lineEditPsu1Part2VerifyDMMStart->setText(dmmCmdPsu1Part2Verify->getStart());
     ui->lineEditPsu1Part2VerifyDMMEnd->setText(dmmCmdPsu1Part2Verify->getEnd());
     ui->lineEditPsu1Part2VerifyDMMJudge->setText(dmmCmdPsu1Part2Verify->getRatio());
     ui->lineEditPsu1Part2VerifyDMMMulti->setText(QString("%1").arg(dmmPsu1Part2Multi));
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu1Part2VerifyMeterJudge->setText(meterCmdPsu1Part2Verify->getRatio());
     ui->lineEditPsu1Part2VerifyMeterMulti->setText(QString("%1").arg(meterPsu1Part2Multi));
 }
-// PSU1  Part2  ²âÊÔ
-// ±£´æ°´Å¥
+// PSU1  Part2  æµ‹è¯•
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part2TestSave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu1Part2TestSetCmd->text();
     setStart = ui->lineEditPsu1Part2TestSetStart->text();
     setEnd = ui->lineEditPsu1Part2TestSetEnd->text();
     setJudge = ui->lineEditPsu1Part2TestSetJudge->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu1Part2TestDMMCmd->text();
     dmmStart = ui->lineEditPsu1Part2TestDMMStart->text();
     dmmEnd = ui->lineEditPsu1Part2TestDMMEnd->text();
     dmmJudge = ui->lineEditPsu1Part2TestDMMJudge->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu1Part2TestMeterJudge->text();
     if(meterJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡¶ÁÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–è¯»ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu1Part2Test->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu1Part2Test->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu1Part2Test->setStart(setStart);
     setCmdPsu1Part2Test->setEnd(setEnd);
     setCmdPsu1Part2Test->setJudge(setJudge);
-    dmmCmdPsu1Part2Test->setName(dmmName);  // ±£´æ¶ÁÈ¡µçÁ÷ÃüÁî²ÎÊı
+    dmmCmdPsu1Part2Test->setName(dmmName);  // ä¿å­˜è¯»å–ç”µæµå‘½ä»¤å‚æ•°
     dmmCmdPsu1Part2Test->setStart(dmmStart);
     dmmCmdPsu1Part2Test->setEnd(dmmEnd);
     dmmCmdPsu1Part2Test->setRatio(dmmJudge.toDouble());
-    meterCmdPsu1Part2Test->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu1Part2Test->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     if(psu1Part2 == NULL){
         psu1Part2 = new testItem(cmdListPsu1Part2Pre, dataAndAddrListPsu1Part2, dataLengthPsu1Part2,
                                  setCmdPsu1Part2Verify, setPsu1Part2Multi,
@@ -1233,26 +1233,26 @@ void curdataconfig::on_pushBtnPsu1Part2TestSave_clicked()
         itemPsu1 = new currentItem(cmdListPsu1Pre, psu1Part1, psu1Part2, psu1Part3, psu1Part4, psu1Part5);
     else
         itemPsu1->setPart2(psu1Part2);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part2TestUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu1Part2TestSetCmd->setText(setCmdPsu1Part2Test->getName());
     ui->lineEditPsu1Part2TestSetStart->setText(setCmdPsu1Part2Test->getStart());
     ui->lineEditPsu1Part2TestSetEnd->setText(setCmdPsu1Part2Test->getEnd());
     ui->lineEditPsu1Part2TestSetJudge->setText(setCmdPsu1Part2Test->getJudge());
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu1Part2TestDMMCmd->setText(dmmCmdPsu1Part2Test->getName());
     ui->lineEditPsu1Part2TestDMMStart->setText(dmmCmdPsu1Part2Test->getStart());
     ui->lineEditPsu1Part2TestDMMEnd->setText(dmmCmdPsu1Part2Test->getEnd());
     ui->lineEditPsu1Part2TestDMMJudge->setText(dmmCmdPsu1Part2Test->getRatio());
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu1Part2TestMeterJudge->setText(meterCmdPsu1Part2Test->getRatio());
 }
-// PSU1  Part3  »»µµÃüÁî
-// Ìí¼Ó°´Å¥
+// PSU1  Part3  æ¢æ¡£å‘½ä»¤
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part3PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
@@ -1271,7 +1271,7 @@ void curdataconfig::on_pushBtnPsu1Part3PreAdd_clicked()
         itemPsu1->setPart3(psu1Part3);
     showPsu1Part3PreCmdList();
 }
-// Ë¢ĞÂÃüÁî¿ò
+// åˆ·æ–°å‘½ä»¤æ¡†
 void curdataconfig::showPsu1Part3PreCmdList()
 {
     ui->psu1Part3PreCmdList->clear();
@@ -1280,14 +1280,14 @@ void curdataconfig::showPsu1Part3PreCmdList()
         ui->psu1Part3PreCmdList->addItem(curCommand->getFullName());
     }
 }
-// ÃüÁî¿òµã»÷ÊÂ¼ş
+// å‘½ä»¤æ¡†ç‚¹å‡»äº‹ä»¶
 void curdataconfig::on_psu1Part3PreCmdList_clicked(const QModelIndex &index)
 {
-    nowIndexPsu1Part3Pre = index.row();  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîÔÚÁĞ±íÖĞµÄË÷Òı
-    nowCommandPsu1Part3 = cmdListPsu1Part3Pre->at(nowIndexPsu1Part3Pre);  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîµÄÖ¸Õë
+    nowIndexPsu1Part3Pre = index.row();  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤åœ¨åˆ—è¡¨ä¸­çš„ç´¢å¼•
+    nowCommandPsu1Part3 = cmdListPsu1Part3Pre->at(nowIndexPsu1Part3Pre);  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤çš„æŒ‡é’ˆ
     on_pushBtnPsu1Part3PreUndo_clicked();
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part3PreDel_clicked()
 {
     if(nowIndexPsu1Part3Pre == -1){
@@ -1298,14 +1298,14 @@ void curdataconfig::on_pushBtnPsu1Part3PreDel_clicked()
     if(nowIndexPsu1Part3Pre != -1)
         nowCommandPsu1Part3 = cmdListPsu1Part3Pre->at(nowIndexPsu1Part3Pre);
     showPsu1Part3PreCmdList();
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu1Part3PreName->clear();
     ui->lineEditPsu1Part3PreParam->clear();
     ui->lineEditPsu1Part3PreStart->clear();
     ui->lineEditPsu1Part3PreEnd->clear();
     ui->lineEditPsu1Part3PreJudge->clear();
 }
-// ÏòÉÏ°´Å¥
+// å‘ä¸ŠæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part3PreUp_clicked()
 {
     if(nowIndexPsu1Part3Pre < 1)
@@ -1314,7 +1314,7 @@ void curdataconfig::on_pushBtnPsu1Part3PreUp_clicked()
     nowIndexPsu1Part3Pre--;
     showPsu1Part3PreCmdList();
 }
-// ÏòÏÂ°´Å¥
+// å‘ä¸‹æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part3PreDown_clicked()
 {
     if((nowIndexPsu1Part3Pre == -1)||(nowIndexPsu1Part3Pre >= cmdListPsu1Part3Pre->size()-1))
@@ -1323,7 +1323,7 @@ void curdataconfig::on_pushBtnPsu1Part3PreDown_clicked()
     nowIndexPsu1Part3Pre++;
     showPsu1Part3PreCmdList();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part3PreSave_clicked()
 {
     if(ui->lineEditPsu1Part3PreName->text().size() == 0 &&
@@ -1341,76 +1341,76 @@ void curdataconfig::on_pushBtnPsu1Part3PreSave_clicked()
         showPsu1Part3PreCmdList();
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part3PreUndo_clicked()
 {
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu1Part3PreName->clear();
     ui->lineEditPsu1Part3PreParam->clear();
     ui->lineEditPsu1Part3PreStart->clear();
     ui->lineEditPsu1Part3PreEnd->clear();
     ui->lineEditPsu1Part3PreJudge->clear();
-    // ÏÔÊ¾ÃüÁîÃû³Æ
-    ui->lineEditPsu1Part3PreName->setPlaceholderText(tr("ÃüÁîÃû³Æ"));
+    // æ˜¾ç¤ºå‘½ä»¤åç§°
+    ui->lineEditPsu1Part3PreName->setPlaceholderText(tr("å‘½ä»¤åç§°"));
     ui->lineEditPsu1Part3PreName->setText(nowCommandPsu1Part3->getName());
-    // ÏÔÊ¾ÃüÁî²ÎÊı
-    ui->lineEditPsu1Part3PreParam->setPlaceholderText(tr("²ÎÊı"));
+    // æ˜¾ç¤ºå‘½ä»¤å‚æ•°
+    ui->lineEditPsu1Part3PreParam->setPlaceholderText(tr("å‚æ•°"));
     ui->lineEditPsu1Part3PreParam->setText(nowCommandPsu1Part3->getParam());
 
-    // ÏÔÊ¾½ØÈ¡²ÎÊı
+    // æ˜¾ç¤ºæˆªå–å‚æ•°
     ui->lineEditPsu1Part3PreStart->setText(nowCommandPsu1Part3->getStart());
     ui->lineEditPsu1Part3PreEnd->setText(nowCommandPsu1Part3->getEnd());
-    // ÏÔÊ¾ÅĞµÈ²ÎÊı
+    // æ˜¾ç¤ºåˆ¤ç­‰å‚æ•°
     ui->lineEditPsu1Part3PreJudge->setText(nowCommandPsu1Part3->getJudge());
 }
-// PSU1  Part3  Êı¾İ
-// Ìí¼Ó°´Å¥
+// PSU1  Part3  æ•°æ®
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part3DataAdd_clicked()
 {
     int x, y;
     x = nowIndexPsu1Part3Data / 10;
     y = nowIndexPsu1Part3Data % 10;
-    ui->scrollAreaWidgetContentsPsu1Part3->setFixedWidth((x+1)*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu1Part3->setFixedWidth((x+1)*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu1Part3Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
-    // ¿ò
+    // æ¡†
     QFrame* newframe = new QFrame(ui->scrollAreaWidgetContentsPsu1Part3);
     newframe->setGeometry(QRect(x*290, y*30, 280, 21));
     newframe->setFrameShape(QFrame::Box);
     newframe->setFrameShadow(QFrame::Raised);
     frameListPsu1Part3Data.append(newframe);
     newframe->show();
-    // ¸´Ñ¡¿ò
+    // å¤é€‰æ¡†
     QCheckBox * newcheckbox = new QCheckBox(newframe);
     newcheckbox->setGeometry(QRect(5, 3, 50, 16));
     newcheckbox->setChecked(true);
     newcheckbox->setText(QString("%1").arg(nowIndexPsu1Part3Data+1));
     checkBoxListPsu1Part3Data.append(newcheckbox);
     newcheckbox->show();
-    // Êı¾İ¿ò
+    // æ•°æ®æ¡†
     QLineEdit * datalineedit = new QLineEdit(newframe);
     datalineedit->setGeometry(QRect(60, 2, 50, 17));
-    datalineedit->setPlaceholderText(tr("Êı¾İ"));
+    datalineedit->setPlaceholderText(tr("æ•°æ®"));
     datalineedit->setValidator(new QDoubleValidator(0.0, 65535.0, 2, this));
     dataLineEditListPsu1Part3Data.append(datalineedit);
     datalineedit->show();
-    // dacµØÖ·¿ò
+    // dacåœ°å€æ¡†
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
     dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu1Part3Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
-    // adcµØÖ·¿ò
+    // adcåœ°å€æ¡†
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
     adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu1Part3Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
-    // refµØÖ·¿ò
+    // refåœ°å€æ¡†
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
     refaddrlineedit->setPlaceholderText(tr("refAddr"));
@@ -1418,7 +1418,7 @@ void curdataconfig::on_pushBtnPsu1Part3DataAdd_clicked()
     refaddrlineedit->show();
     nowIndexPsu1Part3Data++;    
 }
-// ÅĞ¶ÏÈ«Ñ¡×´Ì¬
+// åˆ¤æ–­å…¨é€‰çŠ¶æ€
 bool curdataconfig::checkBoxAllSelectPsu1Part3()
 {
     for(int i=0; i != checkBoxListPsu1Part3Data.size(); ++i){
@@ -1427,24 +1427,24 @@ bool curdataconfig::checkBoxAllSelectPsu1Part3()
     }
     return true;
 }
-// È«Ñ¡°´Å¥
+// å…¨é€‰æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part3DataAll_clicked()
 {
-    if(checkBoxAllSelectPsu1Part3()){  // ÒÑ¾­È«Ñ¡, ÉèÖÃÎªÈ«²»Ñ¡
+    if(checkBoxAllSelectPsu1Part3()){  // å·²ç»å…¨é€‰, è®¾ç½®ä¸ºå…¨ä¸é€‰
         for(int i=0; i != checkBoxListPsu1Part3Data.size(); ++i){
             checkBoxListPsu1Part3Data.at(i)->setChecked(false);
         }
-    }else { // Î´È«Ñ¡,ÉèÖÃÎªÈ«Ñ¡
+    }else { // æœªå…¨é€‰,è®¾ç½®ä¸ºå…¨é€‰
         for(int i=0; i != checkBoxListPsu1Part3Data.size(); ++i){
             checkBoxListPsu1Part3Data.at(i)->setChecked(true);
         }
     }
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part3DataDel_clicked()
 {
     for(int i=0; i != checkBoxListPsu1Part3Data.size();){
-        if(checkBoxListPsu1Part3Data.at(i)->isChecked()){  // Èç¹û±»Ñ¡ÖĞ,ÔòÉ¾³ı¸ÃÊı¾İÏî
+        if(checkBoxListPsu1Part3Data.at(i)->isChecked()){  // å¦‚æœè¢«é€‰ä¸­,åˆ™åˆ é™¤è¯¥æ•°æ®é¡¹
             checkBoxListPsu1Part3Data.removeAt(i);
             dataLineEditListPsu1Part3Data.removeAt(i);
             dacAddrLineEditListPsu1Part3Data.removeAt(i);
@@ -1457,7 +1457,7 @@ void curdataconfig::on_pushBtnPsu1Part3DataDel_clicked()
             ++i;
         }
     }
-    // ÖØĞÂÅÅÁĞ¿ò
+    // é‡æ–°æ’åˆ—æ¡†
     int x, y;
     for(int i=0; i != frameListPsu1Part3Data.size(); ++i){
         x = i / 10;
@@ -1467,22 +1467,22 @@ void curdataconfig::on_pushBtnPsu1Part3DataDel_clicked()
     }
     nowIndexPsu1Part3Data = checkBoxListPsu1Part3Data.size();
     int column = nowIndexPsu1Part3Data/10 + (nowIndexPsu1Part3Data % 10 ? 1 : 0);
-    ui->scrollAreaWidgetContentsPsu1Part3->setFixedWidth(column*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu1Part3->setFixedWidth(column*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu1Part3Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
 }
-// È«²¿É¾³ı°´Å¥
+// å…¨éƒ¨åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part3DataBatchDel_clicked()
 {
-    if(!checkBoxAllSelectPsu1Part3())  // Ã»ÓĞÈ«Ñ¡,ÔòÈ«Ñ¡
+    if(!checkBoxAllSelectPsu1Part3())  // æ²¡æœ‰å…¨é€‰,åˆ™å…¨é€‰
         on_pushBtnPsu1Part3DataAll_clicked();
-    on_pushBtnPsu1Part3DataDel_clicked(); // É¾³ı
+    on_pushBtnPsu1Part3DataDel_clicked(); // åˆ é™¤
 }
-// Çå¿ÕÊı¾İ°´Å¥
+// æ¸…ç©ºæ•°æ®æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part3DataClear_clicked()
 {
     for(int i=0; i != nowIndexPsu1Part3Data; ++i){
@@ -1492,18 +1492,18 @@ void curdataconfig::on_pushBtnPsu1Part3DataClear_clicked()
         refAddrLineEditListPsu1Part3Data.at(i)->clear();
     }
 }
-// ÅúÁ¿Ìí¼Ó°´Å¥
+// æ‰¹é‡æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part3DataBatchAdd_clicked()
 {
     if(nowIndexPsu1Part3Data)
-        if(QMessageBox::question(this, tr("Ñ¯ÎÊ"), tr("ÊÇ·ñ±£Áôµ±Ç°ÒÑÌîÊı¾İ£¿"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
+        if(QMessageBox::question(this, tr("è¯¢é—®"), tr("æ˜¯å¦ä¿ç•™å½“å‰å·²å¡«æ•°æ®ï¼Ÿ"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu1Part3DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
     connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
             this, SLOT(handleBatchParamsPsu1Part3(int, double, double, QString, bool)));
     batchdialog->show();
 }
-// ´¦Àí½ÓÊÕµ½µÄÅúÁ¿Ìí¼Ó²ÎÊı
+// å¤„ç†æ¥æ”¶åˆ°çš„æ‰¹é‡æ·»åŠ å‚æ•°
 void curdataconfig::handleBatchParamsPsu1Part3(int num, double dataStart,
                                       double dataStep, QString strAddrStart, bool isRise)
 {
@@ -1539,48 +1539,48 @@ void curdataconfig::handleBatchParamsPsu1Part3(int num, double dataStart,
         refAddrLineEditListPsu1Part3Data.at(nowIndexPsu1Part3Data-1)->setText(strRefAddr);
     }
 }
-// Êı¾İ³¤¶È±à¼­
+// æ•°æ®é•¿åº¦ç¼–è¾‘
 void curdataconfig::on_lineEditDataLengthPsu1Part3_textEdited()
 {
     if(ui->lineEditDataLengthPsu1Part3->text().isEmpty()){
-        QMessageBox::information(this, tr("´íÎó"), tr("Êı¾İ³¤¶È²»ÄÜÎª¿Õ£¡"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("é”™è¯¯"), tr("æ•°æ®é•¿åº¦ä¸èƒ½ä¸ºç©ºï¼"), QMessageBox::Ok);
         ui->lineEditDataLengthPsu1Part3->setText(QString("%1").arg(dataLengthPsu1Part3));
         return;
     }
     dataLengthPsu1Part3 = ui->lineEditDataLengthPsu1Part3->text().toInt();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part3DataSave_clicked()
 {
     QList<DataItem *>  *tempList = new QList<DataItem *>;
-    // ±£´æ½çÃæÖĞµÄÊı¾İ, ÅĞ¶ÏÀïÃæµÄ²ÎÊıÊÇ·ñºÏ·¨
+    // ä¿å­˜ç•Œé¢ä¸­çš„æ•°æ®, åˆ¤æ–­é‡Œé¢çš„å‚æ•°æ˜¯å¦åˆæ³•
     for(int i=0; i != nowIndexPsu1Part3Data; ++i){
         QString data, dacAddr, adcAddr, refAddr;
         data = dataLineEditListPsu1Part3Data.at(i)->text();
         bool ok;
         data.toDouble(&ok);
         if(!ok){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîÊı¾İ²»ÊÇÓĞĞ§µÄÊı¾İ£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹æ•°æ®ä¸æ˜¯æœ‰æ•ˆçš„æ•°æ®ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         dacAddr = dacAddrLineEditListPsu1Part3Data.at(i)->text();
         if(!QStringIsInt(dacAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîdacµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹dacåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         adcAddr = adcAddrLineEditListPsu1Part3Data.at(i)->text();
         if(!QStringIsInt(adcAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîadcµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹adcåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         refAddr = refAddrLineEditListPsu1Part3Data.at(i)->text();
         if(!QStringIsInt(refAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîrefµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹refåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         tempList->append(new DataItem(checkBoxListPsu1Part3Data.at(i)->checkState(), data.toDouble(), dacAddr, adcAddr, refAddr));
     }
-    // Çë¿Õµ±Ç°²ÎÊıÁĞ±í
+    // è¯·ç©ºå½“å‰å‚æ•°åˆ—è¡¨
     for(int i=0; i != dataAndAddrListPsu1Part3->size(); ++i)
         delete dataAndAddrListPsu1Part3->at(i);
     dataAndAddrListPsu1Part3->clear();
@@ -1598,13 +1598,13 @@ void curdataconfig::on_pushBtnPsu1Part3DataSave_clicked()
             itemPsu1 = new currentItem(cmdListPsu1Pre, psu1Part1, psu1Part2, psu1Part3, psu1Part4, psu1Part5);
         else
             itemPsu1->setPart3(psu1Part3);
-        QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part3DataUndo_clicked()
 {
-    on_pushBtnPsu1Part3DataBatchDel_clicked();  // Çå¿ÕÊı¾İÁĞ±í¿ò
+    on_pushBtnPsu1Part3DataBatchDel_clicked();  // æ¸…ç©ºæ•°æ®åˆ—è¡¨æ¡†
     for(int i=0; i != dataAndAddrListPsu1Part3->size(); ++i){
         on_pushBtnPsu1Part3DataAdd_clicked();
         checkBoxListPsu1Part3Data.at(i)->setChecked(dataAndAddrListPsu1Part3->at(i)->check);
@@ -1614,21 +1614,21 @@ void curdataconfig::on_pushBtnPsu1Part3DataUndo_clicked()
         refAddrLineEditListPsu1Part3Data.at(i)->setText(dataAndAddrListPsu1Part3->at(i)->refAddr);
     }
 }
-// PSU1  Part3 Ğ£×¼
-// ±£´æ°´Å¥
+// PSU1  Part3 æ ¡å‡†
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part3VerifySave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge, setMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge, setMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu1Part3VerifySetCmd->text();
     setStart = ui->lineEditPsu1Part3VerifySetStart->text();
     setEnd = ui->lineEditPsu1Part3VerifySetEnd->text();
     setJudge = ui->lineEditPsu1Part3VerifySetJudge->text();
     setMulti = ui->lineEditPsu1Part3VerifySetMulti->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0 || setMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu1Part3VerifyDMMCmd->text();
     dmmParam = ui->lineEditPsu1Part3VerifyDMMParam->text();
     dmmStart = ui->lineEditPsu1Part3VerifyDMMStart->text();
@@ -1636,28 +1636,28 @@ void curdataconfig::on_pushBtnPsu1Part3VerifySave_clicked()
     dmmJudge = ui->lineEditPsu1Part3VerifyDMMJudge->text();
     dmmMulti = ui->lineEditPsu1Part3VerifyDMMMulti->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0 || dmmMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge, meterMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge, meterMulti;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu1Part3VerifyMeterJudge->text();
     meterMulti = ui->lineEditPsu1Part3VerifyMeterMulti->text();
     if(meterJudge.size()==0 || meterMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡ÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu1Part3Verify->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu1Part3Verify->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu1Part3Verify->setStart(setStart);
     setCmdPsu1Part3Verify->setEnd(setEnd);
     setCmdPsu1Part3Verify->setJudge(setJudge);
     setPsu1Part3Multi = setMulti.toInt();
-    dmmCmdPsu1Part3Verify->setName(dmmName); // ±£´æ¶ÁÈ¡µçÑ¹ÃüÁî²ÎÊı
+    dmmCmdPsu1Part3Verify->setName(dmmName); // ä¿å­˜è¯»å–ç”µå‹å‘½ä»¤å‚æ•°
     dmmCmdPsu1Part3Verify->setParam(dmmParam);
     dmmCmdPsu1Part3Verify->setStart(dmmStart);
     dmmCmdPsu1Part3Verify->setEnd(dmmEnd);
     dmmCmdPsu1Part3Verify->setRatio(dmmJudge.toDouble());
     dmmPsu1Part3Multi = dmmMulti.toInt();
-    meterCmdPsu1Part3Verify->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu1Part3Verify->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     meterPsu1Part3Multi = meterMulti.toInt();
     if(psu1Part3 == NULL){
         psu1Part3 = new testItem(cmdListPsu1Part3Pre, dataAndAddrListPsu1Part3, dataLengthPsu1Part3,
@@ -1677,64 +1677,64 @@ void curdataconfig::on_pushBtnPsu1Part3VerifySave_clicked()
         psu1Part3->setDmmMulti(dmmPsu1Part3Multi);
         psu1Part3->setMeterMulti(meterPsu1Part3Multi);
     }
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part3VerifyUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu1Part3VerifySetCmd->setText(setCmdPsu1Part3Verify->getName());
     ui->lineEditPsu1Part3VerifySetStart->setText(setCmdPsu1Part3Verify->getStart());
     ui->lineEditPsu1Part3VerifySetEnd->setText(setCmdPsu1Part3Verify->getEnd());
     ui->lineEditPsu1Part3VerifySetJudge->setText(setCmdPsu1Part3Verify->getJudge());
     ui->lineEditPsu1Part3VerifySetMulti->setText(QString("%1").arg(setPsu1Part3Multi));
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu1Part3VerifyDMMCmd->setText(dmmCmdPsu1Part3Verify->getName());
     ui->lineEditPsu1Part3VerifyDMMStart->setText(dmmCmdPsu1Part3Verify->getStart());
     ui->lineEditPsu1Part3VerifyDMMEnd->setText(dmmCmdPsu1Part3Verify->getEnd());
     ui->lineEditPsu1Part3VerifyDMMJudge->setText(dmmCmdPsu1Part3Verify->getRatio());
     ui->lineEditPsu1Part3VerifyDMMMulti->setText(QString("%1").arg(dmmPsu1Part3Multi));
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu1Part3VerifyMeterJudge->setText(meterCmdPsu1Part3Verify->getRatio());
     ui->lineEditPsu1Part3VerifyMeterMulti->setText(QString("%1").arg(meterPsu1Part3Multi));
 }
-// PSU1  Part3  ²âÊÔ
-// ±£´æ°´Å¥
+// PSU1  Part3  æµ‹è¯•
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part3TestSave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu1Part3TestSetCmd->text();
     setStart = ui->lineEditPsu1Part3TestSetStart->text();
     setEnd = ui->lineEditPsu1Part3TestSetEnd->text();
     setJudge = ui->lineEditPsu1Part3TestSetJudge->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu1Part3TestDMMCmd->text();
     dmmStart = ui->lineEditPsu1Part3TestDMMStart->text();
     dmmEnd = ui->lineEditPsu1Part3TestDMMEnd->text();
     dmmJudge = ui->lineEditPsu1Part3TestDMMJudge->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu1Part3TestMeterJudge->text();
     if(meterJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡¶ÁÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–è¯»ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu1Part3Test->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu1Part3Test->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu1Part3Test->setStart(setStart);
     setCmdPsu1Part3Test->setEnd(setEnd);
     setCmdPsu1Part3Test->setJudge(setJudge);
-    dmmCmdPsu1Part3Test->setName(dmmName);  // ±£´æ¶ÁÈ¡µçÁ÷ÃüÁî²ÎÊı
+    dmmCmdPsu1Part3Test->setName(dmmName);  // ä¿å­˜è¯»å–ç”µæµå‘½ä»¤å‚æ•°
     dmmCmdPsu1Part3Test->setStart(dmmStart);
     dmmCmdPsu1Part3Test->setEnd(dmmEnd);
     dmmCmdPsu1Part3Test->setRatio(dmmJudge.toDouble());
-    meterCmdPsu1Part3Test->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu1Part3Test->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     if(psu1Part3 == NULL){
         psu1Part3 = new testItem(cmdListPsu1Part3Pre, dataAndAddrListPsu1Part3, dataLengthPsu1Part3,
                                  setCmdPsu1Part3Verify, setPsu1Part3Multi,
@@ -1750,26 +1750,26 @@ void curdataconfig::on_pushBtnPsu1Part3TestSave_clicked()
         itemPsu1 = new currentItem(cmdListPsu1Pre, psu1Part1, psu1Part2, psu1Part3, psu1Part4, psu1Part5);
     else
         itemPsu1->setPart3(psu1Part3);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part3TestUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu1Part3TestSetCmd->setText(setCmdPsu1Part3Test->getName());
     ui->lineEditPsu1Part3TestSetStart->setText(setCmdPsu1Part3Test->getStart());
     ui->lineEditPsu1Part3TestSetEnd->setText(setCmdPsu1Part3Test->getEnd());
     ui->lineEditPsu1Part3TestSetJudge->setText(setCmdPsu1Part3Test->getJudge());
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu1Part3TestDMMCmd->setText(dmmCmdPsu1Part3Test->getName());
     ui->lineEditPsu1Part3TestDMMStart->setText(dmmCmdPsu1Part3Test->getStart());
     ui->lineEditPsu1Part3TestDMMEnd->setText(dmmCmdPsu1Part3Test->getEnd());
     ui->lineEditPsu1Part3TestDMMJudge->setText(dmmCmdPsu1Part3Test->getRatio());
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu1Part3TestMeterJudge->setText(meterCmdPsu1Part3Test->getRatio());
 }
-// PSU1  Part4  »»µµÃüÁî
-// Ìí¼Ó°´Å¥
+// PSU1  Part4  æ¢æ¡£å‘½ä»¤
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part4PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
@@ -1788,7 +1788,7 @@ void curdataconfig::on_pushBtnPsu1Part4PreAdd_clicked()
         itemPsu1->setPart4(psu1Part4);
     showPsu1Part4PreCmdList();
 }
-// Ë¢ĞÂÃüÁî¿ò
+// åˆ·æ–°å‘½ä»¤æ¡†
 void curdataconfig::showPsu1Part4PreCmdList()
 {
     ui->psu1Part4PreCmdList->clear();
@@ -1797,14 +1797,14 @@ void curdataconfig::showPsu1Part4PreCmdList()
         ui->psu1Part4PreCmdList->addItem(curCommand->getFullName());
     }
 }
-// ÃüÁî¿òµã»÷ÊÂ¼ş
+// å‘½ä»¤æ¡†ç‚¹å‡»äº‹ä»¶
 void curdataconfig::on_psu1Part4PreCmdList_clicked(const QModelIndex &index)
 {
-    nowIndexPsu1Part4Pre = index.row();  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîÔÚÁĞ±íÖĞµÄË÷Òı
-    nowCommandPsu1Part4 = cmdListPsu1Part4Pre->at(nowIndexPsu1Part4Pre);  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîµÄÖ¸Õë
+    nowIndexPsu1Part4Pre = index.row();  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤åœ¨åˆ—è¡¨ä¸­çš„ç´¢å¼•
+    nowCommandPsu1Part4 = cmdListPsu1Part4Pre->at(nowIndexPsu1Part4Pre);  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤çš„æŒ‡é’ˆ
     on_pushBtnPsu1Part4PreUndo_clicked();
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part4PreDel_clicked()
 {
     if(nowIndexPsu1Part4Pre == -1){
@@ -1815,14 +1815,14 @@ void curdataconfig::on_pushBtnPsu1Part4PreDel_clicked()
     if(nowIndexPsu1Part4Pre != -1)
         nowCommandPsu1Part4 = cmdListPsu1Part4Pre->at(nowIndexPsu1Part4Pre);
     showPsu1Part4PreCmdList();
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu1Part4PreName->clear();
     ui->lineEditPsu1Part4PreParam->clear();
     ui->lineEditPsu1Part4PreStart->clear();
     ui->lineEditPsu1Part4PreEnd->clear();
     ui->lineEditPsu1Part4PreJudge->clear();
 }
-// ÏòÉÏ°´Å¥
+// å‘ä¸ŠæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part4PreUp_clicked()
 {
     if(nowIndexPsu1Part4Pre < 1)
@@ -1831,7 +1831,7 @@ void curdataconfig::on_pushBtnPsu1Part4PreUp_clicked()
     nowIndexPsu1Part4Pre--;
     showPsu1Part4PreCmdList();
 }
-// ÏòÏÂ°´Å¥
+// å‘ä¸‹æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part4PreDown_clicked()
 {
     if((nowIndexPsu1Part4Pre == -1)||(nowIndexPsu1Part4Pre >= cmdListPsu1Part4Pre->size()-1))
@@ -1840,7 +1840,7 @@ void curdataconfig::on_pushBtnPsu1Part4PreDown_clicked()
     nowIndexPsu1Part4Pre++;
     showPsu1Part4PreCmdList();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part4PreSave_clicked()
 {
     if(ui->lineEditPsu1Part4PreName->text().size() == 0 &&
@@ -1858,76 +1858,76 @@ void curdataconfig::on_pushBtnPsu1Part4PreSave_clicked()
         showPsu1Part4PreCmdList();
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part4PreUndo_clicked()
 {
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu1Part4PreName->clear();
     ui->lineEditPsu1Part4PreParam->clear();
     ui->lineEditPsu1Part4PreStart->clear();
     ui->lineEditPsu1Part4PreEnd->clear();
     ui->lineEditPsu1Part4PreJudge->clear();
-    // ÏÔÊ¾ÃüÁîÃû³Æ
-    ui->lineEditPsu1Part4PreName->setPlaceholderText(tr("ÃüÁîÃû³Æ"));
+    // æ˜¾ç¤ºå‘½ä»¤åç§°
+    ui->lineEditPsu1Part4PreName->setPlaceholderText(tr("å‘½ä»¤åç§°"));
     ui->lineEditPsu1Part4PreName->setText(nowCommandPsu1Part4->getName());
-    // ÏÔÊ¾ÃüÁî²ÎÊı
-    ui->lineEditPsu1Part4PreParam->setPlaceholderText(tr("²ÎÊı"));
+    // æ˜¾ç¤ºå‘½ä»¤å‚æ•°
+    ui->lineEditPsu1Part4PreParam->setPlaceholderText(tr("å‚æ•°"));
     ui->lineEditPsu1Part4PreParam->setText(nowCommandPsu1Part4->getParam());
 
-    // ÏÔÊ¾½ØÈ¡²ÎÊı
+    // æ˜¾ç¤ºæˆªå–å‚æ•°
     ui->lineEditPsu1Part4PreStart->setText(nowCommandPsu1Part4->getStart());
     ui->lineEditPsu1Part4PreEnd->setText(nowCommandPsu1Part4->getEnd());
-    // ÏÔÊ¾ÅĞµÈ²ÎÊı
+    // æ˜¾ç¤ºåˆ¤ç­‰å‚æ•°
     ui->lineEditPsu1Part4PreJudge->setText(nowCommandPsu1Part4->getJudge());
 }
-// PSU1  Part4  Êı¾İ
-// Ìí¼Ó°´Å¥
+// PSU1  Part4  æ•°æ®
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part4DataAdd_clicked()
 {
     int x, y;
     x = nowIndexPsu1Part4Data / 10;
     y = nowIndexPsu1Part4Data % 10;
-    ui->scrollAreaWidgetContentsPsu1Part4->setFixedWidth((x+1)*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu1Part4->setFixedWidth((x+1)*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu1Part4Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
-    // ¿ò
+    // æ¡†
     QFrame* newframe = new QFrame(ui->scrollAreaWidgetContentsPsu1Part4);
     newframe->setGeometry(QRect(x*290, y*30, 280, 21));
     newframe->setFrameShape(QFrame::Box);
     newframe->setFrameShadow(QFrame::Raised);
     frameListPsu1Part4Data.append(newframe);
     newframe->show();
-    // ¸´Ñ¡¿ò
+    // å¤é€‰æ¡†
     QCheckBox * newcheckbox = new QCheckBox(newframe);
     newcheckbox->setGeometry(QRect(5, 3, 50, 16));
     newcheckbox->setChecked(true);
     newcheckbox->setText(QString("%1").arg(nowIndexPsu1Part4Data+1));
     checkBoxListPsu1Part4Data.append(newcheckbox);
     newcheckbox->show();
-    // Êı¾İ¿ò
+    // æ•°æ®æ¡†
     QLineEdit * datalineedit = new QLineEdit(newframe);
     datalineedit->setGeometry(QRect(60, 2, 50, 17));
-    datalineedit->setPlaceholderText(tr("Êı¾İ"));
+    datalineedit->setPlaceholderText(tr("æ•°æ®"));
     datalineedit->setValidator(new QDoubleValidator(0.0, 65535.0, 2, this));
     dataLineEditListPsu1Part4Data.append(datalineedit);
     datalineedit->show();
-    // dacµØÖ·¿ò
+    // dacåœ°å€æ¡†
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
     dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu1Part4Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
-    // adcµØÖ·¿ò
+    // adcåœ°å€æ¡†
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
     adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu1Part4Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
-    // refµØÖ·¿ò
+    // refåœ°å€æ¡†
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
     refaddrlineedit->setPlaceholderText(tr("refAddr"));
@@ -1935,7 +1935,7 @@ void curdataconfig::on_pushBtnPsu1Part4DataAdd_clicked()
     refaddrlineedit->show();
     nowIndexPsu1Part4Data++;    
 }
-// ÅĞ¶ÏÈ«Ñ¡×´Ì¬
+// åˆ¤æ–­å…¨é€‰çŠ¶æ€
 bool curdataconfig::checkBoxAllSelectPsu1Part4()
 {
     for(int i=0; i != checkBoxListPsu1Part4Data.size(); ++i){
@@ -1944,24 +1944,24 @@ bool curdataconfig::checkBoxAllSelectPsu1Part4()
     }
     return true;
 }
-// È«Ñ¡°´Å¥
+// å…¨é€‰æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part4DataAll_clicked()
 {
-    if(checkBoxAllSelectPsu1Part4()){  // ÒÑ¾­È«Ñ¡, ÉèÖÃÎªÈ«²»Ñ¡
+    if(checkBoxAllSelectPsu1Part4()){  // å·²ç»å…¨é€‰, è®¾ç½®ä¸ºå…¨ä¸é€‰
         for(int i=0; i != checkBoxListPsu1Part4Data.size(); ++i){
             checkBoxListPsu1Part4Data.at(i)->setChecked(false);
         }
-    }else { // Î´È«Ñ¡,ÉèÖÃÎªÈ«Ñ¡
+    }else { // æœªå…¨é€‰,è®¾ç½®ä¸ºå…¨é€‰
         for(int i=0; i != checkBoxListPsu1Part4Data.size(); ++i){
             checkBoxListPsu1Part4Data.at(i)->setChecked(true);
         }
     }
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part4DataDel_clicked()
 {
     for(int i=0; i != checkBoxListPsu1Part4Data.size();){
-        if(checkBoxListPsu1Part4Data.at(i)->isChecked()){  // Èç¹û±»Ñ¡ÖĞ,ÔòÉ¾³ı¸ÃÊı¾İÏî
+        if(checkBoxListPsu1Part4Data.at(i)->isChecked()){  // å¦‚æœè¢«é€‰ä¸­,åˆ™åˆ é™¤è¯¥æ•°æ®é¡¹
             checkBoxListPsu1Part4Data.removeAt(i);
             dataLineEditListPsu1Part4Data.removeAt(i);
             dacAddrLineEditListPsu1Part4Data.removeAt(i);
@@ -1974,7 +1974,7 @@ void curdataconfig::on_pushBtnPsu1Part4DataDel_clicked()
             ++i;
         }
     }
-    // ÖØĞÂÅÅÁĞ¿ò
+    // é‡æ–°æ’åˆ—æ¡†
     int x, y;
     for(int i=0; i != frameListPsu1Part4Data.size(); ++i){
         x = i / 10;
@@ -1984,22 +1984,22 @@ void curdataconfig::on_pushBtnPsu1Part4DataDel_clicked()
     }
     nowIndexPsu1Part4Data = checkBoxListPsu1Part4Data.size();
     int column = nowIndexPsu1Part4Data/10 + (nowIndexPsu1Part4Data % 10 ? 1 : 0);
-    ui->scrollAreaWidgetContentsPsu1Part4->setFixedWidth(column*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu1Part4->setFixedWidth(column*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu1Part4Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
 }
-// È«²¿É¾³ı°´Å¥
+// å…¨éƒ¨åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part4DataBatchDel_clicked()
 {
-    if(!checkBoxAllSelectPsu1Part4())  // Ã»ÓĞÈ«Ñ¡,ÔòÈ«Ñ¡
+    if(!checkBoxAllSelectPsu1Part4())  // æ²¡æœ‰å…¨é€‰,åˆ™å…¨é€‰
         on_pushBtnPsu1Part4DataAll_clicked();
-    on_pushBtnPsu1Part4DataDel_clicked(); // É¾³ı
+    on_pushBtnPsu1Part4DataDel_clicked(); // åˆ é™¤
 }
-// Çå¿ÕÊı¾İ°´Å¥
+// æ¸…ç©ºæ•°æ®æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part4DataClear_clicked()
 {
     for(int i=0; i != nowIndexPsu1Part4Data; ++i){
@@ -2009,18 +2009,18 @@ void curdataconfig::on_pushBtnPsu1Part4DataClear_clicked()
         refAddrLineEditListPsu1Part4Data.at(i)->clear();
     }
 }
-// ÅúÁ¿Ìí¼Ó°´Å¥
+// æ‰¹é‡æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part4DataBatchAdd_clicked()
 {
     if(nowIndexPsu1Part4Data)
-        if(QMessageBox::question(this, tr("Ñ¯ÎÊ"), tr("ÊÇ·ñ±£Áôµ±Ç°ÒÑÌîÊı¾İ£¿"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
+        if(QMessageBox::question(this, tr("è¯¢é—®"), tr("æ˜¯å¦ä¿ç•™å½“å‰å·²å¡«æ•°æ®ï¼Ÿ"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu1Part4DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
     connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
             this, SLOT(handleBatchParamsPsu1Part4(int, double, double, QString, bool)));
     batchdialog->show();
 }
-// ´¦Àí½ÓÊÕµ½µÄÅúÁ¿Ìí¼Ó²ÎÊı
+// å¤„ç†æ¥æ”¶åˆ°çš„æ‰¹é‡æ·»åŠ å‚æ•°
 void curdataconfig::handleBatchParamsPsu1Part4(int num, double dataStart,
                                       double dataStep, QString strAddrStart, bool isRise)
 {
@@ -2056,48 +2056,48 @@ void curdataconfig::handleBatchParamsPsu1Part4(int num, double dataStart,
         refAddrLineEditListPsu1Part4Data.at(nowIndexPsu1Part4Data-1)->setText(strRefAddr);
     }
 }
-// Êı¾İ³¤¶È±à¼­
+// æ•°æ®é•¿åº¦ç¼–è¾‘
 void curdataconfig::on_lineEditDataLengthPsu1Part4_textEdited()
 {
     if(ui->lineEditDataLengthPsu1Part4->text().isEmpty()){
-        QMessageBox::information(this, tr("´íÎó"), tr("Êı¾İ³¤¶È²»ÄÜÎª¿Õ£¡"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("é”™è¯¯"), tr("æ•°æ®é•¿åº¦ä¸èƒ½ä¸ºç©ºï¼"), QMessageBox::Ok);
         ui->lineEditDataLengthPsu1Part4->setText(QString("%1").arg(dataLengthPsu1Part4));
         return;
     }
     dataLengthPsu1Part4 = ui->lineEditDataLengthPsu1Part4->text().toInt();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part4DataSave_clicked()
 {
     QList<DataItem *>  *tempList = new QList<DataItem *>;
-    // ±£´æ½çÃæÖĞµÄÊı¾İ, ÅĞ¶ÏÀïÃæµÄ²ÎÊıÊÇ·ñºÏ·¨
+    // ä¿å­˜ç•Œé¢ä¸­çš„æ•°æ®, åˆ¤æ–­é‡Œé¢çš„å‚æ•°æ˜¯å¦åˆæ³•
     for(int i=0; i != nowIndexPsu1Part4Data; ++i){
         QString data, dacAddr, adcAddr, refAddr;
         data = dataLineEditListPsu1Part4Data.at(i)->text();
         bool ok;
         data.toDouble(&ok);
         if(!ok){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîÊı¾İ²»ÊÇÓĞĞ§µÄÊı¾İ£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹æ•°æ®ä¸æ˜¯æœ‰æ•ˆçš„æ•°æ®ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         dacAddr = dacAddrLineEditListPsu1Part4Data.at(i)->text();
         if(!QStringIsInt(dacAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîdacµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹dacåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         adcAddr = adcAddrLineEditListPsu1Part4Data.at(i)->text();
         if(!QStringIsInt(adcAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîadcµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹adcåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         refAddr = refAddrLineEditListPsu1Part4Data.at(i)->text();
         if(!QStringIsInt(refAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîrefµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹refåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         tempList->append(new DataItem(checkBoxListPsu1Part4Data.at(i)->checkState(), data.toDouble(), dacAddr, adcAddr, refAddr));
     }
-    // Çë¿Õµ±Ç°²ÎÊıÁĞ±í
+    // è¯·ç©ºå½“å‰å‚æ•°åˆ—è¡¨
     for(int i=0; i != dataAndAddrListPsu1Part4->size(); ++i)
         delete dataAndAddrListPsu1Part4->at(i);
     dataAndAddrListPsu1Part4->clear();
@@ -2115,13 +2115,13 @@ void curdataconfig::on_pushBtnPsu1Part4DataSave_clicked()
             itemPsu1 = new currentItem(cmdListPsu1Pre, psu1Part1, psu1Part2, psu1Part3, psu1Part4, psu1Part5);
         else
             itemPsu1->setPart4(psu1Part4);
-        QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part4DataUndo_clicked()
 {
-    on_pushBtnPsu1Part4DataBatchDel_clicked();  // Çå¿ÕÊı¾İÁĞ±í¿ò
+    on_pushBtnPsu1Part4DataBatchDel_clicked();  // æ¸…ç©ºæ•°æ®åˆ—è¡¨æ¡†
     for(int i=0; i != dataAndAddrListPsu1Part4->size(); ++i){
         on_pushBtnPsu1Part4DataAdd_clicked();
         checkBoxListPsu1Part4Data.at(i)->setChecked(dataAndAddrListPsu1Part4->at(i)->check);
@@ -2131,21 +2131,21 @@ void curdataconfig::on_pushBtnPsu1Part4DataUndo_clicked()
         refAddrLineEditListPsu1Part4Data.at(i)->setText(dataAndAddrListPsu1Part4->at(i)->refAddr);
     }
 }
-// PSU1  Part4 Ğ£×¼
-// ±£´æ°´Å¥
+// PSU1  Part4 æ ¡å‡†
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part4VerifySave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge, setMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge, setMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu1Part4VerifySetCmd->text();
     setStart = ui->lineEditPsu1Part4VerifySetStart->text();
     setEnd = ui->lineEditPsu1Part4VerifySetEnd->text();
     setJudge = ui->lineEditPsu1Part4VerifySetJudge->text();
     setMulti = ui->lineEditPsu1Part4VerifySetMulti->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0 || setMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu1Part4VerifyDMMCmd->text();
     dmmParam = ui->lineEditPsu1Part4VerifyDMMParam->text();
     dmmStart = ui->lineEditPsu1Part4VerifyDMMStart->text();
@@ -2153,28 +2153,28 @@ void curdataconfig::on_pushBtnPsu1Part4VerifySave_clicked()
     dmmJudge = ui->lineEditPsu1Part4VerifyDMMJudge->text();
     dmmMulti = ui->lineEditPsu1Part4VerifyDMMMulti->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0 || dmmMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge, meterMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge, meterMulti;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu1Part4VerifyMeterJudge->text();
     meterMulti = ui->lineEditPsu1Part4VerifyMeterMulti->text();
     if(meterJudge.size()==0 || meterMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡ÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu1Part4Verify->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu1Part4Verify->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu1Part4Verify->setStart(setStart);
     setCmdPsu1Part4Verify->setEnd(setEnd);
     setCmdPsu1Part4Verify->setJudge(setJudge);
     setPsu1Part4Multi = setMulti.toInt();
-    dmmCmdPsu1Part4Verify->setName(dmmName); // ±£´æ¶ÁÈ¡µçÑ¹ÃüÁî²ÎÊı
+    dmmCmdPsu1Part4Verify->setName(dmmName); // ä¿å­˜è¯»å–ç”µå‹å‘½ä»¤å‚æ•°
     dmmCmdPsu1Part4Verify->setParam(dmmParam);
     dmmCmdPsu1Part4Verify->setStart(dmmStart);
     dmmCmdPsu1Part4Verify->setEnd(dmmEnd);
     dmmCmdPsu1Part4Verify->setRatio(dmmJudge.toDouble());
     dmmPsu1Part4Multi = dmmMulti.toInt();
-    meterCmdPsu1Part4Verify->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu1Part4Verify->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     meterPsu1Part4Multi = meterMulti.toInt();
     if(psu1Part4 == NULL){
         psu1Part4 = new testItem(cmdListPsu1Part4Pre, dataAndAddrListPsu1Part4, dataLengthPsu1Part4,
@@ -2194,64 +2194,64 @@ void curdataconfig::on_pushBtnPsu1Part4VerifySave_clicked()
         itemPsu1 = new currentItem(cmdListPsu1Pre, psu1Part1, psu1Part2, psu1Part3, psu1Part4, psu1Part5);
     else
         itemPsu1->setPart4(psu1Part4);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part4VerifyUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu1Part4VerifySetCmd->setText(setCmdPsu1Part4Verify->getName());
     ui->lineEditPsu1Part4VerifySetStart->setText(setCmdPsu1Part4Verify->getStart());
     ui->lineEditPsu1Part4VerifySetEnd->setText(setCmdPsu1Part4Verify->getEnd());
     ui->lineEditPsu1Part4VerifySetJudge->setText(setCmdPsu1Part4Verify->getJudge());
     ui->lineEditPsu1Part4VerifySetMulti->setText(QString("%1").arg(setPsu1Part4Multi));
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu1Part4VerifyDMMCmd->setText(dmmCmdPsu1Part4Verify->getName());
     ui->lineEditPsu1Part4VerifyDMMStart->setText(dmmCmdPsu1Part4Verify->getStart());
     ui->lineEditPsu1Part4VerifyDMMEnd->setText(dmmCmdPsu1Part4Verify->getEnd());
     ui->lineEditPsu1Part4VerifyDMMJudge->setText(dmmCmdPsu1Part4Verify->getRatio());
     ui->lineEditPsu1Part4VerifyDMMMulti->setText(QString("%1").arg(dmmPsu1Part4Multi));
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu1Part4VerifyMeterJudge->setText(meterCmdPsu1Part4Verify->getRatio());
     ui->lineEditPsu1Part4VerifyMeterMulti->setText(QString("%1").arg(meterPsu1Part4Multi));
 }
-// PSU1  Part4  ²âÊÔ
-// ±£´æ°´Å¥
+// PSU1  Part4  æµ‹è¯•
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part4TestSave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu1Part4TestSetCmd->text();
     setStart = ui->lineEditPsu1Part4TestSetStart->text();
     setEnd = ui->lineEditPsu1Part4TestSetEnd->text();
     setJudge = ui->lineEditPsu1Part4TestSetJudge->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu1Part4TestDMMCmd->text();
     dmmStart = ui->lineEditPsu1Part4TestDMMStart->text();
     dmmEnd = ui->lineEditPsu1Part4TestDMMEnd->text();
     dmmJudge = ui->lineEditPsu1Part4TestDMMJudge->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu1Part4TestMeterJudge->text();
     if(meterJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡¶ÁÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–è¯»ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu1Part4Test->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu1Part4Test->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu1Part4Test->setStart(setStart);
     setCmdPsu1Part4Test->setEnd(setEnd);
     setCmdPsu1Part4Test->setJudge(setJudge);
-    dmmCmdPsu1Part4Test->setName(dmmName);  // ±£´æ¶ÁÈ¡µçÁ÷ÃüÁî²ÎÊı
+    dmmCmdPsu1Part4Test->setName(dmmName);  // ä¿å­˜è¯»å–ç”µæµå‘½ä»¤å‚æ•°
     dmmCmdPsu1Part4Test->setStart(dmmStart);
     dmmCmdPsu1Part4Test->setEnd(dmmEnd);
     dmmCmdPsu1Part4Test->setRatio(dmmJudge.toDouble());
-    meterCmdPsu1Part4Test->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu1Part4Test->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     if(psu1Part4 == NULL){
         psu1Part4 = new testItem(cmdListPsu1Part4Pre, dataAndAddrListPsu1Part4, dataLengthPsu1Part4,
                                  setCmdPsu1Part4Verify, setPsu1Part4Multi,
@@ -2267,26 +2267,26 @@ void curdataconfig::on_pushBtnPsu1Part4TestSave_clicked()
         itemPsu1 = new currentItem(cmdListPsu1Pre, psu1Part1, psu1Part2, psu1Part3, psu1Part4, psu1Part5);
     else
         itemPsu1->setPart4(psu1Part4);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part4TestUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu1Part4TestSetCmd->setText(setCmdPsu1Part4Test->getName());
     ui->lineEditPsu1Part4TestSetStart->setText(setCmdPsu1Part4Test->getStart());
     ui->lineEditPsu1Part4TestSetEnd->setText(setCmdPsu1Part4Test->getEnd());
     ui->lineEditPsu1Part4TestSetJudge->setText(setCmdPsu1Part4Test->getJudge());
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu1Part4TestDMMCmd->setText(dmmCmdPsu1Part4Test->getName());
     ui->lineEditPsu1Part4TestDMMStart->setText(dmmCmdPsu1Part4Test->getStart());
     ui->lineEditPsu1Part4TestDMMEnd->setText(dmmCmdPsu1Part4Test->getEnd());
     ui->lineEditPsu1Part4TestDMMJudge->setText(dmmCmdPsu1Part4Test->getRatio());
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu1Part4TestMeterJudge->setText(meterCmdPsu1Part4Test->getRatio());
 }
-// PSU1  Part5  »»µµÃüÁî
-// Ìí¼Ó°´Å¥
+// PSU1  Part5  æ¢æ¡£å‘½ä»¤
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part5PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
@@ -2305,7 +2305,7 @@ void curdataconfig::on_pushBtnPsu1Part5PreAdd_clicked()
         itemPsu1->setPart5(psu1Part5);
     showPsu1Part5PreCmdList();
 }
-// Ë¢ĞÂÃüÁî¿ò
+// åˆ·æ–°å‘½ä»¤æ¡†
 void curdataconfig::showPsu1Part5PreCmdList()
 {
     ui->psu1Part5PreCmdList->clear();
@@ -2314,14 +2314,14 @@ void curdataconfig::showPsu1Part5PreCmdList()
         ui->psu1Part5PreCmdList->addItem(curCommand->getFullName());
     }
 }
-// ÃüÁî¿òµã»÷ÊÂ¼ş
+// å‘½ä»¤æ¡†ç‚¹å‡»äº‹ä»¶
 void curdataconfig::on_psu1Part5PreCmdList_clicked(const QModelIndex &index)
 {
-    nowIndexPsu1Part5Pre = index.row();  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîÔÚÁĞ±íÖĞµÄË÷Òı
-    nowCommandPsu1Part5 = cmdListPsu1Part5Pre->at(nowIndexPsu1Part5Pre);  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîµÄÖ¸Õë
+    nowIndexPsu1Part5Pre = index.row();  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤åœ¨åˆ—è¡¨ä¸­çš„ç´¢å¼•
+    nowCommandPsu1Part5 = cmdListPsu1Part5Pre->at(nowIndexPsu1Part5Pre);  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤çš„æŒ‡é’ˆ
     on_pushBtnPsu1Part5PreUndo_clicked();
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part5PreDel_clicked()
 {
     if(nowIndexPsu1Part5Pre == -1){
@@ -2332,14 +2332,14 @@ void curdataconfig::on_pushBtnPsu1Part5PreDel_clicked()
     if(nowIndexPsu1Part5Pre != -1)
         nowCommandPsu1Part5 = cmdListPsu1Part5Pre->at(nowIndexPsu1Part5Pre);
     showPsu1Part5PreCmdList();
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu1Part5PreName->clear();
     ui->lineEditPsu1Part5PreParam->clear();
     ui->lineEditPsu1Part5PreStart->clear();
     ui->lineEditPsu1Part5PreEnd->clear();
     ui->lineEditPsu1Part5PreJudge->clear();
 }
-// ÏòÉÏ°´Å¥
+// å‘ä¸ŠæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part5PreUp_clicked()
 {
     if(nowIndexPsu1Part5Pre < 1)
@@ -2348,7 +2348,7 @@ void curdataconfig::on_pushBtnPsu1Part5PreUp_clicked()
     nowIndexPsu1Part5Pre--;
     showPsu1Part5PreCmdList();
 }
-// ÏòÏÂ°´Å¥
+// å‘ä¸‹æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part5PreDown_clicked()
 {
     if((nowIndexPsu1Part5Pre == -1)||(nowIndexPsu1Part5Pre >= cmdListPsu1Part5Pre->size()-1))
@@ -2357,7 +2357,7 @@ void curdataconfig::on_pushBtnPsu1Part5PreDown_clicked()
     nowIndexPsu1Part5Pre++;
     showPsu1Part5PreCmdList();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part5PreSave_clicked()
 {
     if(ui->lineEditPsu1Part5PreName->text().size() == 0 &&
@@ -2375,76 +2375,76 @@ void curdataconfig::on_pushBtnPsu1Part5PreSave_clicked()
         showPsu1Part5PreCmdList();
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part5PreUndo_clicked()
 {
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu1Part5PreName->clear();
     ui->lineEditPsu1Part5PreParam->clear();
     ui->lineEditPsu1Part5PreStart->clear();
     ui->lineEditPsu1Part5PreEnd->clear();
     ui->lineEditPsu1Part5PreJudge->clear();
-    // ÏÔÊ¾ÃüÁîÃû³Æ
-    ui->lineEditPsu1Part5PreName->setPlaceholderText(tr("ÃüÁîÃû³Æ"));
+    // æ˜¾ç¤ºå‘½ä»¤åç§°
+    ui->lineEditPsu1Part5PreName->setPlaceholderText(tr("å‘½ä»¤åç§°"));
     ui->lineEditPsu1Part5PreName->setText(nowCommandPsu1Part5->getName());
-    // ÏÔÊ¾ÃüÁî²ÎÊı
-    ui->lineEditPsu1Part5PreParam->setPlaceholderText(tr("²ÎÊı"));
+    // æ˜¾ç¤ºå‘½ä»¤å‚æ•°
+    ui->lineEditPsu1Part5PreParam->setPlaceholderText(tr("å‚æ•°"));
     ui->lineEditPsu1Part5PreParam->setText(nowCommandPsu1Part5->getParam());
 
-    // ÏÔÊ¾½ØÈ¡²ÎÊı
+    // æ˜¾ç¤ºæˆªå–å‚æ•°
     ui->lineEditPsu1Part5PreStart->setText(nowCommandPsu1Part5->getStart());
     ui->lineEditPsu1Part5PreEnd->setText(nowCommandPsu1Part5->getEnd());
-    // ÏÔÊ¾ÅĞµÈ²ÎÊı
+    // æ˜¾ç¤ºåˆ¤ç­‰å‚æ•°
     ui->lineEditPsu1Part5PreJudge->setText(nowCommandPsu1Part5->getJudge());
 }
-// PSU1  Part5  Êı¾İ
-// Ìí¼Ó°´Å¥
+// PSU1  Part5  æ•°æ®
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part5DataAdd_clicked()
 {
     int x, y;
     x = nowIndexPsu1Part5Data / 10;
     y = nowIndexPsu1Part5Data % 10;
-    ui->scrollAreaWidgetContentsPsu1Part5->setFixedWidth((x+1)*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu1Part5->setFixedWidth((x+1)*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu1Part5Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
-    // ¿ò
+    // æ¡†
     QFrame* newframe = new QFrame(ui->scrollAreaWidgetContentsPsu1Part5);
     newframe->setGeometry(QRect(x*290, y*30, 280, 21));
     newframe->setFrameShape(QFrame::Box);
     newframe->setFrameShadow(QFrame::Raised);
     frameListPsu1Part5Data.append(newframe);
     newframe->show();
-    // ¸´Ñ¡¿ò
+    // å¤é€‰æ¡†
     QCheckBox * newcheckbox = new QCheckBox(newframe);
     newcheckbox->setGeometry(QRect(5, 3, 50, 16));
     newcheckbox->setChecked(true);
     newcheckbox->setText(QString("%1").arg(nowIndexPsu1Part5Data+1));
     checkBoxListPsu1Part5Data.append(newcheckbox);
     newcheckbox->show();
-    // Êı¾İ¿ò
+    // æ•°æ®æ¡†
     QLineEdit * datalineedit = new QLineEdit(newframe);
     datalineedit->setGeometry(QRect(60, 2, 50, 17));
-    datalineedit->setPlaceholderText(tr("Êı¾İ"));
+    datalineedit->setPlaceholderText(tr("æ•°æ®"));
     datalineedit->setValidator(new QDoubleValidator(0.0, 65535.0, 2, this));
     dataLineEditListPsu1Part5Data.append(datalineedit);
     datalineedit->show();
-    // dacµØÖ·¿ò
+    // dacåœ°å€æ¡†
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
     dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu1Part5Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
-    // adcµØÖ·¿ò
+    // adcåœ°å€æ¡†
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
     adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu1Part5Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
-    // refµØÖ·¿ò
+    // refåœ°å€æ¡†
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
     refaddrlineedit->setPlaceholderText(tr("refAddr"));
@@ -2452,7 +2452,7 @@ void curdataconfig::on_pushBtnPsu1Part5DataAdd_clicked()
     refaddrlineedit->show();
     nowIndexPsu1Part5Data++;    
 }
-// ÅĞ¶ÏÈ«Ñ¡×´Ì¬
+// åˆ¤æ–­å…¨é€‰çŠ¶æ€
 bool curdataconfig::checkBoxAllSelectPsu1Part5()
 {
     for(int i=0; i != checkBoxListPsu1Part5Data.size(); ++i){
@@ -2461,24 +2461,24 @@ bool curdataconfig::checkBoxAllSelectPsu1Part5()
     }
     return true;
 }
-// È«Ñ¡°´Å¥
+// å…¨é€‰æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part5DataAll_clicked()
 {
-    if(checkBoxAllSelectPsu1Part5()){  // ÒÑ¾­È«Ñ¡, ÉèÖÃÎªÈ«²»Ñ¡
+    if(checkBoxAllSelectPsu1Part5()){  // å·²ç»å…¨é€‰, è®¾ç½®ä¸ºå…¨ä¸é€‰
         for(int i=0; i != checkBoxListPsu1Part5Data.size(); ++i){
             checkBoxListPsu1Part5Data.at(i)->setChecked(false);
         }
-    }else { // Î´È«Ñ¡,ÉèÖÃÎªÈ«Ñ¡
+    }else { // æœªå…¨é€‰,è®¾ç½®ä¸ºå…¨é€‰
         for(int i=0; i != checkBoxListPsu1Part5Data.size(); ++i){
             checkBoxListPsu1Part5Data.at(i)->setChecked(true);
         }
     }
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part5DataDel_clicked()
 {
     for(int i=0; i != checkBoxListPsu1Part5Data.size();){
-        if(checkBoxListPsu1Part5Data.at(i)->isChecked()){  // Èç¹û±»Ñ¡ÖĞ,ÔòÉ¾³ı¸ÃÊı¾İÏî
+        if(checkBoxListPsu1Part5Data.at(i)->isChecked()){  // å¦‚æœè¢«é€‰ä¸­,åˆ™åˆ é™¤è¯¥æ•°æ®é¡¹
             checkBoxListPsu1Part5Data.removeAt(i);
             dataLineEditListPsu1Part5Data.removeAt(i);
             dacAddrLineEditListPsu1Part5Data.removeAt(i);
@@ -2491,7 +2491,7 @@ void curdataconfig::on_pushBtnPsu1Part5DataDel_clicked()
             ++i;
         }
     }
-    // ÖØĞÂÅÅÁĞ¿ò
+    // é‡æ–°æ’åˆ—æ¡†
     int x, y;
     for(int i=0; i != frameListPsu1Part5Data.size(); ++i){
         x = i / 10;
@@ -2501,22 +2501,22 @@ void curdataconfig::on_pushBtnPsu1Part5DataDel_clicked()
     }
     nowIndexPsu1Part5Data = checkBoxListPsu1Part5Data.size();
     int column = nowIndexPsu1Part5Data/10 + (nowIndexPsu1Part5Data % 10 ? 1 : 0);
-    ui->scrollAreaWidgetContentsPsu1Part5->setFixedWidth(column*180);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu1Part5->setFixedWidth(column*180);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu1Part5Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
 }
-// È«²¿É¾³ı°´Å¥
+// å…¨éƒ¨åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part5DataBatchDel_clicked()
 {
-    if(!checkBoxAllSelectPsu1Part5())  // Ã»ÓĞÈ«Ñ¡,ÔòÈ«Ñ¡
+    if(!checkBoxAllSelectPsu1Part5())  // æ²¡æœ‰å…¨é€‰,åˆ™å…¨é€‰
         on_pushBtnPsu1Part5DataAll_clicked();
-    on_pushBtnPsu1Part5DataDel_clicked(); // É¾³ı
+    on_pushBtnPsu1Part5DataDel_clicked(); // åˆ é™¤
 }
-// Çå¿ÕÊı¾İ°´Å¥
+// æ¸…ç©ºæ•°æ®æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part5DataClear_clicked()
 {
     for(int i=0; i != nowIndexPsu1Part5Data; ++i){
@@ -2526,18 +2526,18 @@ void curdataconfig::on_pushBtnPsu1Part5DataClear_clicked()
         refAddrLineEditListPsu1Part5Data.at(i)->clear();
     }
 }
-// ÅúÁ¿Ìí¼Ó°´Å¥
+// æ‰¹é‡æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part5DataBatchAdd_clicked()
 {
     if(nowIndexPsu1Part5Data)
-        if(QMessageBox::question(this, tr("Ñ¯ÎÊ"), tr("ÊÇ·ñ±£Áôµ±Ç°ÒÑÌîÊı¾İ£¿"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
+        if(QMessageBox::question(this, tr("è¯¢é—®"), tr("æ˜¯å¦ä¿ç•™å½“å‰å·²å¡«æ•°æ®ï¼Ÿ"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu1Part5DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
     connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
             this, SLOT(handleBatchParamsPsu1Part5(int, double, double, QString, bool)));
     batchdialog->show();
 }
-// ´¦Àí½ÓÊÕµ½µÄÅúÁ¿Ìí¼Ó²ÎÊı
+// å¤„ç†æ¥æ”¶åˆ°çš„æ‰¹é‡æ·»åŠ å‚æ•°
 void curdataconfig::handleBatchParamsPsu1Part5(int num, double dataStart,
                                       double dataStep, QString strAddrStart, bool isRise)
 {
@@ -2573,48 +2573,48 @@ void curdataconfig::handleBatchParamsPsu1Part5(int num, double dataStart,
         refAddrLineEditListPsu1Part5Data.at(nowIndexPsu1Part5Data-1)->setText(strRefAddr);
     }
 }
-// Êı¾İ³¤¶È±à¼­
+// æ•°æ®é•¿åº¦ç¼–è¾‘
 void curdataconfig::on_lineEditDataLengthPsu1Part5_textEdited()
 {
     if(ui->lineEditDataLengthPsu1Part5->text().isEmpty()){
-        QMessageBox::information(this, tr("´íÎó"), tr("Êı¾İ³¤¶È²»ÄÜÎª¿Õ£¡"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("é”™è¯¯"), tr("æ•°æ®é•¿åº¦ä¸èƒ½ä¸ºç©ºï¼"), QMessageBox::Ok);
         ui->lineEditDataLengthPsu1Part5->setText(QString("%1").arg(dataLengthPsu1Part5));
         return;
     }
     dataLengthPsu1Part5 = ui->lineEditDataLengthPsu1Part5->text().toInt();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part5DataSave_clicked()
 {
     QList<DataItem *>  *tempList = new QList<DataItem *>;
-    // ±£´æ½çÃæÖĞµÄÊı¾İ, ÅĞ¶ÏÀïÃæµÄ²ÎÊıÊÇ·ñºÏ·¨
+    // ä¿å­˜ç•Œé¢ä¸­çš„æ•°æ®, åˆ¤æ–­é‡Œé¢çš„å‚æ•°æ˜¯å¦åˆæ³•
     for(int i=0; i != nowIndexPsu1Part5Data; ++i){
         QString data, dacAddr, adcAddr, refAddr;
         data = dataLineEditListPsu1Part5Data.at(i)->text();
         bool ok;
         data.toDouble(&ok);
         if(!ok){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîÊı¾İ²»ÊÇÓĞĞ§µÄÊı¾İ£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹æ•°æ®ä¸æ˜¯æœ‰æ•ˆçš„æ•°æ®ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         dacAddr = dacAddrLineEditListPsu1Part5Data.at(i)->text();
         if(!QStringIsInt(dacAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîdacµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹dacåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         adcAddr = adcAddrLineEditListPsu1Part5Data.at(i)->text();
         if(!QStringIsInt(adcAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîadcµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹adcåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         refAddr = refAddrLineEditListPsu1Part5Data.at(i)->text();
         if(!QStringIsInt(refAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîrefµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹refåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         tempList->append(new DataItem(checkBoxListPsu1Part5Data.at(i)->checkState(), data.toDouble(), dacAddr, adcAddr, refAddr));
     }
-    // Çë¿Õµ±Ç°²ÎÊıÁĞ±í
+    // è¯·ç©ºå½“å‰å‚æ•°åˆ—è¡¨
     for(int i=0; i != dataAndAddrListPsu1Part5->size(); ++i)
         delete dataAndAddrListPsu1Part5->at(i);
     dataAndAddrListPsu1Part5->clear();
@@ -2632,13 +2632,13 @@ void curdataconfig::on_pushBtnPsu1Part5DataSave_clicked()
             itemPsu1 = new currentItem(cmdListPsu1Pre, psu1Part1, psu1Part2, psu1Part3, psu1Part4, psu1Part5);
         else
             itemPsu1->setPart5(psu1Part5);
-        QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part5DataUndo_clicked()
 {
-    on_pushBtnPsu1Part5DataBatchDel_clicked();  // Çå¿ÕÊı¾İÁĞ±í¿ò
+    on_pushBtnPsu1Part5DataBatchDel_clicked();  // æ¸…ç©ºæ•°æ®åˆ—è¡¨æ¡†
     for(int i=0; i != dataAndAddrListPsu1Part5->size(); ++i){
         on_pushBtnPsu1Part5DataAdd_clicked();
         checkBoxListPsu1Part5Data.at(i)->setChecked(dataAndAddrListPsu1Part5->at(i)->check);
@@ -2648,21 +2648,21 @@ void curdataconfig::on_pushBtnPsu1Part5DataUndo_clicked()
         refAddrLineEditListPsu1Part5Data.at(i)->setText(dataAndAddrListPsu1Part5->at(i)->refAddr);
     }
 }
-// PSU1  Part5 Ğ£×¼
-// ±£´æ°´Å¥
+// PSU1  Part5 æ ¡å‡†
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part5VerifySave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge, setMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge, setMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu1Part5VerifySetCmd->text();
     setStart = ui->lineEditPsu1Part5VerifySetStart->text();
     setEnd = ui->lineEditPsu1Part5VerifySetEnd->text();
     setJudge = ui->lineEditPsu1Part5VerifySetJudge->text();
     setMulti = ui->lineEditPsu1Part5VerifySetMulti->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0 || setMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu1Part5VerifyDMMCmd->text();
     dmmParam = ui->lineEditPsu1Part5VerifyDMMParam->text();
     dmmStart = ui->lineEditPsu1Part5VerifyDMMStart->text();
@@ -2670,28 +2670,28 @@ void curdataconfig::on_pushBtnPsu1Part5VerifySave_clicked()
     dmmJudge = ui->lineEditPsu1Part5VerifyDMMJudge->text();
     dmmMulti = ui->lineEditPsu1Part5VerifyDMMMulti->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0 || dmmMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge, meterMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge, meterMulti;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu1Part5VerifyMeterJudge->text();
     meterMulti = ui->lineEditPsu1Part5VerifyMeterMulti->text();
     if(meterJudge.size()==0 || meterMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡ÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu1Part5Verify->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu1Part5Verify->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu1Part5Verify->setStart(setStart);
     setCmdPsu1Part5Verify->setEnd(setEnd);
     setCmdPsu1Part5Verify->setJudge(setJudge);
     setPsu1Part5Multi = setMulti.toInt();
-    dmmCmdPsu1Part5Verify->setName(dmmName); // ±£´æ¶ÁÈ¡µçÑ¹ÃüÁî²ÎÊı
+    dmmCmdPsu1Part5Verify->setName(dmmName); // ä¿å­˜è¯»å–ç”µå‹å‘½ä»¤å‚æ•°
     dmmCmdPsu1Part5Verify->setParam(dmmParam);
     dmmCmdPsu1Part5Verify->setStart(dmmStart);
     dmmCmdPsu1Part5Verify->setEnd(dmmEnd);
     dmmCmdPsu1Part5Verify->setRatio(dmmJudge.toDouble());
     dmmPsu1Part5Multi = dmmMulti.toInt();
-    meterCmdPsu1Part5Verify->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu1Part5Verify->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     meterPsu1Part5Multi = meterMulti.toInt();
     if(psu1Part5 == NULL){
         psu1Part5 = new testItem(cmdListPsu1Part5Pre, dataAndAddrListPsu1Part5, dataLengthPsu1Part5,
@@ -2711,64 +2711,64 @@ void curdataconfig::on_pushBtnPsu1Part5VerifySave_clicked()
         itemPsu1 = new currentItem(cmdListPsu1Pre, psu1Part1, psu1Part2, psu1Part3, psu1Part4, psu1Part5);
     else
         itemPsu1->setPart5(psu1Part5);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part5VerifyUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu1Part5VerifySetCmd->setText(setCmdPsu1Part5Verify->getName());
     ui->lineEditPsu1Part5VerifySetStart->setText(setCmdPsu1Part5Verify->getStart());
     ui->lineEditPsu1Part5VerifySetEnd->setText(setCmdPsu1Part5Verify->getEnd());
     ui->lineEditPsu1Part5VerifySetJudge->setText(setCmdPsu1Part5Verify->getJudge());
     ui->lineEditPsu1Part5VerifySetMulti->setText(QString("%1").arg(setPsu1Part5Multi));
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu1Part5VerifyDMMCmd->setText(dmmCmdPsu1Part5Verify->getName());
     ui->lineEditPsu1Part5VerifyDMMStart->setText(dmmCmdPsu1Part5Verify->getStart());
     ui->lineEditPsu1Part5VerifyDMMEnd->setText(dmmCmdPsu1Part5Verify->getEnd());
     ui->lineEditPsu1Part5VerifyDMMJudge->setText(dmmCmdPsu1Part5Verify->getRatio());
     ui->lineEditPsu1Part5VerifyDMMMulti->setText(QString("%1").arg(dmmPsu1Part5Multi));
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu1Part5VerifyMeterJudge->setText(meterCmdPsu1Part5Verify->getRatio());
     ui->lineEditPsu1Part5VerifyMeterMulti->setText(QString("%1").arg(meterPsu1Part5Multi));
 }
-// PSU1  Part5  ²âÊÔ
-// ±£´æ°´Å¥
+// PSU1  Part5  æµ‹è¯•
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part5TestSave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu1Part5TestSetCmd->text();
     setStart = ui->lineEditPsu1Part5TestSetStart->text();
     setEnd = ui->lineEditPsu1Part5TestSetEnd->text();
     setJudge = ui->lineEditPsu1Part5TestSetJudge->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu1Part5TestDMMCmd->text();
     dmmStart = ui->lineEditPsu1Part5TestDMMStart->text();
     dmmEnd = ui->lineEditPsu1Part5TestDMMEnd->text();
     dmmJudge = ui->lineEditPsu1Part5TestDMMJudge->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu1Part5TestMeterJudge->text();
     if(meterJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡¶ÁÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–è¯»ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu1Part5Test->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu1Part5Test->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu1Part5Test->setStart(setStart);
     setCmdPsu1Part5Test->setEnd(setEnd);
     setCmdPsu1Part5Test->setJudge(setJudge);
-    dmmCmdPsu1Part5Test->setName(dmmName);  // ±£´æ¶ÁÈ¡µçÁ÷ÃüÁî²ÎÊı
+    dmmCmdPsu1Part5Test->setName(dmmName);  // ä¿å­˜è¯»å–ç”µæµå‘½ä»¤å‚æ•°
     dmmCmdPsu1Part5Test->setStart(dmmStart);
     dmmCmdPsu1Part5Test->setEnd(dmmEnd);
     dmmCmdPsu1Part5Test->setRatio(dmmJudge.toDouble());
-    meterCmdPsu1Part5Test->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu1Part5Test->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     if(psu1Part5 == NULL){
         psu1Part5 = new testItem(cmdListPsu1Part5Pre, dataAndAddrListPsu1Part5, dataLengthPsu1Part5,
                                  setCmdPsu1Part5Verify, setPsu1Part5Multi,
@@ -2784,26 +2784,26 @@ void curdataconfig::on_pushBtnPsu1Part5TestSave_clicked()
         itemPsu1 = new currentItem(cmdListPsu1Pre, psu1Part1, psu1Part2, psu1Part3, psu1Part4, psu1Part5);
     else
         itemPsu1->setPart5(psu1Part5);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu1Part5TestUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu1Part5TestSetCmd->setText(setCmdPsu1Part5Test->getName());
     ui->lineEditPsu1Part5TestSetStart->setText(setCmdPsu1Part5Test->getStart());
     ui->lineEditPsu1Part5TestSetEnd->setText(setCmdPsu1Part5Test->getEnd());
     ui->lineEditPsu1Part5TestSetJudge->setText(setCmdPsu1Part5Test->getJudge());
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu1Part5TestDMMCmd->setText(dmmCmdPsu1Part5Test->getName());
     ui->lineEditPsu1Part5TestDMMStart->setText(dmmCmdPsu1Part5Test->getStart());
     ui->lineEditPsu1Part5TestDMMEnd->setText(dmmCmdPsu1Part5Test->getEnd());
     ui->lineEditPsu1Part5TestDMMJudge->setText(dmmCmdPsu1Part5Test->getRatio());
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu1Part5TestMeterJudge->setText(meterCmdPsu1Part5Test->getRatio());
 }
-// PSU2  Ç°ÖÃÃüÁî
-// Ìí¼Ó°´Å¥
+// PSU2  å‰ç½®å‘½ä»¤
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
@@ -2814,7 +2814,7 @@ void curdataconfig::on_pushBtnPsu2PreAdd_clicked()
         itemPsu2->setPreCmdList(cmdListPsu2Pre);
     showPsu2PreCmdList();
 }
-// Ë¢ĞÂÃüÁî¿ò
+// åˆ·æ–°å‘½ä»¤æ¡†
 void curdataconfig::showPsu2PreCmdList()
 {
     ui->psu2PreCmdList->clear();
@@ -2823,14 +2823,14 @@ void curdataconfig::showPsu2PreCmdList()
         ui->psu2PreCmdList->addItem(curCommand->getFullName());
     }
 }
-// ÃüÁî¿òµã»÷ÊÂ¼ş
+// å‘½ä»¤æ¡†ç‚¹å‡»äº‹ä»¶
 void curdataconfig::on_psu2PreCmdList_clicked(const QModelIndex &index)
 {
-    nowIndexPsu2Pre = index.row();  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîÔÚÁĞ±íÖĞµÄË÷Òı
-    nowCommandPsu2 = cmdListPsu2Pre->at(nowIndexPsu2Pre);  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîµÄÖ¸Õë
+    nowIndexPsu2Pre = index.row();  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤åœ¨åˆ—è¡¨ä¸­çš„ç´¢å¼•
+    nowCommandPsu2 = cmdListPsu2Pre->at(nowIndexPsu2Pre);  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤çš„æŒ‡é’ˆ
     on_pushBtnPsu2PreUndo_clicked();
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2PreDel_clicked()
 {
     if(nowIndexPsu2Pre == -1){
@@ -2841,14 +2841,14 @@ void curdataconfig::on_pushBtnPsu2PreDel_clicked()
     if(nowIndexPsu2Pre != -1)
         nowCommandPsu2 = cmdListPsu2Pre->at(nowIndexPsu2Pre);
     showPsu2PreCmdList();
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu2PreCmdName->clear();
     ui->lineEditPsu2PreParam->clear();
     ui->lineEditPsu2PreStart->clear();
     ui->lineEditPsu2PreEnd->clear();
     ui->lineEditPsu2PreJudge->clear();
 }
-// ÏòÉÏ°´Å¥
+// å‘ä¸ŠæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2PreUp_clicked()
 {
     if(nowIndexPsu2Pre < 1)
@@ -2857,7 +2857,7 @@ void curdataconfig::on_pushBtnPsu2PreUp_clicked()
     nowIndexPsu2Pre--;
     showPsu2PreCmdList();
 }
-// ÏòÏÂ°´Å¥
+// å‘ä¸‹æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2PreDown_clicked()
 {
     if((nowIndexPsu2Pre == -1)||(nowIndexPsu2Pre >= cmdListPsu2Pre->size()-1))
@@ -2866,7 +2866,7 @@ void curdataconfig::on_pushBtnPsu2PreDown_clicked()
     nowIndexPsu2Pre++;
     showPsu2PreCmdList();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2PreSave_clicked()
 {
     if(ui->lineEditPsu2PreCmdName->text().size() == 0 &&
@@ -2884,30 +2884,30 @@ void curdataconfig::on_pushBtnPsu2PreSave_clicked()
         showPsu2PreCmdList();
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2PreUndo_clicked()
 {
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu2PreCmdName->clear();
     ui->lineEditPsu2PreParam->clear();
     ui->lineEditPsu2PreStart->clear();
     ui->lineEditPsu2PreEnd->clear();
     ui->lineEditPsu2PreJudge->clear();
-    // ÏÔÊ¾ÃüÁîÃû³Æ
-    ui->lineEditPsu2PreCmdName->setPlaceholderText(tr("ÃüÁîÃû³Æ"));
+    // æ˜¾ç¤ºå‘½ä»¤åç§°
+    ui->lineEditPsu2PreCmdName->setPlaceholderText(tr("å‘½ä»¤åç§°"));
     ui->lineEditPsu2PreCmdName->setText(nowCommandPsu2->getName());
-    // ÏÔÊ¾ÃüÁî²ÎÊı
-    ui->lineEditPsu2PreParam->setPlaceholderText(tr("²ÎÊı"));
+    // æ˜¾ç¤ºå‘½ä»¤å‚æ•°
+    ui->lineEditPsu2PreParam->setPlaceholderText(tr("å‚æ•°"));
     ui->lineEditPsu2PreParam->setText(nowCommandPsu2->getParam());
 
-    // ÏÔÊ¾½ØÈ¡²ÎÊı
+    // æ˜¾ç¤ºæˆªå–å‚æ•°
     ui->lineEditPsu2PreStart->setText(nowCommandPsu2->getStart());
     ui->lineEditPsu2PreEnd->setText(nowCommandPsu2->getEnd());
-    // ÏÔÊ¾ÅĞµÈ²ÎÊı
+    // æ˜¾ç¤ºåˆ¤ç­‰å‚æ•°
     ui->lineEditPsu2PreJudge->setText(nowCommandPsu2->getJudge());
 }
-// PSU2  Part1  »»µµÃüÁî
-// Ìí¼Ó°´Å¥
+// PSU2  Part1  æ¢æ¡£å‘½ä»¤
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part1PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
@@ -2926,7 +2926,7 @@ void curdataconfig::on_pushBtnPsu2Part1PreAdd_clicked()
         itemPsu2->setPart1(psu2Part1);
     showPsu2Part1PreCmdList();
 }
-// Ë¢ĞÂÃüÁî¿ò
+// åˆ·æ–°å‘½ä»¤æ¡†
 void curdataconfig::showPsu2Part1PreCmdList()
 {
     ui->psu2Part1PreCmdList->clear();
@@ -2935,14 +2935,14 @@ void curdataconfig::showPsu2Part1PreCmdList()
         ui->psu2Part1PreCmdList->addItem(curCommand->getFullName());
     }
 }
-// ÃüÁî¿òµã»÷ÊÂ¼ş
+// å‘½ä»¤æ¡†ç‚¹å‡»äº‹ä»¶
 void curdataconfig::on_psu2Part1PreCmdList_clicked(const QModelIndex &index)
 {
-    nowIndexPsu2Part1Pre = index.row();  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîÔÚÁĞ±íÖĞµÄË÷Òı
-    nowCommandPsu2Part1 = cmdListPsu2Part1Pre->at(nowIndexPsu2Part1Pre);  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîµÄÖ¸Õë
+    nowIndexPsu2Part1Pre = index.row();  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤åœ¨åˆ—è¡¨ä¸­çš„ç´¢å¼•
+    nowCommandPsu2Part1 = cmdListPsu2Part1Pre->at(nowIndexPsu2Part1Pre);  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤çš„æŒ‡é’ˆ
     on_pushBtnPsu2Part1PreUndo_clicked();
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part1PreDel_clicked()
 {
     if(nowIndexPsu2Part1Pre == -1){
@@ -2953,14 +2953,14 @@ void curdataconfig::on_pushBtnPsu2Part1PreDel_clicked()
     if(nowIndexPsu2Part1Pre != -1)
         nowCommandPsu2Part1 = cmdListPsu2Part1Pre->at(nowIndexPsu2Part1Pre);
     showPsu2Part1PreCmdList();
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu2Part1PreName->clear();
     ui->lineEditPsu2Part1PreParam->clear();
     ui->lineEditPsu2Part1PreStart->clear();
     ui->lineEditPsu2Part1PreEnd->clear();
     ui->lineEditPsu2Part1PreJudge->clear();
 }
-// ÏòÉÏ°´Å¥
+// å‘ä¸ŠæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part1PreUp_clicked()
 {
     if(nowIndexPsu2Part1Pre < 1)
@@ -2969,7 +2969,7 @@ void curdataconfig::on_pushBtnPsu2Part1PreUp_clicked()
     nowIndexPsu2Part1Pre--;
     showPsu2Part1PreCmdList();
 }
-// ÏòÏÂ°´Å¥
+// å‘ä¸‹æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part1PreDown_clicked()
 {
     if((nowIndexPsu2Part1Pre == -1)||(nowIndexPsu2Part1Pre >= cmdListPsu2Part1Pre->size()-1))
@@ -2978,7 +2978,7 @@ void curdataconfig::on_pushBtnPsu2Part1PreDown_clicked()
     nowIndexPsu2Part1Pre++;
     showPsu2Part1PreCmdList();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part1PreSave_clicked()
 {
     if(ui->lineEditPsu2Part1PreName->text().size() == 0 &&
@@ -2996,76 +2996,76 @@ void curdataconfig::on_pushBtnPsu2Part1PreSave_clicked()
         showPsu2Part1PreCmdList();
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part1PreUndo_clicked()
 {
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu2Part1PreName->clear();
     ui->lineEditPsu2Part1PreParam->clear();
     ui->lineEditPsu2Part1PreStart->clear();
     ui->lineEditPsu2Part1PreEnd->clear();
     ui->lineEditPsu2Part1PreJudge->clear();
-    // ÏÔÊ¾ÃüÁîÃû³Æ
-    ui->lineEditPsu2Part1PreName->setPlaceholderText(tr("ÃüÁîÃû³Æ"));
+    // æ˜¾ç¤ºå‘½ä»¤åç§°
+    ui->lineEditPsu2Part1PreName->setPlaceholderText(tr("å‘½ä»¤åç§°"));
     ui->lineEditPsu2Part1PreName->setText(nowCommandPsu2Part1->getName());
-    // ÏÔÊ¾ÃüÁî²ÎÊı
-    ui->lineEditPsu2Part1PreParam->setPlaceholderText(tr("²ÎÊı"));
+    // æ˜¾ç¤ºå‘½ä»¤å‚æ•°
+    ui->lineEditPsu2Part1PreParam->setPlaceholderText(tr("å‚æ•°"));
     ui->lineEditPsu2Part1PreParam->setText(nowCommandPsu2Part1->getParam());
 
-    // ÏÔÊ¾½ØÈ¡²ÎÊı
+    // æ˜¾ç¤ºæˆªå–å‚æ•°
     ui->lineEditPsu2Part1PreStart->setText(nowCommandPsu2Part1->getStart());
     ui->lineEditPsu2Part1PreEnd->setText(nowCommandPsu2Part1->getEnd());
-    // ÏÔÊ¾ÅĞµÈ²ÎÊı
+    // æ˜¾ç¤ºåˆ¤ç­‰å‚æ•°
     ui->lineEditPsu2Part1PreJudge->setText(nowCommandPsu2Part1->getJudge());
 }
-// PSU2  Part1  Êı¾İ
-// Ìí¼Ó°´Å¥
+// PSU2  Part1  æ•°æ®
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part1DataAdd_clicked()
 {
     int x, y;
     x = nowIndexPsu2Part1Data / 10;
     y = nowIndexPsu2Part1Data % 10;
-    ui->scrollAreaWidgetContentsPsu2Part1->setFixedWidth((x+1)*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu2Part1->setFixedWidth((x+1)*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu2Part1Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
-    // ¿ò
+    // æ¡†
     QFrame* newframe = new QFrame(ui->scrollAreaWidgetContentsPsu2Part1);
     newframe->setGeometry(QRect(x*290, y*30, 280, 21));
     newframe->setFrameShape(QFrame::Box);
     newframe->setFrameShadow(QFrame::Raised);
     frameListPsu2Part1Data.append(newframe);
     newframe->show();
-    // ¸´Ñ¡¿ò
+    // å¤é€‰æ¡†
     QCheckBox * newcheckbox = new QCheckBox(newframe);
     newcheckbox->setGeometry(QRect(5, 3, 50, 16));
     newcheckbox->setChecked(true);
     newcheckbox->setText(QString("%1").arg(nowIndexPsu2Part1Data+1));
     checkBoxListPsu2Part1Data.append(newcheckbox);
     newcheckbox->show();
-    // Êı¾İ¿ò
+    // æ•°æ®æ¡†
     QLineEdit * datalineedit = new QLineEdit(newframe);
     datalineedit->setGeometry(QRect(60, 2, 50, 17));
-    datalineedit->setPlaceholderText(tr("Êı¾İ"));
+    datalineedit->setPlaceholderText(tr("æ•°æ®"));
     datalineedit->setValidator(new QDoubleValidator(0.0, 65535.0, 2, this));
     dataLineEditListPsu2Part1Data.append(datalineedit);
     datalineedit->show();
-    // dacµØÖ·¿ò
+    // dacåœ°å€æ¡†
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
     dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu2Part1Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
-    // adcµØÖ·¿ò
+    // adcåœ°å€æ¡†
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
     adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu2Part1Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
-    // refµØÖ·¿ò
+    // refåœ°å€æ¡†
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
     refaddrlineedit->setPlaceholderText(tr("refAddr"));
@@ -3073,7 +3073,7 @@ void curdataconfig::on_pushBtnPsu2Part1DataAdd_clicked()
     refaddrlineedit->show();
     nowIndexPsu2Part1Data++;    
 }
-// ÅĞ¶ÏÈ«Ñ¡×´Ì¬
+// åˆ¤æ–­å…¨é€‰çŠ¶æ€
 bool curdataconfig::checkBoxAllSelectPsu2Part1()
 {
     for(int i=0; i != checkBoxListPsu2Part1Data.size(); ++i){
@@ -3082,24 +3082,24 @@ bool curdataconfig::checkBoxAllSelectPsu2Part1()
     }
     return true;
 }
-// È«Ñ¡°´Å¥
+// å…¨é€‰æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part1DataAll_clicked()
 {
-    if(checkBoxAllSelectPsu2Part1()){  // ÒÑ¾­È«Ñ¡, ÉèÖÃÎªÈ«²»Ñ¡
+    if(checkBoxAllSelectPsu2Part1()){  // å·²ç»å…¨é€‰, è®¾ç½®ä¸ºå…¨ä¸é€‰
         for(int i=0; i != checkBoxListPsu2Part1Data.size(); ++i){
             checkBoxListPsu2Part1Data.at(i)->setChecked(false);
         }
-    }else { // Î´È«Ñ¡,ÉèÖÃÎªÈ«Ñ¡
+    }else { // æœªå…¨é€‰,è®¾ç½®ä¸ºå…¨é€‰
         for(int i=0; i != checkBoxListPsu2Part1Data.size(); ++i){
             checkBoxListPsu2Part1Data.at(i)->setChecked(true);
         }
     }
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part1DataDel_clicked()
 {
     for(int i=0; i != checkBoxListPsu2Part1Data.size();){
-        if(checkBoxListPsu2Part1Data.at(i)->isChecked()){  // Èç¹û±»Ñ¡ÖĞ,ÔòÉ¾³ı¸ÃÊı¾İÏî
+        if(checkBoxListPsu2Part1Data.at(i)->isChecked()){  // å¦‚æœè¢«é€‰ä¸­,åˆ™åˆ é™¤è¯¥æ•°æ®é¡¹
             checkBoxListPsu2Part1Data.removeAt(i);
             dataLineEditListPsu2Part1Data.removeAt(i);
             dacAddrLineEditListPsu2Part1Data.removeAt(i);
@@ -3112,7 +3112,7 @@ void curdataconfig::on_pushBtnPsu2Part1DataDel_clicked()
             ++i;
         }
     }
-    // ÖØĞÂÅÅÁĞ¿ò
+    // é‡æ–°æ’åˆ—æ¡†
     int x, y;
     for(int i=0; i != frameListPsu2Part1Data.size(); ++i){
         x = i / 10;
@@ -3122,22 +3122,22 @@ void curdataconfig::on_pushBtnPsu2Part1DataDel_clicked()
     }
     nowIndexPsu2Part1Data = checkBoxListPsu2Part1Data.size();
     int column = nowIndexPsu2Part1Data/10 + (nowIndexPsu2Part1Data % 10 ? 1 : 0);
-    ui->scrollAreaWidgetContentsPsu2Part1->setFixedWidth(column*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu2Part1->setFixedWidth(column*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu2Part1Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
 }
-// È«²¿É¾³ı°´Å¥
+// å…¨éƒ¨åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part1DataBatchDel_clicked()
 {
-    if(!checkBoxAllSelectPsu2Part1())  // Ã»ÓĞÈ«Ñ¡,ÔòÈ«Ñ¡
+    if(!checkBoxAllSelectPsu2Part1())  // æ²¡æœ‰å…¨é€‰,åˆ™å…¨é€‰
         on_pushBtnPsu2Part1DataAll_clicked();
-    on_pushBtnPsu2Part1DataDel_clicked(); // É¾³ı
+    on_pushBtnPsu2Part1DataDel_clicked(); // åˆ é™¤
 }
-// Çå¿ÕÊı¾İ°´Å¥
+// æ¸…ç©ºæ•°æ®æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part1DataClear_clicked()
 {
     for(int i=0; i != nowIndexPsu2Part1Data; ++i){
@@ -3147,18 +3147,18 @@ void curdataconfig::on_pushBtnPsu2Part1DataClear_clicked()
         refAddrLineEditListPsu2Part1Data.at(i)->clear();
     }
 }
-// ÅúÁ¿Ìí¼Ó°´Å¥
+// æ‰¹é‡æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part1DataBatchAdd_clicked()
 {
     if(nowIndexPsu2Part1Data)
-        if(QMessageBox::question(this, tr("Ñ¯ÎÊ"), tr("ÊÇ·ñ±£Áôµ±Ç°ÒÑÌîÊı¾İ£¿"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
+        if(QMessageBox::question(this, tr("è¯¢é—®"), tr("æ˜¯å¦ä¿ç•™å½“å‰å·²å¡«æ•°æ®ï¼Ÿ"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu2Part1DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
     connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
             this, SLOT(handleBatchParamsPsu2Part1(int, double, double, QString, bool)));
     batchdialog->show();
 }
-// ´¦Àí½ÓÊÕµ½µÄÅúÁ¿Ìí¼Ó²ÎÊı
+// å¤„ç†æ¥æ”¶åˆ°çš„æ‰¹é‡æ·»åŠ å‚æ•°
 void curdataconfig::handleBatchParamsPsu2Part1(int num, double dataStart,
                                       double dataStep, QString strAddrStart, bool isRise)
 {
@@ -3194,48 +3194,48 @@ void curdataconfig::handleBatchParamsPsu2Part1(int num, double dataStart,
         refAddrLineEditListPsu2Part1Data.at(nowIndexPsu2Part1Data-1)->setText(strRefAddr);
     }
 }
-// Êı¾İ³¤¶È±à¼­
+// æ•°æ®é•¿åº¦ç¼–è¾‘
 void curdataconfig::on_lineEditDataLengthPsu2Part1_textEdited()
 {
     if(ui->lineEditDataLengthPsu2Part1->text().isEmpty()){
-        QMessageBox::information(this, tr("´íÎó"), tr("Êı¾İ³¤¶È²»ÄÜÎª¿Õ£¡"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("é”™è¯¯"), tr("æ•°æ®é•¿åº¦ä¸èƒ½ä¸ºç©ºï¼"), QMessageBox::Ok);
         ui->lineEditDataLengthPsu2Part1->setText(QString("%1").arg(dataLengthPsu2Part1));
         return;
     }
     dataLengthPsu2Part1 = ui->lineEditDataLengthPsu2Part1->text().toInt();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part1DataSave_clicked()
 {
     QList<DataItem *>  *tempList = new QList<DataItem *>;
-    // ±£´æ½çÃæÖĞµÄÊı¾İ, ÅĞ¶ÏÀïÃæµÄ²ÎÊıÊÇ·ñºÏ·¨
+    // ä¿å­˜ç•Œé¢ä¸­çš„æ•°æ®, åˆ¤æ–­é‡Œé¢çš„å‚æ•°æ˜¯å¦åˆæ³•
     for(int i=0; i != nowIndexPsu2Part1Data; ++i){
         QString data, dacAddr, adcAddr, refAddr;
         data = dataLineEditListPsu2Part1Data.at(i)->text();
         bool ok;
         data.toDouble(&ok);
         if(!ok){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîÊı¾İ²»ÊÇÓĞĞ§µÄÊı¾İ£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹æ•°æ®ä¸æ˜¯æœ‰æ•ˆçš„æ•°æ®ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         dacAddr = dacAddrLineEditListPsu2Part1Data.at(i)->text();
         if(!QStringIsInt(dacAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîdacµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹dacåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         adcAddr = adcAddrLineEditListPsu2Part1Data.at(i)->text();
         if(!QStringIsInt(adcAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîadcµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹adcåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         refAddr = refAddrLineEditListPsu2Part1Data.at(i)->text();
         if(!QStringIsInt(refAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîrefµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹refåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         tempList->append(new DataItem(checkBoxListPsu2Part1Data.at(i)->checkState(), data.toDouble(), dacAddr, adcAddr, refAddr));
     }
-    // Çë¿Õµ±Ç°²ÎÊıÁĞ±í
+    // è¯·ç©ºå½“å‰å‚æ•°åˆ—è¡¨
     for(int i=0; i != dataAndAddrListPsu2Part1->size(); ++i)
         delete dataAndAddrListPsu2Part1->at(i);
 
@@ -3254,13 +3254,13 @@ void curdataconfig::on_pushBtnPsu2Part1DataSave_clicked()
             itemPsu2 = new currentItem(cmdListPsu2Pre, psu2Part1, psu2Part2, psu2Part3, psu2Part4, psu2Part5);
         else
             itemPsu2->setPart1(psu2Part1);
-        QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part1DataUndo_clicked()
 {
-    on_pushBtnPsu2Part1DataBatchDel_clicked();  // Çå¿ÕÊı¾İÁĞ±í¿ò
+    on_pushBtnPsu2Part1DataBatchDel_clicked();  // æ¸…ç©ºæ•°æ®åˆ—è¡¨æ¡†
     for(int i=0; i != dataAndAddrListPsu2Part1->size(); ++i){
         on_pushBtnPsu2Part1DataAdd_clicked();
         checkBoxListPsu2Part1Data.at(i)->setChecked(dataAndAddrListPsu2Part1->at(i)->check);
@@ -3270,21 +3270,21 @@ void curdataconfig::on_pushBtnPsu2Part1DataUndo_clicked()
         refAddrLineEditListPsu2Part1Data.at(i)->setText(dataAndAddrListPsu2Part1->at(i)->refAddr);
     }
 }
-// PSU2  Part1 Ğ£×¼
-// ±£´æ°´Å¥
+// PSU2  Part1 æ ¡å‡†
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part1VerifySave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge, setMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge, setMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu2Part1VerifySetCmd->text();
     setStart = ui->lineEditPsu2Part1VerifySetStart->text();
     setEnd = ui->lineEditPsu2Part1VerifySetEnd->text();
     setJudge = ui->lineEditPsu2Part1VerifySetJudge->text();
     setMulti = ui->lineEditPsu2Part1VerifySetMulti->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0 || setMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu2Part1VerifyDMMCmd->text();
     dmmParam = ui->lineEditPsu2Part1VerifyDMMParam->text();
     dmmStart = ui->lineEditPsu2Part1VerifyDMMStart->text();
@@ -3292,28 +3292,28 @@ void curdataconfig::on_pushBtnPsu2Part1VerifySave_clicked()
     dmmJudge = ui->lineEditPsu2Part1VerifyDMMJudge->text();
     dmmMulti = ui->lineEditPsu2Part1VerifyDMMMulti->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0 || dmmMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge, meterMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge, meterMulti;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu2Part1VerifyMeterJudge->text();
     meterMulti = ui->lineEditPsu2Part1VerifyMeterMulti->text();
     if(meterJudge.size()==0 || meterMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡ÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu2Part1Verify->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu2Part1Verify->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu2Part1Verify->setStart(setStart);
     setCmdPsu2Part1Verify->setEnd(setEnd);
     setCmdPsu2Part1Verify->setJudge(setJudge);
     setPsu2Part1Multi = setMulti.toInt();
-    dmmCmdPsu2Part1Verify->setName(dmmName); // ±£´æ¶ÁÈ¡µçÑ¹ÃüÁî²ÎÊı
+    dmmCmdPsu2Part1Verify->setName(dmmName); // ä¿å­˜è¯»å–ç”µå‹å‘½ä»¤å‚æ•°
     dmmCmdPsu2Part1Verify->setParam(dmmParam);
     dmmCmdPsu2Part1Verify->setStart(dmmStart);
     dmmCmdPsu2Part1Verify->setEnd(dmmEnd);
     dmmCmdPsu2Part1Verify->setRatio(dmmJudge.toDouble());
     dmmPsu2Part1Multi = dmmMulti.toInt();
-    meterCmdPsu2Part1Verify->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu2Part1Verify->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     meterPsu2Part1Multi = meterMulti.toInt();
     if(psu2Part1 == NULL){
         psu2Part1 = new testItem(cmdListPsu2Part1Pre, dataAndAddrListPsu2Part1, dataLengthPsu2Part1,
@@ -3333,64 +3333,64 @@ void curdataconfig::on_pushBtnPsu2Part1VerifySave_clicked()
         itemPsu2 = new currentItem(cmdListPsu2Pre, psu2Part1, psu2Part2, psu2Part3, psu2Part4, psu2Part5);
     else
         itemPsu2->setPart1(psu2Part1);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part1VerifyUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu2Part1VerifySetCmd->setText(setCmdPsu2Part1Verify->getName());
     ui->lineEditPsu2Part1VerifySetStart->setText(setCmdPsu2Part1Verify->getStart());
     ui->lineEditPsu2Part1VerifySetEnd->setText(setCmdPsu2Part1Verify->getEnd());
     ui->lineEditPsu2Part1VerifySetJudge->setText(setCmdPsu2Part1Verify->getJudge());
     ui->lineEditPsu2Part1VerifySetMulti->setText(QString("%1").arg(setPsu2Part1Multi));
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu2Part1VerifyDMMCmd->setText(dmmCmdPsu2Part1Verify->getName());
     ui->lineEditPsu2Part1VerifyDMMStart->setText(dmmCmdPsu2Part1Verify->getStart());
     ui->lineEditPsu2Part1VerifyDMMEnd->setText(dmmCmdPsu2Part1Verify->getEnd());
     ui->lineEditPsu2Part1VerifyDMMJudge->setText(dmmCmdPsu2Part1Verify->getRatio());
     ui->lineEditPsu2Part1VerifyDMMMulti->setText(QString("%1").arg(dmmPsu2Part1Multi));
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu2Part1VerifyMeterJudge->setText(meterCmdPsu2Part1Verify->getRatio());
     ui->lineEditPsu2Part1VerifyMeterMulti->setText(QString("%1").arg(meterPsu2Part1Multi));
 }
-// PSU2  Part1  ²âÊÔ
-// ±£´æ°´Å¥
+// PSU2  Part1  æµ‹è¯•
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part1TestSave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu2Part1TestSetCmd->text();
     setStart = ui->lineEditPsu2Part1TestSetStart->text();
     setEnd = ui->lineEditPsu2Part1TestSetEnd->text();
     setJudge = ui->lineEditPsu2Part1TestSetJudge->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu2Part1TestDMMCmd->text();
     dmmStart = ui->lineEditPsu2Part1TestDMMStart->text();
     dmmEnd = ui->lineEditPsu2Part1TestDMMEnd->text();
     dmmJudge = ui->lineEditPsu2Part1TestDMMJudge->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu2Part1TestMeterJudge->text();
     if(meterJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡¶ÁÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–è¯»ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu2Part1Test->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu2Part1Test->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu2Part1Test->setStart(setStart);
     setCmdPsu2Part1Test->setEnd(setEnd);
     setCmdPsu2Part1Test->setJudge(setJudge);
-    dmmCmdPsu2Part1Test->setName(dmmName);  // ±£´æ¶ÁÈ¡µçÁ÷ÃüÁî²ÎÊı
+    dmmCmdPsu2Part1Test->setName(dmmName);  // ä¿å­˜è¯»å–ç”µæµå‘½ä»¤å‚æ•°
     dmmCmdPsu2Part1Test->setStart(dmmStart);
     dmmCmdPsu2Part1Test->setEnd(dmmEnd);
     dmmCmdPsu2Part1Test->setRatio(dmmJudge.toDouble());
-    meterCmdPsu2Part1Test->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu2Part1Test->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     if(psu2Part1 == NULL){
         psu2Part1 = new testItem(cmdListPsu2Part1Pre, dataAndAddrListPsu2Part1, dataLengthPsu2Part1,
                                  setCmdPsu2Part1Verify, setPsu2Part1Multi,
@@ -3406,26 +3406,26 @@ void curdataconfig::on_pushBtnPsu2Part1TestSave_clicked()
         itemPsu2 = new currentItem(cmdListPsu2Pre, psu2Part1, psu2Part2, psu2Part3, psu2Part4, psu2Part5);
     else
         itemPsu2->setPart1(psu2Part1);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part1TestUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu2Part1TestSetCmd->setText(setCmdPsu2Part1Test->getName());
     ui->lineEditPsu2Part1TestSetStart->setText(setCmdPsu2Part1Test->getStart());
     ui->lineEditPsu2Part1TestSetEnd->setText(setCmdPsu2Part1Test->getEnd());
     ui->lineEditPsu2Part1TestSetJudge->setText(setCmdPsu2Part1Test->getJudge());
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu2Part1TestDMMCmd->setText(dmmCmdPsu2Part1Test->getName());
     ui->lineEditPsu2Part1TestDMMStart->setText(dmmCmdPsu2Part1Test->getStart());
     ui->lineEditPsu2Part1TestDMMEnd->setText(dmmCmdPsu2Part1Test->getEnd());
     ui->lineEditPsu2Part1TestDMMJudge->setText(dmmCmdPsu2Part1Test->getRatio());
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu2Part1TestMeterJudge->setText(meterCmdPsu2Part1Test->getRatio());
 }
-// PSU2  Part2  »»µµÃüÁî
-// Ìí¼Ó°´Å¥
+// PSU2  Part2  æ¢æ¡£å‘½ä»¤
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part2PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
@@ -3444,7 +3444,7 @@ void curdataconfig::on_pushBtnPsu2Part2PreAdd_clicked()
         itemPsu2->setPart2(psu2Part2);
     showPsu2Part2PreCmdList();
 }
-// Ë¢ĞÂÃüÁî¿ò
+// åˆ·æ–°å‘½ä»¤æ¡†
 void curdataconfig::showPsu2Part2PreCmdList()
 {
     ui->psu2Part2PreCmdList->clear();
@@ -3453,14 +3453,14 @@ void curdataconfig::showPsu2Part2PreCmdList()
         ui->psu2Part2PreCmdList->addItem(curCommand->getFullName());
     }
 }
-// ÃüÁî¿òµã»÷ÊÂ¼ş
+// å‘½ä»¤æ¡†ç‚¹å‡»äº‹ä»¶
 void curdataconfig::on_psu2Part2PreCmdList_clicked(const QModelIndex &index)
 {
-    nowIndexPsu2Part2Pre = index.row();  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîÔÚÁĞ±íÖĞµÄË÷Òı
-    nowCommandPsu2Part2 = cmdListPsu2Part2Pre->at(nowIndexPsu2Part2Pre);  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîµÄÖ¸Õë
+    nowIndexPsu2Part2Pre = index.row();  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤åœ¨åˆ—è¡¨ä¸­çš„ç´¢å¼•
+    nowCommandPsu2Part2 = cmdListPsu2Part2Pre->at(nowIndexPsu2Part2Pre);  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤çš„æŒ‡é’ˆ
     on_pushBtnPsu2Part2PreUndo_clicked();
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part2PreDel_clicked()
 {
     if(nowIndexPsu2Part2Pre == -1){
@@ -3471,14 +3471,14 @@ void curdataconfig::on_pushBtnPsu2Part2PreDel_clicked()
     if(nowIndexPsu2Part2Pre != -1)
         nowCommandPsu2Part2 = cmdListPsu2Part2Pre->at(nowIndexPsu2Part2Pre);
     showPsu2Part2PreCmdList();
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu2Part2PreName->clear();
     ui->lineEditPsu2Part2PreParam->clear();
     ui->lineEditPsu2Part2PreStart->clear();
     ui->lineEditPsu2Part2PreEnd->clear();
     ui->lineEditPsu2Part2PreJudge->clear();
 }
-// ÏòÉÏ°´Å¥
+// å‘ä¸ŠæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part2PreUp_clicked()
 {
     if(nowIndexPsu2Part2Pre < 1)
@@ -3487,7 +3487,7 @@ void curdataconfig::on_pushBtnPsu2Part2PreUp_clicked()
     nowIndexPsu2Part2Pre--;
     showPsu2Part2PreCmdList();
 }
-// ÏòÏÂ°´Å¥
+// å‘ä¸‹æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part2PreDown_clicked()
 {
     if((nowIndexPsu2Part2Pre == -1)||(nowIndexPsu2Part2Pre >= cmdListPsu2Part2Pre->size()-1))
@@ -3496,7 +3496,7 @@ void curdataconfig::on_pushBtnPsu2Part2PreDown_clicked()
     nowIndexPsu2Part2Pre++;
     showPsu2Part2PreCmdList();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part2PreSave_clicked()
 {
     if(ui->lineEditPsu2Part2PreName->text().size() == 0 &&
@@ -3514,76 +3514,76 @@ void curdataconfig::on_pushBtnPsu2Part2PreSave_clicked()
         showPsu2Part2PreCmdList();
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part2PreUndo_clicked()
 {
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu2Part2PreName->clear();
     ui->lineEditPsu2Part2PreParam->clear();
     ui->lineEditPsu2Part2PreStart->clear();
     ui->lineEditPsu2Part2PreEnd->clear();
     ui->lineEditPsu2Part2PreJudge->clear();
-    // ÏÔÊ¾ÃüÁîÃû³Æ
-    ui->lineEditPsu2Part2PreName->setPlaceholderText(tr("ÃüÁîÃû³Æ"));
+    // æ˜¾ç¤ºå‘½ä»¤åç§°
+    ui->lineEditPsu2Part2PreName->setPlaceholderText(tr("å‘½ä»¤åç§°"));
     ui->lineEditPsu2Part2PreName->setText(nowCommandPsu2Part2->getName());
-    // ÏÔÊ¾ÃüÁî²ÎÊı
-    ui->lineEditPsu2Part2PreParam->setPlaceholderText(tr("²ÎÊı"));
+    // æ˜¾ç¤ºå‘½ä»¤å‚æ•°
+    ui->lineEditPsu2Part2PreParam->setPlaceholderText(tr("å‚æ•°"));
     ui->lineEditPsu2Part2PreParam->setText(nowCommandPsu2Part2->getParam());
 
-    // ÏÔÊ¾½ØÈ¡²ÎÊı
+    // æ˜¾ç¤ºæˆªå–å‚æ•°
     ui->lineEditPsu2Part2PreStart->setText(nowCommandPsu2Part2->getStart());
     ui->lineEditPsu2Part2PreEnd->setText(nowCommandPsu2Part2->getEnd());
-    // ÏÔÊ¾ÅĞµÈ²ÎÊı
+    // æ˜¾ç¤ºåˆ¤ç­‰å‚æ•°
     ui->lineEditPsu2Part2PreJudge->setText(nowCommandPsu2Part2->getJudge());
 }
-// PSU2  Part2  Êı¾İ
-// Ìí¼Ó°´Å¥
+// PSU2  Part2  æ•°æ®
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part2DataAdd_clicked()
 {
     int x, y;
     x = nowIndexPsu2Part2Data / 10;
     y = nowIndexPsu2Part2Data % 10;
-    ui->scrollAreaWidgetContentsPsu2Part2->setFixedWidth((x+1)*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu2Part2->setFixedWidth((x+1)*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu2Part2Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
-    // ¿ò
+    // æ¡†
     QFrame* newframe = new QFrame(ui->scrollAreaWidgetContentsPsu2Part2);
     newframe->setGeometry(QRect(x*290, y*30, 280, 21));
     newframe->setFrameShape(QFrame::Box);
     newframe->setFrameShadow(QFrame::Raised);
     frameListPsu2Part2Data.append(newframe);
     newframe->show();
-    // ¸´Ñ¡¿ò
+    // å¤é€‰æ¡†
     QCheckBox * newcheckbox = new QCheckBox(newframe);
     newcheckbox->setGeometry(QRect(5, 3, 50, 16));
     newcheckbox->setChecked(true);
     newcheckbox->setText(QString("%1").arg(nowIndexPsu2Part2Data+1));
     checkBoxListPsu2Part2Data.append(newcheckbox);
     newcheckbox->show();
-    // Êı¾İ¿ò
+    // æ•°æ®æ¡†
     QLineEdit * datalineedit = new QLineEdit(newframe);
     datalineedit->setGeometry(QRect(60, 2, 50, 17));
-    datalineedit->setPlaceholderText(tr("Êı¾İ"));
+    datalineedit->setPlaceholderText(tr("æ•°æ®"));
     datalineedit->setValidator(new QDoubleValidator(0.0, 65535.0, 2, this));
     dataLineEditListPsu2Part2Data.append(datalineedit);
     datalineedit->show();
-    // dacµØÖ·¿ò
+    // dacåœ°å€æ¡†
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
     dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu2Part2Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
-    // adcµØÖ·¿ò
+    // adcåœ°å€æ¡†
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
     adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu2Part2Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
-    // refµØÖ·¿ò
+    // refåœ°å€æ¡†
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
     refaddrlineedit->setPlaceholderText(tr("refAddr"));
@@ -3591,7 +3591,7 @@ void curdataconfig::on_pushBtnPsu2Part2DataAdd_clicked()
     refaddrlineedit->show();
     nowIndexPsu2Part2Data++;    
 }
-// ÅĞ¶ÏÈ«Ñ¡×´Ì¬
+// åˆ¤æ–­å…¨é€‰çŠ¶æ€
 bool curdataconfig::checkBoxAllSelectPsu2Part2()
 {
     for(int i=0; i != checkBoxListPsu2Part2Data.size(); ++i){
@@ -3600,24 +3600,24 @@ bool curdataconfig::checkBoxAllSelectPsu2Part2()
     }
     return true;
 }
-// È«Ñ¡°´Å¥
+// å…¨é€‰æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part2DataAll_clicked()
 {
-    if(checkBoxAllSelectPsu2Part2()){  // ÒÑ¾­È«Ñ¡, ÉèÖÃÎªÈ«²»Ñ¡
+    if(checkBoxAllSelectPsu2Part2()){  // å·²ç»å…¨é€‰, è®¾ç½®ä¸ºå…¨ä¸é€‰
         for(int i=0; i != checkBoxListPsu2Part2Data.size(); ++i){
             checkBoxListPsu2Part2Data.at(i)->setChecked(false);
         }
-    }else { // Î´È«Ñ¡,ÉèÖÃÎªÈ«Ñ¡
+    }else { // æœªå…¨é€‰,è®¾ç½®ä¸ºå…¨é€‰
         for(int i=0; i != checkBoxListPsu2Part2Data.size(); ++i){
             checkBoxListPsu2Part2Data.at(i)->setChecked(true);
         }
     }
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part2DataDel_clicked()
 {
     for(int i=0; i != checkBoxListPsu2Part2Data.size();){
-        if(checkBoxListPsu2Part2Data.at(i)->isChecked()){  // Èç¹û±»Ñ¡ÖĞ,ÔòÉ¾³ı¸ÃÊı¾İÏî
+        if(checkBoxListPsu2Part2Data.at(i)->isChecked()){  // å¦‚æœè¢«é€‰ä¸­,åˆ™åˆ é™¤è¯¥æ•°æ®é¡¹
             checkBoxListPsu2Part2Data.removeAt(i);
             dataLineEditListPsu2Part2Data.removeAt(i);
             dacAddrLineEditListPsu2Part2Data.removeAt(i);
@@ -3629,7 +3629,7 @@ void curdataconfig::on_pushBtnPsu2Part2DataDel_clicked()
         }else
             ++i;
     }
-    // ÖØĞÂÅÅÁĞ¿ò
+    // é‡æ–°æ’åˆ—æ¡†
     int x, y;
     for(int i=0; i != frameListPsu2Part2Data.size(); ++i){
         x = i / 10;
@@ -3639,22 +3639,22 @@ void curdataconfig::on_pushBtnPsu2Part2DataDel_clicked()
     }
     nowIndexPsu2Part2Data = checkBoxListPsu2Part2Data.size();
     int column = nowIndexPsu2Part2Data/10 + (nowIndexPsu2Part2Data % 10 ? 1 : 0);
-    ui->scrollAreaWidgetContentsPsu2Part2->setFixedWidth(column*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu2Part2->setFixedWidth(column*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu2Part2Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
 }
-// È«²¿É¾³ı°´Å¥
+// å…¨éƒ¨åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part2DataBatchDel_clicked()
 {
-    if(!checkBoxAllSelectPsu2Part2())  // Ã»ÓĞÈ«Ñ¡,ÔòÈ«Ñ¡
+    if(!checkBoxAllSelectPsu2Part2())  // æ²¡æœ‰å…¨é€‰,åˆ™å…¨é€‰
         on_pushBtnPsu2Part2DataAll_clicked();
-    on_pushBtnPsu2Part2DataDel_clicked(); // É¾³ı
+    on_pushBtnPsu2Part2DataDel_clicked(); // åˆ é™¤
 }
-// Çå¿ÕÊı¾İ°´Å¥
+// æ¸…ç©ºæ•°æ®æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part2DataClear_clicked()
 {
     for(int i=0; i != nowIndexPsu2Part2Data; ++i){
@@ -3664,18 +3664,18 @@ void curdataconfig::on_pushBtnPsu2Part2DataClear_clicked()
         refAddrLineEditListPsu2Part2Data.at(i)->clear();
     }
 }
-// ÅúÁ¿Ìí¼Ó°´Å¥
+// æ‰¹é‡æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part2DataBatchAdd_clicked()
 {
     if(nowIndexPsu2Part2Data)
-        if(QMessageBox::question(this, tr("Ñ¯ÎÊ"), tr("ÊÇ·ñ±£Áôµ±Ç°ÒÑÌîÊı¾İ£¿"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
+        if(QMessageBox::question(this, tr("è¯¢é—®"), tr("æ˜¯å¦ä¿ç•™å½“å‰å·²å¡«æ•°æ®ï¼Ÿ"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu2Part2DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
     connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
             this, SLOT(handleBatchParamsPsu2Part2(int, double, double, QString, bool)));
     batchdialog->show();
 }
-// ´¦Àí½ÓÊÕµ½µÄÅúÁ¿Ìí¼Ó²ÎÊı
+// å¤„ç†æ¥æ”¶åˆ°çš„æ‰¹é‡æ·»åŠ å‚æ•°
 void curdataconfig::handleBatchParamsPsu2Part2(int num, double dataStart,
                                       double dataStep, QString strAddrStart, bool isRise)
 {
@@ -3711,48 +3711,48 @@ void curdataconfig::handleBatchParamsPsu2Part2(int num, double dataStart,
         refAddrLineEditListPsu2Part2Data.at(nowIndexPsu2Part2Data-1)->setText(strRefAddr);
     }
 }
-// Êı¾İ³¤¶È±à¼­
+// æ•°æ®é•¿åº¦ç¼–è¾‘
 void curdataconfig::on_lineEditDataLengthPsu2Part2_textEdited()
 {
     if(ui->lineEditDataLengthPsu2Part2->text().isEmpty()){
-        QMessageBox::information(this, tr("´íÎó"), tr("Êı¾İ³¤¶È²»ÄÜÎª¿Õ£¡"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("é”™è¯¯"), tr("æ•°æ®é•¿åº¦ä¸èƒ½ä¸ºç©ºï¼"), QMessageBox::Ok);
         ui->lineEditDataLengthPsu2Part2->setText(QString("%1").arg(dataLengthPsu2Part2));
         return;
     }
     dataLengthPsu2Part2 = ui->lineEditDataLengthPsu2Part2->text().toInt();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part2DataSave_clicked()
 {
     QList<DataItem *>  *tempList = new QList<DataItem *>;
-    // ±£´æ½çÃæÖĞµÄÊı¾İ, ÅĞ¶ÏÀïÃæµÄ²ÎÊıÊÇ·ñºÏ·¨
+    // ä¿å­˜ç•Œé¢ä¸­çš„æ•°æ®, åˆ¤æ–­é‡Œé¢çš„å‚æ•°æ˜¯å¦åˆæ³•
     for(int i=0; i != nowIndexPsu2Part2Data; ++i){
         QString data, dacAddr, adcAddr, refAddr;
         data = dataLineEditListPsu2Part2Data.at(i)->text();
         bool ok;
         data.toDouble(&ok);
         if(!ok){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîÊı¾İ²»ÊÇÓĞĞ§µÄÊı¾İ£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹æ•°æ®ä¸æ˜¯æœ‰æ•ˆçš„æ•°æ®ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         dacAddr = dacAddrLineEditListPsu2Part2Data.at(i)->text();
         if(!QStringIsInt(dacAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîdacµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹dacåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         adcAddr = dacAddrLineEditListPsu2Part2Data.at(i)->text();
         if(!QStringIsInt(adcAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîadcµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹adcåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         refAddr = dacAddrLineEditListPsu2Part2Data.at(i)->text();
         if(!QStringIsInt(refAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîrefµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹refåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         tempList->append(new DataItem(checkBoxListPsu2Part2Data.at(i)->checkState(), data.toDouble(), dacAddr, adcAddr, refAddr));
     }
-    // Çë¿Õµ±Ç°²ÎÊıÁĞ±í
+    // è¯·ç©ºå½“å‰å‚æ•°åˆ—è¡¨
     for(int i=0; i != dataAndAddrListPsu2Part2->size(); ++i)
         delete dataAndAddrListPsu2Part2->at(i);
     dataAndAddrListPsu2Part2->clear();
@@ -3770,13 +3770,13 @@ void curdataconfig::on_pushBtnPsu2Part2DataSave_clicked()
             itemPsu2 = new currentItem(cmdListPsu2Pre, psu2Part1, psu2Part2, psu2Part3, psu2Part4, psu2Part5);
         else
             itemPsu2->setPart2(psu2Part2);
-        QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part2DataUndo_clicked()
 {
-    on_pushBtnPsu2Part2DataBatchDel_clicked();  // Çå¿ÕÊı¾İÁĞ±í¿ò
+    on_pushBtnPsu2Part2DataBatchDel_clicked();  // æ¸…ç©ºæ•°æ®åˆ—è¡¨æ¡†
     for(int i=0; i != dataAndAddrListPsu2Part2->size(); ++i){
         on_pushBtnPsu2Part2DataAdd_clicked();
         checkBoxListPsu2Part2Data.at(i)->setChecked(dataAndAddrListPsu2Part2->at(i)->check);
@@ -3786,21 +3786,21 @@ void curdataconfig::on_pushBtnPsu2Part2DataUndo_clicked()
         refAddrLineEditListPsu2Part2Data.at(i)->setText(dataAndAddrListPsu2Part2->at(i)->refAddr);
     }
 }
-// PSU2  Part2 Ğ£×¼
-// ±£´æ°´Å¥
+// PSU2  Part2 æ ¡å‡†
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part2VerifySave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge, setMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge, setMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu2Part2VerifySetCmd->text();
     setStart = ui->lineEditPsu2Part2VerifySetStart->text();
     setEnd = ui->lineEditPsu2Part2VerifySetEnd->text();
     setJudge = ui->lineEditPsu2Part2VerifySetJudge->text();
     setMulti = ui->lineEditPsu2Part2VerifySetMulti->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0 || setMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu2Part2VerifyDMMCmd->text();
     dmmParam = ui->lineEditPsu2Part2VerifyDMMParam->text();
     dmmStart = ui->lineEditPsu2Part2VerifyDMMStart->text();
@@ -3808,28 +3808,28 @@ void curdataconfig::on_pushBtnPsu2Part2VerifySave_clicked()
     dmmJudge = ui->lineEditPsu2Part2VerifyDMMJudge->text();
     dmmMulti = ui->lineEditPsu2Part2VerifyDMMMulti->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0 || dmmMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge, meterMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge, meterMulti;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu2Part2VerifyMeterJudge->text();
     meterMulti = ui->lineEditPsu2Part2VerifyMeterMulti->text();
     if(meterJudge.size()==0 || meterMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡ÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu2Part2Verify->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu2Part2Verify->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu2Part2Verify->setStart(setStart);
     setCmdPsu2Part2Verify->setEnd(setEnd);
     setCmdPsu2Part2Verify->setJudge(setJudge);
     setPsu2Part2Multi = setMulti.toInt();
-    dmmCmdPsu2Part2Verify->setName(dmmName); // ±£´æ¶ÁÈ¡µçÑ¹ÃüÁî²ÎÊı
+    dmmCmdPsu2Part2Verify->setName(dmmName); // ä¿å­˜è¯»å–ç”µå‹å‘½ä»¤å‚æ•°
     dmmCmdPsu2Part2Verify->setParam(dmmParam);
     dmmCmdPsu2Part2Verify->setStart(dmmStart);
     dmmCmdPsu2Part2Verify->setEnd(dmmEnd);
     dmmCmdPsu2Part2Verify->setRatio(dmmJudge.toDouble());
     dmmPsu2Part2Multi = dmmMulti.toInt();
-    meterCmdPsu2Part2Verify->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu2Part2Verify->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     meterPsu2Part2Multi = meterMulti.toInt();
     if(psu2Part2 == NULL){
         psu2Part2 = new testItem(cmdListPsu2Part2Pre, dataAndAddrListPsu2Part2, dataLengthPsu2Part2,
@@ -3849,64 +3849,64 @@ void curdataconfig::on_pushBtnPsu2Part2VerifySave_clicked()
         itemPsu2 = new currentItem(cmdListPsu2Pre, psu2Part1, psu2Part2, psu2Part3, psu2Part4, psu2Part5);
     else
         itemPsu2->setPart2(psu2Part2);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part2VerifyUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu2Part2VerifySetCmd->setText(setCmdPsu2Part2Verify->getName());
     ui->lineEditPsu2Part2VerifySetStart->setText(setCmdPsu2Part2Verify->getStart());
     ui->lineEditPsu2Part2VerifySetEnd->setText(setCmdPsu2Part2Verify->getEnd());
     ui->lineEditPsu2Part2VerifySetJudge->setText(setCmdPsu2Part2Verify->getJudge());
     ui->lineEditPsu2Part2VerifySetMulti->setText(QString("%1").arg(setPsu2Part2Multi));
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu2Part2VerifyDMMCmd->setText(dmmCmdPsu2Part2Verify->getName());
     ui->lineEditPsu2Part2VerifyDMMStart->setText(dmmCmdPsu2Part2Verify->getStart());
     ui->lineEditPsu2Part2VerifyDMMEnd->setText(dmmCmdPsu2Part2Verify->getEnd());
     ui->lineEditPsu2Part2VerifyDMMJudge->setText(dmmCmdPsu2Part2Verify->getRatio());
     ui->lineEditPsu2Part2VerifyDMMMulti->setText(QString("%1").arg(dmmPsu2Part2Multi));
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu2Part2VerifyMeterJudge->setText(meterCmdPsu2Part2Verify->getRatio());
     ui->lineEditPsu2Part2VerifyMeterMulti->setText(QString("%1").arg(meterPsu2Part2Multi));
 }
-// PSU2  Part2  ²âÊÔ
-// ±£´æ°´Å¥
+// PSU2  Part2  æµ‹è¯•
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part2TestSave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu2Part2TestSetCmd->text();
     setStart = ui->lineEditPsu2Part2TestSetStart->text();
     setEnd = ui->lineEditPsu2Part2TestSetEnd->text();
     setJudge = ui->lineEditPsu2Part2TestSetJudge->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu2Part2TestDMMCmd->text();
     dmmStart = ui->lineEditPsu2Part2TestDMMStart->text();
     dmmEnd = ui->lineEditPsu2Part2TestDMMEnd->text();
     dmmJudge = ui->lineEditPsu2Part2TestDMMJudge->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu2Part2TestMeterJudge->text();
     if(meterJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡¶ÁÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–è¯»ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu2Part2Test->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu2Part2Test->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu2Part2Test->setStart(setStart);
     setCmdPsu2Part2Test->setEnd(setEnd);
     setCmdPsu2Part2Test->setJudge(setJudge);
-    dmmCmdPsu2Part2Test->setName(dmmName);  // ±£´æ¶ÁÈ¡µçÁ÷ÃüÁî²ÎÊı
+    dmmCmdPsu2Part2Test->setName(dmmName);  // ä¿å­˜è¯»å–ç”µæµå‘½ä»¤å‚æ•°
     dmmCmdPsu2Part2Test->setStart(dmmStart);
     dmmCmdPsu2Part2Test->setEnd(dmmEnd);
     dmmCmdPsu2Part2Test->setRatio(dmmJudge.toDouble());
-    meterCmdPsu2Part2Test->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu2Part2Test->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     if(psu2Part2 == NULL){
         psu2Part2 = new testItem(cmdListPsu2Part2Pre, dataAndAddrListPsu2Part2, dataLengthPsu2Part2,
                                  setCmdPsu2Part2Verify, setPsu2Part2Multi,
@@ -3922,26 +3922,26 @@ void curdataconfig::on_pushBtnPsu2Part2TestSave_clicked()
         itemPsu2 = new currentItem(cmdListPsu2Pre, psu2Part1, psu2Part2, psu2Part3, psu2Part4, psu2Part5);
     else
         itemPsu2->setPart2(psu2Part2);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part2TestUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu2Part2TestSetCmd->setText(setCmdPsu2Part2Test->getName());
     ui->lineEditPsu2Part2TestSetStart->setText(setCmdPsu2Part2Test->getStart());
     ui->lineEditPsu2Part2TestSetEnd->setText(setCmdPsu2Part2Test->getEnd());
     ui->lineEditPsu2Part2TestSetJudge->setText(setCmdPsu2Part2Test->getJudge());
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu2Part2TestDMMCmd->setText(dmmCmdPsu2Part2Test->getName());
     ui->lineEditPsu2Part2TestDMMStart->setText(dmmCmdPsu2Part2Test->getStart());
     ui->lineEditPsu2Part2TestDMMEnd->setText(dmmCmdPsu2Part2Test->getEnd());
     ui->lineEditPsu2Part2TestDMMJudge->setText(dmmCmdPsu2Part2Test->getRatio());
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu2Part2TestMeterJudge->setText(meterCmdPsu2Part2Test->getRatio());
 }
-// PSU2  Part3  »»µµÃüÁî
-// Ìí¼Ó°´Å¥
+// PSU2  Part3  æ¢æ¡£å‘½ä»¤
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part3PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
@@ -3960,7 +3960,7 @@ void curdataconfig::on_pushBtnPsu2Part3PreAdd_clicked()
         itemPsu2->setPart3(psu2Part3);
     showPsu2Part3PreCmdList();
 }
-// Ë¢ĞÂÃüÁî¿ò
+// åˆ·æ–°å‘½ä»¤æ¡†
 void curdataconfig::showPsu2Part3PreCmdList()
 {
     ui->psu2Part3PreCmdList->clear();
@@ -3969,14 +3969,14 @@ void curdataconfig::showPsu2Part3PreCmdList()
         ui->psu2Part3PreCmdList->addItem(curCommand->getFullName());
     }
 }
-// ÃüÁî¿òµã»÷ÊÂ¼ş
+// å‘½ä»¤æ¡†ç‚¹å‡»äº‹ä»¶
 void curdataconfig::on_psu2Part3PreCmdList_clicked(const QModelIndex &index)
 {
-    nowIndexPsu2Part3Pre = index.row();  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîÔÚÁĞ±íÖĞµÄË÷Òı
-    nowCommandPsu2Part3 = cmdListPsu2Part3Pre->at(nowIndexPsu2Part3Pre);  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîµÄÖ¸Õë
+    nowIndexPsu2Part3Pre = index.row();  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤åœ¨åˆ—è¡¨ä¸­çš„ç´¢å¼•
+    nowCommandPsu2Part3 = cmdListPsu2Part3Pre->at(nowIndexPsu2Part3Pre);  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤çš„æŒ‡é’ˆ
     on_pushBtnPsu2Part3PreUndo_clicked();
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part3PreDel_clicked()
 {
     if(nowIndexPsu2Part3Pre == -1){
@@ -3987,14 +3987,14 @@ void curdataconfig::on_pushBtnPsu2Part3PreDel_clicked()
     if(nowIndexPsu2Part3Pre != -1)
         nowCommandPsu2Part3 = cmdListPsu2Part3Pre->at(nowIndexPsu2Part3Pre);
     showPsu2Part3PreCmdList();
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu2Part3PreName->clear();
     ui->lineEditPsu2Part3PreParam->clear();
     ui->lineEditPsu2Part3PreStart->clear();
     ui->lineEditPsu2Part3PreEnd->clear();
     ui->lineEditPsu2Part3PreJudge->clear();
 }
-// ÏòÉÏ°´Å¥
+// å‘ä¸ŠæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part3PreUp_clicked()
 {
     if(nowIndexPsu2Part3Pre < 1)
@@ -4003,7 +4003,7 @@ void curdataconfig::on_pushBtnPsu2Part3PreUp_clicked()
     nowIndexPsu2Part3Pre--;
     showPsu2Part3PreCmdList();
 }
-// ÏòÏÂ°´Å¥
+// å‘ä¸‹æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part3PreDown_clicked()
 {
     if((nowIndexPsu2Part3Pre == -1)||(nowIndexPsu2Part3Pre >= cmdListPsu2Part3Pre->size()-1))
@@ -4012,7 +4012,7 @@ void curdataconfig::on_pushBtnPsu2Part3PreDown_clicked()
     nowIndexPsu2Part3Pre++;
     showPsu2Part3PreCmdList();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part3PreSave_clicked()
 {
     if(ui->lineEditPsu2Part3PreName->text().size() == 0 &&
@@ -4030,76 +4030,76 @@ void curdataconfig::on_pushBtnPsu2Part3PreSave_clicked()
         showPsu2Part3PreCmdList();
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part3PreUndo_clicked()
 {
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu2Part3PreName->clear();
     ui->lineEditPsu2Part3PreParam->clear();
     ui->lineEditPsu2Part3PreStart->clear();
     ui->lineEditPsu2Part3PreEnd->clear();
     ui->lineEditPsu2Part3PreJudge->clear();
-    // ÏÔÊ¾ÃüÁîÃû³Æ
-    ui->lineEditPsu2Part3PreName->setPlaceholderText(tr("ÃüÁîÃû³Æ"));
+    // æ˜¾ç¤ºå‘½ä»¤åç§°
+    ui->lineEditPsu2Part3PreName->setPlaceholderText(tr("å‘½ä»¤åç§°"));
     ui->lineEditPsu2Part3PreName->setText(nowCommandPsu2Part3->getName());
-    // ÏÔÊ¾ÃüÁî²ÎÊı
-    ui->lineEditPsu2Part3PreParam->setPlaceholderText(tr("²ÎÊı"));
+    // æ˜¾ç¤ºå‘½ä»¤å‚æ•°
+    ui->lineEditPsu2Part3PreParam->setPlaceholderText(tr("å‚æ•°"));
     ui->lineEditPsu2Part3PreParam->setText(nowCommandPsu2Part3->getParam());
 
-    // ÏÔÊ¾½ØÈ¡²ÎÊı
+    // æ˜¾ç¤ºæˆªå–å‚æ•°
     ui->lineEditPsu2Part3PreStart->setText(nowCommandPsu2Part3->getStart());
     ui->lineEditPsu2Part3PreEnd->setText(nowCommandPsu2Part3->getEnd());
-    // ÏÔÊ¾ÅĞµÈ²ÎÊı
+    // æ˜¾ç¤ºåˆ¤ç­‰å‚æ•°
     ui->lineEditPsu2Part3PreJudge->setText(nowCommandPsu2Part3->getJudge());
 }
-// PSU2  Part3  Êı¾İ
-// Ìí¼Ó°´Å¥
+// PSU2  Part3  æ•°æ®
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part3DataAdd_clicked()
 {
     int x, y;
     x = nowIndexPsu2Part3Data / 10;
     y = nowIndexPsu2Part3Data % 10;
-    ui->scrollAreaWidgetContentsPsu2Part3->setFixedWidth((x+1)*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu2Part3->setFixedWidth((x+1)*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu2Part3Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
-    // ¿ò
+    // æ¡†
     QFrame* newframe = new QFrame(ui->scrollAreaWidgetContentsPsu2Part3);
     newframe->setGeometry(QRect(x*290, y*30, 280, 21));
     newframe->setFrameShape(QFrame::Box);
     newframe->setFrameShadow(QFrame::Raised);
     frameListPsu2Part3Data.append(newframe);
     newframe->show();
-    // ¸´Ñ¡¿ò
+    // å¤é€‰æ¡†
     QCheckBox * newcheckbox = new QCheckBox(newframe);
     newcheckbox->setGeometry(QRect(5, 3, 50, 16));
     newcheckbox->setChecked(true);
     newcheckbox->setText(QString("%1").arg(nowIndexPsu2Part3Data+1));
     checkBoxListPsu2Part3Data.append(newcheckbox);
     newcheckbox->show();
-    // Êı¾İ¿ò
+    // æ•°æ®æ¡†
     QLineEdit * datalineedit = new QLineEdit(newframe);
     datalineedit->setGeometry(QRect(60, 2, 50, 17));
-    datalineedit->setPlaceholderText(tr("Êı¾İ"));
+    datalineedit->setPlaceholderText(tr("æ•°æ®"));
     datalineedit->setValidator(new QDoubleValidator(0.0, 65535.0, 2, this));
     dataLineEditListPsu2Part3Data.append(datalineedit);
     datalineedit->show();
-    // dacµØÖ·¿ò
+    // dacåœ°å€æ¡†
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
     dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu2Part3Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
-    // adcµØÖ·¿ò
+    // adcåœ°å€æ¡†
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
     adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu2Part3Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
-    // refµØÖ·¿ò
+    // refåœ°å€æ¡†
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
     refaddrlineedit->setPlaceholderText(tr("refAddr"));
@@ -4107,7 +4107,7 @@ void curdataconfig::on_pushBtnPsu2Part3DataAdd_clicked()
     refaddrlineedit->show();
     nowIndexPsu2Part3Data++;
 }
-// ÅĞ¶ÏÈ«Ñ¡×´Ì¬
+// åˆ¤æ–­å…¨é€‰çŠ¶æ€
 bool curdataconfig::checkBoxAllSelectPsu2Part3()
 {
     for(int i=0; i != checkBoxListPsu2Part3Data.size(); ++i){
@@ -4116,24 +4116,24 @@ bool curdataconfig::checkBoxAllSelectPsu2Part3()
     }
     return true;
 }
-// È«Ñ¡°´Å¥
+// å…¨é€‰æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part3DataAll_clicked()
 {
-    if(checkBoxAllSelectPsu2Part3()){  // ÒÑ¾­È«Ñ¡, ÉèÖÃÎªÈ«²»Ñ¡
+    if(checkBoxAllSelectPsu2Part3()){  // å·²ç»å…¨é€‰, è®¾ç½®ä¸ºå…¨ä¸é€‰
         for(int i=0; i != checkBoxListPsu2Part3Data.size(); ++i){
             checkBoxListPsu2Part3Data.at(i)->setChecked(false);
         }
-    }else { // Î´È«Ñ¡,ÉèÖÃÎªÈ«Ñ¡
+    }else { // æœªå…¨é€‰,è®¾ç½®ä¸ºå…¨é€‰
         for(int i=0; i != checkBoxListPsu2Part3Data.size(); ++i){
             checkBoxListPsu2Part3Data.at(i)->setChecked(true);
         }
     }
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part3DataDel_clicked()
 {
     for(int i=0; i != checkBoxListPsu2Part3Data.size();){
-        if(checkBoxListPsu2Part3Data.at(i)->isChecked()){  // Èç¹û±»Ñ¡ÖĞ,ÔòÉ¾³ı¸ÃÊı¾İÏî
+        if(checkBoxListPsu2Part3Data.at(i)->isChecked()){  // å¦‚æœè¢«é€‰ä¸­,åˆ™åˆ é™¤è¯¥æ•°æ®é¡¹
             checkBoxListPsu2Part3Data.removeAt(i);
             dataLineEditListPsu2Part3Data.removeAt(i);
             dacAddrLineEditListPsu2Part3Data.removeAt(i);
@@ -4146,7 +4146,7 @@ void curdataconfig::on_pushBtnPsu2Part3DataDel_clicked()
             ++i;
         }
     }
-    // ÖØĞÂÅÅÁĞ¿ò
+    // é‡æ–°æ’åˆ—æ¡†
     int x, y;
     for(int i=0; i != frameListPsu2Part3Data.size(); ++i){
         x = i / 10;
@@ -4156,22 +4156,22 @@ void curdataconfig::on_pushBtnPsu2Part3DataDel_clicked()
     }
     nowIndexPsu2Part3Data = checkBoxListPsu2Part3Data.size();
     int column = nowIndexPsu2Part3Data/10 + (nowIndexPsu2Part3Data % 10 ? 1 : 0);
-    ui->scrollAreaWidgetContentsPsu2Part3->setFixedWidth(column*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu2Part3->setFixedWidth(column*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu2Part3Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
 }
-// È«²¿É¾³ı°´Å¥
+// å…¨éƒ¨åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part3DataBatchDel_clicked()
 {
-    if(!checkBoxAllSelectPsu2Part3())  // Ã»ÓĞÈ«Ñ¡,ÔòÈ«Ñ¡
+    if(!checkBoxAllSelectPsu2Part3())  // æ²¡æœ‰å…¨é€‰,åˆ™å…¨é€‰
         on_pushBtnPsu2Part3DataAll_clicked();
-    on_pushBtnPsu2Part3DataDel_clicked(); // É¾³ı
+    on_pushBtnPsu2Part3DataDel_clicked(); // åˆ é™¤
 }
-// Çå¿ÕÊı¾İ°´Å¥
+// æ¸…ç©ºæ•°æ®æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part3DataClear_clicked()
 {
     for(int i=0; i != nowIndexPsu2Part3Data; ++i){
@@ -4181,18 +4181,18 @@ void curdataconfig::on_pushBtnPsu2Part3DataClear_clicked()
         refAddrLineEditListPsu2Part3Data.at(i)->clear();
     }
 }
-// ÅúÁ¿Ìí¼Ó°´Å¥
+// æ‰¹é‡æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part3DataBatchAdd_clicked()
 {
     if(nowIndexPsu2Part3Data)
-        if(QMessageBox::question(this, tr("Ñ¯ÎÊ"), tr("ÊÇ·ñ±£Áôµ±Ç°ÒÑÌîÊı¾İ£¿"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
+        if(QMessageBox::question(this, tr("è¯¢é—®"), tr("æ˜¯å¦ä¿ç•™å½“å‰å·²å¡«æ•°æ®ï¼Ÿ"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu2Part3DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
     connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
             this, SLOT(handleBatchParamsPsu2Part3(int, double, double, QString, bool)));
     batchdialog->show();
 }
-// ´¦Àí½ÓÊÕµ½µÄÅúÁ¿Ìí¼Ó²ÎÊı
+// å¤„ç†æ¥æ”¶åˆ°çš„æ‰¹é‡æ·»åŠ å‚æ•°
 void curdataconfig::handleBatchParamsPsu2Part3(int num, double dataStart,
                                       double dataStep, QString strAddrStart, bool isRise)
 {
@@ -4228,48 +4228,48 @@ void curdataconfig::handleBatchParamsPsu2Part3(int num, double dataStart,
         refAddrLineEditListPsu2Part3Data.at(nowIndexPsu2Part3Data-1)->setText(strRefAddr);
     }
 }
-// Êı¾İ³¤¶È±à¼­
+// æ•°æ®é•¿åº¦ç¼–è¾‘
 void curdataconfig::on_lineEditDataLengthPsu2Part3_textEdited()
 {
     if(ui->lineEditDataLengthPsu2Part3->text().isEmpty()){
-        QMessageBox::information(this, tr("´íÎó"), tr("Êı¾İ³¤¶È²»ÄÜÎª¿Õ£¡"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("é”™è¯¯"), tr("æ•°æ®é•¿åº¦ä¸èƒ½ä¸ºç©ºï¼"), QMessageBox::Ok);
         ui->lineEditDataLengthPsu2Part3->setText(QString("%1").arg(dataLengthPsu2Part3));
         return;
     }
     dataLengthPsu2Part3 = ui->lineEditDataLengthPsu2Part3->text().toInt();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part3DataSave_clicked()
 {
     QList<DataItem *>  *tempList = new QList<DataItem *>;
-    // ±£´æ½çÃæÖĞµÄÊı¾İ, ÅĞ¶ÏÀïÃæµÄ²ÎÊıÊÇ·ñºÏ·¨
+    // ä¿å­˜ç•Œé¢ä¸­çš„æ•°æ®, åˆ¤æ–­é‡Œé¢çš„å‚æ•°æ˜¯å¦åˆæ³•
     for(int i=0; i != nowIndexPsu2Part3Data; ++i){
         QString data, dacAddr, adcAddr, refAddr;
         data = dataLineEditListPsu2Part3Data.at(i)->text();
         bool ok;
         data.toDouble(&ok);
         if(!ok){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîÊı¾İ²»ÊÇÓĞĞ§µÄÊı¾İ£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹æ•°æ®ä¸æ˜¯æœ‰æ•ˆçš„æ•°æ®ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         dacAddr = dacAddrLineEditListPsu2Part3Data.at(i)->text();
         if(!QStringIsInt(dacAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîdacµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹dacåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         adcAddr = adcAddrLineEditListPsu2Part3Data.at(i)->text();
         if(!QStringIsInt(adcAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîadcµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹adcåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         refAddr = refAddrLineEditListPsu2Part3Data.at(i)->text();
         if(!QStringIsInt(refAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîrefµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹refåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         tempList->append(new DataItem(checkBoxListPsu2Part3Data.at(i)->checkState(), data.toDouble(), dacAddr, adcAddr, refAddr));
     }
-    // Çë¿Õµ±Ç°²ÎÊıÁĞ±í
+    // è¯·ç©ºå½“å‰å‚æ•°åˆ—è¡¨
     for(int i=0; i != dataAndAddrListPsu2Part3->size(); ++i)
         delete dataAndAddrListPsu2Part3->at(i);
     dataAndAddrListPsu2Part3->clear();
@@ -4287,13 +4287,13 @@ void curdataconfig::on_pushBtnPsu2Part3DataSave_clicked()
             itemPsu2 = new currentItem(cmdListPsu2Pre, psu2Part1, psu2Part2, psu2Part3, psu2Part4, psu2Part5);
         else
             itemPsu2->setPart3(psu2Part3);
-        QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part3DataUndo_clicked()
 {
-    on_pushBtnPsu2Part3DataBatchDel_clicked();  // Çå¿ÕÊı¾İÁĞ±í¿ò
+    on_pushBtnPsu2Part3DataBatchDel_clicked();  // æ¸…ç©ºæ•°æ®åˆ—è¡¨æ¡†
     for(int i=0; i != dataAndAddrListPsu2Part3->size(); ++i){
         on_pushBtnPsu2Part3DataAdd_clicked();
         checkBoxListPsu2Part3Data.at(i)->setChecked(dataAndAddrListPsu2Part3->at(i)->check);
@@ -4303,21 +4303,21 @@ void curdataconfig::on_pushBtnPsu2Part3DataUndo_clicked()
         refAddrLineEditListPsu2Part3Data.at(i)->setText(dataAndAddrListPsu2Part3->at(i)->refAddr);
     }
 }
-// PSU2  Part3 Ğ£×¼
-// ±£´æ°´Å¥
+// PSU2  Part3 æ ¡å‡†
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part3VerifySave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge, setMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge, setMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu2Part3VerifySetCmd->text();
     setStart = ui->lineEditPsu2Part3VerifySetStart->text();
     setEnd = ui->lineEditPsu2Part3VerifySetEnd->text();
     setJudge = ui->lineEditPsu2Part3VerifySetJudge->text();
     setMulti = ui->lineEditPsu2Part3VerifySetMulti->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0 || setMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu2Part3VerifyDMMCmd->text();
     dmmParam = ui->lineEditPsu2Part3VerifyDMMParam->text();
     dmmStart = ui->lineEditPsu2Part3VerifyDMMStart->text();
@@ -4325,28 +4325,28 @@ void curdataconfig::on_pushBtnPsu2Part3VerifySave_clicked()
     dmmJudge = ui->lineEditPsu2Part3VerifyDMMJudge->text();
     dmmMulti = ui->lineEditPsu2Part3VerifyDMMMulti->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0 || dmmMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge, meterMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge, meterMulti;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu2Part3VerifyMeterJudge->text();
     meterMulti = ui->lineEditPsu2Part3VerifyMeterMulti->text();
     if(meterJudge.size()==0 || meterMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡ÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu2Part3Verify->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu2Part3Verify->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu2Part3Verify->setStart(setStart);
     setCmdPsu2Part3Verify->setEnd(setEnd);
     setCmdPsu2Part3Verify->setJudge(setJudge);
     setPsu2Part3Multi = setMulti.toInt();
-    dmmCmdPsu2Part3Verify->setName(dmmName); // ±£´æ¶ÁÈ¡µçÑ¹ÃüÁî²ÎÊı
+    dmmCmdPsu2Part3Verify->setName(dmmName); // ä¿å­˜è¯»å–ç”µå‹å‘½ä»¤å‚æ•°
     dmmCmdPsu2Part3Verify->setParam(dmmParam);
     dmmCmdPsu2Part3Verify->setStart(dmmStart);
     dmmCmdPsu2Part3Verify->setEnd(dmmEnd);
     dmmCmdPsu2Part3Verify->setRatio(dmmJudge.toDouble());
     dmmPsu2Part3Multi = dmmMulti.toInt();
-    meterCmdPsu2Part3Verify->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu2Part3Verify->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     meterPsu2Part3Multi = meterMulti.toInt();
     if(psu2Part3 == NULL){
         psu2Part3 = new testItem(cmdListPsu2Part3Pre, dataAndAddrListPsu2Part3, dataLengthPsu2Part3,
@@ -4366,64 +4366,64 @@ void curdataconfig::on_pushBtnPsu2Part3VerifySave_clicked()
         itemPsu2 = new currentItem(cmdListPsu2Pre, psu2Part1, psu2Part2, psu2Part3, psu2Part4, psu2Part5);
     else
         itemPsu2->setPart3(psu2Part3);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part3VerifyUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu2Part3VerifySetCmd->setText(setCmdPsu2Part3Verify->getName());
     ui->lineEditPsu2Part3VerifySetStart->setText(setCmdPsu2Part3Verify->getStart());
     ui->lineEditPsu2Part3VerifySetEnd->setText(setCmdPsu2Part3Verify->getEnd());
     ui->lineEditPsu2Part3VerifySetJudge->setText(setCmdPsu2Part3Verify->getJudge());
     ui->lineEditPsu2Part3VerifySetMulti->setText(QString("%1").arg(setPsu2Part3Multi));
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu2Part3VerifyDMMCmd->setText(dmmCmdPsu2Part3Verify->getName());
     ui->lineEditPsu2Part3VerifyDMMStart->setText(dmmCmdPsu2Part3Verify->getStart());
     ui->lineEditPsu2Part3VerifyDMMEnd->setText(dmmCmdPsu2Part3Verify->getEnd());
     ui->lineEditPsu2Part3VerifyDMMJudge->setText(dmmCmdPsu2Part3Verify->getRatio());
     ui->lineEditPsu2Part3VerifyDMMMulti->setText(QString("%1").arg(dmmPsu2Part3Multi));
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu2Part3VerifyMeterJudge->setText(meterCmdPsu2Part3Verify->getRatio());
     ui->lineEditPsu2Part3VerifyMeterMulti->setText(QString("%1").arg(meterPsu2Part3Multi));
 }
-// PSU2  Part3  ²âÊÔ
-// ±£´æ°´Å¥
+// PSU2  Part3  æµ‹è¯•
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part3TestSave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu2Part3TestSetCmd->text();
     setStart = ui->lineEditPsu2Part3TestSetStart->text();
     setEnd = ui->lineEditPsu2Part3TestSetEnd->text();
     setJudge = ui->lineEditPsu2Part3TestSetJudge->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu2Part3TestDMMCmd->text();
     dmmStart = ui->lineEditPsu2Part3TestDMMStart->text();
     dmmEnd = ui->lineEditPsu2Part3TestDMMEnd->text();
     dmmJudge = ui->lineEditPsu2Part3TestDMMJudge->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu2Part3TestMeterJudge->text();
     if(meterJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡¶ÁÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–è¯»ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu2Part3Test->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu2Part3Test->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu2Part3Test->setStart(setStart);
     setCmdPsu2Part3Test->setEnd(setEnd);
     setCmdPsu2Part3Test->setJudge(setJudge);
-    dmmCmdPsu2Part3Test->setName(dmmName);  // ±£´æ¶ÁÈ¡µçÁ÷ÃüÁî²ÎÊı
+    dmmCmdPsu2Part3Test->setName(dmmName);  // ä¿å­˜è¯»å–ç”µæµå‘½ä»¤å‚æ•°
     dmmCmdPsu2Part3Test->setStart(dmmStart);
     dmmCmdPsu2Part3Test->setEnd(dmmEnd);
     dmmCmdPsu2Part3Test->setRatio(dmmJudge.toDouble());
-    meterCmdPsu2Part3Test->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu2Part3Test->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     if(psu2Part3 == NULL){
         psu2Part3 = new testItem(cmdListPsu2Part3Pre, dataAndAddrListPsu2Part3, dataLengthPsu2Part3,
                                  setCmdPsu2Part3Verify, setPsu2Part3Multi,
@@ -4439,26 +4439,26 @@ void curdataconfig::on_pushBtnPsu2Part3TestSave_clicked()
         itemPsu2 = new currentItem(cmdListPsu2Pre, psu2Part1, psu2Part2, psu2Part3, psu2Part4, psu2Part5);
     else
         itemPsu2->setPart3(psu2Part3);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part3TestUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu2Part3TestSetCmd->setText(setCmdPsu2Part3Test->getName());
     ui->lineEditPsu2Part3TestSetStart->setText(setCmdPsu2Part3Test->getStart());
     ui->lineEditPsu2Part3TestSetEnd->setText(setCmdPsu2Part3Test->getEnd());
     ui->lineEditPsu2Part3TestSetJudge->setText(setCmdPsu2Part3Test->getJudge());
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu2Part3TestDMMCmd->setText(dmmCmdPsu2Part3Test->getName());
     ui->lineEditPsu2Part3TestDMMStart->setText(dmmCmdPsu2Part3Test->getStart());
     ui->lineEditPsu2Part3TestDMMEnd->setText(dmmCmdPsu2Part3Test->getEnd());
     ui->lineEditPsu2Part3TestDMMJudge->setText(dmmCmdPsu2Part3Test->getRatio());
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu2Part3TestMeterJudge->setText(meterCmdPsu2Part3Test->getRatio());
 }
-// PSU2  Part4  »»µµÃüÁî
-// Ìí¼Ó°´Å¥
+// PSU2  Part4  æ¢æ¡£å‘½ä»¤
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part4PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
@@ -4477,7 +4477,7 @@ void curdataconfig::on_pushBtnPsu2Part4PreAdd_clicked()
         itemPsu2->setPart4(psu2Part4);
     showPsu2Part4PreCmdList();
 }
-// Ë¢ĞÂÃüÁî¿ò
+// åˆ·æ–°å‘½ä»¤æ¡†
 void curdataconfig::showPsu2Part4PreCmdList()
 {
     ui->psu2Part4PreCmdList->clear();
@@ -4486,14 +4486,14 @@ void curdataconfig::showPsu2Part4PreCmdList()
         ui->psu2Part4PreCmdList->addItem(curCommand->getFullName());
     }
 }
-// ÃüÁî¿òµã»÷ÊÂ¼ş
+// å‘½ä»¤æ¡†ç‚¹å‡»äº‹ä»¶
 void curdataconfig::on_psu2Part4PreCmdList_clicked(const QModelIndex &index)
 {
-    nowIndexPsu2Part4Pre = index.row();  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîÔÚÁĞ±íÖĞµÄË÷Òı
-    nowCommandPsu2Part4 = cmdListPsu2Part4Pre->at(nowIndexPsu2Part4Pre);  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîµÄÖ¸Õë
+    nowIndexPsu2Part4Pre = index.row();  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤åœ¨åˆ—è¡¨ä¸­çš„ç´¢å¼•
+    nowCommandPsu2Part4 = cmdListPsu2Part4Pre->at(nowIndexPsu2Part4Pre);  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤çš„æŒ‡é’ˆ
     on_pushBtnPsu2Part4PreUndo_clicked();
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part4PreDel_clicked()
 {
     if(nowIndexPsu2Part4Pre == -1){
@@ -4504,14 +4504,14 @@ void curdataconfig::on_pushBtnPsu2Part4PreDel_clicked()
     if(nowIndexPsu2Part4Pre != -1)
         nowCommandPsu2Part4 = cmdListPsu2Part4Pre->at(nowIndexPsu2Part4Pre);
     showPsu2Part4PreCmdList();
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu2Part4PreName->clear();
     ui->lineEditPsu2Part4PreParam->clear();
     ui->lineEditPsu2Part4PreStart->clear();
     ui->lineEditPsu2Part4PreEnd->clear();
     ui->lineEditPsu2Part4PreJudge->clear();
 }
-// ÏòÉÏ°´Å¥
+// å‘ä¸ŠæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part4PreUp_clicked()
 {
     if(nowIndexPsu2Part4Pre < 1)
@@ -4520,7 +4520,7 @@ void curdataconfig::on_pushBtnPsu2Part4PreUp_clicked()
     nowIndexPsu2Part4Pre--;
     showPsu2Part4PreCmdList();
 }
-// ÏòÏÂ°´Å¥
+// å‘ä¸‹æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part4PreDown_clicked()
 {
     if((nowIndexPsu2Part4Pre == -1)||(nowIndexPsu2Part4Pre >= cmdListPsu2Part4Pre->size()-1))
@@ -4529,7 +4529,7 @@ void curdataconfig::on_pushBtnPsu2Part4PreDown_clicked()
     nowIndexPsu2Part4Pre++;
     showPsu2Part4PreCmdList();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part4PreSave_clicked()
 {
     if(ui->lineEditPsu2Part4PreName->text().size() == 0 &&
@@ -4547,76 +4547,76 @@ void curdataconfig::on_pushBtnPsu2Part4PreSave_clicked()
         showPsu2Part4PreCmdList();
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part4PreUndo_clicked()
 {
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu2Part4PreName->clear();
     ui->lineEditPsu2Part4PreParam->clear();
     ui->lineEditPsu2Part4PreStart->clear();
     ui->lineEditPsu2Part4PreEnd->clear();
     ui->lineEditPsu2Part4PreJudge->clear();
-    // ÏÔÊ¾ÃüÁîÃû³Æ
-    ui->lineEditPsu2Part4PreName->setPlaceholderText(tr("ÃüÁîÃû³Æ"));
+    // æ˜¾ç¤ºå‘½ä»¤åç§°
+    ui->lineEditPsu2Part4PreName->setPlaceholderText(tr("å‘½ä»¤åç§°"));
     ui->lineEditPsu2Part4PreName->setText(nowCommandPsu2Part4->getName());
-    // ÏÔÊ¾ÃüÁî²ÎÊı
-    ui->lineEditPsu2Part4PreParam->setPlaceholderText(tr("²ÎÊı"));
+    // æ˜¾ç¤ºå‘½ä»¤å‚æ•°
+    ui->lineEditPsu2Part4PreParam->setPlaceholderText(tr("å‚æ•°"));
     ui->lineEditPsu2Part4PreParam->setText(nowCommandPsu2Part4->getParam());
 
-    // ÏÔÊ¾½ØÈ¡²ÎÊı
+    // æ˜¾ç¤ºæˆªå–å‚æ•°
     ui->lineEditPsu2Part4PreStart->setText(nowCommandPsu2Part4->getStart());
     ui->lineEditPsu2Part4PreEnd->setText(nowCommandPsu2Part4->getEnd());
-    // ÏÔÊ¾ÅĞµÈ²ÎÊı
+    // æ˜¾ç¤ºåˆ¤ç­‰å‚æ•°
     ui->lineEditPsu2Part4PreJudge->setText(nowCommandPsu2Part4->getJudge());
 }
-// PSU2  Part4  Êı¾İ
-// Ìí¼Ó°´Å¥
+// PSU2  Part4  æ•°æ®
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part4DataAdd_clicked()
 {
     int x, y;
     x = nowIndexPsu2Part4Data / 10;
     y = nowIndexPsu2Part4Data % 10;
-    ui->scrollAreaWidgetContentsPsu2Part4->setFixedWidth((x+1)*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu2Part4->setFixedWidth((x+1)*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu2Part4Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
-    // ¿ò
+    // æ¡†
     QFrame* newframe = new QFrame(ui->scrollAreaWidgetContentsPsu2Part4);
     newframe->setGeometry(QRect(x*290, y*30, 280, 21));
     newframe->setFrameShape(QFrame::Box);
     newframe->setFrameShadow(QFrame::Raised);
     frameListPsu2Part4Data.append(newframe);
     newframe->show();
-    // ¸´Ñ¡¿ò
+    // å¤é€‰æ¡†
     QCheckBox * newcheckbox = new QCheckBox(newframe);
     newcheckbox->setGeometry(QRect(5, 3, 50, 16));
     newcheckbox->setChecked(true);
     newcheckbox->setText(QString("%1").arg(nowIndexPsu2Part4Data+1));
     checkBoxListPsu2Part4Data.append(newcheckbox);
     newcheckbox->show();
-    // Êı¾İ¿ò
+    // æ•°æ®æ¡†
     QLineEdit * datalineedit = new QLineEdit(newframe);
     datalineedit->setGeometry(QRect(60, 2, 50, 17));
-    datalineedit->setPlaceholderText(tr("Êı¾İ"));
+    datalineedit->setPlaceholderText(tr("æ•°æ®"));
     datalineedit->setValidator(new QDoubleValidator(0.0, 65535.0, 2, this));
     dataLineEditListPsu2Part4Data.append(datalineedit);
     datalineedit->show();
-    // dacµØÖ·¿ò
+    // dacåœ°å€æ¡†
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
     dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu2Part4Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
-    // adcµØÖ·¿ò
+    // adcåœ°å€æ¡†
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
     adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu2Part4Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
-    // refµØÖ·¿ò
+    // refåœ°å€æ¡†
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
     refaddrlineedit->setPlaceholderText(tr("refAddr"));
@@ -4624,7 +4624,7 @@ void curdataconfig::on_pushBtnPsu2Part4DataAdd_clicked()
     refaddrlineedit->show();
     nowIndexPsu2Part4Data++;
 }
-// ÅĞ¶ÏÈ«Ñ¡×´Ì¬
+// åˆ¤æ–­å…¨é€‰çŠ¶æ€
 bool curdataconfig::checkBoxAllSelectPsu2Part4()
 {
     for(int i=0; i != checkBoxListPsu2Part4Data.size(); ++i){
@@ -4633,24 +4633,24 @@ bool curdataconfig::checkBoxAllSelectPsu2Part4()
     }
     return true;
 }
-// È«Ñ¡°´Å¥
+// å…¨é€‰æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part4DataAll_clicked()
 {
-    if(checkBoxAllSelectPsu2Part4()){  // ÒÑ¾­È«Ñ¡, ÉèÖÃÎªÈ«²»Ñ¡
+    if(checkBoxAllSelectPsu2Part4()){  // å·²ç»å…¨é€‰, è®¾ç½®ä¸ºå…¨ä¸é€‰
         for(int i=0; i != checkBoxListPsu2Part4Data.size(); ++i){
             checkBoxListPsu2Part4Data.at(i)->setChecked(false);
         }
-    }else { // Î´È«Ñ¡,ÉèÖÃÎªÈ«Ñ¡
+    }else { // æœªå…¨é€‰,è®¾ç½®ä¸ºå…¨é€‰
         for(int i=0; i != checkBoxListPsu2Part4Data.size(); ++i){
             checkBoxListPsu2Part4Data.at(i)->setChecked(true);
         }
     }
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part4DataDel_clicked()
 {
     for(int i=0; i != checkBoxListPsu2Part4Data.size();){
-        if(checkBoxListPsu2Part4Data.at(i)->isChecked()){  // Èç¹û±»Ñ¡ÖĞ,ÔòÉ¾³ı¸ÃÊı¾İÏî
+        if(checkBoxListPsu2Part4Data.at(i)->isChecked()){  // å¦‚æœè¢«é€‰ä¸­,åˆ™åˆ é™¤è¯¥æ•°æ®é¡¹
             checkBoxListPsu2Part4Data.removeAt(i);
             dataLineEditListPsu2Part4Data.removeAt(i);
             dacAddrLineEditListPsu2Part4Data.removeAt(i);
@@ -4662,7 +4662,7 @@ void curdataconfig::on_pushBtnPsu2Part4DataDel_clicked()
         }else
             ++i;
     }
-    // ÖØĞÂÅÅÁĞ¿ò
+    // é‡æ–°æ’åˆ—æ¡†
     int x, y;
     for(int i=0; i != frameListPsu2Part4Data.size(); ++i){
         x = i / 10;
@@ -4672,22 +4672,22 @@ void curdataconfig::on_pushBtnPsu2Part4DataDel_clicked()
     }
     nowIndexPsu2Part4Data = checkBoxListPsu2Part4Data.size();
     int column = nowIndexPsu2Part4Data/10 + (nowIndexPsu2Part4Data % 10 ? 1 : 0);
-    ui->scrollAreaWidgetContentsPsu2Part4->setFixedWidth(column*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu2Part4->setFixedWidth(column*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu2Part4Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
 }
-// È«²¿É¾³ı°´Å¥
+// å…¨éƒ¨åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part4DataBatchDel_clicked()
 {
-    if(!checkBoxAllSelectPsu2Part4())  // Ã»ÓĞÈ«Ñ¡,ÔòÈ«Ñ¡
+    if(!checkBoxAllSelectPsu2Part4())  // æ²¡æœ‰å…¨é€‰,åˆ™å…¨é€‰
         on_pushBtnPsu2Part4DataAll_clicked();
-    on_pushBtnPsu2Part4DataDel_clicked(); // É¾³ı
+    on_pushBtnPsu2Part4DataDel_clicked(); // åˆ é™¤
 }
-// Çå¿ÕÊı¾İ°´Å¥
+// æ¸…ç©ºæ•°æ®æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part4DataClear_clicked()
 {
     for(int i=0; i != nowIndexPsu2Part4Data; ++i){
@@ -4697,18 +4697,18 @@ void curdataconfig::on_pushBtnPsu2Part4DataClear_clicked()
         refAddrLineEditListPsu2Part4Data.at(i)->clear();
     }
 }
-// ÅúÁ¿Ìí¼Ó°´Å¥
+// æ‰¹é‡æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part4DataBatchAdd_clicked()
 {
     if(nowIndexPsu2Part4Data)
-        if(QMessageBox::question(this, tr("Ñ¯ÎÊ"), tr("ÊÇ·ñ±£Áôµ±Ç°ÒÑÌîÊı¾İ£¿"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
+        if(QMessageBox::question(this, tr("è¯¢é—®"), tr("æ˜¯å¦ä¿ç•™å½“å‰å·²å¡«æ•°æ®ï¼Ÿ"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu2Part4DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
     connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
             this, SLOT(handleBatchParamsPsu2Part4(int, double, double, QString, bool)));
     batchdialog->show();
 }
-// ´¦Àí½ÓÊÕµ½µÄÅúÁ¿Ìí¼Ó²ÎÊı
+// å¤„ç†æ¥æ”¶åˆ°çš„æ‰¹é‡æ·»åŠ å‚æ•°
 void curdataconfig::handleBatchParamsPsu2Part4(int num, double dataStart,
                                       double dataStep, QString strAddrStart, bool isRise)
 {
@@ -4744,48 +4744,48 @@ void curdataconfig::handleBatchParamsPsu2Part4(int num, double dataStart,
         refAddrLineEditListPsu2Part4Data.at(nowIndexPsu2Part4Data-1)->setText(strRefAddr);
     }
 }
-// Êı¾İ³¤¶È±à¼­
+// æ•°æ®é•¿åº¦ç¼–è¾‘
 void curdataconfig::on_lineEditDataLengthPsu2Part4_textEdited()
 {
     if(ui->lineEditDataLengthPsu2Part4->text().isEmpty()){
-        QMessageBox::information(this, tr("´íÎó"), tr("Êı¾İ³¤¶È²»ÄÜÎª¿Õ£¡"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("é”™è¯¯"), tr("æ•°æ®é•¿åº¦ä¸èƒ½ä¸ºç©ºï¼"), QMessageBox::Ok);
         ui->lineEditDataLengthPsu2Part4->setText(QString("%1").arg(dataLengthPsu2Part4));
         return;
     }
     dataLengthPsu2Part4 = ui->lineEditDataLengthPsu2Part4->text().toInt();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part4DataSave_clicked()
 {
     QList<DataItem *> * tempList = new QList<DataItem *>;
-    // ±£´æ½çÃæÖĞµÄÊı¾İ, ÅĞ¶ÏÀïÃæµÄ²ÎÊıÊÇ·ñºÏ·¨
+    // ä¿å­˜ç•Œé¢ä¸­çš„æ•°æ®, åˆ¤æ–­é‡Œé¢çš„å‚æ•°æ˜¯å¦åˆæ³•
     for(int i=0; i != nowIndexPsu2Part4Data; ++i){
         QString data, dacAddr, adcAddr, refAddr;
         data = dataLineEditListPsu2Part4Data.at(i)->text();
         bool ok;
         data.toDouble(&ok);
         if(!ok){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîÊı¾İ²»ÊÇÓĞĞ§µÄÊı¾İ£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹æ•°æ®ä¸æ˜¯æœ‰æ•ˆçš„æ•°æ®ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         dacAddr = dacAddrLineEditListPsu2Part4Data.at(i)->text();
         if(!QStringIsInt(dacAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîdacµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹dacåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         adcAddr = adcAddrLineEditListPsu2Part4Data.at(i)->text();
         if(!QStringIsInt(adcAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîadcµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹adcåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         refAddr = refAddrLineEditListPsu2Part4Data.at(i)->text();
         if(!QStringIsInt(refAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîrefµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹refåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         tempList->append(new DataItem(checkBoxListPsu2Part4Data.at(i)->checkState(), data.toDouble(), dacAddr, adcAddr, refAddr));
     }
-    // Çë¿Õµ±Ç°²ÎÊıÁĞ±í
+    // è¯·ç©ºå½“å‰å‚æ•°åˆ—è¡¨
     for(int i=0; i != dataAndAddrListPsu2Part4->size(); ++i)
         delete dataAndAddrListPsu2Part4->at(i);
     dataAndAddrListPsu2Part4->clear();
@@ -4803,13 +4803,13 @@ void curdataconfig::on_pushBtnPsu2Part4DataSave_clicked()
             itemPsu2 = new currentItem(cmdListPsu2Pre, psu2Part1, psu2Part2, psu2Part3, psu2Part4, psu2Part5);
         else
             itemPsu2->setPart4(psu2Part4);
-        QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part4DataUndo_clicked()
 {
-    on_pushBtnPsu2Part4DataBatchDel_clicked();  // Çå¿ÕÊı¾İÁĞ±í¿ò
+    on_pushBtnPsu2Part4DataBatchDel_clicked();  // æ¸…ç©ºæ•°æ®åˆ—è¡¨æ¡†
     for(int i=0; i != dataAndAddrListPsu2Part4->size(); ++i){
         on_pushBtnPsu2Part4DataAdd_clicked();
         checkBoxListPsu2Part4Data.at(i)->setChecked(dataAndAddrListPsu2Part4->at(i)->check);
@@ -4819,21 +4819,21 @@ void curdataconfig::on_pushBtnPsu2Part4DataUndo_clicked()
         refAddrLineEditListPsu2Part4Data.at(i)->setText(dataAndAddrListPsu2Part4->at(i)->refAddr);
     }
 }
-// PSU2  Part4 Ğ£×¼
-// ±£´æ°´Å¥
+// PSU2  Part4 æ ¡å‡†
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part4VerifySave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge, setMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge, setMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu2Part4VerifySetCmd->text();
     setStart = ui->lineEditPsu2Part4VerifySetStart->text();
     setEnd = ui->lineEditPsu2Part4VerifySetEnd->text();
     setJudge = ui->lineEditPsu2Part4VerifySetJudge->text();
     setMulti = ui->lineEditPsu2Part4VerifySetMulti->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0 || setMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu2Part4VerifyDMMCmd->text();
     dmmParam = ui->lineEditPsu2Part4VerifyDMMParam->text();
     dmmStart = ui->lineEditPsu2Part4VerifyDMMStart->text();
@@ -4841,28 +4841,28 @@ void curdataconfig::on_pushBtnPsu2Part4VerifySave_clicked()
     dmmJudge = ui->lineEditPsu2Part4VerifyDMMJudge->text();
     dmmMulti = ui->lineEditPsu2Part4VerifyDMMMulti->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0 || dmmMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge, meterMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge, meterMulti;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu2Part4VerifyMeterJudge->text();
     meterMulti = ui->lineEditPsu2Part4VerifyMeterMulti->text();
     if(meterJudge.size()==0 || meterMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡ÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu2Part4Verify->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu2Part4Verify->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu2Part4Verify->setStart(setStart);
     setCmdPsu2Part4Verify->setEnd(setEnd);
     setCmdPsu2Part4Verify->setJudge(setJudge);
     setPsu2Part4Multi = setMulti.toInt();
-    dmmCmdPsu2Part4Verify->setName(dmmName); // ±£´æ¶ÁÈ¡µçÑ¹ÃüÁî²ÎÊı
+    dmmCmdPsu2Part4Verify->setName(dmmName); // ä¿å­˜è¯»å–ç”µå‹å‘½ä»¤å‚æ•°
     dmmCmdPsu2Part4Verify->setParam(dmmParam);
     dmmCmdPsu2Part4Verify->setStart(dmmStart);
     dmmCmdPsu2Part4Verify->setEnd(dmmEnd);
     dmmCmdPsu2Part4Verify->setRatio(dmmJudge.toDouble());
     dmmPsu2Part4Multi = dmmMulti.toInt();
-    meterCmdPsu2Part4Verify->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu2Part4Verify->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     meterPsu2Part4Multi = meterMulti.toInt();
     if(psu2Part4 == NULL){
         psu2Part4 = new testItem(cmdListPsu2Part4Pre, dataAndAddrListPsu2Part4, dataLengthPsu2Part4,
@@ -4882,64 +4882,64 @@ void curdataconfig::on_pushBtnPsu2Part4VerifySave_clicked()
         itemPsu2 = new currentItem(cmdListPsu2Pre, psu2Part1, psu2Part2, psu2Part3, psu2Part4, psu2Part5);
     else
         itemPsu2->setPart4(psu2Part4);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part4VerifyUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu2Part4VerifySetCmd->setText(setCmdPsu2Part4Verify->getName());
     ui->lineEditPsu2Part4VerifySetStart->setText(setCmdPsu2Part4Verify->getStart());
     ui->lineEditPsu2Part4VerifySetEnd->setText(setCmdPsu2Part4Verify->getEnd());
     ui->lineEditPsu2Part4VerifySetJudge->setText(setCmdPsu2Part4Verify->getJudge());
     ui->lineEditPsu2Part4VerifySetMulti->setText(QString("%1").arg(setPsu2Part4Multi));
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu2Part4VerifyDMMCmd->setText(dmmCmdPsu2Part4Verify->getName());
     ui->lineEditPsu2Part4VerifyDMMStart->setText(dmmCmdPsu2Part4Verify->getStart());
     ui->lineEditPsu2Part4VerifyDMMEnd->setText(dmmCmdPsu2Part4Verify->getEnd());
     ui->lineEditPsu2Part4VerifyDMMJudge->setText(dmmCmdPsu2Part4Verify->getRatio());
     ui->lineEditPsu2Part4VerifyDMMMulti->setText(QString("%1").arg(dmmPsu2Part4Multi));
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu2Part4VerifyMeterJudge->setText(meterCmdPsu2Part4Verify->getRatio());
     ui->lineEditPsu2Part4VerifyMeterMulti->setText(QString("%1").arg(meterPsu2Part4Multi));
 }
-// PSU2  Part4  ²âÊÔ
-// ±£´æ°´Å¥
+// PSU2  Part4  æµ‹è¯•
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part4TestSave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu2Part4TestSetCmd->text();
     setStart = ui->lineEditPsu2Part4TestSetStart->text();
     setEnd = ui->lineEditPsu2Part4TestSetEnd->text();
     setJudge = ui->lineEditPsu2Part4TestSetJudge->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu2Part4TestDMMCmd->text();
     dmmStart = ui->lineEditPsu2Part4TestDMMStart->text();
     dmmEnd = ui->lineEditPsu2Part4TestDMMEnd->text();
     dmmJudge = ui->lineEditPsu2Part4TestDMMJudge->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu2Part4TestMeterJudge->text();
     if(meterJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡¶ÁÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–è¯»ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu2Part4Test->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu2Part4Test->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu2Part4Test->setStart(setStart);
     setCmdPsu2Part4Test->setEnd(setEnd);
     setCmdPsu2Part4Test->setJudge(setJudge);
-    dmmCmdPsu2Part4Test->setName(dmmName);  // ±£´æ¶ÁÈ¡µçÁ÷ÃüÁî²ÎÊı
+    dmmCmdPsu2Part4Test->setName(dmmName);  // ä¿å­˜è¯»å–ç”µæµå‘½ä»¤å‚æ•°
     dmmCmdPsu2Part4Test->setStart(dmmStart);
     dmmCmdPsu2Part4Test->setEnd(dmmEnd);
     dmmCmdPsu2Part4Test->setRatio(dmmJudge.toDouble());
-    meterCmdPsu2Part4Test->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu2Part4Test->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     if(psu2Part4 == NULL){
         psu2Part4 = new testItem(cmdListPsu2Part4Pre, dataAndAddrListPsu2Part4, dataLengthPsu2Part4,
                                  setCmdPsu2Part4Verify, setPsu2Part4Multi,
@@ -4955,26 +4955,26 @@ void curdataconfig::on_pushBtnPsu2Part4TestSave_clicked()
         itemPsu2 = new currentItem(cmdListPsu2Pre, psu2Part1, psu2Part2, psu2Part3, psu2Part4, psu2Part5);
     else
         itemPsu2->setPart4(psu2Part4);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part4TestUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu2Part4TestSetCmd->setText(setCmdPsu2Part4Test->getName());
     ui->lineEditPsu2Part4TestSetStart->setText(setCmdPsu2Part4Test->getStart());
     ui->lineEditPsu2Part4TestSetEnd->setText(setCmdPsu2Part4Test->getEnd());
     ui->lineEditPsu2Part4TestSetJudge->setText(setCmdPsu2Part4Test->getJudge());
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu2Part4TestDMMCmd->setText(dmmCmdPsu2Part4Test->getName());
     ui->lineEditPsu2Part4TestDMMStart->setText(dmmCmdPsu2Part4Test->getStart());
     ui->lineEditPsu2Part4TestDMMEnd->setText(dmmCmdPsu2Part4Test->getEnd());
     ui->lineEditPsu2Part4TestDMMJudge->setText(dmmCmdPsu2Part4Test->getRatio());
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu2Part4TestMeterJudge->setText(meterCmdPsu2Part4Test->getRatio());
 }
-// PSU2  Part5  »»µµÃüÁî
-// Ìí¼Ó°´Å¥
+// PSU2  Part5  æ¢æ¡£å‘½ä»¤
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part5PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
@@ -4993,7 +4993,7 @@ void curdataconfig::on_pushBtnPsu2Part5PreAdd_clicked()
         itemPsu2->setPart5(psu2Part5);
     showPsu2Part5PreCmdList();
 }
-// Ë¢ĞÂÃüÁî¿ò
+// åˆ·æ–°å‘½ä»¤æ¡†
 void curdataconfig::showPsu2Part5PreCmdList()
 {
     ui->psu2Part5PreCmdList->clear();
@@ -5002,14 +5002,14 @@ void curdataconfig::showPsu2Part5PreCmdList()
         ui->psu2Part5PreCmdList->addItem(curCommand->getFullName());
     }
 }
-// ÃüÁî¿òµã»÷ÊÂ¼ş
+// å‘½ä»¤æ¡†ç‚¹å‡»äº‹ä»¶
 void curdataconfig::on_psu2Part5PreCmdList_clicked(const QModelIndex &index)
 {
-    nowIndexPsu2Part5Pre = index.row();  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîÔÚÁĞ±íÖĞµÄË÷Òı
-    nowCommandPsu2Part5 = cmdListPsu2Part5Pre->at(nowIndexPsu2Part5Pre);  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîµÄÖ¸Õë
+    nowIndexPsu2Part5Pre = index.row();  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤åœ¨åˆ—è¡¨ä¸­çš„ç´¢å¼•
+    nowCommandPsu2Part5 = cmdListPsu2Part5Pre->at(nowIndexPsu2Part5Pre);  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤çš„æŒ‡é’ˆ
     on_pushBtnPsu2Part5PreUndo_clicked();
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part5PreDel_clicked()
 {
     if(nowIndexPsu2Part5Pre == -1){
@@ -5020,14 +5020,14 @@ void curdataconfig::on_pushBtnPsu2Part5PreDel_clicked()
     if(nowIndexPsu2Part5Pre != -1)
         nowCommandPsu2Part5 = cmdListPsu2Part5Pre->at(nowIndexPsu2Part5Pre);
     showPsu2Part5PreCmdList();
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu2Part5PreName->clear();
     ui->lineEditPsu2Part5PreParam->clear();
     ui->lineEditPsu2Part5PreStart->clear();
     ui->lineEditPsu2Part5PreEnd->clear();
     ui->lineEditPsu2Part5PreJudge->clear();
 }
-// ÏòÉÏ°´Å¥
+// å‘ä¸ŠæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part5PreUp_clicked()
 {
     if(nowIndexPsu2Part5Pre < 1)
@@ -5036,7 +5036,7 @@ void curdataconfig::on_pushBtnPsu2Part5PreUp_clicked()
     nowIndexPsu2Part5Pre--;
     showPsu2Part5PreCmdList();
 }
-// ÏòÏÂ°´Å¥
+// å‘ä¸‹æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part5PreDown_clicked()
 {
     if((nowIndexPsu2Part5Pre == -1)||(nowIndexPsu2Part5Pre >= cmdListPsu2Part5Pre->size()-1))
@@ -5045,7 +5045,7 @@ void curdataconfig::on_pushBtnPsu2Part5PreDown_clicked()
     nowIndexPsu2Part5Pre++;
     showPsu2Part5PreCmdList();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part5PreSave_clicked()
 {
     if(ui->lineEditPsu2Part5PreName->text().size() == 0 &&
@@ -5063,76 +5063,76 @@ void curdataconfig::on_pushBtnPsu2Part5PreSave_clicked()
         showPsu2Part5PreCmdList();
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part5PreUndo_clicked()
 {
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditPsu2Part5PreName->clear();
     ui->lineEditPsu2Part5PreParam->clear();
     ui->lineEditPsu2Part5PreStart->clear();
     ui->lineEditPsu2Part5PreEnd->clear();
     ui->lineEditPsu2Part5PreJudge->clear();
-    // ÏÔÊ¾ÃüÁîÃû³Æ
-    ui->lineEditPsu2Part5PreName->setPlaceholderText(tr("ÃüÁîÃû³Æ"));
+    // æ˜¾ç¤ºå‘½ä»¤åç§°
+    ui->lineEditPsu2Part5PreName->setPlaceholderText(tr("å‘½ä»¤åç§°"));
     ui->lineEditPsu2Part5PreName->setText(nowCommandPsu2Part5->getName());
-    // ÏÔÊ¾ÃüÁî²ÎÊı
-    ui->lineEditPsu2Part5PreParam->setPlaceholderText(tr("²ÎÊı"));
+    // æ˜¾ç¤ºå‘½ä»¤å‚æ•°
+    ui->lineEditPsu2Part5PreParam->setPlaceholderText(tr("å‚æ•°"));
     ui->lineEditPsu2Part5PreParam->setText(nowCommandPsu2Part5->getParam());
 
-    // ÏÔÊ¾½ØÈ¡²ÎÊı
+    // æ˜¾ç¤ºæˆªå–å‚æ•°
     ui->lineEditPsu2Part5PreStart->setText(nowCommandPsu2Part5->getStart());
     ui->lineEditPsu2Part5PreEnd->setText(nowCommandPsu2Part5->getEnd());
-    // ÏÔÊ¾ÅĞµÈ²ÎÊı
+    // æ˜¾ç¤ºåˆ¤ç­‰å‚æ•°
     ui->lineEditPsu2Part5PreJudge->setText(nowCommandPsu2Part5->getJudge());
 }
-// PSU2  Part5  Êı¾İ
-// Ìí¼Ó°´Å¥
+// PSU2  Part5  æ•°æ®
+// æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part5DataAdd_clicked()
 {
     int x, y;
     x = nowIndexPsu2Part5Data / 10;
     y = nowIndexPsu2Part5Data % 10;
-    ui->scrollAreaWidgetContentsPsu2Part5->setFixedWidth((x+1)*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu2Part5->setFixedWidth((x+1)*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu2Part5Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
-    // ¿ò
+    // æ¡†
     QFrame* newframe = new QFrame(ui->scrollAreaWidgetContentsPsu2Part5);
     newframe->setGeometry(QRect(x*290, y*30, 280, 21));
     newframe->setFrameShape(QFrame::Box);
     newframe->setFrameShadow(QFrame::Raised);
     frameListPsu2Part5Data.append(newframe);
     newframe->show();
-    // ¸´Ñ¡¿ò
+    // å¤é€‰æ¡†
     QCheckBox * newcheckbox = new QCheckBox(newframe);
     newcheckbox->setGeometry(QRect(5, 3, 50, 16));
     newcheckbox->setChecked(true);
     newcheckbox->setText(QString("%1").arg(nowIndexPsu2Part5Data+1));
     checkBoxListPsu2Part5Data.append(newcheckbox);
     newcheckbox->show();
-    // Êı¾İ¿ò
+    // æ•°æ®æ¡†
     QLineEdit * datalineedit = new QLineEdit(newframe);
     datalineedit->setGeometry(QRect(60, 2, 50, 17));
-    datalineedit->setPlaceholderText(tr("Êı¾İ"));
+    datalineedit->setPlaceholderText(tr("æ•°æ®"));
     datalineedit->setValidator(new QDoubleValidator(0.0, 65535.0, 2, this));
     dataLineEditListPsu2Part5Data.append(datalineedit);
     datalineedit->show();
-    // dacµØÖ·¿ò
+    // dacåœ°å€æ¡†
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
     dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListPsu2Part5Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
-    // adcµØÖ·¿ò
+    // adcåœ°å€æ¡†
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
     adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListPsu2Part5Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
-    // refµØÖ·¿ò
+    // refåœ°å€æ¡†
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
     refaddrlineedit->setPlaceholderText(tr("refAddr"));
@@ -5140,7 +5140,7 @@ void curdataconfig::on_pushBtnPsu2Part5DataAdd_clicked()
     refaddrlineedit->show();
     nowIndexPsu2Part5Data++;
 }
-// ÅĞ¶ÏÈ«Ñ¡×´Ì¬
+// åˆ¤æ–­å…¨é€‰çŠ¶æ€
 bool curdataconfig::checkBoxAllSelectPsu2Part5()
 {
     for(int i=0; i != checkBoxListPsu2Part5Data.size(); ++i){
@@ -5149,24 +5149,24 @@ bool curdataconfig::checkBoxAllSelectPsu2Part5()
     }
     return true;
 }
-// È«Ñ¡°´Å¥
+// å…¨é€‰æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part5DataAll_clicked()
 {
-    if(checkBoxAllSelectPsu2Part5()){  // ÒÑ¾­È«Ñ¡, ÉèÖÃÎªÈ«²»Ñ¡
+    if(checkBoxAllSelectPsu2Part5()){  // å·²ç»å…¨é€‰, è®¾ç½®ä¸ºå…¨ä¸é€‰
         for(int i=0; i != checkBoxListPsu2Part5Data.size(); ++i){
             checkBoxListPsu2Part5Data.at(i)->setChecked(false);
         }
-    }else { // Î´È«Ñ¡,ÉèÖÃÎªÈ«Ñ¡
+    }else { // æœªå…¨é€‰,è®¾ç½®ä¸ºå…¨é€‰
         for(int i=0; i != checkBoxListPsu2Part5Data.size(); ++i){
             checkBoxListPsu2Part5Data.at(i)->setChecked(true);
         }
     }
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part5DataDel_clicked()
 {
     for(int i=0; i != checkBoxListPsu2Part5Data.size();){
-        if(checkBoxListPsu2Part5Data.at(i)->isChecked()){  // Èç¹û±»Ñ¡ÖĞ,ÔòÉ¾³ı¸ÃÊı¾İÏî
+        if(checkBoxListPsu2Part5Data.at(i)->isChecked()){  // å¦‚æœè¢«é€‰ä¸­,åˆ™åˆ é™¤è¯¥æ•°æ®é¡¹
             checkBoxListPsu2Part5Data.removeAt(i);
             dataLineEditListPsu2Part5Data.removeAt(i);
             dacAddrLineEditListPsu2Part5Data.removeAt(i);
@@ -5179,7 +5179,7 @@ void curdataconfig::on_pushBtnPsu2Part5DataDel_clicked()
             ++i;
         }
     }
-    // ÖØĞÂÅÅÁĞ¿ò
+    // é‡æ–°æ’åˆ—æ¡†
     int x, y;
     for(int i=0; i != frameListPsu2Part5Data.size(); ++i){
         x = i / 10;
@@ -5189,22 +5189,22 @@ void curdataconfig::on_pushBtnPsu2Part5DataDel_clicked()
     }
     nowIndexPsu2Part5Data = checkBoxListPsu2Part5Data.size();
     int column = nowIndexPsu2Part5Data/10 + (nowIndexPsu2Part5Data % 10 ? 1 : 0);
-    ui->scrollAreaWidgetContentsPsu2Part5->setFixedWidth(column*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsPsu2Part5->setFixedWidth(column*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaPsu2Part5Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
 }
-// È«²¿É¾³ı°´Å¥
+// å…¨éƒ¨åˆ é™¤æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part5DataBatchDel_clicked()
 {
-    if(!checkBoxAllSelectPsu2Part5())  // Ã»ÓĞÈ«Ñ¡,ÔòÈ«Ñ¡
+    if(!checkBoxAllSelectPsu2Part5())  // æ²¡æœ‰å…¨é€‰,åˆ™å…¨é€‰
         on_pushBtnPsu2Part5DataAll_clicked();
-    on_pushBtnPsu2Part5DataDel_clicked(); // É¾³ı
+    on_pushBtnPsu2Part5DataDel_clicked(); // åˆ é™¤
 }
-// Çå¿ÕÊı¾İ°´Å¥
+// æ¸…ç©ºæ•°æ®æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part5DataClear_clicked()
 {
     for(int i=0; i != nowIndexPsu2Part5Data; ++i){
@@ -5214,18 +5214,18 @@ void curdataconfig::on_pushBtnPsu2Part5DataClear_clicked()
         refAddrLineEditListPsu2Part5Data.at(i)->clear();
     }
 }
-// ÅúÁ¿Ìí¼Ó°´Å¥
+// æ‰¹é‡æ·»åŠ æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part5DataBatchAdd_clicked()
 {
     if(nowIndexPsu2Part5Data)
-        if(QMessageBox::question(this, tr("Ñ¯ÎÊ"), tr("ÊÇ·ñ±£Áôµ±Ç°ÒÑÌîÊı¾İ£¿"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
+        if(QMessageBox::question(this, tr("è¯¢é—®"), tr("æ˜¯å¦ä¿ç•™å½“å‰å·²å¡«æ•°æ®ï¼Ÿ"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnPsu2Part5DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
     connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
             this, SLOT(handleBatchParamsPsu2Part5(int, double, double, QString, bool)));
     batchdialog->show();
 }
-// ´¦Àí½ÓÊÕµ½µÄÅúÁ¿Ìí¼Ó²ÎÊı
+// å¤„ç†æ¥æ”¶åˆ°çš„æ‰¹é‡æ·»åŠ å‚æ•°
 void curdataconfig::handleBatchParamsPsu2Part5(int num, double dataStart,
                                       double dataStep, QString strAddrStart, bool isRise)
 {
@@ -5261,48 +5261,48 @@ void curdataconfig::handleBatchParamsPsu2Part5(int num, double dataStart,
         refAddrLineEditListPsu2Part5Data.at(nowIndexPsu2Part5Data-1)->setText(strRefAddr);
     }
 }
-// Êı¾İ³¤¶È±à¼­
+// æ•°æ®é•¿åº¦ç¼–è¾‘
 void curdataconfig::on_lineEditDataLengthPsu2Part5_textEdited()
 {
     if(ui->lineEditDataLengthPsu2Part5->text().isEmpty()){
-        QMessageBox::information(this, tr("´íÎó"), tr("Êı¾İ³¤¶È²»ÄÜÎª¿Õ£¡"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("é”™è¯¯"), tr("æ•°æ®é•¿åº¦ä¸èƒ½ä¸ºç©ºï¼"), QMessageBox::Ok);
         ui->lineEditDataLengthPsu2Part5->setText(QString("%1").arg(dataLengthPsu2Part5));
         return;
     }
     dataLengthPsu2Part5 = ui->lineEditDataLengthPsu2Part5->text().toInt();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part5DataSave_clicked()
 {
     QList<DataItem *>  *tempList = new QList<DataItem *>;
-    // ±£´æ½çÃæÖĞµÄÊı¾İ, ÅĞ¶ÏÀïÃæµÄ²ÎÊıÊÇ·ñºÏ·¨
+    // ä¿å­˜ç•Œé¢ä¸­çš„æ•°æ®, åˆ¤æ–­é‡Œé¢çš„å‚æ•°æ˜¯å¦åˆæ³•
     for(int i=0; i != nowIndexPsu2Part5Data; ++i){
         QString data, dacAddr, adcAddr, refAddr;
         data = dataLineEditListPsu2Part5Data.at(i)->text();
         bool ok;
         data.toDouble(&ok);
         if(!ok){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîÊı¾İ²»ÊÇÓĞĞ§µÄÊı¾İ£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹æ•°æ®ä¸æ˜¯æœ‰æ•ˆçš„æ•°æ®ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         dacAddr = dacAddrLineEditListPsu2Part5Data.at(i)->text();
         if(!QStringIsInt(dacAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîdacµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹dacåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         adcAddr = adcAddrLineEditListPsu2Part5Data.at(i)->text();
         if(!QStringIsInt(adcAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîadcµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹adcåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         refAddr = refAddrLineEditListPsu2Part5Data.at(i)->text();
         if(!QStringIsInt(refAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîrefµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹refåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         tempList->append(new DataItem(checkBoxListPsu2Part5Data.at(i)->checkState(), data.toDouble(), dacAddr, adcAddr, refAddr));
     }
-    // Çë¿Õµ±Ç°²ÎÊıÁĞ±í
+    // è¯·ç©ºå½“å‰å‚æ•°åˆ—è¡¨
     for(int i=0; i != dataAndAddrListPsu2Part5->size(); ++i)
         delete dataAndAddrListPsu2Part5->at(i);
     dataAndAddrListPsu2Part5->clear();
@@ -5321,13 +5321,13 @@ void curdataconfig::on_pushBtnPsu2Part5DataSave_clicked()
             itemPsu2 = new currentItem(cmdListPsu2Pre, psu2Part1, psu2Part2, psu2Part3, psu2Part4, psu2Part5);
         else
             itemPsu2->setPart5(psu2Part5);
-        QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part5DataUndo_clicked()
 {
-    on_pushBtnPsu2Part5DataBatchDel_clicked();  // Çå¿ÕÊı¾İÁĞ±í¿ò
+    on_pushBtnPsu2Part5DataBatchDel_clicked();  // æ¸…ç©ºæ•°æ®åˆ—è¡¨æ¡†
     for(int i=0; i != dataAndAddrListPsu2Part5->size(); ++i){
         on_pushBtnPsu2Part5DataAdd_clicked();
         checkBoxListPsu2Part5Data.at(i)->setChecked(dataAndAddrListPsu2Part5->at(i)->check);
@@ -5337,21 +5337,21 @@ void curdataconfig::on_pushBtnPsu2Part5DataUndo_clicked()
         refAddrLineEditListPsu2Part5Data.at(i)->setText(dataAndAddrListPsu2Part5->at(i)->refAddr);
     }
 }
-// PSU2  Part5 Ğ£×¼
-// ±£´æ°´Å¥
+// PSU2  Part5 æ ¡å‡†
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part5VerifySave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge, setMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge, setMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu2Part5VerifySetCmd->text();
     setStart = ui->lineEditPsu2Part5VerifySetStart->text();
     setEnd = ui->lineEditPsu2Part5VerifySetEnd->text();
     setJudge = ui->lineEditPsu2Part5VerifySetJudge->text();
     setMulti = ui->lineEditPsu2Part5VerifySetMulti->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0 || setMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu2Part5VerifyDMMCmd->text();
     dmmParam = ui->lineEditPsu2Part5VerifyDMMParam->text();
     dmmStart = ui->lineEditPsu2Part5VerifyDMMStart->text();
@@ -5359,28 +5359,28 @@ void curdataconfig::on_pushBtnPsu2Part5VerifySave_clicked()
     dmmJudge = ui->lineEditPsu2Part5VerifyDMMJudge->text();
     dmmMulti = ui->lineEditPsu2Part5VerifyDMMMulti->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0 || dmmMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge, meterMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge, meterMulti;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu2Part5VerifyMeterJudge->text();
     meterMulti = ui->lineEditPsu2Part5VerifyMeterMulti->text();
     if(meterJudge.size()==0 || meterMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡ÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu2Part5Verify->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu2Part5Verify->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu2Part5Verify->setStart(setStart);
     setCmdPsu2Part5Verify->setEnd(setEnd);
     setCmdPsu2Part5Verify->setJudge(setJudge);
     setPsu2Part5Multi = setMulti.toInt();
-    dmmCmdPsu2Part5Verify->setName(dmmName); // ±£´æ¶ÁÈ¡µçÑ¹ÃüÁî²ÎÊı
+    dmmCmdPsu2Part5Verify->setName(dmmName); // ä¿å­˜è¯»å–ç”µå‹å‘½ä»¤å‚æ•°
     dmmCmdPsu2Part5Verify->setParam(dmmParam);
     dmmCmdPsu2Part5Verify->setStart(dmmStart);
     dmmCmdPsu2Part5Verify->setEnd(dmmEnd);
     dmmCmdPsu2Part5Verify->setRatio(dmmJudge.toDouble());
     dmmPsu2Part5Multi = dmmMulti.toInt();
-    meterCmdPsu2Part5Verify->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu2Part5Verify->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     meterPsu2Part5Multi = meterMulti.toInt();
     if(psu2Part5 == NULL){
         psu2Part5 = new testItem(cmdListPsu2Part5Pre, dataAndAddrListPsu2Part5, dataLengthPsu2Part5,
@@ -5400,64 +5400,64 @@ void curdataconfig::on_pushBtnPsu2Part5VerifySave_clicked()
         itemPsu2 = new currentItem(cmdListPsu2Pre, psu2Part1, psu2Part2, psu2Part3, psu2Part4, psu2Part5);
     else
         itemPsu2->setPart5(psu2Part5);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part5VerifyUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu2Part5VerifySetCmd->setText(setCmdPsu2Part5Verify->getName());
     ui->lineEditPsu2Part5VerifySetStart->setText(setCmdPsu2Part5Verify->getStart());
     ui->lineEditPsu2Part5VerifySetEnd->setText(setCmdPsu2Part5Verify->getEnd());
     ui->lineEditPsu2Part5VerifySetJudge->setText(setCmdPsu2Part5Verify->getJudge());
     ui->lineEditPsu2Part5VerifySetMulti->setText(QString("%1").arg(setPsu2Part5Multi));
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu2Part5VerifyDMMCmd->setText(dmmCmdPsu2Part5Verify->getName());
     ui->lineEditPsu2Part5VerifyDMMStart->setText(dmmCmdPsu2Part5Verify->getStart());
     ui->lineEditPsu2Part5VerifyDMMEnd->setText(dmmCmdPsu2Part5Verify->getEnd());
     ui->lineEditPsu2Part5VerifyDMMJudge->setText(dmmCmdPsu2Part5Verify->getRatio());
     ui->lineEditPsu2Part5VerifyDMMMulti->setText(QString("%1").arg(dmmPsu2Part5Multi));
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu2Part5VerifyMeterJudge->setText(meterCmdPsu2Part5Verify->getRatio());
     ui->lineEditPsu2Part5VerifyMeterMulti->setText(QString("%1").arg(meterPsu2Part5Multi));
 }
-// PSU2  Part5  ²âÊÔ
-// ±£´æ°´Å¥
+// PSU2  Part5  æµ‹è¯•
+// ä¿å­˜æŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part5TestSave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditPsu2Part5TestSetCmd->text();
     setStart = ui->lineEditPsu2Part5TestSetStart->text();
     setEnd = ui->lineEditPsu2Part5TestSetEnd->text();
     setJudge = ui->lineEditPsu2Part5TestSetJudge->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÁ÷¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µæµè¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditPsu2Part5TestDMMCmd->text();
     dmmStart = ui->lineEditPsu2Part5TestDMMStart->text();
     dmmEnd = ui->lineEditPsu2Part5TestDMMEnd->text();
     dmmJudge = ui->lineEditPsu2Part5TestDMMJudge->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÁ÷ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µæµå‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditPsu2Part5TestMeterJudge->text();
     if(meterJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡¶ÁÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–è¯»ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdPsu2Part5Test->setName(setName);  // ±£´æÉèÖÃµçÁ÷ÃüÁî²ÎÊı
+    setCmdPsu2Part5Test->setName(setName);  // ä¿å­˜è®¾ç½®ç”µæµå‘½ä»¤å‚æ•°
     setCmdPsu2Part5Test->setStart(setStart);
     setCmdPsu2Part5Test->setEnd(setEnd);
     setCmdPsu2Part5Test->setJudge(setJudge);
-    dmmCmdPsu2Part5Test->setName(dmmName);  // ±£´æ¶ÁÈ¡µçÁ÷ÃüÁî²ÎÊı
+    dmmCmdPsu2Part5Test->setName(dmmName);  // ä¿å­˜è¯»å–ç”µæµå‘½ä»¤å‚æ•°
     dmmCmdPsu2Part5Test->setStart(dmmStart);
     dmmCmdPsu2Part5Test->setEnd(dmmEnd);
     dmmCmdPsu2Part5Test->setRatio(dmmJudge.toDouble());
-    meterCmdPsu2Part5Test->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdPsu2Part5Test->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     if(psu2Part5 == NULL){
         psu2Part5 = new testItem(cmdListPsu2Part5Pre, dataAndAddrListPsu2Part5, dataLengthPsu2Part5,
                                  setCmdPsu2Part5Verify, setPsu2Part5Multi,
@@ -5473,45 +5473,45 @@ void curdataconfig::on_pushBtnPsu2Part5TestSave_clicked()
         itemPsu2 = new currentItem(cmdListPsu2Pre, psu2Part1, psu2Part2, psu2Part3, psu2Part4, psu2Part5);
     else
         itemPsu2->setPart5(psu2Part5);
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void curdataconfig::on_pushBtnPsu2Part5TestUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÁ÷²ÎÊı
+    // é‡å†™è®¾ç½®ç”µæµå‚æ•°
     ui->lineEditPsu2Part5TestSetCmd->setText(setCmdPsu2Part5Test->getName());
     ui->lineEditPsu2Part5TestSetStart->setText(setCmdPsu2Part5Test->getStart());
     ui->lineEditPsu2Part5TestSetEnd->setText(setCmdPsu2Part5Test->getEnd());
     ui->lineEditPsu2Part5TestSetJudge->setText(setCmdPsu2Part5Test->getJudge());
-    // ÖØĞ´¶ÁÈ¡µçÁ÷²ÎÊı
+    // é‡å†™è¯»å–ç”µæµå‚æ•°
     ui->lineEditPsu2Part5TestDMMCmd->setText(dmmCmdPsu2Part5Test->getName());
     ui->lineEditPsu2Part5TestDMMStart->setText(dmmCmdPsu2Part5Test->getStart());
     ui->lineEditPsu2Part5TestDMMEnd->setText(dmmCmdPsu2Part5Test->getEnd());
     ui->lineEditPsu2Part5TestDMMJudge->setText(dmmCmdPsu2Part5Test->getRatio());
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditPsu2Part5TestMeterJudge->setText(meterCmdPsu2Part5Test->getRatio());
 }
-// ¸´ÖÆPSU1¸²¸ÇPSU2
+// å¤åˆ¶PSU1è¦†ç›–PSU2
 void curdataconfig::on_pushBtnPsu1ToPsu2_clicked()
 {
     delete itemPsu2;
     itemPsu2 = itemPsu1->deepcopy();
     repaintPsu2();
-    QMessageBox::information(this, tr("¸´ÖÆ³É¹¦"), tr("¸´ÖÆPSU1¸²¸ÇPSU2³É¹¦£¡"),QMessageBox::Ok);
+    QMessageBox::information(this, tr("å¤åˆ¶æˆåŠŸ"), tr("å¤åˆ¶PSU1è¦†ç›–PSU2æˆåŠŸï¼"),QMessageBox::Ok);
 }
-// ¸´ÖÆPSU2¸²¸ÇPSU1
+// å¤åˆ¶PSU2è¦†ç›–PSU1
 void curdataconfig::on_pushBtnPsu2ToPsu1_clicked()
 {
     delete itemPsu1;
     itemPsu1 = itemPsu2->deepcopy();
     repaintPsu1();
-    QMessageBox::information(this, tr("¸´ÖÆ³É¹¦"), tr("¸´ÖÆPSU2¸²¸ÇPSU1³É¹¦£¡"),QMessageBox::Ok);
+    QMessageBox::information(this, tr("å¤åˆ¶æˆåŠŸ"), tr("å¤åˆ¶PSU2è¦†ç›–PSU1æˆåŠŸï¼"),QMessageBox::Ok);
 }
-// ÖØ»­PSU1½çÃæ
+// é‡ç”»PSU1ç•Œé¢
 void curdataconfig::repaintPsu1()
 {
     if(itemPsu1 == NULL){
-        // PSU1  Ç°ÖÃÃüÁî
+        // PSU1  å‰ç½®å‘½ä»¤
         cmdListPsu1Pre = new QList<command *>;
         psu1Part1 = NULL;
         psu1Part2 = NULL;
@@ -5527,7 +5527,7 @@ void curdataconfig::repaintPsu1()
         psu1Part4 = itemPsu1->getPart4();
         psu1Part5 = itemPsu1->getPart5();
     }
-    nowIndexPsu1Pre = -1;  // Ç°ÖÃÃüÁî¿òµ±Ç°Ñ¡ÏîË÷Òı
+    nowIndexPsu1Pre = -1;  // å‰ç½®å‘½ä»¤æ¡†å½“å‰é€‰é¡¹ç´¢å¼•
     nowCommandPsu1 = NULL;
     on_pushBtnPsu1Part1DataBatchDel_clicked();
     repaintPsu1Part1();
@@ -5540,10 +5540,10 @@ void curdataconfig::repaintPsu1()
     on_pushBtnPsu1Part5DataBatchDel_clicked();
     repaintPsu1Part5();
 }
-// ÖØ»­PSU1 Part1½çÃæ
+// é‡ç”»PSU1 Part1ç•Œé¢
 void curdataconfig::repaintPsu1Part1()
 {
-    nowIndexPsu1Part1Data = 0;  // µ±Ç°Êı¾İÏîË÷Òı
+    nowIndexPsu1Part1Data = 0;  // å½“å‰æ•°æ®é¡¹ç´¢å¼•
     if(psu1Part1 == NULL){
         cmdListPsu1Part1Pre = new QList<command *>;
         dataAndAddrListPsu1Part1 = new QList<DataItem *>;
@@ -5578,15 +5578,15 @@ void curdataconfig::repaintPsu1Part1()
         cmdListPsu1Part1Pre = psu1Part1->getCmdList();
         dataAndAddrListPsu1Part1 = psu1Part1->getDataList();
         dataLengthPsu1Part1 = psu1Part1->getDataLength();
-        setCmdPsu1Part1Verify = psu1Part1->getSetCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÉèÖÃµçÑ¹ÃüÁî
-        setPsu1Part1Multi = psu1Part1->getSetMulti();   // ·Å´ó±¶Êı
-        dmmCmdPsu1Part1Verify = psu1Part1->getDmmCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        dmmPsu1Part1Multi = psu1Part1->getDmmMulti();  // ·Å´ó±¶Êı
-        meterCmdPsu1Part1Verify = psu1Part1->getMeterCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
-        meterPsu1Part1Multi = psu1Part1->getMeterMulti();  // ·Å´ó±¶Êı
-        setCmdPsu1Part1Test = psu1Part1->getSetCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÉèÖÃµçÑ¹ÃüÁî
-        dmmCmdPsu1Part1Test = psu1Part1->getDmmCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        meterCmdPsu1Part1Test = psu1Part1->getMeterCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
+        setCmdPsu1Part1Verify = psu1Part1->getSetCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        setPsu1Part1Multi = psu1Part1->getSetMulti();   // æ”¾å¤§å€æ•°
+        dmmCmdPsu1Part1Verify = psu1Part1->getDmmCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        dmmPsu1Part1Multi = psu1Part1->getDmmMulti();  // æ”¾å¤§å€æ•°
+        meterCmdPsu1Part1Verify = psu1Part1->getMeterCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
+        meterPsu1Part1Multi = psu1Part1->getMeterMulti();  // æ”¾å¤§å€æ•°
+        setCmdPsu1Part1Test = psu1Part1->getSetCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        dmmCmdPsu1Part1Test = psu1Part1->getDmmCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        meterCmdPsu1Part1Test = psu1Part1->getMeterCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
     }
     showPsu1Part1PreCmdList();
     for(int i=0; i != dataAndAddrListPsu1Part1->size(); ++i){
@@ -5597,7 +5597,7 @@ void curdataconfig::repaintPsu1Part1()
         adcAddrLineEditListPsu1Part1Data.at(i)->setText(dataAndAddrListPsu1Part1->at(i)->adcAddr);
         refAddrLineEditListPsu1Part1Data.at(i)->setText(dataAndAddrListPsu1Part1->at(i)->refAddr);
     }
-    nowIndexPsu1Part1Pre = -1;  // »»µµÃüÁî¿òµ±Ç°Ñ¡ÏîË÷Òı
+    nowIndexPsu1Part1Pre = -1;  // æ¢æ¡£å‘½ä»¤æ¡†å½“å‰é€‰é¡¹ç´¢å¼•
     nowCommandPsu1Part1 = NULL;
     ui->lineEditDataLengthPsu1Part1->setText(QString("%1").arg(dataLengthPsu1Part1));
     ui->lineEditPsu1Part1VerifySetCmd->setText(setCmdPsu1Part1Verify->getName());
@@ -5625,10 +5625,10 @@ void curdataconfig::repaintPsu1Part1()
     ui->lineEditPsu1Part1TestMeterCmd->setText(meterCmdPsu1Part1Test->getName());
     ui->lineEditPsu1Part1TestMeterJudge->setText(meterCmdPsu1Part1Test->getRatio());
 }
-// ÖØ»­PSU1 Part2½çÃæ
+// é‡ç”»PSU1 Part2ç•Œé¢
 void curdataconfig::repaintPsu1Part2()
 {
-    nowIndexPsu1Part2Data = 0;  // µ±Ç°Êı¾İÏîË÷Òı
+    nowIndexPsu1Part2Data = 0;  // å½“å‰æ•°æ®é¡¹ç´¢å¼•
     if(psu1Part2 == NULL){
         cmdListPsu1Part2Pre = new QList<command *>;
         dataAndAddrListPsu1Part2 = new QList<DataItem *>;
@@ -5663,15 +5663,15 @@ void curdataconfig::repaintPsu1Part2()
         cmdListPsu1Part2Pre = psu1Part2->getCmdList();
         dataAndAddrListPsu1Part2 = psu1Part2->getDataList();
         dataLengthPsu1Part2 = psu1Part2->getDataLength();
-        setCmdPsu1Part2Verify = psu1Part2->getSetCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÉèÖÃµçÑ¹ÃüÁî
-        setPsu1Part2Multi = psu1Part2->getSetMulti();   // ·Å´ó±¶Êı
-        dmmCmdPsu1Part2Verify = psu1Part2->getDmmCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        dmmPsu1Part2Multi = psu1Part2->getDmmMulti();  // ·Å´ó±¶Êı
-        meterCmdPsu1Part2Verify = psu1Part2->getMeterCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
-        meterPsu1Part2Multi = psu1Part2->getMeterMulti();  // ·Å´ó±¶Êı
-        setCmdPsu1Part2Test = psu1Part2->getSetCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÉèÖÃµçÑ¹ÃüÁî
-        dmmCmdPsu1Part2Test = psu1Part2->getDmmCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        meterCmdPsu1Part2Test = psu1Part2->getMeterCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
+        setCmdPsu1Part2Verify = psu1Part2->getSetCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        setPsu1Part2Multi = psu1Part2->getSetMulti();   // æ”¾å¤§å€æ•°
+        dmmCmdPsu1Part2Verify = psu1Part2->getDmmCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        dmmPsu1Part2Multi = psu1Part2->getDmmMulti();  // æ”¾å¤§å€æ•°
+        meterCmdPsu1Part2Verify = psu1Part2->getMeterCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
+        meterPsu1Part2Multi = psu1Part2->getMeterMulti();  // æ”¾å¤§å€æ•°
+        setCmdPsu1Part2Test = psu1Part2->getSetCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        dmmCmdPsu1Part2Test = psu1Part2->getDmmCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        meterCmdPsu1Part2Test = psu1Part2->getMeterCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
     }
     showPsu1Part2PreCmdList();
     for(int i=0; i != dataAndAddrListPsu1Part2->size(); ++i){
@@ -5682,7 +5682,7 @@ void curdataconfig::repaintPsu1Part2()
         adcAddrLineEditListPsu1Part2Data.at(i)->setText(dataAndAddrListPsu1Part2->at(i)->adcAddr);
         refAddrLineEditListPsu1Part2Data.at(i)->setText(dataAndAddrListPsu1Part2->at(i)->refAddr);
     }
-    nowIndexPsu1Part2Pre = -1;  // »»µµÃüÁî¿òµ±Ç°Ñ¡ÏîË÷Òı
+    nowIndexPsu1Part2Pre = -1;  // æ¢æ¡£å‘½ä»¤æ¡†å½“å‰é€‰é¡¹ç´¢å¼•
     nowCommandPsu1Part2 = NULL;
     ui->lineEditDataLengthPsu1Part2->setText(QString("%1").arg(dataLengthPsu1Part2));
     ui->lineEditPsu1Part2VerifySetCmd->setText(setCmdPsu1Part2Verify->getName());
@@ -5710,10 +5710,10 @@ void curdataconfig::repaintPsu1Part2()
     ui->lineEditPsu1Part2TestMeterCmd->setText(meterCmdPsu1Part2Test->getName());
     ui->lineEditPsu1Part2TestMeterJudge->setText(meterCmdPsu1Part2Test->getRatio());
 }
-// ÖØ»­PSU1 Part3½çÃæ
+// é‡ç”»PSU1 Part3ç•Œé¢
 void curdataconfig::repaintPsu1Part3()
 {
-    nowIndexPsu1Part3Data = 0;  // µ±Ç°Êı¾İÏîË÷Òı
+    nowIndexPsu1Part3Data = 0;  // å½“å‰æ•°æ®é¡¹ç´¢å¼•
     if(psu1Part3 == NULL){
         cmdListPsu1Part3Pre = new QList<command *>;
         dataAndAddrListPsu1Part3 = new QList<DataItem *>;
@@ -5748,15 +5748,15 @@ void curdataconfig::repaintPsu1Part3()
         cmdListPsu1Part3Pre = psu1Part3->getCmdList();
         dataAndAddrListPsu1Part3 = psu1Part3->getDataList();
         dataLengthPsu1Part3 = psu1Part3->getDataLength();
-        setCmdPsu1Part3Verify = psu1Part3->getSetCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÉèÖÃµçÑ¹ÃüÁî
-        setPsu1Part3Multi = psu1Part3->getSetMulti();   // ·Å´ó±¶Êı
-        dmmCmdPsu1Part3Verify = psu1Part3->getDmmCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        dmmPsu1Part3Multi = psu1Part3->getDmmMulti();  // ·Å´ó±¶Êı
-        meterCmdPsu1Part3Verify = psu1Part3->getMeterCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
-        meterPsu1Part3Multi = psu1Part3->getMeterMulti();  // ·Å´ó±¶Êı
-        setCmdPsu1Part3Test = psu1Part3->getSetCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÉèÖÃµçÑ¹ÃüÁî
-        dmmCmdPsu1Part3Test = psu1Part3->getDmmCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        meterCmdPsu1Part3Test = psu1Part3->getMeterCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
+        setCmdPsu1Part3Verify = psu1Part3->getSetCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        setPsu1Part3Multi = psu1Part3->getSetMulti();   // æ”¾å¤§å€æ•°
+        dmmCmdPsu1Part3Verify = psu1Part3->getDmmCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        dmmPsu1Part3Multi = psu1Part3->getDmmMulti();  // æ”¾å¤§å€æ•°
+        meterCmdPsu1Part3Verify = psu1Part3->getMeterCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
+        meterPsu1Part3Multi = psu1Part3->getMeterMulti();  // æ”¾å¤§å€æ•°
+        setCmdPsu1Part3Test = psu1Part3->getSetCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        dmmCmdPsu1Part3Test = psu1Part3->getDmmCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        meterCmdPsu1Part3Test = psu1Part3->getMeterCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
     }
     showPsu1Part3PreCmdList();
     for(int i=0; i != dataAndAddrListPsu1Part3->size(); ++i){
@@ -5767,7 +5767,7 @@ void curdataconfig::repaintPsu1Part3()
         adcAddrLineEditListPsu1Part3Data.at(i)->setText(dataAndAddrListPsu1Part3->at(i)->adcAddr);
         refAddrLineEditListPsu1Part3Data.at(i)->setText(dataAndAddrListPsu1Part3->at(i)->refAddr);
     }
-    nowIndexPsu1Part3Pre = -1;  // »»µµÃüÁî¿òµ±Ç°Ñ¡ÏîË÷Òı
+    nowIndexPsu1Part3Pre = -1;  // æ¢æ¡£å‘½ä»¤æ¡†å½“å‰é€‰é¡¹ç´¢å¼•
     nowCommandPsu1Part3 = NULL;
     ui->lineEditDataLengthPsu1Part3->setText(QString("%1").arg(dataLengthPsu1Part3));
     ui->lineEditPsu1Part3VerifySetCmd->setText(setCmdPsu1Part3Verify->getName());
@@ -5795,10 +5795,10 @@ void curdataconfig::repaintPsu1Part3()
     ui->lineEditPsu1Part3TestMeterCmd->setText(meterCmdPsu1Part3Test->getName());
     ui->lineEditPsu1Part3TestMeterJudge->setText(meterCmdPsu1Part3Test->getRatio());
 }
-// ÖØ»­PSU1 Part4½çÃæ
+// é‡ç”»PSU1 Part4ç•Œé¢
 void curdataconfig::repaintPsu1Part4()
 {
-    nowIndexPsu1Part4Data = 0;  // µ±Ç°Êı¾İÏîË÷Òı
+    nowIndexPsu1Part4Data = 0;  // å½“å‰æ•°æ®é¡¹ç´¢å¼•
     if(psu1Part4 == NULL){
         cmdListPsu1Part4Pre = new QList<command *>;
         dataAndAddrListPsu1Part4 = new QList<DataItem *>;
@@ -5833,15 +5833,15 @@ void curdataconfig::repaintPsu1Part4()
         cmdListPsu1Part4Pre = psu1Part4->getCmdList();
         dataAndAddrListPsu1Part4 = psu1Part4->getDataList();
         dataLengthPsu1Part4 = psu1Part4->getDataLength();
-        setCmdPsu1Part4Verify = psu1Part4->getSetCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÉèÖÃµçÑ¹ÃüÁî
-        setPsu1Part4Multi = psu1Part4->getSetMulti();   // ·Å´ó±¶Êı
-        dmmCmdPsu1Part4Verify = psu1Part4->getDmmCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        dmmPsu1Part4Multi = psu1Part4->getDmmMulti();  // ·Å´ó±¶Êı
-        meterCmdPsu1Part4Verify = psu1Part4->getMeterCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
-        meterPsu1Part4Multi = psu1Part4->getMeterMulti();  // ·Å´ó±¶Êı
-        setCmdPsu1Part4Test = psu1Part4->getSetCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÉèÖÃµçÑ¹ÃüÁî
-        dmmCmdPsu1Part4Test = psu1Part4->getDmmCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        meterCmdPsu1Part4Test = psu1Part4->getMeterCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
+        setCmdPsu1Part4Verify = psu1Part4->getSetCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        setPsu1Part4Multi = psu1Part4->getSetMulti();   // æ”¾å¤§å€æ•°
+        dmmCmdPsu1Part4Verify = psu1Part4->getDmmCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        dmmPsu1Part4Multi = psu1Part4->getDmmMulti();  // æ”¾å¤§å€æ•°
+        meterCmdPsu1Part4Verify = psu1Part4->getMeterCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
+        meterPsu1Part4Multi = psu1Part4->getMeterMulti();  // æ”¾å¤§å€æ•°
+        setCmdPsu1Part4Test = psu1Part4->getSetCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        dmmCmdPsu1Part4Test = psu1Part4->getDmmCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        meterCmdPsu1Part4Test = psu1Part4->getMeterCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
     }
     showPsu1Part4PreCmdList();
     for(int i=0; i != dataAndAddrListPsu1Part4->size(); ++i){
@@ -5852,7 +5852,7 @@ void curdataconfig::repaintPsu1Part4()
         adcAddrLineEditListPsu1Part4Data.at(i)->setText(dataAndAddrListPsu1Part4->at(i)->adcAddr);
         refAddrLineEditListPsu1Part4Data.at(i)->setText(dataAndAddrListPsu1Part4->at(i)->refAddr);
     }
-    nowIndexPsu1Part4Pre = -1;  // »»µµÃüÁî¿òµ±Ç°Ñ¡ÏîË÷Òı
+    nowIndexPsu1Part4Pre = -1;  // æ¢æ¡£å‘½ä»¤æ¡†å½“å‰é€‰é¡¹ç´¢å¼•
     nowCommandPsu1Part4 = NULL;
     ui->lineEditDataLengthPsu1Part4->setText(QString("%1").arg(dataLengthPsu1Part4));
     ui->lineEditPsu1Part4VerifySetCmd->setText(setCmdPsu1Part4Verify->getName());
@@ -5880,10 +5880,10 @@ void curdataconfig::repaintPsu1Part4()
     ui->lineEditPsu1Part4TestMeterCmd->setText(meterCmdPsu1Part4Test->getName());
     ui->lineEditPsu1Part4TestMeterJudge->setText(meterCmdPsu1Part4Test->getRatio());
 }
-// ÖØ»­PSU1 Part5½çÃæ
+// é‡ç”»PSU1 Part5ç•Œé¢
 void curdataconfig::repaintPsu1Part5()
 {
-    nowIndexPsu1Part5Data = 0;  // µ±Ç°Êı¾İÏîË÷Òı
+    nowIndexPsu1Part5Data = 0;  // å½“å‰æ•°æ®é¡¹ç´¢å¼•
     if(psu1Part5 == NULL){
         cmdListPsu1Part5Pre = new QList<command *>;
         dataAndAddrListPsu1Part5 = new QList<DataItem *>;
@@ -5918,15 +5918,15 @@ void curdataconfig::repaintPsu1Part5()
         cmdListPsu1Part5Pre = psu1Part5->getCmdList();
         dataAndAddrListPsu1Part5 = psu1Part5->getDataList();
         dataLengthPsu1Part5 = psu1Part5->getDataLength();
-        setCmdPsu1Part5Verify = psu1Part5->getSetCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÉèÖÃµçÑ¹ÃüÁî
-        setPsu1Part5Multi = psu1Part5->getSetMulti();   // ·Å´ó±¶Êı
-        dmmCmdPsu1Part5Verify = psu1Part5->getDmmCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        dmmPsu1Part5Multi = psu1Part5->getDmmMulti();  // ·Å´ó±¶Êı
-        meterCmdPsu1Part5Verify = psu1Part5->getMeterCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
-        meterPsu1Part5Multi = psu1Part5->getMeterMulti();  // ·Å´ó±¶Êı
-        setCmdPsu1Part5Test = psu1Part5->getSetCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÉèÖÃµçÑ¹ÃüÁî
-        dmmCmdPsu1Part5Test = psu1Part5->getDmmCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        meterCmdPsu1Part5Test = psu1Part5->getMeterCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
+        setCmdPsu1Part5Verify = psu1Part5->getSetCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        setPsu1Part5Multi = psu1Part5->getSetMulti();   // æ”¾å¤§å€æ•°
+        dmmCmdPsu1Part5Verify = psu1Part5->getDmmCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        dmmPsu1Part5Multi = psu1Part5->getDmmMulti();  // æ”¾å¤§å€æ•°
+        meterCmdPsu1Part5Verify = psu1Part5->getMeterCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
+        meterPsu1Part5Multi = psu1Part5->getMeterMulti();  // æ”¾å¤§å€æ•°
+        setCmdPsu1Part5Test = psu1Part5->getSetCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        dmmCmdPsu1Part5Test = psu1Part5->getDmmCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        meterCmdPsu1Part5Test = psu1Part5->getMeterCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
     }
     showPsu1Part5PreCmdList();
     for(int i=0; i != dataAndAddrListPsu1Part5->size(); ++i){
@@ -5937,7 +5937,7 @@ void curdataconfig::repaintPsu1Part5()
         adcAddrLineEditListPsu1Part5Data.at(i)->setText(dataAndAddrListPsu1Part5->at(i)->adcAddr);
         refAddrLineEditListPsu1Part5Data.at(i)->setText(dataAndAddrListPsu1Part5->at(i)->refAddr);
     }
-    nowIndexPsu1Part5Pre = -1;  // »»µµÃüÁî¿òµ±Ç°Ñ¡ÏîË÷Òı
+    nowIndexPsu1Part5Pre = -1;  // æ¢æ¡£å‘½ä»¤æ¡†å½“å‰é€‰é¡¹ç´¢å¼•
     nowCommandPsu1Part5 = NULL;
     ui->lineEditDataLengthPsu1Part5->setText(QString("%1").arg(dataLengthPsu1Part5));
     ui->lineEditPsu1Part5VerifySetCmd->setText(setCmdPsu1Part5Verify->getName());
@@ -5965,11 +5965,11 @@ void curdataconfig::repaintPsu1Part5()
     ui->lineEditPsu1Part5TestMeterCmd->setText(meterCmdPsu1Part5Test->getName());
     ui->lineEditPsu1Part5TestMeterJudge->setText(meterCmdPsu1Part5Test->getRatio());
 }
-// ÖØ»­PSU2½çÃæ
+// é‡ç”»PSU2ç•Œé¢
 void curdataconfig::repaintPsu2()
 {
     if(itemPsu2 == NULL){
-        // PSU2  Ç°ÖÃÃüÁî
+        // PSU2  å‰ç½®å‘½ä»¤
         cmdListPsu2Pre = new QList<command *>;
         psu2Part1 = NULL;
         psu2Part2 = NULL;
@@ -5985,7 +5985,7 @@ void curdataconfig::repaintPsu2()
         psu2Part4 = itemPsu2->getPart4();
         psu2Part5 = itemPsu2->getPart5();
     }
-    nowIndexPsu2Pre = -1;  // Ç°ÖÃÃüÁî¿òµ±Ç°Ñ¡ÏîË÷Òı
+    nowIndexPsu2Pre = -1;  // å‰ç½®å‘½ä»¤æ¡†å½“å‰é€‰é¡¹ç´¢å¼•
     nowCommandPsu2 = NULL;
     on_pushBtnPsu2Part1DataBatchDel_clicked();
     repaintPsu2Part1();
@@ -5998,10 +5998,10 @@ void curdataconfig::repaintPsu2()
     on_pushBtnPsu2Part5DataBatchDel_clicked();
     repaintPsu2Part5();
 }
-// ÖØ»­PSU2 Part1½çÃæ
+// é‡ç”»PSU2 Part1ç•Œé¢
 void curdataconfig::repaintPsu2Part1()
 {
-    nowIndexPsu2Part1Data = 0;  // µ±Ç°Êı¾İÏîË÷Òı
+    nowIndexPsu2Part1Data = 0;  // å½“å‰æ•°æ®é¡¹ç´¢å¼•
     if(psu2Part1 == NULL){
         cmdListPsu2Part1Pre = new QList<command *>;
         dataAndAddrListPsu2Part1 = new QList<DataItem *>;
@@ -6036,15 +6036,15 @@ void curdataconfig::repaintPsu2Part1()
         cmdListPsu2Part1Pre = psu2Part1->getCmdList();
         dataAndAddrListPsu2Part1 = psu2Part1->getDataList();
         dataLengthPsu2Part1 = psu2Part1->getDataLength();
-        setCmdPsu2Part1Verify = psu2Part1->getSetCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÉèÖÃµçÑ¹ÃüÁî
-        setPsu2Part1Multi = psu2Part1->getSetMulti();   // ·Å´ó±¶Êı
-        dmmCmdPsu2Part1Verify = psu2Part1->getDmmCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        dmmPsu2Part1Multi = psu2Part1->getDmmMulti();  // ·Å´ó±¶Êı
-        meterCmdPsu2Part1Verify = psu2Part1->getMeterCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
-        meterPsu2Part1Multi = psu2Part1->getMeterMulti();  // ·Å´ó±¶Êı
-        setCmdPsu2Part1Test = psu2Part1->getSetCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÉèÖÃµçÑ¹ÃüÁî
-        dmmCmdPsu2Part1Test = psu2Part1->getDmmCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        meterCmdPsu2Part1Test = psu2Part1->getMeterCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
+        setCmdPsu2Part1Verify = psu2Part1->getSetCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        setPsu2Part1Multi = psu2Part1->getSetMulti();   // æ”¾å¤§å€æ•°
+        dmmCmdPsu2Part1Verify = psu2Part1->getDmmCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        dmmPsu2Part1Multi = psu2Part1->getDmmMulti();  // æ”¾å¤§å€æ•°
+        meterCmdPsu2Part1Verify = psu2Part1->getMeterCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
+        meterPsu2Part1Multi = psu2Part1->getMeterMulti();  // æ”¾å¤§å€æ•°
+        setCmdPsu2Part1Test = psu2Part1->getSetCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        dmmCmdPsu2Part1Test = psu2Part1->getDmmCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        meterCmdPsu2Part1Test = psu2Part1->getMeterCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
     }
     showPsu2Part1PreCmdList();
     for(int i=0; i != dataAndAddrListPsu2Part1->size(); ++i){
@@ -6055,7 +6055,7 @@ void curdataconfig::repaintPsu2Part1()
         adcAddrLineEditListPsu2Part1Data.at(i)->setText(dataAndAddrListPsu2Part1->at(i)->adcAddr);
         refAddrLineEditListPsu2Part1Data.at(i)->setText(dataAndAddrListPsu2Part1->at(i)->refAddr);
     }
-    nowIndexPsu2Part1Pre = -1;  // »»µµÃüÁî¿òµ±Ç°Ñ¡ÏîË÷Òı
+    nowIndexPsu2Part1Pre = -1;  // æ¢æ¡£å‘½ä»¤æ¡†å½“å‰é€‰é¡¹ç´¢å¼•
     nowCommandPsu2Part1 = NULL;
     ui->lineEditDataLengthPsu2Part1->setText(QString("%1").arg(dataLengthPsu2Part1));
     ui->lineEditPsu2Part1VerifySetCmd->setText(setCmdPsu2Part1Verify->getName());
@@ -6083,10 +6083,10 @@ void curdataconfig::repaintPsu2Part1()
     ui->lineEditPsu2Part1TestMeterCmd->setText(meterCmdPsu2Part1Test->getName());
     ui->lineEditPsu2Part1TestMeterJudge->setText(meterCmdPsu2Part1Test->getRatio());
 }
-// ÖØ»­PSU2 Part2½çÃæ
+// é‡ç”»PSU2 Part2ç•Œé¢
 void curdataconfig::repaintPsu2Part2()
 {
-    nowIndexPsu2Part2Data = 0;  // µ±Ç°Êı¾İÏîË÷Òı
+    nowIndexPsu2Part2Data = 0;  // å½“å‰æ•°æ®é¡¹ç´¢å¼•
     if(psu2Part2 == NULL){
         cmdListPsu2Part2Pre = new QList<command *>;
         dataAndAddrListPsu2Part2 = new QList<DataItem *>;
@@ -6121,15 +6121,15 @@ void curdataconfig::repaintPsu2Part2()
         cmdListPsu2Part2Pre = psu2Part2->getCmdList();
         dataAndAddrListPsu2Part2 = psu2Part2->getDataList();
         dataLengthPsu2Part2 = psu2Part2->getDataLength();
-        setCmdPsu2Part2Verify = psu2Part2->getSetCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÉèÖÃµçÑ¹ÃüÁî
-        setPsu2Part2Multi = psu2Part2->getSetMulti();   // ·Å´ó±¶Êı
-        dmmCmdPsu2Part2Verify = psu2Part2->getDmmCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        dmmPsu2Part2Multi = psu2Part2->getDmmMulti();  // ·Å´ó±¶Êı
-        meterCmdPsu2Part2Verify = psu2Part2->getMeterCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
-        meterPsu2Part2Multi = psu2Part2->getMeterMulti();  // ·Å´ó±¶Êı
-        setCmdPsu2Part2Test = psu2Part2->getSetCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÉèÖÃµçÑ¹ÃüÁî
-        dmmCmdPsu2Part2Test = psu2Part2->getDmmCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        meterCmdPsu2Part2Test = psu2Part2->getMeterCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
+        setCmdPsu2Part2Verify = psu2Part2->getSetCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        setPsu2Part2Multi = psu2Part2->getSetMulti();   // æ”¾å¤§å€æ•°
+        dmmCmdPsu2Part2Verify = psu2Part2->getDmmCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        dmmPsu2Part2Multi = psu2Part2->getDmmMulti();  // æ”¾å¤§å€æ•°
+        meterCmdPsu2Part2Verify = psu2Part2->getMeterCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
+        meterPsu2Part2Multi = psu2Part2->getMeterMulti();  // æ”¾å¤§å€æ•°
+        setCmdPsu2Part2Test = psu2Part2->getSetCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        dmmCmdPsu2Part2Test = psu2Part2->getDmmCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        meterCmdPsu2Part2Test = psu2Part2->getMeterCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
     }
     showPsu2Part2PreCmdList();
     for(int i=0; i != dataAndAddrListPsu2Part2->size(); ++i){
@@ -6140,7 +6140,7 @@ void curdataconfig::repaintPsu2Part2()
         adcAddrLineEditListPsu2Part2Data.at(i)->setText(dataAndAddrListPsu2Part2->at(i)->adcAddr);
         refAddrLineEditListPsu2Part2Data.at(i)->setText(dataAndAddrListPsu2Part2->at(i)->refAddr);
     }
-    nowIndexPsu2Part2Pre = -1;  // »»µµÃüÁî¿òµ±Ç°Ñ¡ÏîË÷Òı
+    nowIndexPsu2Part2Pre = -1;  // æ¢æ¡£å‘½ä»¤æ¡†å½“å‰é€‰é¡¹ç´¢å¼•
     nowCommandPsu2Part2 = NULL;
     ui->lineEditDataLengthPsu2Part2->setText(QString("%1").arg(dataLengthPsu2Part2));
     ui->lineEditPsu2Part2VerifySetCmd->setText(setCmdPsu2Part2Verify->getName());
@@ -6169,10 +6169,10 @@ void curdataconfig::repaintPsu2Part2()
     ui->lineEditPsu2Part2TestMeterJudge->setText(meterCmdPsu2Part2Test->getRatio());
 
 }
-// ÖØ»­PSU2 Part3½çÃæ
+// é‡ç”»PSU2 Part3ç•Œé¢
 void curdataconfig::repaintPsu2Part3()
 {
-    nowIndexPsu2Part3Data = 0;  // µ±Ç°Êı¾İÏîË÷Òı
+    nowIndexPsu2Part3Data = 0;  // å½“å‰æ•°æ®é¡¹ç´¢å¼•
     if(psu2Part3 == NULL){
         cmdListPsu2Part3Pre = new QList<command *>;
         dataAndAddrListPsu2Part3 = new QList<DataItem *>;
@@ -6207,15 +6207,15 @@ void curdataconfig::repaintPsu2Part3()
         cmdListPsu2Part3Pre = psu2Part3->getCmdList();
         dataAndAddrListPsu2Part3 = psu2Part3->getDataList();
         dataLengthPsu2Part3 = psu2Part3->getDataLength();
-        setCmdPsu2Part3Verify = psu2Part3->getSetCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÉèÖÃµçÑ¹ÃüÁî
-        setPsu2Part3Multi = psu2Part3->getSetMulti();   // ·Å´ó±¶Êı
-        dmmCmdPsu2Part3Verify = psu2Part3->getDmmCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        dmmPsu2Part3Multi = psu2Part3->getDmmMulti();  // ·Å´ó±¶Êı
-        meterCmdPsu2Part3Verify = psu2Part3->getMeterCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
-        meterPsu2Part3Multi = psu2Part3->getMeterMulti();  // ·Å´ó±¶Êı
-        setCmdPsu2Part3Test = psu2Part3->getSetCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÉèÖÃµçÑ¹ÃüÁî
-        dmmCmdPsu2Part3Test = psu2Part3->getDmmCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        meterCmdPsu2Part3Test = psu2Part3->getMeterCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
+        setCmdPsu2Part3Verify = psu2Part3->getSetCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        setPsu2Part3Multi = psu2Part3->getSetMulti();   // æ”¾å¤§å€æ•°
+        dmmCmdPsu2Part3Verify = psu2Part3->getDmmCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        dmmPsu2Part3Multi = psu2Part3->getDmmMulti();  // æ”¾å¤§å€æ•°
+        meterCmdPsu2Part3Verify = psu2Part3->getMeterCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
+        meterPsu2Part3Multi = psu2Part3->getMeterMulti();  // æ”¾å¤§å€æ•°
+        setCmdPsu2Part3Test = psu2Part3->getSetCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        dmmCmdPsu2Part3Test = psu2Part3->getDmmCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        meterCmdPsu2Part3Test = psu2Part3->getMeterCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
     }
     showPsu2Part3PreCmdList();
     for(int i=0; i != dataAndAddrListPsu2Part3->size(); ++i){
@@ -6226,7 +6226,7 @@ void curdataconfig::repaintPsu2Part3()
         adcAddrLineEditListPsu2Part3Data.at(i)->setText(dataAndAddrListPsu2Part3->at(i)->adcAddr);
         refAddrLineEditListPsu2Part3Data.at(i)->setText(dataAndAddrListPsu2Part3->at(i)->refAddr);
     }
-    nowIndexPsu2Part3Pre = -1;  // »»µµÃüÁî¿òµ±Ç°Ñ¡ÏîË÷Òı
+    nowIndexPsu2Part3Pre = -1;  // æ¢æ¡£å‘½ä»¤æ¡†å½“å‰é€‰é¡¹ç´¢å¼•
     nowCommandPsu2Part3 = NULL;
     ui->lineEditDataLengthPsu2Part3->setText(QString("%1").arg(dataLengthPsu2Part3));
     ui->lineEditPsu2Part3VerifySetCmd->setText(setCmdPsu2Part3Verify->getName());
@@ -6254,10 +6254,10 @@ void curdataconfig::repaintPsu2Part3()
     ui->lineEditPsu2Part3TestMeterCmd->setText(meterCmdPsu2Part3Test->getName());
     ui->lineEditPsu2Part3TestMeterJudge->setText(meterCmdPsu2Part3Test->getRatio());
 }
-// ÖØ»­PSU2 Part4½çÃæ
+// é‡ç”»PSU2 Part4ç•Œé¢
 void curdataconfig::repaintPsu2Part4()
 {
-    nowIndexPsu2Part4Data = 0;  // µ±Ç°Êı¾İÏîË÷Òı
+    nowIndexPsu2Part4Data = 0;  // å½“å‰æ•°æ®é¡¹ç´¢å¼•
     if(psu2Part4 == NULL){
         cmdListPsu2Part4Pre = new QList<command *>;
         dataAndAddrListPsu2Part4 = new QList<DataItem *>;
@@ -6292,15 +6292,15 @@ void curdataconfig::repaintPsu2Part4()
         cmdListPsu2Part4Pre = psu2Part4->getCmdList();
         dataAndAddrListPsu2Part4 = psu2Part4->getDataList();
         dataLengthPsu2Part4 = psu2Part4->getDataLength();
-        setCmdPsu2Part4Verify = psu2Part4->getSetCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÉèÖÃµçÑ¹ÃüÁî
-        setPsu2Part4Multi = psu2Part4->getSetMulti();   // ·Å´ó±¶Êı
-        dmmCmdPsu2Part4Verify = psu2Part4->getDmmCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        dmmPsu2Part4Multi = psu2Part4->getDmmMulti();  // ·Å´ó±¶Êı
-        meterCmdPsu2Part4Verify = psu2Part4->getMeterCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
-        meterPsu2Part4Multi = psu2Part4->getMeterMulti();  // ·Å´ó±¶Êı
-        setCmdPsu2Part4Test = psu2Part4->getSetCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÉèÖÃµçÑ¹ÃüÁî
-        dmmCmdPsu2Part4Test = psu2Part4->getDmmCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        meterCmdPsu2Part4Test = psu2Part4->getMeterCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
+        setCmdPsu2Part4Verify = psu2Part4->getSetCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        setPsu2Part4Multi = psu2Part4->getSetMulti();   // æ”¾å¤§å€æ•°
+        dmmCmdPsu2Part4Verify = psu2Part4->getDmmCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        dmmPsu2Part4Multi = psu2Part4->getDmmMulti();  // æ”¾å¤§å€æ•°
+        meterCmdPsu2Part4Verify = psu2Part4->getMeterCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
+        meterPsu2Part4Multi = psu2Part4->getMeterMulti();  // æ”¾å¤§å€æ•°
+        setCmdPsu2Part4Test = psu2Part4->getSetCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        dmmCmdPsu2Part4Test = psu2Part4->getDmmCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        meterCmdPsu2Part4Test = psu2Part4->getMeterCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
     }
     showPsu2Part4PreCmdList();
     for(int i=0; i != dataAndAddrListPsu2Part4->size(); ++i){
@@ -6311,7 +6311,7 @@ void curdataconfig::repaintPsu2Part4()
         adcAddrLineEditListPsu2Part4Data.at(i)->setText(dataAndAddrListPsu2Part4->at(i)->adcAddr);
         refAddrLineEditListPsu2Part4Data.at(i)->setText(dataAndAddrListPsu2Part4->at(i)->refAddr);
     }
-    nowIndexPsu2Part4Pre = -1;  // »»µµÃüÁî¿òµ±Ç°Ñ¡ÏîË÷Òı
+    nowIndexPsu2Part4Pre = -1;  // æ¢æ¡£å‘½ä»¤æ¡†å½“å‰é€‰é¡¹ç´¢å¼•
     nowCommandPsu2Part4 = NULL;
     ui->lineEditDataLengthPsu2Part4->setText(QString("%1").arg(dataLengthPsu2Part1));
     ui->lineEditPsu2Part4VerifySetCmd->setText(setCmdPsu2Part4Verify->getName());
@@ -6339,10 +6339,10 @@ void curdataconfig::repaintPsu2Part4()
     ui->lineEditPsu2Part4TestMeterCmd->setText(meterCmdPsu2Part4Test->getName());
     ui->lineEditPsu2Part4TestMeterJudge->setText(meterCmdPsu2Part4Test->getRatio());
 }
-// ÖØ»­PSU2 Part5½çÃæ
+// é‡ç”»PSU2 Part5ç•Œé¢
 void curdataconfig::repaintPsu2Part5()
 {
-    nowIndexPsu2Part5Data = 0;  // µ±Ç°Êı¾İÏîË÷Òı
+    nowIndexPsu2Part5Data = 0;  // å½“å‰æ•°æ®é¡¹ç´¢å¼•
     if(psu2Part5 == NULL){
         cmdListPsu2Part5Pre = new QList<command *>;
         dataAndAddrListPsu2Part5 = new QList<DataItem *>;
@@ -6377,15 +6377,15 @@ void curdataconfig::repaintPsu2Part5()
         cmdListPsu2Part5Pre = psu2Part5->getCmdList();
         dataAndAddrListPsu2Part5 = psu2Part5->getDataList();
         dataLengthPsu2Part5 = psu2Part5->getDataLength();
-        setCmdPsu2Part5Verify = psu2Part5->getSetCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÉèÖÃµçÑ¹ÃüÁî
-        setPsu2Part5Multi = psu2Part5->getSetMulti();   // ·Å´ó±¶Êı
-        dmmCmdPsu2Part5Verify = psu2Part5->getDmmCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        dmmPsu2Part5Multi = psu2Part5->getDmmMulti();  // ·Å´ó±¶Êı
-        meterCmdPsu2Part5Verify = psu2Part5->getMeterCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
-        meterPsu2Part5Multi = psu2Part5->getMeterMulti();  // ·Å´ó±¶Êı
-        setCmdPsu2Part5Test = psu2Part5->getSetCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÉèÖÃµçÑ¹ÃüÁî
-        dmmCmdPsu2Part5Test = psu2Part5->getDmmCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        meterCmdPsu2Part5Test = psu2Part5->getMeterCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
+        setCmdPsu2Part5Verify = psu2Part5->getSetCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        setPsu2Part5Multi = psu2Part5->getSetMulti();   // æ”¾å¤§å€æ•°
+        dmmCmdPsu2Part5Verify = psu2Part5->getDmmCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        dmmPsu2Part5Multi = psu2Part5->getDmmMulti();  // æ”¾å¤§å€æ•°
+        meterCmdPsu2Part5Verify = psu2Part5->getMeterCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
+        meterPsu2Part5Multi = psu2Part5->getMeterMulti();  // æ”¾å¤§å€æ•°
+        setCmdPsu2Part5Test = psu2Part5->getSetCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        dmmCmdPsu2Part5Test = psu2Part5->getDmmCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        meterCmdPsu2Part5Test = psu2Part5->getMeterCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
     }
     showPsu2Part5PreCmdList();
     for(int i=0; i != dataAndAddrListPsu2Part5->size(); ++i){
@@ -6396,7 +6396,7 @@ void curdataconfig::repaintPsu2Part5()
         adcAddrLineEditListPsu2Part5Data.at(i)->setText(dataAndAddrListPsu2Part5->at(i)->adcAddr);
         refAddrLineEditListPsu2Part5Data.at(i)->setText(dataAndAddrListPsu2Part5->at(i)->refAddr);
     }
-    nowIndexPsu2Part5Pre = -1;  // »»µµÃüÁî¿òµ±Ç°Ñ¡ÏîË÷Òı
+    nowIndexPsu2Part5Pre = -1;  // æ¢æ¡£å‘½ä»¤æ¡†å½“å‰é€‰é¡¹ç´¢å¼•
     nowCommandPsu2Part5 = NULL;
     ui->lineEditDataLengthPsu2Part5->setText(QString("%1").arg(dataLengthPsu2Part5));
     ui->lineEditPsu2Part5VerifySetCmd->setText(setCmdPsu2Part5Verify->getName());

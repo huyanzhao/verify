@@ -17,43 +17,43 @@ meterAddress::meterAddress(QString hostIP, int hostPort, QWidget *parent) :
     ui->lineEditIP->setText(host);
     ui->lineEditPort->setText(QString::number(port));
 }
-// Îö¹¹
+// æžæž„
 meterAddress::~meterAddress()
 {
     delete ui;
 }
-// ²âÊÔ°´Å¥
+// æµ‹è¯•æŒ‰é’®
 void meterAddress::on_pushBtnTest_clicked()
 {
-    ui->labelStatusInfo->setText(tr("³¢ÊÔ½ÓÁ¬ÖÐ......"));
+    ui->labelStatusInfo->setText(tr("å°è¯•æŽ¥è¿žä¸­......"));
     ui->labelStatusIcon->setPixmap(QPixmap(":/new/prefix/img/start.bmp"));
-    // È¡ÏûÒÑÓÐµÄÁ¬½Ó
+    // å–æ¶ˆå·²æœ‰çš„è¿žæŽ¥
     tcpSocket->abort();
     tcpSocket->connectToHost(ui->lineEditIP->text(), ui->lineEditPort->text().toInt());
 }
-// Á¬½Ó³É¹¦
+// è¿žæŽ¥æˆåŠŸ
 void meterAddress::onConnected()
 {
     ui->labelStatusIcon->setPixmap(QPixmap(":/new/prefix/img/pass.bmp"));
-    ui->labelStatusInfo->setText(tr("ÍòÓÃ±íÁ¬½Ó³É¹¦"));
+    ui->labelStatusInfo->setText(tr("ä¸‡ç”¨è¡¨è¿žæŽ¥æˆåŠŸ"));
 }
-// ¶Ï¿ªÁ¬½Ó
+// æ–­å¼€è¿žæŽ¥
 void meterAddress::disconnect()
 {
-    ui->labelStatusInfo->setText(tr("ÍòÓÃ±íÁ¬½ÓÊ§°Ü£¡£¡£¡"));
+    ui->labelStatusInfo->setText(tr("ä¸‡ç”¨è¡¨è¿žæŽ¥å¤±è´¥ï¼ï¼ï¼"));
     ui->labelStatusIcon->setPixmap(QPixmap(":/new/prefix/img/fail.bmp"));
 }
-// È¡Ïû°´Å¥
+// å–æ¶ˆæŒ‰é’®
 void meterAddress::on_pushBtnCancel_clicked()
 {
     this->close();
 }
-// È·¶¨°´Å¥
+// ç¡®å®šæŒ‰é’®
 void meterAddress::on_pushBtnOk_clicked()
 {
     host = ui->lineEditIP->text();
     port = ui->lineEditPort->text().toInt();
-    // ·¢ÉäÐÅºÅ
+    // å‘å°„ä¿¡å·
     emit meterConfigDone(host, port);
     this->close();
 }

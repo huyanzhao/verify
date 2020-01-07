@@ -18,7 +18,7 @@ BatchAdd::~BatchAdd()
 {
     delete ui;
 }
-// Éú³É
+// ç”Ÿæˆ
 void BatchAdd::on_pushBtnGenerate_clicked()
 {
     QString number, dataStart, dataSetp, addrStart;
@@ -29,13 +29,13 @@ void BatchAdd::on_pushBtnGenerate_clicked()
     addrStart = ui->lineEditStartAddr->text();
 
     if(number.size() == 0 || dataStart.size() == 0 || dataSetp.size() == 0 || addrStart.size() ==0){
-        QMessageBox::information(this, QString(tr("Éú³ÉÊ§°Ü")), QString(tr("²ÎÊýÎ´ÌîÐ´ÍêÕû£¬ÇëÖØÐÂÌîÐ´")),QMessageBox::Yes);
+        QMessageBox::information(this, QString(tr("ç”Ÿæˆå¤±è´¥")), QString(tr("å‚æ•°æœªå¡«å†™å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™")),QMessageBox::Yes);
         return;
     }else if(!QStringIsInt(addrStart)){
-        QMessageBox::information(this, QString(tr("Éú³ÉÊ§°Ü")), QString(tr("ÆðÊ¼µØÖ·²»ÊÇÓÐÐ§µÄÊ®½øÖÆ»òÊ®Áù½øÖÆÊý£¬ÇëÖØÐÂÌîÐ´")),QMessageBox::Yes);
+        QMessageBox::information(this, QString(tr("ç”Ÿæˆå¤±è´¥")), QString(tr("èµ·å§‹åœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åè¿›åˆ¶æˆ–åå…­è¿›åˆ¶æ•°ï¼Œè¯·é‡æ–°å¡«å†™")),QMessageBox::Yes);
         return;
     }else if(number == 0){
-        QMessageBox::information(this, QString(tr("Éú³ÉÊ§°Ü")), QString(tr("Êý¾Ý¸öÊý²»ÄÜÎª0£¬ÇëÖØÐÂÌîÐ´")),QMessageBox::Yes);
+        QMessageBox::information(this, QString(tr("ç”Ÿæˆå¤±è´¥")), QString(tr("æ•°æ®ä¸ªæ•°ä¸èƒ½ä¸º0ï¼Œè¯·é‡æ–°å¡«å†™")),QMessageBox::Yes);
         return;
     }
     int intNumber;
@@ -51,7 +51,7 @@ void BatchAdd::on_pushBtnGenerate_clicked()
 
     this->close();
 }
-// ÖØÖÃ
+// é‡ç½®
 void BatchAdd::on_pushBtnReset_clicked()
 {
     ui->lineEditNum->clear();
