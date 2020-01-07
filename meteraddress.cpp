@@ -1,6 +1,7 @@
 #include "meteraddress.h"
 #include "ui_meteraddress.h"
 #include <QtNetwork>
+#include <QIntValidator>
 
 meterAddress::meterAddress(QString hostIP, int hostPort, QWidget *parent) :
     QDialog(parent),

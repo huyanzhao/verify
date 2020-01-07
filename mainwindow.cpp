@@ -85,7 +85,6 @@ MainWindow::MainWindow(QWidget *parent):
     ui->radioBtnPSU0->setHidden(true);  // 隐藏多的单选按钮,用来显示PSU1和PSU2未被选中的状态
 
     currentPath = QCoreApplication::applicationDirPath();  //获取程序当前运行目录
-    qDebug() << currentPath;
     confPath = currentPath + "/conf";
     createFolder(confPath);
     settings->beginGroup("METER");
