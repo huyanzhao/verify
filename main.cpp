@@ -5,7 +5,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    // ÔÚ´úÂëÖÐ¿ÉÒÔÊ¹ÓÃÖÐÎÄ×Ö·û´®
+    // åœ¨ä»£ç ä¸­å¯ä»¥ä½¿ç”¨ä¸­æ–‡å­—ç¬¦ä¸²
     //QTextCodec::setCodecForTr(QTextCodec::codecForLocale());
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF8"));
     //QTextCodec::setCodecForLocale(QTextCodec::codecForName(QTextCodec::codecForLocale()->name()));

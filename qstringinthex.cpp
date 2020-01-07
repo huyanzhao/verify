@@ -1,5 +1,5 @@
 #include "qstringinthex.h"
-// ÅĞ¶Ï×Ö·û´®²ÎÊıÊÇ·ñÎªÊ®½øÖÆÕûÊı
+// åˆ¤æ–­å­—ç¬¦ä¸²å‚æ•°æ˜¯å¦ä¸ºåè¿›åˆ¶æ•´æ•°
 bool QStringIsBase10Int(QString addr)
 {
     bool ok;
@@ -7,7 +7,7 @@ bool QStringIsBase10Int(QString addr)
     intAddr = addr.toInt(&ok, 10);
     return ok;
 }
-// ÅĞ¶Ï×Ö·û´®²ÎÊıÊÇ·ñÎªÊ®Áù½øÖÆÕûÊı
+// åˆ¤æ–­å­—ç¬¦ä¸²å‚æ•°æ˜¯å¦ä¸ºåå…­è¿›åˆ¶æ•´æ•°
 bool QStringIsBase16Int(QString addr)
 {
     bool ok;
@@ -19,7 +19,7 @@ bool QStringIsBase16Int(QString addr)
         return false;
     }
 }
-// ÅĞ¶Ï×Ö·û´®²ÎÊıÊÇ·ñÎªÕûÊı
+// åˆ¤æ–­å­—ç¬¦ä¸²å‚æ•°æ˜¯å¦ä¸ºæ•´æ•°
 bool QStringIsInt(QString addr)
 {
     if(QStringIsBase10Int(addr)){
@@ -30,7 +30,7 @@ bool QStringIsInt(QString addr)
         return false;
     }
 }
-// ½«×Ö·û´®²ÎÊı×ª»»³ÉÕûÊı
+// å°†å­—ç¬¦ä¸²å‚æ•°è½¬æ¢æˆæ•´æ•°
 int QString2int(QString addr)
 {
     bool ok;
@@ -40,7 +40,7 @@ int QString2int(QString addr)
         return addr.toInt(&ok, 16);
     }
 }
-// ½«×Ö·û´®²ÎÊı×ª»»³É16½øÖÆÕûÊıµÄ×Ö·û´®
+// å°†å­—ç¬¦ä¸²å‚æ•°è½¬æ¢æˆ16è¿›åˆ¶æ•´æ•°çš„å­—ç¬¦ä¸²
 QString Qstring2hexString(QString addr)
 {
     if(QStringIsBase16Int(addr))
@@ -49,7 +49,7 @@ QString Qstring2hexString(QString addr)
         return QString("%1").arg(addr.toInt(),8,16,QChar('0'));
     }
 }
-// ½«10½øÖÆÕûÊı×ª»»³É16½øÖÆÕûÊıµÄ×Ö·û´®ĞÎÊ½
+// å°†10è¿›åˆ¶æ•´æ•°è½¬æ¢æˆ16è¿›åˆ¶æ•´æ•°çš„å­—ç¬¦ä¸²å½¢å¼
 QString int2hexString(int base10)
 {
     return QString("%1").arg(base10,4,16,QChar('0'));
