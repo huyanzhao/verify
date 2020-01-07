@@ -39,12 +39,12 @@ volDataConfig::volDataConfig(testItem * ch1, testItem * ch2, QWidget *parent) :
     ui->lineEditCh2TestMeterJudge->setValidator(new QDoubleValidator(0.0001, 100, 4, this));
     repaintCh2();
 }
-// Îö¹¹
+// ææ„
 volDataConfig::~volDataConfig()
 {
     delete ui;
 }
-// ÍË³öÊÂ¼ş
+// é€€å‡ºäº‹ä»¶
 void volDataConfig::closeEvent(QCloseEvent *event)
 {
     if(cmdListCh1Pre->size() != 0 && dataAndAddrListCh1->size() != 0)
@@ -65,13 +65,13 @@ void volDataConfig::closeEvent(QCloseEvent *event)
         itemCh2 = NULL;
     emit returnTestItem(itemCh1, itemCh2);
 }
-// ÍË³ö
+// é€€å‡º
 void volDataConfig::on_pushBtnExit_clicked()
 {
     this->close();
 }
-// ch1Ç°ÖÃÃüÁîÒ³
-// Ìí¼Ó°´Å¥
+// ch1å‰ç½®å‘½ä»¤é¡µ
+// æ·»åŠ æŒ‰é’®
 void volDataConfig::on_pushBtnCh1PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
@@ -79,14 +79,14 @@ void volDataConfig::on_pushBtnCh1PreAdd_clicked()
     cmdListCh1Pre->append(newCommand);
     showCh1PreCmdList();
 }
-// ÃüÁî¿òµã»÷ÊÂ¼ş
+// å‘½ä»¤æ¡†ç‚¹å‡»äº‹ä»¶
 void volDataConfig::on_ch1PreCmdList_clicked(const QModelIndex &index)
 {
-    nowIndexCh1Pre = index.row();  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîÔÚÁĞ±íÖĞµÄË÷Òı
-    nowCommandCh1 = cmdListCh1Pre->at(nowIndexCh1Pre);  // ±£´æch1Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîµÄÖ¸Õë
+    nowIndexCh1Pre = index.row();  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤åœ¨åˆ—è¡¨ä¸­çš„ç´¢å¼•
+    nowCommandCh1 = cmdListCh1Pre->at(nowIndexCh1Pre);  // ä¿å­˜ch1å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤çš„æŒ‡é’ˆ
     on_pushBtnCh1PreUndo_clicked();
 }
-// Ë¢ĞÂÃüÁî¿ò
+// åˆ·æ–°å‘½ä»¤æ¡†
 void volDataConfig::showCh1PreCmdList()
 {
     ui->ch1PreCmdList->clear();
@@ -95,7 +95,7 @@ void volDataConfig::showCh1PreCmdList()
         ui->ch1PreCmdList->addItem(curCommand->getFullName());
     }
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void volDataConfig::on_pushBtnCh1PreDel_clicked()
 {
     if(nowIndexCh1Pre == -1){
@@ -106,14 +106,14 @@ void volDataConfig::on_pushBtnCh1PreDel_clicked()
     if(nowIndexCh1Pre != -1)
         nowCommandCh1 = cmdListCh1Pre->at(nowIndexCh1Pre);
     showCh1PreCmdList();
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditCh1PreCmdName->clear();
     ui->lineEditCh1PreParam->clear();
     ui->lineEditCh1PreStart->clear();
     ui->lineEditCh1PreEnd->clear();
     ui->lineEditCh1PreJudge->clear();
 }
-// ÏòÉÏ°´Å¥
+// å‘ä¸ŠæŒ‰é’®
 void volDataConfig::on_pushBtnCh1PreUp_clicked()
 {
     if(nowIndexCh1Pre < 1)
@@ -122,7 +122,7 @@ void volDataConfig::on_pushBtnCh1PreUp_clicked()
     nowIndexCh1Pre--;
     showCh1PreCmdList();
 }
-// ÏòÏÂ°´Å¥
+// å‘ä¸‹æŒ‰é’®
 void volDataConfig::on_pushBtnCh1PreDown_clicked()
 {
     if((nowIndexCh1Pre == -1)||(nowIndexCh1Pre >= cmdListCh1Pre->size()-1))
@@ -131,7 +131,7 @@ void volDataConfig::on_pushBtnCh1PreDown_clicked()
     nowIndexCh1Pre++;
     showCh1PreCmdList();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void volDataConfig::on_pushBtnCh1PreSave_clicked()
 {
     if(ui->lineEditCh1PreCmdName->text().size() == 0 &&
@@ -149,77 +149,77 @@ void volDataConfig::on_pushBtnCh1PreSave_clicked()
         showCh1PreCmdList();
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void volDataConfig::on_pushBtnCh1PreUndo_clicked()
 {
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditCh1PreCmdName->clear();
     ui->lineEditCh1PreParam->clear();
     ui->lineEditCh1PreStart->clear();
     ui->lineEditCh1PreEnd->clear();
     ui->lineEditCh1PreJudge->clear();
-    // ÏÔÊ¾ÃüÁîÃû³Æ
-    ui->lineEditCh1PreCmdName->setPlaceholderText(tr("ÃüÁîÃû³Æ"));
+    // æ˜¾ç¤ºå‘½ä»¤åç§°
+    ui->lineEditCh1PreCmdName->setPlaceholderText(tr("å‘½ä»¤åç§°"));
     ui->lineEditCh1PreCmdName->setText(nowCommandCh1->getName());
-    // ÏÔÊ¾ÃüÁî²ÎÊı
-    ui->lineEditCh1PreParam->setPlaceholderText(tr("²ÎÊı"));
+    // æ˜¾ç¤ºå‘½ä»¤å‚æ•°
+    ui->lineEditCh1PreParam->setPlaceholderText(tr("å‚æ•°"));
     ui->lineEditCh1PreParam->setText(nowCommandCh1->getParam());
 
-    // ÏÔÊ¾½ØÈ¡²ÎÊı
+    // æ˜¾ç¤ºæˆªå–å‚æ•°
     ui->lineEditCh1PreStart->setText(nowCommandCh1->getStart());
     ui->lineEditCh1PreEnd->setText(nowCommandCh1->getEnd());
-    // ÏÔÊ¾ÅĞµÈ²ÎÊı
+    // æ˜¾ç¤ºåˆ¤ç­‰å‚æ•°
     ui->lineEditCh1PreJudge->setText(nowCommandCh1->getJudge());
 }
 
-// ch1Êı¾İÒ³
-// Ìí¼Ó°´Å¥
+// ch1æ•°æ®é¡µ
+// æ·»åŠ æŒ‰é’®
 void volDataConfig::on_pushBtnCh1DataAdd_clicked()
 {
     int x, y;
     x = nowIndexCh1Data / 10;
     y = nowIndexCh1Data % 10;
-    ui->scrollAreaWidgetContentsCh1->setFixedWidth((x+1)*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsCh1->setFixedWidth((x+1)*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaCh1Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
-    // ¿ò
+    // æ¡†
     QFrame* newframe = new QFrame(ui->scrollAreaWidgetContentsCh1);
     newframe->setGeometry(QRect(x*290, y*30+2, 280, 21));
     newframe->setFrameShape(QFrame::Box);
     newframe->setFrameShadow(QFrame::Raised);
     frameListCh1Data.append(newframe);
     newframe->show();
-    // ¸´Ñ¡¿ò
+    // å¤é€‰æ¡†
     QCheckBox * newcheckbox = new QCheckBox(newframe);
     newcheckbox->setGeometry(QRect(5, 3, 50, 16));
     newcheckbox->setChecked(true);
     newcheckbox->setText(QString("%1").arg(nowIndexCh1Data+1));
     checkBoxListCh1Data.append(newcheckbox);
     newcheckbox->show();
-    // Êı¾İ¿ò
+    // æ•°æ®æ¡†
     QLineEdit * datalineedit = new QLineEdit(newframe);
     datalineedit->setGeometry(QRect(60, 2, 50, 17));
-    datalineedit->setPlaceholderText(tr("Êı¾İ"));
+    datalineedit->setPlaceholderText(tr("æ•°æ®"));
     datalineedit->setValidator(new QDoubleValidator(0.0, 65535.0, 2, this));
     dataLineEditListCh1Data.append(datalineedit);
     datalineedit->show();
-    // dacµØÖ·¿ò
+    // dacåœ°å€æ¡†
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
     dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListCh1Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
-    // adcµØÖ·¿ò
+    // adcåœ°å€æ¡†
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
     adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListCh1Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
-    // refµØÖ·¿ò
+    // refåœ°å€æ¡†
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
     refaddrlineedit->setPlaceholderText(tr("refAddr"));
@@ -227,7 +227,7 @@ void volDataConfig::on_pushBtnCh1DataAdd_clicked()
     refaddrlineedit->show();
     nowIndexCh1Data++;
 }
-// ÅĞ¶ÏÈ«Ñ¡×´Ì¬
+// åˆ¤æ–­å…¨é€‰çŠ¶æ€
 bool volDataConfig::checkBoxAllSelectCh1()
 {
     for(int i=0; i != checkBoxListCh1Data.size(); ++i){
@@ -236,24 +236,24 @@ bool volDataConfig::checkBoxAllSelectCh1()
     }
     return true;
 }
-// È«Ñ¡°´Å¥
+// å…¨é€‰æŒ‰é’®
 void volDataConfig::on_pushBtnCh1DataAll_clicked()
 {
-    if(checkBoxAllSelectCh1()){  // ÒÑ¾­È«Ñ¡, ÉèÖÃÎªÈ«²»Ñ¡
+    if(checkBoxAllSelectCh1()){  // å·²ç»å…¨é€‰, è®¾ç½®ä¸ºå…¨ä¸é€‰
         for(int i=0; i != checkBoxListCh1Data.size(); ++i){
             checkBoxListCh1Data.at(i)->setChecked(false);
         }
-    }else { // Î´È«Ñ¡,ÉèÖÃÎªÈ«Ñ¡
+    }else { // æœªå…¨é€‰,è®¾ç½®ä¸ºå…¨é€‰
         for(int i=0; i != checkBoxListCh1Data.size(); ++i){
             checkBoxListCh1Data.at(i)->setChecked(true);
         }
     }
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void volDataConfig::on_pushBtnCh1DataDel_clicked()
 {
     for(int i=0; i != checkBoxListCh1Data.size();){
-        if(checkBoxListCh1Data.at(i)->isChecked()){  // Èç¹û±»Ñ¡ÖĞ,ÔòÉ¾³ı¸ÃÊı¾İÏî
+        if(checkBoxListCh1Data.at(i)->isChecked()){  // å¦‚æœè¢«é€‰ä¸­,åˆ™åˆ é™¤è¯¥æ•°æ®é¡¹
             checkBoxListCh1Data.removeAt(i);
             dataLineEditListCh1Data.removeAt(i);
             dacAddrLineEditListCh1Data.removeAt(i);
@@ -266,7 +266,7 @@ void volDataConfig::on_pushBtnCh1DataDel_clicked()
             ++i;
         }
     }
-    // ÖØĞÂÅÅÁĞ¿ò
+    // é‡æ–°æ’åˆ—æ¡†
     int x, y;
     for(int i=0; i != frameListCh1Data.size(); ++i){
         x = i / 10;
@@ -276,22 +276,22 @@ void volDataConfig::on_pushBtnCh1DataDel_clicked()
     }
     nowIndexCh1Data = checkBoxListCh1Data.size();
     int column = nowIndexCh1Data/10 + (nowIndexCh1Data % 10 ? 1 : 0);
-    ui->scrollAreaWidgetContentsCh1->setFixedWidth(column*180);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsCh1->setFixedWidth(column*180);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaCh1Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
 }
-// È«²¿É¾³ı°´Å¥
+// å…¨éƒ¨åˆ é™¤æŒ‰é’®
 void volDataConfig::on_pushBtnCh1DataBatchDel_clicked()
 {
-    if(!checkBoxAllSelectCh1())  // Ã»ÓĞÈ«Ñ¡,ÔòÈ«Ñ¡
+    if(!checkBoxAllSelectCh1())  // æ²¡æœ‰å…¨é€‰,åˆ™å…¨é€‰
         on_pushBtnCh1DataAll_clicked();
-    on_pushBtnCh1DataDel_clicked(); // É¾³ı
+    on_pushBtnCh1DataDel_clicked(); // åˆ é™¤
 }
-// Çå¿ÕÊı¾İ°´Å¥
+// æ¸…ç©ºæ•°æ®æŒ‰é’®
 void volDataConfig::on_pushBtnCh1DataClear_clicked()
 {
     for(int i=0; i != nowIndexCh1Data; ++i){
@@ -301,18 +301,18 @@ void volDataConfig::on_pushBtnCh1DataClear_clicked()
         refAddrLineEditListCh1Data.at(i)->clear();
     }
 }
-// ÅúÁ¿Ìí¼Ó°´Å¥
+// æ‰¹é‡æ·»åŠ æŒ‰é’®
 void volDataConfig::on_pushBtnCh1DataBatchAdd_clicked()
 {
     if(nowIndexCh1Data)
-        if(QMessageBox::question(this, tr("Ñ¯ÎÊ"), tr("ÊÇ·ñ±£Áôµ±Ç°ÒÑÌîÊı¾İ£¿"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
+        if(QMessageBox::question(this, tr("è¯¢é—®"), tr("æ˜¯å¦ä¿ç•™å½“å‰å·²å¡«æ•°æ®ï¼Ÿ"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnCh1DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
     connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
             this, SLOT(handleBatchParamsCh1(int, double, double, QString, bool)));
     batchdialog->show();
 }
-// ´¦Àí½ÓÊÕµ½µÄÅúÁ¿Ìí¼Ó²ÎÊı
+// å¤„ç†æ¥æ”¶åˆ°çš„æ‰¹é‡æ·»åŠ å‚æ•°
 void volDataConfig::handleBatchParamsCh1(int num, double dataStart,
                                       double dataStep, QString strAddrStart, bool isRise)
 {
@@ -348,61 +348,61 @@ void volDataConfig::handleBatchParamsCh1(int num, double dataStart,
         refAddrLineEditListCh1Data.at(nowIndexCh1Data-1)->setText(strRefAddr);
     }
 }
-// Êı¾İ³¤¶È±à¼­
+// æ•°æ®é•¿åº¦ç¼–è¾‘
 void volDataConfig::on_lineEditDataLengthCh1_textEdited()
 {
     qDebug() << ui->lineEditDataLengthCh1->text().length();
     if(ui->lineEditDataLengthCh1->text().isEmpty()){
-        QMessageBox::information(this, tr("´íÎó"), tr("Êı¾İ³¤¶È²»ÄÜÎª¿Õ£¡"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("é”™è¯¯"), tr("æ•°æ®é•¿åº¦ä¸èƒ½ä¸ºç©ºï¼"), QMessageBox::Ok);
         ui->lineEditDataLengthCh1->setText(QString("%1").arg(dataLengthCh1));
         return;
     }
     dataLengthCh1 = ui->lineEditDataLengthCh1->text().toInt();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void volDataConfig::on_pushBtnCh1DataSave_clicked()
 {
     QList<DataItem *> * tempList = new QList<DataItem * >;
-    // ±£´æ½çÃæÖĞµÄÊı¾İ, ÅĞ¶ÏÀïÃæµÄ²ÎÊıÊÇ·ñºÏ·¨
+    // ä¿å­˜ç•Œé¢ä¸­çš„æ•°æ®, åˆ¤æ–­é‡Œé¢çš„å‚æ•°æ˜¯å¦åˆæ³•
     for(int i=0; i != nowIndexCh1Data; ++i){
         QString data, dacAddr, adcAddr, refAddr;
         data = dataLineEditListCh1Data.at(i)->text();
         bool ok;
         data.toDouble(&ok);
         if(!ok){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîÊı¾İ²»ÊÇÓĞĞ§µÄÊı¾İ£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹æ•°æ®ä¸æ˜¯æœ‰æ•ˆçš„æ•°æ®ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         dacAddr = dacAddrLineEditListCh1Data.at(i)->text();
         if(!QStringIsInt(dacAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîdacµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹dacåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         adcAddr = adcAddrLineEditListCh1Data.at(i)->text();
         if(!QStringIsInt(adcAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîadcµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹adcåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         refAddr = refAddrLineEditListCh1Data.at(i)->text();
         if(!QStringIsInt(refAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîrefµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹refåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         DataItem * temp = new DataItem(checkBoxListCh1Data.at(i)->checkState(), data.toDouble(), dacAddr, adcAddr, refAddr);
         tempList->append(temp);
     }
-    // Çë¿Õµ±Ç°²ÎÊıÁĞ±í
+    // è¯·ç©ºå½“å‰å‚æ•°åˆ—è¡¨
     for(int i=0; i != dataAndAddrListCh1->size(); ++i)
         delete dataAndAddrListCh1->at(i);
     dataAndAddrListCh1->clear();
     dataAndAddrListCh1 = tempList;
     if(!dataAndAddrListCh1->isEmpty())
-        QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void volDataConfig::on_pushBtnCh1DataUndo_clicked()
 {
-    on_pushBtnCh1DataBatchDel_clicked();  // Çå¿ÕÊı¾İÁĞ±í¿ò
+    on_pushBtnCh1DataBatchDel_clicked();  // æ¸…ç©ºæ•°æ®åˆ—è¡¨æ¡†
     for(int i=0; i != dataAndAddrListCh1->size(); ++i){
         on_pushBtnCh1DataAdd_clicked();
         checkBoxListCh1Data.at(i)->setChecked(dataAndAddrListCh1->at(i)->check);
@@ -413,21 +413,21 @@ void volDataConfig::on_pushBtnCh1DataUndo_clicked()
     }
 }
 
-// ch1Ğ£×¼Ò³
-// ±£´æ°´Å¥
+// ch1æ ¡å‡†é¡µ
+// ä¿å­˜æŒ‰é’®
 void volDataConfig::on_pushBtnCh1VerifySave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge, setMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÑ¹ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge, setMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µå‹è®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditCh1VerifySetCmd->text();
     setStart = ui->lineEditCh1VerifySetStart->text();
     setEnd = ui->lineEditCh1VerifySetEnd->text();
     setJudge = ui->lineEditCh1VerifySetJudge->text();
     setMulti = ui->lineEditCh1VerifySetMulti->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0 || setMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÑ¹ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µå‹å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÑ¹¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µå‹è¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditCh1VerifyDMMCmd->text();
     dmmParam = ui->lineEditCh1VerifyDMMParam->text();
     dmmStart = ui->lineEditCh1VerifyDMMStart->text();
@@ -435,109 +435,109 @@ void volDataConfig::on_pushBtnCh1VerifySave_clicked()
     dmmJudge = ui->lineEditCh1VerifyDMMJudge->text();
     dmmMulti = ui->lineEditCh1VerifyDMMMulti->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0 || dmmMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÑ¹ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µå‹å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge, meterMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge, meterMulti;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditCh1VerifyMeterJudge->text();
     meterMulti = ui->lineEditCh1VerifyMeterMulti->text();
     if(meterJudge.size()==0 || meterMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡¶ÁÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–è¯»ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdCh1Verify->setName(setName);  // ±£´æÉèÖÃµçÑ¹ÃüÁî²ÎÊı
+    setCmdCh1Verify->setName(setName);  // ä¿å­˜è®¾ç½®ç”µå‹å‘½ä»¤å‚æ•°
     setCmdCh1Verify->setStart(setStart);
     setCmdCh1Verify->setEnd(setEnd);
     setCmdCh1Verify->setJudge(setJudge);
     setCh1Multi = setMulti.toInt();
-    dmmCmdCh1Verify->setName(dmmName); // ±£´æ¶ÁÈ¡µçÑ¹ÃüÁî²ÎÊı
+    dmmCmdCh1Verify->setName(dmmName); // ä¿å­˜è¯»å–ç”µå‹å‘½ä»¤å‚æ•°
     dmmCmdCh1Verify->setParam(dmmParam);
     dmmCmdCh1Verify->setStart(dmmStart);
     dmmCmdCh1Verify->setEnd(dmmEnd);
     dmmCmdCh1Verify->setRatio(dmmJudge.toDouble());
     dmmCh1Multi = dmmMulti.toInt();
-    meterCmdCh1Verify->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdCh1Verify->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     meterCh1Multi = meterMulti.toInt();
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void volDataConfig::on_pushBtnCh1VerifyUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÑ¹²ÎÊı
+    // é‡å†™è®¾ç½®ç”µå‹å‚æ•°
     ui->lineEditCh1VerifySetCmd->setText(setCmdCh1Verify->getName());
     ui->lineEditCh1VerifySetStart->setText(setCmdCh1Verify->getStart());
     ui->lineEditCh1VerifySetEnd->setText(setCmdCh1Verify->getEnd());
     ui->lineEditCh1VerifySetJudge->setText(setCmdCh1Verify->getJudge());
     ui->lineEditCh1VerifySetMulti->setText(QString("%1").arg(setCh1Multi));
-    // ÖØĞ´¶ÁÈ¡µçÑ¹²ÎÊı
+    // é‡å†™è¯»å–ç”µå‹å‚æ•°
     ui->lineEditCh1VerifyDMMCmd->setText(dmmCmdCh1Verify->getName());
     ui->lineEditCh1VerifyDMMStart->setText(dmmCmdCh1Verify->getStart());
     ui->lineEditCh1VerifyDMMEnd->setText(dmmCmdCh1Verify->getEnd());
     ui->lineEditCh1VerifyDMMJudge->setText(dmmCmdCh1Verify->getRatio());
     ui->lineEditCh1VerifyDMMMulti->setText(QString("%1").arg(dmmCh1Multi));
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditCh1VerifyMeterJudge->setText(meterCmdCh1Verify->getRatio());
     ui->lineEditCh1VerifyMeterMulti->setText(QString("%1").arg(meterCh1Multi));
 }
 
-// ch1²âÊÔÒ³
-// ±£´æ°´Å¥
+// ch1æµ‹è¯•é¡µ
+// ä¿å­˜æŒ‰é’®
 void volDataConfig::on_pushBtnCh1TestSave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÑ¹ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µå‹è®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditCh1TestSetCmd->text();
     setStart = ui->lineEditCh1TestSetStart->text();
     setEnd = ui->lineEditCh1TestSetEnd->text();
     setJudge = ui->lineEditCh1TestSetJudge->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÑ¹ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µå‹å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÑ¹¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µå‹è¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditCh1TestDMMCmd->text();
     dmmStart = ui->lineEditCh1TestDMMStart->text();
     dmmEnd = ui->lineEditCh1TestDMMEnd->text();
     dmmJudge = ui->lineEditCh1TestDMMJudge->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÑ¹ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µå‹å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditCh1TestMeterJudge->text();
     if(meterJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡¶ÁÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–è¯»ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdCh1Test->setName(setName);  // ±£´æÉèÖÃµçÑ¹ÃüÁî²ÎÊı
+    setCmdCh1Test->setName(setName);  // ä¿å­˜è®¾ç½®ç”µå‹å‘½ä»¤å‚æ•°
     setCmdCh1Test->setStart(setStart);
     setCmdCh1Test->setEnd(setEnd);
     setCmdCh1Test->setJudge(setJudge);
-    dmmCmdCh1Test->setName(dmmName);  // ±£´æ¶ÁÈ¡µçÑ¹ÃüÁî²ÎÊı
+    dmmCmdCh1Test->setName(dmmName);  // ä¿å­˜è¯»å–ç”µå‹å‘½ä»¤å‚æ•°
     dmmCmdCh1Test->setStart(dmmStart);
     dmmCmdCh1Test->setEnd(dmmEnd);
     dmmCmdCh1Test->setRatio(dmmJudge.toDouble());
-    meterCmdCh1Test->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    meterCmdCh1Test->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void volDataConfig::on_pushBtnCh1TestUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÑ¹²ÎÊı
+    // é‡å†™è®¾ç½®ç”µå‹å‚æ•°
     ui->lineEditCh1TestSetCmd->setText(setCmdCh1Test->getName());
     ui->lineEditCh1TestSetStart->setText(setCmdCh1Test->getStart());
     ui->lineEditCh1TestSetEnd->setText(setCmdCh1Test->getEnd());
     ui->lineEditCh1TestSetJudge->setText(setCmdCh1Test->getJudge());
-    // ÖØĞ´¶ÁÈ¡µçÑ¹²ÎÊı
+    // é‡å†™è¯»å–ç”µå‹å‚æ•°
     ui->lineEditCh1TestDMMCmd->setText(dmmCmdCh1Test->getName());
     ui->lineEditCh1TestDMMStart->setText(dmmCmdCh1Test->getStart());
     ui->lineEditCh1TestDMMEnd->setText(dmmCmdCh1Test->getEnd());
     ui->lineEditCh1TestDMMJudge->setText(dmmCmdCh1Test->getRatio());
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditCh1TestMeterJudge->setText(meterCmdCh1Test->getRatio());
 }
 
-// ch2Ç°ÖÃÃüÁîÒ³
-// Ìí¼Ó°´Å¥
+// ch2å‰ç½®å‘½ä»¤é¡µ
+// æ·»åŠ æŒ‰é’®
 void volDataConfig::on_pushBtnCh2PreAdd_clicked()
 {
     command *newCommand = new command(QString("untitled"));
@@ -545,14 +545,14 @@ void volDataConfig::on_pushBtnCh2PreAdd_clicked()
     cmdListCh2Pre->append(newCommand);
     showCh2PreCmdList();
 }
-// ÃüÁî¿òµã»÷ÊÂ¼ş
+// å‘½ä»¤æ¡†ç‚¹å‡»äº‹ä»¶
 void volDataConfig::on_ch2PreCmdList_clicked(const QModelIndex &index)
 {
-    nowIndexCh2Pre = index.row();  // ±£´æch2Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîÔÚÁĞ±íÖĞµÄË÷Òı
-    nowCommandCh2 = cmdListCh2Pre->at(nowIndexCh2Pre);  // ±£´æch2Ç°ÖÃÃüÁîÒ³µ±Ç°ÃüÁîµÄÖ¸Õë
+    nowIndexCh2Pre = index.row();  // ä¿å­˜ch2å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤åœ¨åˆ—è¡¨ä¸­çš„ç´¢å¼•
+    nowCommandCh2 = cmdListCh2Pre->at(nowIndexCh2Pre);  // ä¿å­˜ch2å‰ç½®å‘½ä»¤é¡µå½“å‰å‘½ä»¤çš„æŒ‡é’ˆ
     on_pushBtnCh2PreUndo_clicked();
 }
-// Ë¢ĞÂÃüÁî¿ò
+// åˆ·æ–°å‘½ä»¤æ¡†
 void volDataConfig::showCh2PreCmdList()
 {
     ui->ch2PreCmdList->clear();
@@ -561,7 +561,7 @@ void volDataConfig::showCh2PreCmdList()
         ui->ch2PreCmdList->addItem(curCommand->getFullName());
     }
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void volDataConfig::on_pushBtnCh2PreDel_clicked()
 {
     if(nowIndexCh2Pre == -1){
@@ -572,14 +572,14 @@ void volDataConfig::on_pushBtnCh2PreDel_clicked()
     if(nowIndexCh2Pre != -1)
         nowCommandCh2 = cmdListCh2Pre->at(nowIndexCh2Pre);
     showCh2PreCmdList();
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditCh2PreCmdName->clear();
     ui->lineEditCh2PreParam->clear();
     ui->lineEditCh2PreStart->clear();
     ui->lineEditCh2PreEnd->clear();
     ui->lineEditCh2PreJudge->clear();
 }
-// ÏòÉÏ°´Å¥
+// å‘ä¸ŠæŒ‰é’®
 void volDataConfig::on_pushBtnCh2PreUp_clicked()
 {
     if(nowIndexCh2Pre < 1)
@@ -588,7 +588,7 @@ void volDataConfig::on_pushBtnCh2PreUp_clicked()
     nowIndexCh2Pre--;
     showCh2PreCmdList();
 }
-// ÏòÏÂ°´Å¥
+// å‘ä¸‹æŒ‰é’®
 void volDataConfig::on_pushBtnCh2PreDown_clicked()
 {
     if((nowIndexCh2Pre == -1)||(nowIndexCh2Pre >= cmdListCh2Pre->size()-1))
@@ -597,7 +597,7 @@ void volDataConfig::on_pushBtnCh2PreDown_clicked()
     nowIndexCh2Pre++;
     showCh2PreCmdList();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void volDataConfig::on_pushBtnCh2PreSave_clicked()
 {
     if(ui->lineEditCh2PreCmdName->text().size() == 0 &&
@@ -615,77 +615,77 @@ void volDataConfig::on_pushBtnCh2PreSave_clicked()
         showCh2PreCmdList();
     }
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void volDataConfig::on_pushBtnCh2PreUndo_clicked()
 {
-    // Çå¿Õµ±Ç°ÃüÁîÏêÇé
+    // æ¸…ç©ºå½“å‰å‘½ä»¤è¯¦æƒ…
     ui->lineEditCh2PreCmdName->clear();
     ui->lineEditCh2PreParam->clear();
     ui->lineEditCh2PreStart->clear();
     ui->lineEditCh2PreEnd->clear();
     ui->lineEditCh2PreJudge->clear();
-    // ÏÔÊ¾ÃüÁîÃû³Æ
-    ui->lineEditCh2PreCmdName->setPlaceholderText(tr("ÃüÁîÃû³Æ"));
+    // æ˜¾ç¤ºå‘½ä»¤åç§°
+    ui->lineEditCh2PreCmdName->setPlaceholderText(tr("å‘½ä»¤åç§°"));
     ui->lineEditCh2PreCmdName->setText(nowCommandCh2->getName());
-    // ÏÔÊ¾ÃüÁî²ÎÊı
-    ui->lineEditCh2PreParam->setPlaceholderText(tr("²ÎÊı"));
+    // æ˜¾ç¤ºå‘½ä»¤å‚æ•°
+    ui->lineEditCh2PreParam->setPlaceholderText(tr("å‚æ•°"));
     ui->lineEditCh2PreParam->setText(nowCommandCh2->getParam());
 
-    // ÏÔÊ¾½ØÈ¡²ÎÊı
+    // æ˜¾ç¤ºæˆªå–å‚æ•°
     ui->lineEditCh2PreStart->setText(nowCommandCh2->getStart());
     ui->lineEditCh2PreEnd->setText(nowCommandCh2->getEnd());
-    // ÏÔÊ¾ÅĞµÈ²ÎÊı
+    // æ˜¾ç¤ºåˆ¤ç­‰å‚æ•°
     ui->lineEditCh2PreJudge->setText(nowCommandCh2->getJudge());
 }
 
-// Ch2Êı¾İÒ³
-// Ìí¼Ó°´Å¥
+// Ch2æ•°æ®é¡µ
+// æ·»åŠ æŒ‰é’®
 void volDataConfig::on_pushBtnCh2DataAdd_clicked()
 {
     int x, y;
     x = nowIndexCh2Data / 10;
     y = nowIndexCh2Data % 10;
-    ui->scrollAreaWidgetContentsCh2->setFixedWidth((x+1)*290);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsCh2->setFixedWidth((x+1)*290);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaCh2Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
-    // ¿ò
+    // æ¡†
     QFrame* newframe = new QFrame(ui->scrollAreaWidgetContentsCh2);
     newframe->setGeometry(QRect(x*290, y*30+2, 280, 21));
     newframe->setFrameShape(QFrame::Box);
     newframe->setFrameShadow(QFrame::Raised);
     frameListCh2Data.append(newframe);
     newframe->show();
-    // ¸´Ñ¡¿ò
+    // å¤é€‰æ¡†
     QCheckBox * newcheckbox = new QCheckBox(newframe);
     newcheckbox->setGeometry(QRect(5, 3, 50, 16));
     newcheckbox->setChecked(true);
     newcheckbox->setText(QString("%1").arg(nowIndexCh2Data+1));
     checkBoxListCh2Data.append(newcheckbox);
     newcheckbox->show();
-    // Êı¾İ¿ò
+    // æ•°æ®æ¡†
     QLineEdit * datalineedit = new QLineEdit(newframe);
     datalineedit->setGeometry(QRect(60, 2, 50, 17));
-    datalineedit->setPlaceholderText(tr("Êı¾İ"));
+    datalineedit->setPlaceholderText(tr("æ•°æ®"));
     datalineedit->setValidator(new QDoubleValidator(0.0, 65535.0, 2, this));
     dataLineEditListCh2Data.append(datalineedit);
     datalineedit->show();
-    // dacµØÖ·¿ò
+    // dacåœ°å€æ¡†
     QLineEdit * dacaddrlineedit = new QLineEdit(newframe);
     dacaddrlineedit->setGeometry(QRect(115, 2, 50, 17));
     dacaddrlineedit->setPlaceholderText(tr("dacAddr"));
     dacAddrLineEditListCh2Data.append(dacaddrlineedit);
     dacaddrlineedit->show();
-    // adcµØÖ·¿ò
+    // adcåœ°å€æ¡†
     QLineEdit * adcaddrlineedit = new QLineEdit(newframe);
     adcaddrlineedit->setGeometry(QRect(170, 2, 50, 17));
     adcaddrlineedit->setPlaceholderText(tr("adcAddr"));
     adcAddrLineEditListCh2Data.append(adcaddrlineedit);
     adcaddrlineedit->show();
-    // refµØÖ·¿ò
+    // refåœ°å€æ¡†
     QLineEdit * refaddrlineedit = new QLineEdit(newframe);
     refaddrlineedit->setGeometry(QRect(225, 2, 50, 17));
     refaddrlineedit->setPlaceholderText(tr("refAddr"));
@@ -693,7 +693,7 @@ void volDataConfig::on_pushBtnCh2DataAdd_clicked()
     refaddrlineedit->show();
     nowIndexCh2Data++;
 }
-// ÅĞ¶ÏÈ«Ñ¡×´Ì¬
+// åˆ¤æ–­å…¨é€‰çŠ¶æ€
 bool volDataConfig::checkBoxAllSelectCh2()
 {
     for(int i=0; i != checkBoxListCh2Data.size(); ++i){
@@ -702,24 +702,24 @@ bool volDataConfig::checkBoxAllSelectCh2()
     }
     return true;
 }
-// È«Ñ¡°´Å¥
+// å…¨é€‰æŒ‰é’®
 void volDataConfig::on_pushBtnCh2DataAll_clicked()
 {
-    if(checkBoxAllSelectCh2()){  // ÒÑ¾­È«Ñ¡, ÉèÖÃÎªÈ«²»Ñ¡
+    if(checkBoxAllSelectCh2()){  // å·²ç»å…¨é€‰, è®¾ç½®ä¸ºå…¨ä¸é€‰
         for(int i=0; i != checkBoxListCh2Data.size(); ++i){
             checkBoxListCh2Data.at(i)->setChecked(false);
         }
-    }else { // Î´È«Ñ¡,ÉèÖÃÎªÈ«Ñ¡
+    }else { // æœªå…¨é€‰,è®¾ç½®ä¸ºå…¨é€‰
         for(int i=0; i != checkBoxListCh2Data.size(); ++i){
             checkBoxListCh2Data.at(i)->setChecked(true);
         }
     }
 }
-// É¾³ı°´Å¥
+// åˆ é™¤æŒ‰é’®
 void volDataConfig::on_pushBtnCh2DataDel_clicked()
 {
     for(int i=0; i != checkBoxListCh2Data.size();){
-        if(checkBoxListCh2Data.at(i)->isChecked()){  // Èç¹û±»Ñ¡ÖĞ,ÔòÉ¾³ı¸ÃÊı¾İÏî
+        if(checkBoxListCh2Data.at(i)->isChecked()){  // å¦‚æœè¢«é€‰ä¸­,åˆ™åˆ é™¤è¯¥æ•°æ®é¡¹
             checkBoxListCh2Data.removeAt(i);
             dataLineEditListCh2Data.removeAt(i);
             dacAddrLineEditListCh2Data.removeAt(i);
@@ -731,7 +731,7 @@ void volDataConfig::on_pushBtnCh2DataDel_clicked()
         }else
             ++i;
     }
-    // ÖØĞÂÅÅÁĞ¿ò
+    // é‡æ–°æ’åˆ—æ¡†
     int x, y;
     for(int i=0; i != frameListCh2Data.size(); ++i){
         x = i / 10;
@@ -741,22 +741,22 @@ void volDataConfig::on_pushBtnCh2DataDel_clicked()
     }
     nowIndexCh2Data = checkBoxListCh2Data.size();
     int column = nowIndexCh2Data/10 + (nowIndexCh2Data % 10 ? 1 : 0);
-    ui->scrollAreaWidgetContentsCh2->setFixedWidth(column*280);  // ÖØÖÃ¹ö¶¯ÇøÓò´óĞ¡
+    ui->scrollAreaWidgetContentsCh2->setFixedWidth(column*280);  // é‡ç½®æ»šåŠ¨åŒºåŸŸå¤§å°
     QScrollBar *pScrollBar = ui->scrollAreaCh2Data->horizontalScrollBar();
     if (pScrollBar != NULL)
     {
         int nMax = pScrollBar->maximum();
-        pScrollBar->setValue(nMax);  // ×Ô¶¯¹ö¶¯µ½×îÓÒ±ß
+        pScrollBar->setValue(nMax);  // è‡ªåŠ¨æ»šåŠ¨åˆ°æœ€å³è¾¹
     }
 }
-// È«²¿É¾³ı°´Å¥
+// å…¨éƒ¨åˆ é™¤æŒ‰é’®
 void volDataConfig::on_pushBtnCh2DataBatchDel_clicked()
 {
-    if(!checkBoxAllSelectCh2())  // Ã»ÓĞÈ«Ñ¡,ÔòÈ«Ñ¡
+    if(!checkBoxAllSelectCh2())  // æ²¡æœ‰å…¨é€‰,åˆ™å…¨é€‰
         on_pushBtnCh2DataAll_clicked();
-    on_pushBtnCh2DataDel_clicked(); // É¾³ı
+    on_pushBtnCh2DataDel_clicked(); // åˆ é™¤
 }
-// Çå¿ÕÊı¾İ°´Å¥
+// æ¸…ç©ºæ•°æ®æŒ‰é’®
 void volDataConfig::on_pushBtnCh2DataClear_clicked()
 {
     for(int i=0; i != nowIndexCh2Data; ++i){
@@ -766,18 +766,18 @@ void volDataConfig::on_pushBtnCh2DataClear_clicked()
         refAddrLineEditListCh2Data.at(i)->clear();
     }
 }
-// ÅúÁ¿Ìí¼Ó°´Å¥
+// æ‰¹é‡æ·»åŠ æŒ‰é’®
 void volDataConfig::on_pushBtnCh2DataBatchAdd_clicked()
 {
     if(nowIndexCh2Data)
-        if(QMessageBox::question(this, tr("Ñ¯ÎÊ"), tr("ÊÇ·ñ±£Áôµ±Ç°ÒÑÌîÊı¾İ£¿"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
+        if(QMessageBox::question(this, tr("è¯¢é—®"), tr("æ˜¯å¦ä¿ç•™å½“å‰å·²å¡«æ•°æ®ï¼Ÿ"), QMessageBox::Ok|QMessageBox::No) == QMessageBox::No)
             on_pushBtnCh2DataBatchDel_clicked();
     BatchAdd * batchdialog = new BatchAdd();
     connect(batchdialog, SIGNAL(returnParams(int, double, double, QString, bool)),
             this, SLOT(handleBatchParamsCh2(int, double, double, QString, bool)));
     batchdialog->show();
 }
-// ´¦Àí½ÓÊÕµ½µÄÅúÁ¿Ìí¼Ó²ÎÊı
+// å¤„ç†æ¥æ”¶åˆ°çš„æ‰¹é‡æ·»åŠ å‚æ•°
 void volDataConfig::handleBatchParamsCh2(int num, double dataStart,
                                       double dataStep, QString strAddrStart, bool isRise)
 {
@@ -813,59 +813,59 @@ void volDataConfig::handleBatchParamsCh2(int num, double dataStart,
         refAddrLineEditListCh2Data.at(nowIndexCh2Data-1)->setText(strRefAddr);
     }
 }
-// Êı¾İ³¤¶È±à¼­
+// æ•°æ®é•¿åº¦ç¼–è¾‘
 void volDataConfig::on_lineEditDataLengthCh2_textEdited()
 {
     if(ui->lineEditDataLengthCh2->text().isEmpty()){
-        QMessageBox::information(this, tr("´íÎó"), tr("Êı¾İ³¤¶È²»ÄÜÎª¿Õ£¡"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("é”™è¯¯"), tr("æ•°æ®é•¿åº¦ä¸èƒ½ä¸ºç©ºï¼"), QMessageBox::Ok);
         ui->lineEditDataLengthCh2->setText(QString("%1").arg(dataLengthCh2));
         return;
     }
     dataLengthCh2 = ui->lineEditDataLengthCh2->text().toInt();
 }
-// ±£´æ°´Å¥
+// ä¿å­˜æŒ‰é’®
 void volDataConfig::on_pushBtnCh2DataSave_clicked()
 {
     QList<DataItem * >  *tempList = new QList<DataItem * >;
-    // ±£´æ½çÃæÖĞµÄÊı¾İ, ÅĞ¶ÏÀïÃæµÄ²ÎÊıÊÇ·ñºÏ·¨
+    // ä¿å­˜ç•Œé¢ä¸­çš„æ•°æ®, åˆ¤æ–­é‡Œé¢çš„å‚æ•°æ˜¯å¦åˆæ³•
     for(int i=0; i != nowIndexCh2Data; ++i){
         QString data, dacAddr, adcAddr, refAddr;
         data = dataLineEditListCh2Data.at(i)->text();
         bool ok;
         data.toDouble(&ok);
         if(!ok){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîÊı¾İ²»ÊÇÓĞĞ§µÄÊı¾İ£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹æ•°æ®ä¸æ˜¯æœ‰æ•ˆçš„æ•°æ®ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         dacAddr = dacAddrLineEditListCh2Data.at(i)->text();
         if(!QStringIsInt(dacAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîdacµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹dacåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         adcAddr = adcAddrLineEditListCh2Data.at(i)->text();
         if(!QStringIsInt(adcAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîdacµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹dacåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         refAddr = refAddrLineEditListCh2Data.at(i)->text();
         if(!QStringIsInt(refAddr)){
-            QMessageBox::information(this, tr("´íÎó"), tr("µÚ%1ÏîdacµØÖ·²»ÊÇÓĞĞ§µÄµØÖ·£¬±£´æÊ§°Ü£¡").arg(i+1), QMessageBox::Ok);
+            QMessageBox::information(this, tr("é”™è¯¯"), tr("ç¬¬%1é¡¹dacåœ°å€ä¸æ˜¯æœ‰æ•ˆçš„åœ°å€ï¼Œä¿å­˜å¤±è´¥ï¼").arg(i+1), QMessageBox::Ok);
             return;
         }
         tempList->append(new DataItem(checkBoxListCh2Data.at(i)->checkState(), data.toDouble(), dacAddr, adcAddr, refAddr));
     }
-    // Çë¿Õµ±Ç°²ÎÊıÁĞ±í
+    // è¯·ç©ºå½“å‰å‚æ•°åˆ—è¡¨
     for(int i=0; i != dataAndAddrListCh2->size(); ++i)
         delete dataAndAddrListCh2->at(i);
     dataAndAddrListCh2->clear();
     dataAndAddrListCh2 = tempList;
     if(!dataAndAddrListCh2->isEmpty())
-        QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void volDataConfig::on_pushBtnCh2DataUndo_clicked()
 {
-    on_pushBtnCh2DataBatchDel_clicked();  // Çå¿ÕÊı¾İÁĞ±í¿ò
+    on_pushBtnCh2DataBatchDel_clicked();  // æ¸…ç©ºæ•°æ®åˆ—è¡¨æ¡†
     for(int i=0; i != dataAndAddrListCh2->size(); ++i){
         on_pushBtnCh2DataAdd_clicked();
         checkBoxListCh2Data.at(i)->setChecked(dataAndAddrListCh2->at(i)->check);
@@ -876,21 +876,21 @@ void volDataConfig::on_pushBtnCh2DataUndo_clicked()
     }
 }
 
-// Ch2Ğ£×¼Ò³
-// ±£´æ°´Å¥
+// Ch2æ ¡å‡†é¡µ
+// ä¿å­˜æŒ‰é’®
 void volDataConfig::on_pushBtnCh2VerifySave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge, setMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÑ¹ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge, setMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µå‹è®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditCh2VerifySetCmd->text();
     setStart = ui->lineEditCh2VerifySetStart->text();
     setEnd = ui->lineEditCh2VerifySetEnd->text();
     setJudge = ui->lineEditCh2VerifySetJudge->text();
     setMulti = ui->lineEditCh2VerifySetMulti->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0 || setMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÑ¹ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µå‹å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÑ¹¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmParam, dmmStart, dmmEnd, dmmJudge, dmmMulti;  // è¯»å–å¹¶åˆ¤æ–­ç”µå‹è¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditCh2VerifyDMMCmd->text();
     dmmParam = ui->lineEditCh2VerifyDMMParam->text();
     dmmStart = ui->lineEditCh2VerifyDMMStart->text();
@@ -898,112 +898,112 @@ void volDataConfig::on_pushBtnCh2VerifySave_clicked()
     dmmJudge = ui->lineEditCh2VerifyDMMJudge->text();
     dmmMulti = ui->lineEditCh2VerifyDMMMulti->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0 || dmmMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÑ¹ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µå‹å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge, meterMulti;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge, meterMulti;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditCh2VerifyMeterJudge->text();
     meterMulti = ui->lineEditCh2VerifyMeterMulti->text();
     if(meterJudge.size()==0 || meterMulti.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡¶ÁÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–è¯»ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdCh2Verify->setName(setName);  // ±£´æÉèÖÃµçÑ¹ÃüÁî²ÎÊı
+    setCmdCh2Verify->setName(setName);  // ä¿å­˜è®¾ç½®ç”µå‹å‘½ä»¤å‚æ•°
     setCmdCh2Verify->setStart(setStart);
     setCmdCh2Verify->setEnd(setEnd);
     setCmdCh2Verify->setJudge(setJudge);
     setCh2Multi = setMulti.toInt();
-    dmmCmdCh2Verify->setName(dmmName); // ±£´æ¶ÁÈ¡µçÑ¹ÃüÁî²ÎÊı
+    dmmCmdCh2Verify->setName(dmmName); // ä¿å­˜è¯»å–ç”µå‹å‘½ä»¤å‚æ•°
     dmmCmdCh2Verify->setParam(dmmParam);
     dmmCmdCh2Verify->setStart(dmmStart);
     dmmCmdCh2Verify->setEnd(dmmEnd);
     dmmCmdCh2Verify->setRatio(dmmJudge.toDouble());
     dmmCh2Multi = dmmMulti.toInt();
-    meterCmdCh2Verify->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
+    meterCmdCh2Verify->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
     meterCh2Multi = meterMulti.toInt();
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void volDataConfig::on_pushBtnCh2VerifyUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÑ¹²ÎÊı
+    // é‡å†™è®¾ç½®ç”µå‹å‚æ•°
     ui->lineEditCh2VerifySetCmd->setText(setCmdCh2Verify->getName());
     ui->lineEditCh2VerifySetStart->setText(setCmdCh2Verify->getStart());
     ui->lineEditCh2VerifySetEnd->setText(setCmdCh2Verify->getEnd());
     ui->lineEditCh2VerifySetJudge->setText(setCmdCh2Verify->getJudge());
     ui->lineEditCh2VerifySetMulti->setText(QString("%1").arg(setCh2Multi));
-    // ÖØĞ´¶ÁÈ¡µçÑ¹²ÎÊı
+    // é‡å†™è¯»å–ç”µå‹å‚æ•°
     ui->lineEditCh2VerifyDMMCmd->setText(dmmCmdCh2Verify->getName());
     ui->lineEditCh2VerifyDMMStart->setText(dmmCmdCh2Verify->getStart());
     ui->lineEditCh2VerifyDMMEnd->setText(dmmCmdCh2Verify->getEnd());
     ui->lineEditCh2VerifyDMMJudge->setText(dmmCmdCh2Verify->getRatio());
     ui->lineEditCh2VerifyDMMMulti->setText(QString("%1").arg(dmmCh2Multi));
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditCh2VerifyMeterJudge->setText(meterCmdCh2Verify->getRatio());
     ui->lineEditCh2VerifyMeterMulti->setText(QString("%1").arg(meterCh2Multi));
 }
 
-// Ch2²âÊÔÒ³
-// ±£´æ°´Å¥
+// Ch2æµ‹è¯•é¡µ
+// ä¿å­˜æŒ‰é’®
 void volDataConfig::on_pushBtnCh2TestSave_clicked()
 {
-    QString setName, setStart, setEnd, setJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÑ¹ÉèÖÃÃüÁîµÄ²ÎÊı
+    QString setName, setStart, setEnd, setJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µå‹è®¾ç½®å‘½ä»¤çš„å‚æ•°
     setName = ui->lineEditCh2TestSetCmd->text();
     setStart = ui->lineEditCh2TestSetStart->text();
     setEnd = ui->lineEditCh2TestSetEnd->text();
     setJudge = ui->lineEditCh2TestSetJudge->text();
     if(setName.size()==0 || setStart.size()==0 || setEnd.size()==0 || setJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("ÉèÖÃµçÑ¹ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è®¾ç½®ç”µå‹å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏµçÑ¹¶ÁÈ¡ÃüÁîµÄ²ÎÊı
+    QString dmmName, dmmStart, dmmEnd, dmmJudge;  // è¯»å–å¹¶åˆ¤æ–­ç”µå‹è¯»å–å‘½ä»¤çš„å‚æ•°
     dmmName = ui->lineEditCh2TestDMMCmd->text();
     dmmStart = ui->lineEditCh2TestDMMStart->text();
     dmmEnd = ui->lineEditCh2TestDMMEnd->text();
     dmmJudge = ui->lineEditCh2TestDMMJudge->text();
     if(dmmName.size()==0 || dmmStart.size()==0 || dmmEnd.size()==0 || dmmJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡DMMµçÑ¹ÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–DMMç”µå‹å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    QString meterJudge;  // ¶ÁÈ¡²¢ÅĞ¶ÏÍòÓÃ±íµÄ¶ÁÈ¡´Ó²ÎÊı
+    QString meterJudge;  // è¯»å–å¹¶åˆ¤æ–­ä¸‡ç”¨è¡¨çš„è¯»å–ä»å‚æ•°
     meterJudge = ui->lineEditCh2TestMeterJudge->text();
     if(meterJudge.size()==0){
-        QMessageBox::information(this, tr("±£´æÊ§°Ü"), tr("¶ÁÈ¡¶ÁÍòÓÃ±íÃüÁîµÄ²ÎÊıÌîĞ´²»ÍêÕû£¬ÇëÖØĞÂÌîĞ´"), QMessageBox::Ok);
+        QMessageBox::information(this, tr("ä¿å­˜å¤±è´¥"), tr("è¯»å–è¯»ä¸‡ç”¨è¡¨å‘½ä»¤çš„å‚æ•°å¡«å†™ä¸å®Œæ•´ï¼Œè¯·é‡æ–°å¡«å†™"), QMessageBox::Ok);
         return;
     }
-    setCmdCh2Test->setName(setName);  // ±£´æÉèÖÃµçÑ¹ÃüÁî²ÎÊı
+    setCmdCh2Test->setName(setName);  // ä¿å­˜è®¾ç½®ç”µå‹å‘½ä»¤å‚æ•°
     setCmdCh2Test->setStart(setStart);
     setCmdCh2Test->setEnd(setEnd);
     setCmdCh2Test->setJudge(setJudge);
-    dmmCmdCh2Test->setName(dmmName);  // ±£´æ¶ÁÈ¡µçÑ¹ÃüÁî²ÎÊı
+    dmmCmdCh2Test->setName(dmmName);  // ä¿å­˜è¯»å–ç”µå‹å‘½ä»¤å‚æ•°
     dmmCmdCh2Test->setStart(dmmStart);
     dmmCmdCh2Test->setEnd(dmmEnd);
     dmmCmdCh2Test->setRatio(dmmJudge.toDouble());
-    meterCmdCh2Test->setRatio(meterJudge.toDouble());  // ±£´æ¶ÁÈ¡ÍòÓÃ±íÃüÁî²ÎÊı
-    QMessageBox::information(this, tr("±£´æ³É¹¦"), tr("±£´æ³É¹¦"), QMessageBox::Ok);
+    meterCmdCh2Test->setRatio(meterJudge.toDouble());  // ä¿å­˜è¯»å–ä¸‡ç”¨è¡¨å‘½ä»¤å‚æ•°
+    QMessageBox::information(this, tr("ä¿å­˜æˆåŠŸ"), tr("ä¿å­˜æˆåŠŸ"), QMessageBox::Ok);
 }
-// ³·Ïû°´Å¥
+// æ’¤æ¶ˆæŒ‰é’®
 void volDataConfig::on_pushBtnCh2TestUndo_clicked()
 {
-    // ÖØĞ´ÉèÖÃµçÑ¹²ÎÊı
+    // é‡å†™è®¾ç½®ç”µå‹å‚æ•°
     ui->lineEditCh2TestSetCmd->setText(setCmdCh2Test->getName());
     ui->lineEditCh2TestSetStart->setText(setCmdCh2Test->getStart());
     ui->lineEditCh2TestSetEnd->setText(setCmdCh2Test->getEnd());
     ui->lineEditCh2TestSetJudge->setText(setCmdCh2Test->getJudge());
-    // ÖØĞ´¶ÁÈ¡µçÑ¹²ÎÊı
+    // é‡å†™è¯»å–ç”µå‹å‚æ•°
     ui->lineEditCh2TestDMMCmd->setText(dmmCmdCh2Test->getName());
     ui->lineEditCh2TestDMMStart->setText(dmmCmdCh2Test->getStart());
     ui->lineEditCh2TestDMMEnd->setText(dmmCmdCh2Test->getEnd());
     ui->lineEditCh2TestDMMJudge->setText(dmmCmdCh2Test->getRatio());
-    // ÖØĞ´¶ÁÈ¡ÍòÓÃ±í²ÎÊı
+    // é‡å†™è¯»å–ä¸‡ç”¨è¡¨å‚æ•°
     ui->lineEditCh2TestMeterJudge->setText(meterCmdCh2Test->getRatio());
 }
-// ÖØ»­ch1²ÎÊıÅäÖÃÒ³Ãæ
+// é‡ç”»ch1å‚æ•°é…ç½®é¡µé¢
 void volDataConfig::repaintCh1()
 {
-    nowIndexCh1Pre = -1;  // Ç°ÖÃÃüÁî¿òµ±Ç°Ñ¡ÏîË÷Òı
+    nowIndexCh1Pre = -1;  // å‰ç½®å‘½ä»¤æ¡†å½“å‰é€‰é¡¹ç´¢å¼•
     nowCommandCh1 = NULL;
-    nowIndexCh1Data = 0;  // µ±Ç°Êı¾İÏîË÷Òı
+    nowIndexCh1Data = 0;  // å½“å‰æ•°æ®é¡¹ç´¢å¼•
     if(itemCh1 == NULL){
         cmdListCh1Pre = new QList<command *>;
         dataAndAddrListCh1 = new QList<DataItem * >;
@@ -1034,18 +1034,18 @@ void volDataConfig::repaintCh1()
         meterCmdCh1Test = new command(QString("read?"));
         meterCmdCh1Test->setRatio(0.1);
     }else{
-        cmdListCh1Pre = itemCh1->getCmdList();  // ³õÊ¼»¯Ç°ÖÃÃüÁîÁĞ±í²¢Ë¢ĞÂ
-        dataAndAddrListCh1 = itemCh1->getDataList();  // ³õÊ¼»¯²¢ÏÔÊ¾Êı¾İÁĞ±í
-        dataLengthCh1 = itemCh1->getDataLength();  // ³õÊ¼»¯Êı¾İ³¤¶È
-        setCmdCh1Verify = itemCh1->getSetCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÉèÖÃµçÑ¹ÃüÁî
-        setCh1Multi = itemCh1->getSetMulti();   // ·Å´ó±¶Êı
-        dmmCmdCh1Verify = itemCh1->getDmmCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        dmmCh1Multi = itemCh1->getDmmMulti();  // ·Å´ó±¶Êı
-        meterCmdCh1Verify = itemCh1->getMeterCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
-        meterCh1Multi = itemCh1->getMeterMulti();  // ·Å´ó±¶Êı
-        setCmdCh1Test = itemCh1->getSetCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÉèÖÃµçÑ¹ÃüÁî
-        dmmCmdCh1Test = itemCh1->getDmmCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        meterCmdCh1Test = itemCh1->getMeterCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
+        cmdListCh1Pre = itemCh1->getCmdList();  // åˆå§‹åŒ–å‰ç½®å‘½ä»¤åˆ—è¡¨å¹¶åˆ·æ–°
+        dataAndAddrListCh1 = itemCh1->getDataList();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ•°æ®åˆ—è¡¨
+        dataLengthCh1 = itemCh1->getDataLength();  // åˆå§‹åŒ–æ•°æ®é•¿åº¦
+        setCmdCh1Verify = itemCh1->getSetCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        setCh1Multi = itemCh1->getSetMulti();   // æ”¾å¤§å€æ•°
+        dmmCmdCh1Verify = itemCh1->getDmmCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        dmmCh1Multi = itemCh1->getDmmMulti();  // æ”¾å¤§å€æ•°
+        meterCmdCh1Verify = itemCh1->getMeterCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
+        meterCh1Multi = itemCh1->getMeterMulti();  // æ”¾å¤§å€æ•°
+        setCmdCh1Test = itemCh1->getSetCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        dmmCmdCh1Test = itemCh1->getDmmCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        meterCmdCh1Test = itemCh1->getMeterCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
     }
     showCh1PreCmdList();
     for(int i=0; i != dataAndAddrListCh1->size(); ++i){
@@ -1081,12 +1081,12 @@ void volDataConfig::repaintCh1()
     ui->lineEditCh1TestMeterCmd->setText(meterCmdCh1Test->getName());
     ui->lineEditCh1TestMeterJudge->setText(meterCmdCh1Test->getRatio());
 }
-// ÖØ»­ch2²ÎÊıÅäÖÃÒ³Ãæ
+// é‡ç”»ch2å‚æ•°é…ç½®é¡µé¢
 void volDataConfig::repaintCh2()
 {
-    nowIndexCh2Pre = -1;  // Ç°ÖÃÃüÁî¿òµ±Ç°Ñ¡ÏîË÷Òı
+    nowIndexCh2Pre = -1;  // å‰ç½®å‘½ä»¤æ¡†å½“å‰é€‰é¡¹ç´¢å¼•
     nowCommandCh2 = NULL;
-    nowIndexCh2Data = 0;  // µ±Ç°Êı¾İÏîË÷Òı
+    nowIndexCh2Data = 0;  // å½“å‰æ•°æ®é¡¹ç´¢å¼•
     if(itemCh2 == NULL){
         cmdListCh2Pre = new QList<command *>;
         dataAndAddrListCh2 = new QList<DataItem * >;
@@ -1117,18 +1117,18 @@ void volDataConfig::repaintCh2()
         meterCmdCh2Test = new command(QString("read?"));
         meterCmdCh2Test->setRatio(0.1);
     }else{
-        cmdListCh2Pre = itemCh2->getCmdList();  // ³õÊ¼»¯Ç°ÖÃÃüÁîÁĞ±í²¢Ë¢ĞÂ
-        dataAndAddrListCh2 = itemCh2->getDataList();  // ³õÊ¼»¯²¢ÏÔÊ¾Êı¾İÁĞ±í
-        dataLengthCh2 = itemCh2->getDataLength();  // ³õÊ¼»¯Êı¾İ³¤¶È
-        setCmdCh2Verify = itemCh2->getSetCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÉèÖÃµçÑ¹ÃüÁî
-        setCh2Multi = itemCh2->getSetMulti();   // ·Å´ó±¶Êı
-        dmmCmdCh2Verify = itemCh2->getDmmCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        dmmCh2Multi = itemCh2->getDmmMulti();  // ·Å´ó±¶Êı
-        meterCmdCh2Verify = itemCh2->getMeterCmdVerify();  // ³õÊ¼»¯²¢ÏÔÊ¾Ğ£×¼Ò³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
-        meterCh2Multi = itemCh2->getMeterMulti();  // ·Å´ó±¶Êı
-        setCmdCh2Test = itemCh2->getSetCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÉèÖÃµçÑ¹ÃüÁî
-        dmmCmdCh2Test = itemCh2->getDmmCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³DMM¶ÁÈ¡µçÑ¹ÃüÁî
-        meterCmdCh2Test = itemCh2->getMeterCmdTest();  // ³õÊ¼»¯²¢ÏÔÊ¾²âÊÔÒ³ÍòÓÃ±í¶ÁµçÑ¹ÃüÁî
+        cmdListCh2Pre = itemCh2->getCmdList();  // åˆå§‹åŒ–å‰ç½®å‘½ä»¤åˆ—è¡¨å¹¶åˆ·æ–°
+        dataAndAddrListCh2 = itemCh2->getDataList();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ•°æ®åˆ—è¡¨
+        dataLengthCh2 = itemCh2->getDataLength();  // åˆå§‹åŒ–æ•°æ®é•¿åº¦
+        setCmdCh2Verify = itemCh2->getSetCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        setCh2Multi = itemCh2->getSetMulti();   // æ”¾å¤§å€æ•°
+        dmmCmdCh2Verify = itemCh2->getDmmCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        dmmCh2Multi = itemCh2->getDmmMulti();  // æ”¾å¤§å€æ•°
+        meterCmdCh2Verify = itemCh2->getMeterCmdVerify();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæ ¡å‡†é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
+        meterCh2Multi = itemCh2->getMeterMulti();  // æ”¾å¤§å€æ•°
+        setCmdCh2Test = itemCh2->getSetCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µè®¾ç½®ç”µå‹å‘½ä»¤
+        dmmCmdCh2Test = itemCh2->getDmmCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µDMMè¯»å–ç”µå‹å‘½ä»¤
+        meterCmdCh2Test = itemCh2->getMeterCmdTest();  // åˆå§‹åŒ–å¹¶æ˜¾ç¤ºæµ‹è¯•é¡µä¸‡ç”¨è¡¨è¯»ç”µå‹å‘½ä»¤
     }
     showCh2PreCmdList();
     for(int i=0; i != dataAndAddrListCh2->size(); ++i){
@@ -1164,21 +1164,21 @@ void volDataConfig::repaintCh2()
     ui->lineEditCh2TestMeterCmd->setText(meterCmdCh2Test->getName());
     ui->lineEditCh2TestMeterJudge->setText(meterCmdCh2Test->getRatio());
 }
-// ÓÃch1¸²¸Çch2
+// ç”¨ch1è¦†ç›–ch2
 void volDataConfig::on_pushBtnCh1ToCh2_clicked()
 {
     delete itemCh2;
     itemCh2 = itemCh1->deepcopy();
     on_pushBtnCh2DataBatchDel_clicked();
     repaintCh2();
-    QMessageBox::information(this, tr("¸´ÖÆ³É¹¦"), tr("¸´ÖÆCH1¸²¸ÇCH2³É¹¦£¡"),QMessageBox::Ok);
+    QMessageBox::information(this, tr("å¤åˆ¶æˆåŠŸ"), tr("å¤åˆ¶CH1è¦†ç›–CH2æˆåŠŸï¼"),QMessageBox::Ok);
 }
-// ÓÃch2¸²¸Çch1
+// ç”¨ch2è¦†ç›–ch1
 void volDataConfig::on_pushBtnCh2ToCh1_clicked()
 {
     delete itemCh1;
     itemCh1 = itemCh2->deepcopy();
     on_pushBtnCh1DataBatchDel_clicked();
     repaintCh1();
-    QMessageBox::information(this, tr("¸´ÖÆ³É¹¦"), tr("¸´ÖÆCH2¸²¸ÇCH1³É¹¦£¡"),QMessageBox::Ok);
+    QMessageBox::information(this, tr("å¤åˆ¶æˆåŠŸ"), tr("å¤åˆ¶CH2è¦†ç›–CH1æˆåŠŸï¼"),QMessageBox::Ok);
 }

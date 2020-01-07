@@ -18,13 +18,13 @@ myThread::myThread(QTcpSocket * meterSocket, QTcpSocket *zynqSocket, QString log
     csv(csvFile),
     QThread(parent)
 {
-    meterTimeOut = 1000;  // ºÁÃë
-    zynqTimeOut = 3000;  // ºÁÃë
+    meterTimeOut = 1000;  // æ¯«ç§’
+    zynqTimeOut = 3000;  // æ¯«ç§’
 
 
     rx.setPattern("(\\.){0,1}0+$");
 }
-// ¼ÇÂ¼Log
+// è®°å½•Log
 void myThread::writeLog(QString message)
 {
     QDateTime local(QDateTime::currentDateTime());
@@ -40,7 +40,7 @@ void myThread::writeLog(QString message)
         txtOutput << timeStamp << message << endl;
     f.close();
 }
-// Ğ´ÈëÊı¾İ
+// å†™å…¥æ•°æ®
 void myThread::writeCsv(QString data)
 {
     QFile f(csv);
@@ -52,31 +52,31 @@ void myThread::writeCsv(QString data)
     textStream << data +"\n";
     f.close();
 }
-// ¸ø·¢ËÍÍòÓÃ±í·¢ËÍĞÅÏ¢
+// ç»™å‘é€ä¸‡ç”¨è¡¨å‘é€ä¿¡æ¯
 bool myThread::sendMeter(QString message)
 {
-    writeLog(tr("ÏòÍòÓÃ±í·¢ËÍ: ") + message);
+    writeLog(tr("å‘ä¸‡ç”¨è¡¨å‘é€: ") + message);
     message += "\n";
     int sendRc = meter->write((const char *)message.toUtf8());
     if(sendRc == -1){
-        writeLog(tr("ÍòÓÃ±í·¢ËÍÊı¾İÊ§°Ü£¡"));
+        writeLog(tr("ä¸‡ç”¨è¡¨å‘é€æ•°æ®å¤±è´¥ï¼"));
         return false;
     } else
         return true;
 }
-// ¸ø·¢ËÍZYNQ·¢ËÍĞÅÏ¢
+// ç»™å‘é€ZYNQå‘é€ä¿¡æ¯
 bool myThread::sendZynq(QString message)
 {
-    writeLog(tr("ÏòZYNQ·¢ËÍ: ") + message);
+    writeLog(tr("å‘ZYNQå‘é€: ") + message);
     message += "\n";
     int sendRc = zynq->write((const char *)message.toUtf8());
     if(sendRc == -1){
-        writeLog(tr("ZYNQ·¢ËÍÊı¾İÊ§°Ü£¡"));
+        writeLog(tr("ZYNQå‘é€æ•°æ®å¤±è´¥ï¼"));
         return false;
     } else
         return true;
 }
-// ¶ÎÂä¿ªÊ¼Óë½áÊø
+// æ®µè½å¼€å§‹ä¸ç»“æŸ
 void myThread::paragraph(QString para)
 {
     if(para == "start")
@@ -84,42 +84,42 @@ void myThread::paragraph(QString para)
     else if (para == "end")
         writeLog(tr("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"));
 }
-// ´ÓÍòÓÃ±í¶ÁÈ¡ĞÅÏ¢
+// ä»ä¸‡ç”¨è¡¨è¯»å–ä¿¡æ¯
 bool myThread::recvMeter()
 {
-    qint64 start = QDateTime::currentDateTime().toMSecsSinceEpoch(); // »ñÈ¡µ±Ç°Ê±¼ä, ºÁÃë
+    qint64 start = QDateTime::currentDateTime().toMSecsSinceEpoch(); // è·å–å½“å‰æ—¶é—´, æ¯«ç§’
     while(1){
         Sleep(10);
         if(meter->bytesAvailable() > 0)
             break;
-        qint64 end = QDateTime::currentDateTime().toMSecsSinceEpoch(); // »ñÈ¡µ±Ç°Ê±¼ä, ºÁÃë
+        qint64 end = QDateTime::currentDateTime().toMSecsSinceEpoch(); // è·å–å½“å‰æ—¶é—´, æ¯«ç§’
         if((end-start) >= meterTimeOut){
-            writeLog(tr("¶ÁÈ¡ÍòÓÃ±í³¬Ê±"));
+            writeLog(tr("è¯»å–ä¸‡ç”¨è¡¨è¶…æ—¶"));
             return false;
         }
     }
     meterMessage = meter->readAll();
     meterMessage = meterMessage.simplified();
-    writeLog(tr("´ÓÍòÓÃ±í½ÓÊÕ: ") + meterMessage);
+    writeLog(tr("ä»ä¸‡ç”¨è¡¨æ¥æ”¶: ") + meterMessage);
     return true;
 }
-// ´ÓZYNQ¶ÁÈ¡ĞÅÏ¢
+// ä»ZYNQè¯»å–ä¿¡æ¯
 bool myThread::recvZynq()
 {
-    qint64 start = QDateTime::currentDateTime().toMSecsSinceEpoch(); // »ñÈ¡µ±Ç°Ê±¼ä, ºÁÃë
+    qint64 start = QDateTime::currentDateTime().toMSecsSinceEpoch(); // è·å–å½“å‰æ—¶é—´, æ¯«ç§’
     while(1){
         Sleep(10);
         if(zynq->bytesAvailable() > 0)
             break;
-        qint64 end = QDateTime::currentDateTime().toMSecsSinceEpoch(); // »ñÈ¡µ±Ç°Ê±¼ä, ºÁÃë
+        qint64 end = QDateTime::currentDateTime().toMSecsSinceEpoch(); // è·å–å½“å‰æ—¶é—´, æ¯«ç§’
         if((end-start) >= zynqTimeOut){
-            writeLog(tr("¶ÁÈ¡ZYNQ³¬Ê±"));
+            writeLog(tr("è¯»å–ZYNQè¶…æ—¶"));
             return false;
         }
     }
     zynqMessage = zynq->readAll();
     zynqMessage = zynqMessage.simplified();
-    writeLog(tr("´ÓZYNQ½ÓÊÕ: ") + zynqMessage);
+    writeLog(tr("ä»ZYNQæ¥æ”¶: ") + zynqMessage);
     return true;
 }
 
@@ -140,13 +140,13 @@ verifyVoltageThread::verifyVoltageThread(testItem * ch, QTcpSocket * meterSocket
     meterCmdVerify = ch->getMeterCmdVerify();
     meterMulti = ch->getMeterMulti();
 
-    cmdDelay = 100;  // ºÁÃë
+    cmdDelay = 100;  // æ¯«ç§’
 
     dataLength = ch->getDataLength();
 }
 void verifyVoltageThread::run()
 {
-    // ÉèÖÃÍòÓÃ±íÎªÔ¶³ÌµçÑ¹Ä£Ê½
+    // è®¾ç½®ä¸‡ç”¨è¡¨ä¸ºè¿œç¨‹ç”µå‹æ¨¡å¼
     paragraph("start");
     bool judge = true;
     if(!sendMeter("SYSTEM:REMOTE"))
@@ -160,12 +160,12 @@ void verifyVoltageThread::run()
         recvMeter();
     paragraph("end");
     if(!judge){
-        writeLog(tr("ÉèÖÃÍòÓÃ±íÊ§°Ü\n"));
+        writeLog(tr("è®¾ç½®ä¸‡ç”¨è¡¨å¤±è´¥\n"));
     } else{
-        writeLog(tr("ÉèÖÃÍòÓÃ±í³É¹¦\n"));
+        writeLog(tr("è®¾ç½®ä¸‡ç”¨è¡¨æˆåŠŸ\n"));
     }
 
-    // ³õÊ¼»¯ch
+    // åˆå§‹åŒ–ch
     judge = true;
     int cmdIndex = 0;
     paragraph("start");
@@ -178,7 +178,7 @@ void verifyVoltageThread::run()
         else
             recvZynq();
         if(cmd->getStart().isEmpty() || cmd->getEnd().isEmpty() || cmd->getJudge().isEmpty()){
-            writeLog(tr("¸ÃÃüÁîÈ±ÉÙ½ØÈ¡²ÎÊı»òÅĞ¶Ï½á¹û²ÎÊı"));
+            writeLog(tr("è¯¥å‘½ä»¤ç¼ºå°‘æˆªå–å‚æ•°æˆ–åˆ¤æ–­ç»“æœå‚æ•°"));
         }else
             judge = cmd->equalJudge();
         if(i != cmdList->size()-1)
@@ -186,24 +186,24 @@ void verifyVoltageThread::run()
     }
     paragraph("end");
     if(!judge){
-        writeLog(tr("³õÊ¼»¯CHÊ§°Ü\n"));
+        writeLog(tr("åˆå§‹åŒ–CHå¤±è´¥\n"));
     }else{
-        writeLog(tr("³õÊ¼»¯CH³É¹¦\n"));
+        writeLog(tr("åˆå§‹åŒ–CHæˆåŠŸ\n"));
     }
 
-    // ¿ªÊ¼Ğ£×¼
+    // å¼€å§‹æ ¡å‡†
     QList<DataItem *> * datas = new QList<DataItem *>;
-    for(int i = 0; i != dataList->size(); ++i){  // ÕûÀíÊı¾İ
+    for(int i = 0; i != dataList->size(); ++i){  // æ•´ç†æ•°æ®
         if(dataList->at(i)->check){
             datas->append(dataList->at(i));
         }
     }
     if(dmmCmdVerify->getStart().isEmpty() || dmmCmdVerify->getEnd().isEmpty() || dmmCmdVerify->getRatio().toFloat() == 0){
-        writeLog(tr("µçÑ¹¶ÁÈ¡ÃüÁîÈ±ÉÙ½ØÈ¡²ÎÊı»ò²î±ÈÂÊ"));
+        writeLog(tr("ç”µå‹è¯»å–å‘½ä»¤ç¼ºå°‘æˆªå–å‚æ•°æˆ–å·®æ¯”ç‡"));
         return;
     }
     if(meterCmdVerify->getRatio().toFloat() == 0){
-        writeLog(tr("ÍòÓÃ±í¶ÁÈ¡ÃüÁîÈ±ÉÙ²î±ÈÂÊ"));
+        writeLog(tr("ä¸‡ç”¨è¡¨è¯»å–å‘½ä»¤ç¼ºå°‘å·®æ¯”ç‡"));
         return;
     }
     QStringList title;
@@ -213,7 +213,7 @@ void verifyVoltageThread::run()
     for(int i = 0; i != datas->size(); ++i){
         paragraph("start");
         judge = true;
-        // ÉèÖÃµçÑ¹
+        // è®¾ç½®ç”µå‹
         double set = datas->at(i)->data;
         message = QString("[%1]%2(%3)").arg(++cmdIndex).arg(setCmdVerify->getName()).arg(set);
         if(!sendZynq(message))
@@ -222,7 +222,7 @@ void verifyVoltageThread::run()
             recvZynq();
         int dac = int(set * setMulti);
         Sleep(cmdDelay);
-        // ¶ÁÈ¡µçÑ¹
+        // è¯»å–ç”µå‹
         message = QString("[%1]%2()").arg(++cmdIndex).arg(dmmCmdVerify->getName());
         if(!sendZynq(message))
             judge = false;
@@ -231,7 +231,7 @@ void verifyVoltageThread::run()
         dmmCmdVerify->setResult(zynqMessage);
         judge = dmmCmdVerify->judgeRatio(float(set), float(set));
         float dmm = dmmCmdVerify->getFloatResult().toFloat() * dmmMulti;
-        // ¶ÁÈ¡ÍòÓÃ±í
+        // è¯»å–ä¸‡ç”¨è¡¨
         message = meterCmdVerify->getName();
         if(!sendMeter(message))
             judge = false;
@@ -240,7 +240,7 @@ void verifyVoltageThread::run()
         meterCmdVerify->setFloatResult(meterMessage.toFloat());
         judge = meterCmdVerify->judgeRatio(dmmCmdVerify->getFloatResult().toFloat(), float(set));
         float meter = meterMessage.toFloat() * meterMulti;
-        // Ğ´Èëeeprom
+        // å†™å…¥eeprom
         QString dacStr = QString("%1").arg(dac);
         while(dacStr.length() < dataLength)
             dacStr = "0" + dacStr;
@@ -265,7 +265,7 @@ void verifyVoltageThread::run()
             judge = false;
         else
             recvZynq();
-        // ±£´æÊı¾İµ½csv
+        // ä¿å­˜æ•°æ®åˆ°csv
         QStringList csvline;
         csvline << QString("%1").arg(set,0,'f',-1).replace(rx,"")
                 << QString("%1").arg(datas->at(i)->dacAddr)
@@ -276,7 +276,7 @@ void verifyVoltageThread::run()
                 << QString("%1").arg(set-dmm/dmmMulti,0,'f',-1).replace(rx,"")
                 << QString("%1").arg(meter/meterMulti-dmm/dmmMulti,0,'f',-1).replace(rx,"");
         writeCsv(csvline.join(","));
-        // ±í¸ñ±íÊ¾
+        // è¡¨æ ¼è¡¨ç¤º
         QString passOrFail;
         if(judge)
             passOrFail = "pass";
@@ -290,7 +290,7 @@ void verifyVoltageThread::run()
         paragraph("end");
         writeLog("\n");
     }
-    statusBarShow(tr("µçÑ¹Ğ£×¼Íê³É"));
+    statusBarShow(tr("ç”µå‹æ ¡å‡†å®Œæˆ"));
 }
 
 testVoltageThread::testVoltageThread(testItem * ch, QTcpSocket * meterSocket,
@@ -304,11 +304,11 @@ testVoltageThread::testVoltageThread(testItem * ch, QTcpSocket * meterSocket,
     dmmCmdTest = ch->getDmmCmdTest();
     meterCmdTest = ch->getMeterCmdTest();
 
-    cmdDelay = 100;  // ºÁÃë
+    cmdDelay = 100;  // æ¯«ç§’
 }
 void testVoltageThread::run()
 {
-    // ÉèÖÃÍòÓÃ±íÎªÔ¶³ÌµçÑ¹Ä£Ê½
+    // è®¾ç½®ä¸‡ç”¨è¡¨ä¸ºè¿œç¨‹ç”µå‹æ¨¡å¼
     paragraph("start");
     bool judge = true;
     if(!sendMeter("SYSTEM:REMOTE"))
@@ -322,12 +322,12 @@ void testVoltageThread::run()
         recvMeter();
     paragraph("end");
     if(!judge){
-        writeLog(tr("ÉèÖÃÍòÓÃ±íÊ§°Ü\n"));
+        writeLog(tr("è®¾ç½®ä¸‡ç”¨è¡¨å¤±è´¥\n"));
     } else{
-        writeLog(tr("ÉèÖÃÍòÓÃ±í³É¹¦\n"));
+        writeLog(tr("è®¾ç½®ä¸‡ç”¨è¡¨æˆåŠŸ\n"));
     }
 
-    // ³õÊ¼»¯ch
+    // åˆå§‹åŒ–ch
     judge = true;
     int cmdIndex = 0;
     paragraph("start");
@@ -340,7 +340,7 @@ void testVoltageThread::run()
         else
             recvZynq();
         if(cmd->getStart().isEmpty() || cmd->getEnd().isEmpty() || cmd->getJudge().isEmpty()){
-            writeLog(tr("¸ÃÃüÁîÈ±ÉÙ½ØÈ¡²ÎÊı»òÅĞ¶Ï½á¹û²ÎÊı"));
+            writeLog(tr("è¯¥å‘½ä»¤ç¼ºå°‘æˆªå–å‚æ•°æˆ–åˆ¤æ–­ç»“æœå‚æ•°"));
         }else
             judge = cmd->equalJudge();
         if(i != cmdList->size()-1)
@@ -348,24 +348,24 @@ void testVoltageThread::run()
     }
     paragraph("end");
     if(!judge){
-        writeLog(tr("³õÊ¼»¯CHÊ§°Ü\n"));
+        writeLog(tr("åˆå§‹åŒ–CHå¤±è´¥\n"));
     }else{
-        writeLog(tr("³õÊ¼»¯CH³É¹¦\n"));
+        writeLog(tr("åˆå§‹åŒ–CHæˆåŠŸ\n"));
     }
 
-    // ¿ªÊ¼²âÊÔ
+    // å¼€å§‹æµ‹è¯•
     QList<DataItem *> * datas = new QList<DataItem *>;
-    for(int i = 0; i != dataList->size(); ++i){  // ÕûÀíÊı¾İ
+    for(int i = 0; i != dataList->size(); ++i){  // æ•´ç†æ•°æ®
         if(dataList->at(i)->check){
             datas->append(dataList->at(i));
         }
     }
     if(dmmCmdTest->getStart().isEmpty() || dmmCmdTest->getEnd().isEmpty() || dmmCmdTest->getRatio().toFloat() == 0){
-        writeLog(tr("µçÑ¹¶ÁÈ¡ÃüÁîÈ±ÉÙ½ØÈ¡²ÎÊı»ò²î±ÈÂÊ"));
+        writeLog(tr("ç”µå‹è¯»å–å‘½ä»¤ç¼ºå°‘æˆªå–å‚æ•°æˆ–å·®æ¯”ç‡"));
         return;
     }
     if(meterCmdTest->getRatio().toFloat() == 0){
-        writeLog(tr("ÍòÓÃ±í¶ÁÈ¡ÃüÁîÈ±ÉÙ²î±ÈÂÊ"));
+        writeLog(tr("ä¸‡ç”¨è¡¨è¯»å–å‘½ä»¤ç¼ºå°‘å·®æ¯”ç‡"));
         return;
     }
     QStringList title;
@@ -375,7 +375,7 @@ void testVoltageThread::run()
     for(int i = 0; i != datas->size(); ++i){
         paragraph("start");
         judge = true;
-        // ÉèÖÃµçÑ¹
+        // è®¾ç½®ç”µå‹
         double set = datas->at(i)->data;
         message = QString("[%1]%2(%3)").arg(++cmdIndex).arg(setCmdTest->getName()).arg(set);
         if(!sendZynq(message))
@@ -383,7 +383,7 @@ void testVoltageThread::run()
         else
             recvZynq();
         Sleep(cmdDelay);
-        // ¶ÁÈ¡µçÑ¹
+        // è¯»å–ç”µå‹
         message = QString("[%1]%2()").arg(++cmdIndex).arg(dmmCmdTest->getName());
         if(!sendZynq(message))
             judge = false;
@@ -392,7 +392,7 @@ void testVoltageThread::run()
         dmmCmdTest->setResult(zynqMessage);
         judge = dmmCmdTest->judgeRatio(float(set), float(set));
         float dmm = dmmCmdTest->getFloatResult().toFloat();
-        // ¶ÁÈ¡ÍòÓÃ±í
+        // è¯»å–ä¸‡ç”¨è¡¨
         message = meterCmdTest->getName();
         if(!sendMeter(message))
             judge = false;
@@ -407,7 +407,7 @@ void testVoltageThread::run()
         float sub2 = meter-dmm;
         float ratio2 = sub2 / set * 100;
 
-        // ±£´æÊı¾İµ½csv
+        // ä¿å­˜æ•°æ®åˆ°csv
         QStringList csvline;
         csvline << QString("%1").arg(set,0,'f',-1).replace(rx,"")
                 << QString("%1").arg(dmm,0,'f',-1).replace(rx,"")
@@ -417,7 +417,7 @@ void testVoltageThread::run()
                 << QString("%1").arg(sub2,0,'f',-1).replace(rx,"")
                 << QString("%1").arg(ratio2,0,'f',-1).replace(rx,"")+"\%";
         writeCsv(csvline.join(","));
-        // ±í¸ñ±íÊ¾
+        // è¡¨æ ¼è¡¨ç¤º
         QString passOrFail;
         if(judge)
             passOrFail = "pass";
@@ -431,7 +431,7 @@ void testVoltageThread::run()
         paragraph("end");
         writeLog("\n");
     }
-    statusBarShow(tr("µçÑ¹²âÊÔÍê³É"));
+    statusBarShow(tr("ç”µå‹æµ‹è¯•å®Œæˆ"));
 }
 verifyCurrentThread::verifyCurrentThread(currentItem * psuParam, QList<int> * partListParam, QString StrParam,
                                          QTcpSocket * meterSocket, QTcpSocket *zynqSocket,
@@ -441,11 +441,11 @@ verifyCurrentThread::verifyCurrentThread(currentItem * psuParam, QList<int> * pa
     psu = psuParam;
     partList = partListParam;
     Str = StrParam;
-    cmdDelay = 100;  // ºÁÃë
+    cmdDelay = 100;  // æ¯«ç§’
 }
 void verifyCurrentThread::run()
 {
-    // ÉèÖÃÍòÓÃ±íÎªÔ¶³ÌµçÁ÷Ä£Ê½
+    // è®¾ç½®ä¸‡ç”¨è¡¨ä¸ºè¿œç¨‹ç”µæµæ¨¡å¼
     paragraph("start");
     bool judge = true;
     if(!sendMeter("SYSTEM:REMOTE"))
@@ -459,12 +459,12 @@ void verifyCurrentThread::run()
         recvMeter();
     paragraph("end");
     if(!judge){
-        writeLog(tr("ÉèÖÃÍòÓÃ±íÊ§°Ü\n"));
+        writeLog(tr("è®¾ç½®ä¸‡ç”¨è¡¨å¤±è´¥\n"));
     } else{
-        writeLog(tr("ÉèÖÃÍòÓÃ±í³É¹¦\n"));
+        writeLog(tr("è®¾ç½®ä¸‡ç”¨è¡¨æˆåŠŸ\n"));
     }
 
-    // ³õÊ¼»¯psu
+    // åˆå§‹åŒ–psu
     judge = true;
     int cmdIndex = 0;
     paragraph("start");
@@ -478,7 +478,7 @@ void verifyCurrentThread::run()
         else
             recvZynq();
         if(cmd->getStart().isEmpty() || cmd->getEnd().isEmpty() || cmd->getJudge().isEmpty()){
-            writeLog(tr("¸ÃÃüÁîÈ±ÉÙ½ØÈ¡²ÎÊı»òÅĞ¶Ï½á¹û²ÎÊı"));
+            writeLog(tr("è¯¥å‘½ä»¤ç¼ºå°‘æˆªå–å‚æ•°æˆ–åˆ¤æ–­ç»“æœå‚æ•°"));
         }else
             judge = cmd->equalJudge();
         if(i != cmdList->size()-1)
@@ -486,9 +486,9 @@ void verifyCurrentThread::run()
     }
     paragraph("end");
     if(!judge){
-        writeLog(tr("³õÊ¼»¯PSUÊ§°Ü\n"));
+        writeLog(tr("åˆå§‹åŒ–PSUå¤±è´¥\n"));
     }else{
-        writeLog(tr("³õÊ¼»¯PSU³É¹¦\n"));
+        writeLog(tr("åˆå§‹åŒ–PSUæˆåŠŸ\n"));
     }
     int sum = 0;
     for(int i=0; i != partList->size(); ++i){
@@ -524,14 +524,14 @@ void verifyCurrentThread::run()
             part = psu->getPart5();
             break;
         default:
-            statusBarShow(tr("part²ÎÊı´íÎó£¬ÍË³öĞ£×¼"));
+            statusBarShow(tr("partå‚æ•°é”™è¯¯ï¼Œé€€å‡ºæ ¡å‡†"));
             return;
         }
         if(part == NULL){
-            statusBarShow(tr("Ã»ÓĞpart%1µÄÊı¾İ£¬ÌøÖÁÏÂÒ»µµ").arg(partList->at(i)));
+            statusBarShow(tr("æ²¡æœ‰part%1çš„æ•°æ®ï¼Œè·³è‡³ä¸‹ä¸€æ¡£").arg(partList->at(i)));
             continue;
         }
-        // ÇĞ»»µµÎ»
+        // åˆ‡æ¢æ¡£ä½
         judge = true;
         paragraph("start");
         QList<command *> * cmdList = part->getCmdList();
@@ -543,7 +543,7 @@ void verifyCurrentThread::run()
             else
                 recvZynq();
             if(cmd->getStart().isEmpty() || cmd->getEnd().isEmpty() || cmd->getJudge().isEmpty()){
-                writeLog(tr("¸ÃÃüÁîÈ±ÉÙ½ØÈ¡²ÎÊı»òÅĞ¶Ï½á¹û²ÎÊı"));
+                writeLog(tr("è¯¥å‘½ä»¤ç¼ºå°‘æˆªå–å‚æ•°æˆ–åˆ¤æ–­ç»“æœå‚æ•°"));
             }else
                 judge = cmd->equalJudge();
             if(i != cmdList->size()-1)
@@ -551,26 +551,26 @@ void verifyCurrentThread::run()
         }
         paragraph("end");
         if(!judge){
-            writeLog(tr("µµÎ»ÇĞ»»Ê§°Ü\n"));
+            writeLog(tr("æ¡£ä½åˆ‡æ¢å¤±è´¥\n"));
         }else{
-            writeLog(tr("µµÎ»ÇĞ»»³É¹¦\n"));
+            writeLog(tr("æ¡£ä½åˆ‡æ¢æˆåŠŸ\n"));
         }
-        // ¿ªÊ¼Ğ£×¼
+        // å¼€å§‹æ ¡å‡†
         QList<DataItem *> * datas = new QList<DataItem *>;
         QList<DataItem *> * dataList = part->getDataList();
-        for(int k = 0; k != dataList->size(); ++k){  // ÕûÀíÊı¾İ
+        for(int k = 0; k != dataList->size(); ++k){  // æ•´ç†æ•°æ®
             if(dataList->at(k)->check){
                 datas->append(dataList->at(k));
             }
         }
         command * dmmCmdVerify = part->getDmmCmdVerify();
         if(dmmCmdVerify->getStart().isEmpty() || dmmCmdVerify->getEnd().isEmpty() || dmmCmdVerify->getRatio().toFloat() == 0){
-            writeLog(tr("µçÑ¹¶ÁÈ¡ÃüÁîÈ±ÉÙ½ØÈ¡²ÎÊı»ò²î±ÈÂÊ"));
+            writeLog(tr("ç”µå‹è¯»å–å‘½ä»¤ç¼ºå°‘æˆªå–å‚æ•°æˆ–å·®æ¯”ç‡"));
             return;
         }
         command * meterCmdVerify = part->getMeterCmdVerify();
         if(meterCmdVerify->getRatio().toFloat() == 0){
-            writeLog(tr("ÍòÓÃ±í¶ÁÈ¡ÃüÁîÈ±ÉÙ²î±ÈÂÊ"));
+            writeLog(tr("ä¸‡ç”¨è¡¨è¯»å–å‘½ä»¤ç¼ºå°‘å·®æ¯”ç‡"));
             return;
         }
         writeCsv(QString("Part%1").arg(partList->at(i)));
@@ -585,7 +585,7 @@ void verifyCurrentThread::run()
         for(int l = 0; l != datas->size(); ++l){
             paragraph("start");
             judge = true;
-            // ÉèÖÃµçÁ÷
+            // è®¾ç½®ç”µæµ
             double set = datas->at(l)->data;
             message = QString("[%1]%2(%3)").arg(++cmdIndex).arg(setCmdVerify->getName()).arg(set);
             if(!sendZynq(message))
@@ -594,7 +594,7 @@ void verifyCurrentThread::run()
                 recvZynq();
             int dac = int(set * setMulti);
             Sleep(cmdDelay);
-            // ¶ÁÈ¡µçÑ¹
+            // è¯»å–ç”µå‹
             message = QString("[%1]%2()").arg(++cmdIndex).arg(dmmCmdVerify->getName());
             if(!sendZynq(message))
                 judge = false;
@@ -603,7 +603,7 @@ void verifyCurrentThread::run()
             dmmCmdVerify->setResult(zynqMessage);
             judge = dmmCmdVerify->judgeRatio(float(set), float(set));
             float dmm = dmmCmdVerify->getFloatResult().toFloat() * dmmMulti;
-            // ¶ÁÈ¡ÍòÓÃ±í
+            // è¯»å–ä¸‡ç”¨è¡¨
             message = meterCmdVerify->getName();
             if(!sendMeter(message))
                 judge = false;
@@ -612,7 +612,7 @@ void verifyCurrentThread::run()
             meterCmdVerify->setFloatResult(meterMessage.toFloat());
             judge = meterCmdVerify->judgeRatio(dmmCmdVerify->getFloatResult().toFloat(), float(set));
             float meter = meterMessage.toFloat() * meterMulti;
-            // Ğ´Èëeeprom
+            // å†™å…¥eeprom
             QString dacStr = QString("%1").arg(dac);
             while(dacStr.length() < dataLength)
                 dacStr = "0" + dacStr;
@@ -637,7 +637,7 @@ void verifyCurrentThread::run()
                 judge = false;
             else
                 recvZynq();
-            // ±£´æÊı¾İµ½csv
+            // ä¿å­˜æ•°æ®åˆ°csv
             QStringList csvline;
             csvline << QString("%1").arg(set,0,'f',-1).replace(rx,"")
                     << QString("%1").arg(datas->at(l)->dacAddr)
@@ -648,7 +648,7 @@ void verifyCurrentThread::run()
                     << QString("%1").arg(set-dmm/dmmMulti,0,'f',-1).replace(rx,"")
                     << QString("%1").arg(meter/meterMulti-dmm/dmmMulti,0,'f',-1).replace(rx,"");
             writeCsv(csvline.join(","));
-            // ±í¸ñ±íÊ¾
+            // è¡¨æ ¼è¡¨ç¤º
             QString passOrFail;
             if(judge)
                 passOrFail = "pass";
@@ -664,7 +664,7 @@ void verifyCurrentThread::run()
         }
         writeCsv("\n");
     }
-    statusBarShow(tr("µçÁ÷Ğ£×¼Íê³É"));
+    statusBarShow(tr("ç”µæµæ ¡å‡†å®Œæˆ"));
 }
 testCurrentThread::testCurrentThread(currentItem *psuParam, QList<int> * partListParam, QString StrParam,
                                      QTcpSocket * meterSocket, QTcpSocket * zynqSocket,
@@ -674,11 +674,11 @@ testCurrentThread::testCurrentThread(currentItem *psuParam, QList<int> * partLis
     psu = psuParam;
     partList = partListParam;
     Str = StrParam;
-    cmdDelay = 100;  // ºÁÃë
+    cmdDelay = 100;  // æ¯«ç§’
 }
 void testCurrentThread::run()
 {
-    // ÉèÖÃÍòÓÃ±íÎªÔ¶³ÌµçÁ÷Ä£Ê½
+    // è®¾ç½®ä¸‡ç”¨è¡¨ä¸ºè¿œç¨‹ç”µæµæ¨¡å¼
     paragraph("start");
     bool judge = true;
     if(!sendMeter("SYSTEM:REMOTE"))
@@ -692,12 +692,12 @@ void testCurrentThread::run()
         recvMeter();
     paragraph("end");
     if(!judge){
-        writeLog(tr("ÉèÖÃÍòÓÃ±íÊ§°Ü\n"));
+        writeLog(tr("è®¾ç½®ä¸‡ç”¨è¡¨å¤±è´¥\n"));
     } else{
-        writeLog(tr("ÉèÖÃÍòÓÃ±í³É¹¦\n"));
+        writeLog(tr("è®¾ç½®ä¸‡ç”¨è¡¨æˆåŠŸ\n"));
     }
 
-    // ³õÊ¼»¯psu
+    // åˆå§‹åŒ–psu
     judge = true;
     int cmdIndex = 0;
     paragraph("start");
@@ -711,7 +711,7 @@ void testCurrentThread::run()
         else
             recvZynq();
         if(cmd->getStart().isEmpty() || cmd->getEnd().isEmpty() || cmd->getJudge().isEmpty()){
-            writeLog(tr("¸ÃÃüÁîÈ±ÉÙ½ØÈ¡²ÎÊı»òÅĞ¶Ï½á¹û²ÎÊı"));
+            writeLog(tr("è¯¥å‘½ä»¤ç¼ºå°‘æˆªå–å‚æ•°æˆ–åˆ¤æ–­ç»“æœå‚æ•°"));
         }else
             judge = cmd->equalJudge();
         if(i != cmdList->size()-1)
@@ -719,12 +719,12 @@ void testCurrentThread::run()
     }
     paragraph("end");
     if(!judge){
-        writeLog(tr("³õÊ¼»¯PSUÊ§°Ü\n"));
+        writeLog(tr("åˆå§‹åŒ–PSUå¤±è´¥\n"));
     }else{
-        writeLog(tr("³õÊ¼»¯PSU³É¹¦\n"));
+        writeLog(tr("åˆå§‹åŒ–PSUæˆåŠŸ\n"));
     }
     int sum = 0;
-    for(int i=0; i != partList->size(); ++i){  // ¼ÆËãµÃµ½²âÊÔÏî×ÜÊı£¬ÓÃÓÚÉèÖÃ½ø¶ÈÌõ
+    for(int i=0; i != partList->size(); ++i){  // è®¡ç®—å¾—åˆ°æµ‹è¯•é¡¹æ€»æ•°ï¼Œç”¨äºè®¾ç½®è¿›åº¦æ¡
         if(partList->at(i) == 1 && psu->getPart1())
             sum += psu->getPart1()->getDataList()->size();
         if(partList->at(i) == 2 && psu->getPart2())
@@ -757,14 +757,14 @@ void testCurrentThread::run()
             part = psu->getPart5();
             break;
         default:
-            statusBarShow(tr("part²ÎÊı´íÎó£¬ÍË³öĞ£×¼"));
+            statusBarShow(tr("partå‚æ•°é”™è¯¯ï¼Œé€€å‡ºæ ¡å‡†"));
             return;
         }
         if(part == NULL){
-            statusBarShow(tr("Ã»ÓĞpart%1µÄÊı¾İ£¬ÌøÖÁÏÂÒ»µµ").arg(partList->at(i)));
+            statusBarShow(tr("æ²¡æœ‰part%1çš„æ•°æ®ï¼Œè·³è‡³ä¸‹ä¸€æ¡£").arg(partList->at(i)));
             continue;
         }
-        // ÇĞ»»µµÎ»
+        // åˆ‡æ¢æ¡£ä½
         judge = true;
         paragraph("start");
         QList<command *> * cmdList = part->getCmdList();
@@ -776,7 +776,7 @@ void testCurrentThread::run()
             else
                 recvZynq();
             if(cmd->getStart().isEmpty() || cmd->getEnd().isEmpty() || cmd->getJudge().isEmpty()){
-                writeLog(tr("¸ÃÃüÁîÈ±ÉÙ½ØÈ¡²ÎÊı»òÅĞ¶Ï½á¹û²ÎÊı"));
+                writeLog(tr("è¯¥å‘½ä»¤ç¼ºå°‘æˆªå–å‚æ•°æˆ–åˆ¤æ–­ç»“æœå‚æ•°"));
             }else
                 judge = cmd->equalJudge();
             if(j != cmdList->size()-1)
@@ -784,26 +784,26 @@ void testCurrentThread::run()
         }
         paragraph("end");
         if(!judge){
-            writeLog(tr("µµÎ»ÇĞ»»Ê§°Ü\n"));
+            writeLog(tr("æ¡£ä½åˆ‡æ¢å¤±è´¥\n"));
         }else{
-            writeLog(tr("µµÎ»ÇĞ»»³É¹¦\n"));
+            writeLog(tr("æ¡£ä½åˆ‡æ¢æˆåŠŸ\n"));
         }
-        // ¿ªÊ¼²âÊÔ
+        // å¼€å§‹æµ‹è¯•
         QList<DataItem *> * datas = new QList<DataItem *>;
         QList<DataItem *> * dataList = part->getDataList();
-        for(int k = 0; k != dataList->size(); ++k){  // ÕûÀíÊı¾İ
+        for(int k = 0; k != dataList->size(); ++k){  // æ•´ç†æ•°æ®
             if(dataList->at(k)->check){
                 datas->append(dataList->at(k));
             }
         }
         command * dmmCmdTest = part->getDmmCmdTest();
         if(dmmCmdTest->getStart().isEmpty() || dmmCmdTest->getEnd().isEmpty() || dmmCmdTest->getRatio().toFloat() == 0){
-            writeLog(tr("µçÁ÷¶ÁÈ¡ÃüÁîÈ±ÉÙ½ØÈ¡²ÎÊı»ò²î±ÈÂÊ"));
+            writeLog(tr("ç”µæµè¯»å–å‘½ä»¤ç¼ºå°‘æˆªå–å‚æ•°æˆ–å·®æ¯”ç‡"));
             return;
         }
         command * meterCmdTest = part->getMeterCmdTest();
         if(meterCmdTest->getRatio().toFloat() == 0){
-            writeLog(tr("ÍòÓÃ±í¶ÁÈ¡ÃüÁîÈ±ÉÙ²î±ÈÂÊ"));
+            writeLog(tr("ä¸‡ç”¨è¡¨è¯»å–å‘½ä»¤ç¼ºå°‘å·®æ¯”ç‡"));
             return;
         }
         writeCsv(QString("Part%1").arg(partList->at(i)));
@@ -814,7 +814,7 @@ void testCurrentThread::run()
         for(int l = 0; l != datas->size(); ++l){
             paragraph("start");
             judge = true;
-            // ÉèÖÃµçÁ÷
+            // è®¾ç½®ç”µæµ
             double set = datas->at(l)->data;
             message = QString("[%1]%2(%3)").arg(++cmdIndex).arg(setCmdTest->getName()).arg(set);
             if(!sendZynq(message))
@@ -822,7 +822,7 @@ void testCurrentThread::run()
             else
                 recvZynq();
             Sleep(cmdDelay);
-            // ¶ÁÈ¡µçÑ¹
+            // è¯»å–ç”µå‹
             message = QString("[%1]%2()").arg(++cmdIndex).arg(dmmCmdTest->getName());
             if(!sendZynq(message))
                 judge = false;
@@ -831,7 +831,7 @@ void testCurrentThread::run()
             dmmCmdTest->setResult(zynqMessage);
             judge = dmmCmdTest->judgeRatio(float(set), float(set));
             float dmm = dmmCmdTest->getFloatResult().toFloat();
-            // ¶ÁÈ¡ÍòÓÃ±í
+            // è¯»å–ä¸‡ç”¨è¡¨
             message = meterCmdTest->getName();
             if(!sendMeter(message))
                 judge = false;
@@ -846,7 +846,7 @@ void testCurrentThread::run()
             float sub2 = meter-dmm;
             float ratio2 = sub2 / set * 100;
 
-            // ±£´æÊı¾İµ½csv
+            // ä¿å­˜æ•°æ®åˆ°csv
             QStringList csvline;
             csvline << QString("%1").arg(set,0,'f',-1).replace(rx,"")
                     << QString("%1").arg(dmm,0,'f',-1).replace(rx,"")
@@ -856,7 +856,7 @@ void testCurrentThread::run()
                     << QString("%1").arg(sub2,0,'f',-1).replace(rx,"")
                     << QString("%1").arg(ratio2,0,'f',-1).replace(rx,"")+"\%";
             writeCsv(csvline.join(","));
-            // ±í¸ñ±íÊ¾
+            // è¡¨æ ¼è¡¨ç¤º
             QString passOrFail;
             if(judge)
                 passOrFail = "pass";
@@ -872,5 +872,5 @@ void testCurrentThread::run()
         }
         writeCsv("\n");
     }
-    statusBarShow(tr("µçÁ÷²âÊÔÍê³É"));
+    statusBarShow(tr("ç”µæµæµ‹è¯•å®Œæˆ"));
 }

@@ -4,168 +4,168 @@
 #include <QPair>
 #include <QDebug>
 
-testItem::testItem(QList<command *> * cmdListParam,  // Ç°ÖÃÃüÁîÁĞ±í
-                   QList<DataItem *> * dataListParam, int dataLengthParam, // Êı¾İÁĞ±íºÍÊı¾İ³¤¶È
-                   command * setVerifyParam, int setMultiParam,  // Ğ£×¼ÉèÖÃÃüÁîºÍ±¶Êı
-                   command * dmmVerifyParam, int dmmMultiParam,  // Ğ£×¼¶ÁÈ¡ÃüÁîºÍ±¶Êı
-                   command * meterVerifyParam, int meterMultiParam,  // Ğ£×¼¶ÁÍòÓÃ±íÃüÁîºÍ±¶Êı
-                   command * setTestParam,  // ²âÊÔÉèÖÃÃüÁî
-                   command * dmmTestParam,  // ²âÊÔ¶ÁÈ¡ÃüÁî
-                   command * meterTestParam):  // ²âÊÔ¶ÁÍòÓÃ±íÃüÁî
-    cmdList(cmdListParam),              // Ç°ÖÃÃüÁîÁĞ±í
-    dataList(dataListParam),            // Êı¾İÁĞ±í
+testItem::testItem(QList<command *> * cmdListParam,  // å‰ç½®å‘½ä»¤åˆ—è¡¨
+                   QList<DataItem *> * dataListParam, int dataLengthParam, // æ•°æ®åˆ—è¡¨å’Œæ•°æ®é•¿åº¦
+                   command * setVerifyParam, int setMultiParam,  // æ ¡å‡†è®¾ç½®å‘½ä»¤å’Œå€æ•°
+                   command * dmmVerifyParam, int dmmMultiParam,  // æ ¡å‡†è¯»å–å‘½ä»¤å’Œå€æ•°
+                   command * meterVerifyParam, int meterMultiParam,  // æ ¡å‡†è¯»ä¸‡ç”¨è¡¨å‘½ä»¤å’Œå€æ•°
+                   command * setTestParam,  // æµ‹è¯•è®¾ç½®å‘½ä»¤
+                   command * dmmTestParam,  // æµ‹è¯•è¯»å–å‘½ä»¤
+                   command * meterTestParam):  // æµ‹è¯•è¯»ä¸‡ç”¨è¡¨å‘½ä»¤
+    cmdList(cmdListParam),              // å‰ç½®å‘½ä»¤åˆ—è¡¨
+    dataList(dataListParam),            // æ•°æ®åˆ—è¡¨
     dataLength(dataLengthParam),
-    setCmdVerify(setVerifyParam),       // Ğ£×¼ÉèÖÃÃüÁîºÍ±¶Êı
+    setCmdVerify(setVerifyParam),       // æ ¡å‡†è®¾ç½®å‘½ä»¤å’Œå€æ•°
     setMulti(setMultiParam),
-    dmmCmdVerify(dmmVerifyParam),       // Ğ£×¼¶ÁÈ¡ÃüÁîºÍ±¶Êı
+    dmmCmdVerify(dmmVerifyParam),       // æ ¡å‡†è¯»å–å‘½ä»¤å’Œå€æ•°
     dmmMulti(dmmMultiParam),
-    meterCmdVerify(meterVerifyParam),   // Ğ£×¼¶ÁÍòÓÃ±íÃüÁîºÍ±¶Êı
+    meterCmdVerify(meterVerifyParam),   // æ ¡å‡†è¯»ä¸‡ç”¨è¡¨å‘½ä»¤å’Œå€æ•°
     meterMulti(meterMultiParam),
-    setCmdTest(setTestParam),           // ²âÊÔÉèÖÃÃüÁî
-    dmmCmdTest(dmmTestParam),           // ²âÊÔ¶ÁÈ¡ÃüÁî
-    meterCmdTest(meterTestParam)        // ²âÊÔ¶ÁÍòÓÃ±íÃüÁî
+    setCmdTest(setTestParam),           // æµ‹è¯•è®¾ç½®å‘½ä»¤
+    dmmCmdTest(dmmTestParam),           // æµ‹è¯•è¯»å–å‘½ä»¤
+    meterCmdTest(meterTestParam)        // æµ‹è¯•è¯»ä¸‡ç”¨è¡¨å‘½ä»¤
 {
 }
 testItem::~testItem()
 {
-    // Çå¿ÕÇ°ÖÃÃüÁîÁĞ±í
+    // æ¸…ç©ºå‰ç½®å‘½ä»¤åˆ—è¡¨
     for(int i=0; i != cmdList->size(); ++i){
         command * temp = cmdList->at(i);
         delete temp;
     }
     dataList->clear();
-    delete cmdList;  // Ïú»ÙÇ°ÖÃÃüÁîÁĞ±í
-    // Çå¿ÕÊı¾İÁĞ±í
+    delete cmdList;  // é”€æ¯å‰ç½®å‘½ä»¤åˆ—è¡¨
+    // æ¸…ç©ºæ•°æ®åˆ—è¡¨
     while(!dataList->isEmpty()){
         DataItem * temp = dataList->at(0);
-        delete temp;  // Ïú»ÙÊı¾İµØÖ·¶Ô
+        delete temp;  // é”€æ¯æ•°æ®åœ°å€å¯¹
         dataList->removeAt(0);
     }
-    delete dataList; // Ïú»ÙÊı¾İÁĞ±í
-    delete setCmdVerify;  // Ïú»ÙĞ£×¼ÉèÖÃÃüÁî
-    delete dmmCmdVerify;  // Ïú»ÙĞ£×¼¶ÁÈ¡ÃüÁî
-    delete meterCmdVerify;  // Ïú»ÙĞ£×¼¶ÁÍòÓÃ±íÃüÁî
+    delete dataList; // é”€æ¯æ•°æ®åˆ—è¡¨
+    delete setCmdVerify;  // é”€æ¯æ ¡å‡†è®¾ç½®å‘½ä»¤
+    delete dmmCmdVerify;  // é”€æ¯æ ¡å‡†è¯»å–å‘½ä»¤
+    delete meterCmdVerify;  // é”€æ¯æ ¡å‡†è¯»ä¸‡ç”¨è¡¨å‘½ä»¤
 
-    delete setCmdTest;  // Ïú»Ù²âÊÔÉèÖÃÃüÁî
-    delete dmmCmdTest;  // Ïú»Ù²âÊÔ¶ÁÈ¡ÃüÁî
-    delete meterCmdTest;  // Ïú»Ù²âÊÔ¶ÁÍòÓÃ±íÃüÁî
+    delete setCmdTest;  // é”€æ¯æµ‹è¯•è®¾ç½®å‘½ä»¤
+    delete dmmCmdTest;  // é”€æ¯æµ‹è¯•è¯»å–å‘½ä»¤
+    delete meterCmdTest;  // é”€æ¯æµ‹è¯•è¯»ä¸‡ç”¨è¡¨å‘½ä»¤
 }
-// ÉèÖÃÇ°ÖÃÃüÁîÁĞ±í
+// è®¾ç½®å‰ç½®å‘½ä»¤åˆ—è¡¨
 void testItem::setCmdList(QList<command *> * param)
 {
     cmdList = param;
 }
-// ÉèÖÃÊı¾İÁĞ±í
+// è®¾ç½®æ•°æ®åˆ—è¡¨
 void testItem::setDataList(QList<DataItem *> * param)
 {
     dataList = param;
 }
-// ÉèÖÃÊı¾İ³¤¶È
+// è®¾ç½®æ•°æ®é•¿åº¦
 void testItem::setDatalength(int param)
 {
     dataLength = param;
 }
-// ÉèÖÃĞ£×¼ÉèÖÃÃüÁî
+// è®¾ç½®æ ¡å‡†è®¾ç½®å‘½ä»¤
 void testItem::setSetCmdVerify(command * param)
 {
     setCmdVerify = param;
 }
-// ÉèÖÃĞ£×¼Êı¾İ±¶Êı
+// è®¾ç½®æ ¡å‡†æ•°æ®å€æ•°
 void testItem::setSetMulti(int param)
 {
     setMulti = param;
 }
-// ÉèÖÃĞ£×¼¶ÁÈ¡ÃüÁî
+// è®¾ç½®æ ¡å‡†è¯»å–å‘½ä»¤
 void testItem::setDmmCmdVerify(command * param)
 {
     dmmCmdVerify = param;
 }
-// ÉèÖÃĞ£×¼¶ÁÈ¡±¶Êı
+// è®¾ç½®æ ¡å‡†è¯»å–å€æ•°
 void testItem::setDmmMulti(int param)
 {
     dmmMulti = param;
 }
-// ÉèÖÃĞ£×¼¶ÁÍòÓÃ±íÃüÁî
+// è®¾ç½®æ ¡å‡†è¯»ä¸‡ç”¨è¡¨å‘½ä»¤
 void testItem::setMeterCmdVerify(command * param)
 {
     meterCmdVerify = param;
 }
-// ÉèÖÃĞ£×¼ÍòÓÃ±í±¶Êı
+// è®¾ç½®æ ¡å‡†ä¸‡ç”¨è¡¨å€æ•°
 void testItem::setMeterMulti(int param)
 {
     meterMulti = param;
 }
-// ÉèÖÃ²âÊÔÉèÖÃÃüÁî
+// è®¾ç½®æµ‹è¯•è®¾ç½®å‘½ä»¤
 void testItem::setSetCmdTest(command * param)
 {
     setCmdTest = param;
 }
-// ÉèÖÃ²âÊÔ¶ÁÈ¡ÃüÁî
+// è®¾ç½®æµ‹è¯•è¯»å–å‘½ä»¤
 void testItem::setDmmCmdTest(command * param)
 {
     dmmCmdTest = param;
 }
-// ÉèÖÃ²âÊÔ¶ÁÍòÓÃ±íÃüÁî
+// è®¾ç½®æµ‹è¯•è¯»ä¸‡ç”¨è¡¨å‘½ä»¤
 void testItem::setMeterCmdTest(command * param)
 {
     meterCmdTest = param;
 }
-// »ñÈ¡Ç°ÖÃÃüÁîÁĞ±í
+// è·å–å‰ç½®å‘½ä»¤åˆ—è¡¨
 QList<command *> * testItem::getCmdList()
 {
     return cmdList;
 }
-// »ñÈ¡Êı¾İÁĞ±í
+// è·å–æ•°æ®åˆ—è¡¨
 QList<DataItem *> * testItem::getDataList()
 {
     return dataList;
 }
-// »ñÈ¡Êı¾İ³¤¶È
+// è·å–æ•°æ®é•¿åº¦
 int testItem::getDataLength()
 {
     return dataLength;
 }
-// »ñÈ¡Ğ£×¼ÉèÖÃÃüÁî
+// è·å–æ ¡å‡†è®¾ç½®å‘½ä»¤
 command * testItem::getSetCmdVerify()
 {
     return setCmdVerify;
 }
-// »ñÈ¡Ğ£×¼Êı¾İ±¶Êı
+// è·å–æ ¡å‡†æ•°æ®å€æ•°
 int testItem::getSetMulti()
 {
     return setMulti;
 }
-// »ñÈ¡Ğ£×¼¶ÁÈ¡ÃüÁî
+// è·å–æ ¡å‡†è¯»å–å‘½ä»¤
 command * testItem::getDmmCmdVerify()
 {
     return dmmCmdVerify;
 }
-// »ñÈ¡Ğ£×¼¶ÁÈ¡±¶Êı
+// è·å–æ ¡å‡†è¯»å–å€æ•°
 int testItem::getDmmMulti()
 {
     return dmmMulti;
 }
-// »ñÈ¡Ğ£×¼¶ÁÍòÓÃ±íÃüÁî
+// è·å–æ ¡å‡†è¯»ä¸‡ç”¨è¡¨å‘½ä»¤
 command * testItem::getMeterCmdVerify()
 {
     return meterCmdVerify;
 }
-// »ñÈ¡Ğ£×¼ÍòÓÃ±í±¶Êı
+// è·å–æ ¡å‡†ä¸‡ç”¨è¡¨å€æ•°
 int testItem::getMeterMulti()
 {
     return meterMulti;
 }
-// »ñÈ¡²âÊÔÉèÖÃÃüÁî
+// è·å–æµ‹è¯•è®¾ç½®å‘½ä»¤
 command * testItem::getSetCmdTest()
 {
     return setCmdTest;
 }
-// »ñÈ¡²âÊÔ¶ÁÈ¡ÃüÁî
+// è·å–æµ‹è¯•è¯»å–å‘½ä»¤
 command * testItem::getDmmCmdTest()
 {
     return dmmCmdTest;
 }
-// »ñÈ¡²âÊÔ¶ÁÍòÓÃ±íÃüÁî
+// è·å–æµ‹è¯•è¯»ä¸‡ç”¨è¡¨å‘½ä»¤
 command * testItem::getMeterCmdTest()
 {
     return meterCmdTest;
