@@ -530,6 +530,9 @@ void MainWindow::recviceSlots(QMap<QString, QPair<QString, int> > *hosts)
         int port;
         port = hosts->value(QString("slot%1").arg(i+1)).second;
         QRadioButton * slot = new QRadioButton(ui->frameSlot);
+        QFont font;
+        font.setPointSize(10);
+        slot->setFont(font);
         slot->setGeometry(QRect(10, headheight+slotheight*i, 190, slotheight));
         slot->setText(QString("Slot %1    %2:%3").arg(i+1).arg(ip).arg(QString::number(port)));
         slot->setObjectName(QString("slotRadioBtn%1").arg(i+1));

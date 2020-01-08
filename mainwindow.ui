@@ -218,6 +218,11 @@
          <height>16</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="statusTip">
         <string>slot 1</string>
        </property>
@@ -233,6 +238,11 @@
          <width>190</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
        </property>
        <property name="statusTip">
         <string>slot 2</string>
@@ -250,6 +260,11 @@
          <height>16</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="statusTip">
         <string>slot 3</string>
        </property>
@@ -265,6 +280,11 @@
          <width>190</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
        </property>
        <property name="statusTip">
         <string>slot 4</string>
@@ -769,7 +789,7 @@
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>23</height>
+     <height>28</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
