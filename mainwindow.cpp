@@ -1196,7 +1196,7 @@ void MainWindow::showTable(QStringList result)
             model->item(curTableLine,i)->setBackground(QBrush(QColor("red")));
     }
     ui->tableView->scrollToBottom();
-    if(result.takeLast() == "fail")
+//    if(result.takeLast() == "fail")
     curTableLine++;
     int col = log10(curTableLine);
     if(col == int(col)){
