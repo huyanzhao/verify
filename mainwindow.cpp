@@ -272,7 +272,7 @@ void MainWindow::on_actionDataFile_triggered()
     QFile bfilePath(csvFile);
     if(!bfilePath.exists())
         return;
-    QDesktopServices::openUrl(QUrl::fromLocalFile("file:///" + csvFile));
+    QDesktopServices::openUrl(QUrl::fromLocalFile(csvFile));
 }
 // 打开当前数据文件夹
 void MainWindow::on_actionDataDir_triggered()
@@ -280,7 +280,7 @@ void MainWindow::on_actionDataDir_triggered()
     QDir bfilePath(csvPath);
     if(!bfilePath.exists())
         return;
-    QDesktopServices::openUrl(QUrl::fromLocalFile("file:///" + csvPath));
+    QDesktopServices::openUrl(QUrl::fromLocalFile(csvPath));
 }
 // 打开当前log文件
 void MainWindow::on_actionLogFile_triggered()
@@ -288,7 +288,7 @@ void MainWindow::on_actionLogFile_triggered()
     QFile bfilePath(logFile);
     if(!bfilePath.exists())
         return;
-    QDesktopServices::openUrl(QUrl::fromLocalFile("file:///" + logFile));
+    QDesktopServices::openUrl(QUrl::fromLocalFile(logFile));
 }
 // 打开log文件夹
 void MainWindow::on_actionLogDir_triggered()
@@ -296,7 +296,8 @@ void MainWindow::on_actionLogDir_triggered()
     QDir bfilePath(logPath);
     if(!bfilePath.exists())
         return;
-    QDesktopServices::openUrl(QUrl::fromLocalFile("file:///" + logPath));
+//    QDesktopServices::openUrl(QUrl::fromLocalFile("file:///" + logPath));
+    QDesktopServices::openUrl(QUrl::fromLocalFile(logPath));
 }
 // 关于菜单
 // 帮助里的硬件平台搭建
