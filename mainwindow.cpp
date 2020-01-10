@@ -85,9 +85,11 @@ MainWindow::MainWindow(QWidget *parent):
     ui->radioBtnPSU0->setHidden(true);  // 隐藏多的单选按钮,用来显示PSU1和PSU2未被选中的状态
 
     currentPath = QCoreApplication::applicationDirPath();  //获取程序当前运行目录
+    qDebug()  << "current path: " << currentPath;
     confPath = currentPath + "/conf";
     createFolder(confPath);
-    settings =new QSettings("setting.ini", QSettings::IniFormat);
+    settings =new QSettings(currentPath + "/setting.ini", QSettings::IniFormat);
+    qDebug() << "settings path: " << settings->fileName();
     settings->beginGroup("METER");
     meterHost = settings->value("IP").toString();
     meterPort = settings->value("PORT").toInt();
@@ -585,6 +587,7 @@ void MainWindow::recviceCurParam(currentItem * psu1, currentItem * psu2)
 // 读取配置文件
 void MainWindow::readConfFile()
 {
+    qDebug() << "confPath: " << confPath << endl << "current conf: " << currentConf;
     QString fileName = confPath + "/" + currentConf;
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
